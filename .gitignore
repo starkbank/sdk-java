@@ -1,6 +1,13 @@
 # Folders
 .idea
-node_modules
+
+# Gradle files
+.gradle/*
+build/*
+out/*
+
+# compiler output
+bin/
 
 # Files
 **/privateKey.pem
