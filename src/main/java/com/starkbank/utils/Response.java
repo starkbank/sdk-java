@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.HashMap;
 
+
 public class Response {
 
     public int status;
@@ -24,35 +25,7 @@ public class Response {
     }
 
     public static Response fetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user, String version) throws Exception {
-        if (user == null) {
-            user = User.defaultUser;
-        }
-        String urlString = host(user, version) + path;
-        if (query != null) {
-            urlString += queryBuild(query);
-        }
-        String accessTime = String.valueOf(Math.round(Instant.now().getEpochSecond()));
-
-        String message = user.accessId() + ':' + accessTime + ':';
-        if (payload != null) {
-            String body = payload.toString();
-            message += body;
-        }
-        System.out.println(message);
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        Signature signature = Ecdsa.sign(message, user.privateKey());
-        setHeaders(connection, user.accessId(), accessTime, signature.toBase64());
-
-        connection.setRequestMethod(method);
-        if (method.equals("POST") || method.equals("PATCH")){
-            connection.setDoOutput(true);
-            try (OutputStream out = connection.getOutputStream()) {
-                assert payload != null;
-                byte[] input = payload.toString().getBytes(StandardCharsets.UTF_8);
-                out.write(input, 0, input.length);
-            }
-        }
+        HttpURLConnection connection = prepareFetch(path, method, payload, query, user, version);
         int status = connection.getResponseCode();
         Reader streamReader;
         if (status >= 300) {
@@ -74,40 +47,29 @@ public class Response {
         return new Response(status, content.toString());
     }
 
-    private static void setHeaders(HttpURLConnection connection, String accessId, String accessTime, String signature) {
-        connection.setRequestProperty("Access-Id", accessId);
-        connection.setRequestProperty("Access-Time", accessTime);
-        connection.setRequestProperty("Access-Signature", signature);
-        connection.setRequestProperty("User-Agent", "SDK Java" + System.getProperty("java.version"));
-        connection.setRequestProperty("Content-Type", "application/json");
-    }
-
-    public static String host(Project user, String version){
-        switch (user.environment) {
-            case "production":
-                return "https://api.starkbank.com/" + version;
-            case "sandbox":
-                return "https://sandbox.api.starkbank.com/" + version;
-            default:
-                throw new IllegalStateException("Unexpected value: " + user.environment);
-        }
-    }
-
-    public static StringBuilder queryBuild(HashMap<String, Object> query){
-        StringBuilder queryString = new StringBuilder();
-        String separator = "?";
-        for (HashMap.Entry<String, Object> entry : query.entrySet()) {
-            String key = entry.getKey();
-            String value = (String) entry.getValue();
-            if (value != null) {
-                queryString.append(separator).append(key).append("=").append(value);
-                separator = "&";
-            }
-        }
-        return queryString;
-    }
-
     public static InputStream fetchStream(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user, String version) throws Exception {
+        HttpURLConnection connection = prepareFetch(path, method, payload, query, user, version);
+        int status = connection.getResponseCode();
+        InputStream streamReader;
+        if (status >= 300) {
+            streamReader = connection.getErrorStream();
+        } else {
+            streamReader = connection.getInputStream();
+        }
+        if (status >= 300) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(streamReader));
+            String inputLine;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+            throw new Exception(content.toString());
+        }
+        return streamReader;
+    }
+
+    private static HttpURLConnection prepareFetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user, String version) throws Exception {
         if (user == null) {
             user = User.defaultUser;
         }
@@ -136,23 +98,40 @@ public class Response {
                 out.write(input, 0, input.length);
             }
         }
-        int status = connection.getResponseCode();
-        InputStream streamReader;
-        if (status >= 300) {
-            streamReader = connection.getErrorStream();
-        } else {
-            streamReader = connection.getInputStream();
-        }
-        if (status >= 300) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(streamReader));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+
+        return connection;
+    }
+
+    private static StringBuilder queryBuild(HashMap<String, Object> query){
+        StringBuilder queryString = new StringBuilder();
+        String separator = "?";
+        for (HashMap.Entry<String, Object> entry : query.entrySet()) {
+            String key = entry.getKey();
+            String value = (String) entry.getValue();
+            if (value != null) {
+                queryString.append(separator).append(key).append("=").append(value);
+                separator = "&";
             }
-            in.close();
-            throw new Exception(content.toString());
         }
-        return streamReader;
+        return queryString;
+    }
+
+    private static String host(Project user, String version){
+        switch (user.environment) {
+            case "production":
+                return "https://api.starkbank.com/" + version;
+            case "sandbox":
+                return "https://sandbox.api.starkbank.com/" + version;
+            default:
+                throw new IllegalStateException("Unexpected value: " + user.environment);
+        }
+    }
+
+    private static void setHeaders(HttpURLConnection connection, String accessId, String accessTime, String signature) {
+        connection.setRequestProperty("Access-Id", accessId);
+        connection.setRequestProperty("Access-Time", accessTime);
+        connection.setRequestProperty("Access-Signature", signature);
+        connection.setRequestProperty("User-Agent", "SDK Java" + System.getProperty("java.version"));
+        connection.setRequestProperty("Content-Type", "application/json");
     }
 }

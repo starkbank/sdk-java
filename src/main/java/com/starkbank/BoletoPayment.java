@@ -9,8 +9,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class BoletoPayment extends Resource {
-    public static ClassData data = new ClassData(BoletoPayment.class, "BoletoPayment");
+    static ClassData data = new ClassData(BoletoPayment.class, "BoletoPayment");
 
     public Integer amount;
     public String taxId;
@@ -94,7 +95,7 @@ public class BoletoPayment extends Resource {
     }
 
     public static class Log extends Resource {
-        public static ClassData data = new ClassData(Log.class, "BoletoPaymentLog");
+        static ClassData data = new ClassData(Log.class, "BoletoPaymentLog");
 
         public String created;
         public String type;

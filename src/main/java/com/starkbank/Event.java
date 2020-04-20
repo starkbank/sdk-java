@@ -6,24 +6,22 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
-import javax.print.attribute.standard.RequestingUserName;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
+
 public class Event extends Resource {
-    public static ClassData data = new ClassData(Event.class, "Event");
+    static ClassData data = new ClassData(Event.class, "Event");
 
     public String created;
     public String delivered;
     public String subscription;
-//    public Resource log;
 
     public Event(String created, String delivered, String subscription, String id){
         super(id);
         this.created = created;
         this.delivered = delivered;
         this.subscription = subscription;
-//        this.log = log;
     }
 
     public static class Deserializer implements JsonDeserializer<Event> {

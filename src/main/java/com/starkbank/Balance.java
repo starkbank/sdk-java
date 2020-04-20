@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class Balance extends Resource {
-    public static ClassData data = new ClassData(Balance.class, "Balance");
+    static ClassData data = new ClassData(Balance.class, "Balance");
 
     public int amount;
     public String currency;

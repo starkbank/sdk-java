@@ -1,12 +1,12 @@
 package com.starkbank.user;
 
-import com.starkbank.Boleto;
 import com.starkbank.ellipticcurve.PrivateKey;
 import com.starkbank.utils.Check;
 import com.starkbank.utils.Resource;
 
+
 public class User extends Resource {
-    public static ClassData data = new ClassData(User.class, "User");
+    static ClassData data = new ClassData(User.class, "User");
 
     public String pem;
     public String environment;
@@ -17,7 +17,7 @@ public class User extends Resource {
     }
 
     public String accessId() {
-        return Resource.getName(data).toLowerCase() + '/' + this.id;
+        return data.name.toLowerCase() + '/' + this.id;
     }
 
     public PrivateKey privateKey(){

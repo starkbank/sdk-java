@@ -8,8 +8,9 @@ import com.starkbank.utils.Rest;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class Transaction extends Resource {
-    public static ClassData data = new ClassData(Transaction.class, "Transaction");
+    static ClassData data = new ClassData(Transaction.class, "Transaction");
 
     public int amount;
     public String description;

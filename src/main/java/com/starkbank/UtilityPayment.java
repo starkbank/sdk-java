@@ -9,8 +9,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class UtilityPayment extends Resource {
-    public static ClassData data = new ClassData(UtilityPayment.class, "UtilityPayment");
+    static ClassData data = new ClassData(UtilityPayment.class, "UtilityPayment");
 
     public String description;
     public String line;
@@ -91,7 +92,7 @@ public class UtilityPayment extends Resource {
     }
 
     public static class Log extends Resource {
-        public static ClassData data = new ClassData(Log.class, "UtilityPaymentLog");
+        static ClassData data = new ClassData(Log.class, "UtilityPaymentLog");
 
         public String created;
         public String type;

@@ -9,8 +9,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class Transfer extends Resource {
-    public static ClassData data = new ClassData(Transfer.class, "Transfer");
+    static ClassData data = new ClassData(Transfer.class, "Transfer");
 
     public int amount;
     public String name;
@@ -72,7 +73,7 @@ public class Transfer extends Resource {
     }
 
     public static class Log extends Resource {
-        public static ClassData data = new ClassData(Log.class, "TransferLog");
+        static ClassData data = new ClassData(Log.class, "TransferLog");
 
         public String created;
         public String type;

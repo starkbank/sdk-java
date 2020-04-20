@@ -1,46 +1,11 @@
 package com.starkbank.utils;
 
-import com.google.gson.*;
-import com.starkbank.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.lang.reflect.Type;
 
 public abstract class Resource {
-    public static ClassData data = new Resource.ClassData(Resource.class, "Resource");
-    public String id;
-    public Resource(String id){
-        this.id = id;
-    }
-
-    public static String endpoint(Resource.ClassData resource){
-        return "/" + Case.decamelize(getName(resource), "-").replace("-log", "/log");
-    }
-
-    public static String endpoint(Resource.ClassData resource, String id){
-        return endpoint(resource) + "/" + id;
-    }
-
-    public static String getName(Resource.ClassData resource){
-        return resource.name;
-    }
-
-    public static String getLastName(Resource.ClassData resource){
-        String kebabCase = Case.decamelize(getName(resource), "-");
-        String[] kebabChunks = kebabCase.split("-");
-        return kebabChunks[kebabChunks.length - 1];
-    }
-
-    public static String getLastPlural(Resource.ClassData resource){
-        return getLastName(resource) + "s";
-    }
-
-    public String toString() {
-        String name = this.getClass().getSimpleName();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return name + "(" + gson.toJson(this) + ")";
-    }
-
-    public static class ClassData {
+    protected static class ClassData {
         public String name;
         public Class cls;
 
@@ -48,5 +13,18 @@ public abstract class Resource {
             this.cls = cls;
             this.name = name;
         }
+    }
+
+    protected static Resource.ClassData data;
+
+    public String id;
+    protected Resource(String id){
+        this.id = id;
+    }
+
+    public String toString() {
+        String name = this.getClass().getSimpleName();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return name + "(" + gson.toJson(this) + ")";
     }
 }

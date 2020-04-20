@@ -7,8 +7,9 @@ import com.starkbank.utils.Rest;
 
 import java.util.HashMap;
 
+
 public class Webhook extends Resource {
-    public static ClassData data = new ClassData(Webhook.class, "Webhook");
+    static ClassData data = new ClassData(Webhook.class, "Webhook");
 
     public String url;
     public String[] subscriptions;

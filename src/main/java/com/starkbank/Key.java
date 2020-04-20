@@ -6,6 +6,7 @@ import com.starkbank.ellipticcurve.PublicKey;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+
 public class Key {
     public PrivateKey privateKey;
     public PublicKey publicKey;

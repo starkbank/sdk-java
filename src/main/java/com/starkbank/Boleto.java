@@ -1,6 +1,5 @@
 package com.starkbank;
 
-
 import com.starkbank.user.Project;
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
@@ -10,8 +9,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class Boleto extends Resource {
-    public static ClassData data = new ClassData(Boleto.class, "Boleto");
+    static ClassData data = new ClassData(Boleto.class, "Boleto");
 
     public Integer amount;
     public String name;
@@ -126,7 +126,7 @@ public class Boleto extends Resource {
     }
 
     public static class Log extends Resource {
-        public static ClassData data = new ClassData(Log.class, "BoletoLog");
+        static ClassData data = new ClassData(Log.class, "BoletoLog");
 
         public String created;
         public String type;
