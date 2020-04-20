@@ -32,4 +32,8 @@ public class Balance extends Resource {
         }
         return balanceList.get(0);
     }
+
+    public static Balance get() {
+        return Balance.get(null);
+    }
 }

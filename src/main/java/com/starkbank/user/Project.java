@@ -7,4 +7,8 @@ public class Project extends User {
     public Project(String id, String privateKey, String environment) throws Exception {
         super(id, privateKey, environment);
     }
+
+    public String accessId() {
+        return data.name.toLowerCase() + '/' + this.id;
+    }
 }

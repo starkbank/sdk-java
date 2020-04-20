@@ -16,10 +16,6 @@ public class User extends Resource {
         this.environment = Check.environment(environment);
     }
 
-    public String accessId() {
-        return data.name.toLowerCase() + '/' + this.id;
-    }
-
     public PrivateKey privateKey(){
         return PrivateKey.fromPem(this.pem);
     }
