@@ -44,10 +44,10 @@ public class Response {
         }
         in.close();
         if (status >= 500) {
-            throw new InternalServerError(content.toString(), status);
+            throw new InternalServerError(content.toString());
         }
         if (status >= 300) {
-            throw new InputErrors(content.toString(), status);
+            throw new InputErrors(content.toString());
         }
         return new Response(status, content.toString());
     }
@@ -69,7 +69,7 @@ public class Response {
                 content.append(inputLine);
             }
             in.close();
-            throw new InputErrors(content.toString(), status);
+            throw new InputErrors(content.toString());
         }
         return streamReader;
     }
