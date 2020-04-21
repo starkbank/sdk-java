@@ -2,7 +2,7 @@ package com.starkbank.utils;
 
 import com.google.gson.*;
 import com.starkbank.Event;
-import com.starkbank.user.Project;
+import com.starkbank.Project;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;

@@ -4,7 +4,9 @@ import com.google.gson.JsonObject;
 import com.starkbank.User;
 import com.starkbank.ellipticcurve.Ecdsa;
 import com.starkbank.ellipticcurve.Signature;
-import com.starkbank.user.Project;
+import com.starkbank.Project;
+import com.starkbank.error.InputErrors;
+import com.starkbank.error.InternalServerError;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -41,8 +43,11 @@ public class Response {
             content.append(inputLine);
         }
         in.close();
+        if (status >= 500) {
+            throw new InternalServerError(content.toString(), status);
+        }
         if (status >= 300) {
-            throw new Exception(content.toString());
+            throw new InputErrors(content.toString(), status);
         }
         return new Response(status, content.toString());
     }
@@ -64,7 +69,7 @@ public class Response {
                 content.append(inputLine);
             }
             in.close();
-            throw new Exception(content.toString());
+            throw new InputErrors(content.toString(), status);
         }
         return streamReader;
     }

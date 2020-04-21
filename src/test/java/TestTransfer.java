@@ -31,11 +31,12 @@ public class TestTransfer {
     }
 
     @Test
-    public void testGetAndGetInfoAncPdf() throws Exception {
+    public void testGetAndGetInfoAndPdf() throws Exception {
         User.defaultUser = utils.User.defaultProject();
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
+        params.put("status", "success");
         params.put("after", "2019-04-01");
         params.put("before", "2030-04-30");
         Generator<Transfer> transfers = Transfer.query(params);

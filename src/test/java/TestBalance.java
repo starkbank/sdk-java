@@ -8,7 +8,7 @@ import java.util.List;
 public class TestBalance {
 
     @Test
-    public void testPost() throws Exception {
+    public void testGet() throws Exception {
         User.defaultUser = utils.User.defaultProject();
         Balance balance = Balance.get();
         System.out.println(balance.amount);

@@ -1,5 +1,4 @@
-package com.starkbank.user;
-
+package com.starkbank;
 
 public class Project extends User {
     static ClassData data = new ClassData(Project.class, "Project");
@@ -9,6 +8,6 @@ public class Project extends User {
     }
 
     public String accessId() {
-        return data.name.toLowerCase() + '/' + this.id;
+        return data.name.toLowerCase() + "/" + this.id;
     }
 }

@@ -23,7 +23,7 @@ public class TestBoleto {
         data.put("city", "São Paulo");
         data.put("stateCode", "SP");
         data.put("zipCode", "01500-000");
-        data.put("due", "2020-04-20");
+        data.put("due", "2020-05-20");
         data.put("fine", 2.5);
         data.put("interest", 1.3);
         data.put("overdueLimit", 5);
@@ -71,7 +71,7 @@ public class TestBoleto {
         data.put("city", "São Paulo");
         data.put("stateCode", "SP");
         data.put("zipCode", "01500-000");
-        data.put("due", "2020-04-20");
+        data.put("due", "2020-05-20");
         data.put("fine", 2.5);
         data.put("interest", 1.3);
         data.put("overdueLimit", 5);

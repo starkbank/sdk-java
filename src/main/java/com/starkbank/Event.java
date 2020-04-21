@@ -1,7 +1,11 @@
 package com.starkbank;
 
 import com.google.gson.*;
-import com.starkbank.user.Project;
+import com.starkbank.ellipticcurve.Ecdsa;
+import com.starkbank.ellipticcurve.PublicKey;
+import com.starkbank.ellipticcurve.Signature;
+import com.starkbank.ellipticcurve.utils.ByteString;
+import com.starkbank.error.InvalidSignatureError;
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
@@ -17,7 +21,21 @@ public class Event extends Resource {
     public String delivered;
     public String subscription;
 
-    public Event(String created, String delivered, String subscription, String id){
+    /**
+     * Webhook Event object
+     * <p>
+     * An Event is the notification received from the subscription to the Webhook.
+     * Events cannot be created, but may be retrieved from the Stark Bank API to
+     * list all generated updates on entities.
+     * <p>
+     * Attributes:
+     * id [string]: unique id returned when the log is created. ex: "5656565656565656"
+     * log [Log]: a Log object from one the subscription services (Transfer Log, Boleto Log, BoletoPaymentlog or UtilityPayment Log)
+     * created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000"
+     * delivered [string]: delivery datetime when the notification was delivered to the user url. Will be null if no successful attempts to deliver the event occurred. ex: "2020-03-10 10:30:00.000"
+     * subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
+     */
+    public Event(String created, String delivered, String subscription, String id) {
         super(id);
         this.created = created;
         this.delivered = delivered;
@@ -51,7 +69,55 @@ public class Event extends Resource {
         }
     }
 
-    public static class TransferEvent extends Event{
+    /**
+     * Create single notification Event from a content string
+     * <p>
+     * Create a single Event object received from event listening at subscribed user endpoint.
+     * If the provided digital signature does not check out with the StarkBank public key, a
+     * starkbank.exception.InvalidSignatureException will be raised.
+     * <p>
+     * Parameters (required):
+     * content [string]: response content from request received at user endpoint (not parsed)
+     * signature [string]: base-64 digital signature received at response header "Digital-Signature"
+     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * <p>
+     * Return:
+     * Event object with updated attributes
+     */
+    public static Event parse(String content, ByteString signature, Project project) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Event.class, new Event.Deserializer())
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
+                .create();
+        Event parsedEvent = gson.fromJson(content, Event.class);
+
+        Signature signatureObject;
+        try {
+            signatureObject = Signature.fromBase64(signature);
+        } catch (Error e) {
+            throw new Error("The provided signature is not valid");
+        }
+
+        if (verifySignature(content, signatureObject, project, false)) {
+            return parsedEvent;
+        }
+        if (verifySignature(content, signatureObject, project, true)) {
+            return parsedEvent;
+        }
+
+        throw new InvalidSignatureError("The provided signature and content do not match the Stark Bank public key");
+    }
+
+    private static boolean verifySignature(String content, Signature signature, Project project, boolean refresh) {
+        PublicKey publicKey = User.StarkBankPublicKey;
+
+        if (publicKey == null || refresh) {
+            publicKey = project.publicKey();
+        }
+        return Ecdsa.verify(content, signature, publicKey);
+    }
+
+    public static class TransferEvent extends Event {
         public Transfer.Log log;
 
         public TransferEvent(Transfer.Log log, String created, String delivered, String subscription, String id) {
@@ -60,7 +126,7 @@ public class Event extends Resource {
         }
     }
 
-    public static class BoletoEvent extends Event{
+    public static class BoletoEvent extends Event {
         public Boleto.Log log;
 
         public BoletoEvent(Boleto.Log log, String created, String delivered, String subscription, String id) {
@@ -69,7 +135,7 @@ public class Event extends Resource {
         }
     }
 
-    public static class BoletoPaymentEvent extends Event{
+    public static class BoletoPaymentEvent extends Event {
         public BoletoPayment.Log log;
 
         public BoletoPaymentEvent(BoletoPayment.Log log, String created, String delivered, String subscription, String id) {
@@ -78,7 +144,7 @@ public class Event extends Resource {
         }
     }
 
-    public static class UtilityPaymentEvent extends Event{
+    public static class UtilityPaymentEvent extends Event {
         public UtilityPayment.Log log;
 
         public UtilityPaymentEvent(UtilityPayment.Log log, String created, String delivered, String subscription, String id) {
@@ -87,27 +153,117 @@ public class Event extends Resource {
         }
     }
 
+    /**
+     * Retrieve a specific notification Event
+     * <p>
+     * Receive a single notification Event object previously created in the Stark Bank API by passing its id
+     * <p>
+     * Parameters (required):
+     * id [string]: object unique id. ex: "5656565656565656"
+     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * <p>
+     * Return:
+     * Event object with updated attributes
+     */
     public static Event get(String id, Project user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
+    /**
+     * Retrieve a specific notification Event
+     * <p>
+     * Receive a single notification Event object previously created in the Stark Bank API by passing its id
+     * <p>
+     * Parameters (required):
+     * id [string]: object unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * Event object with updated attributes
+     */
     public static Event get(String id) throws Exception {
         return Rest.getId(data, id, null);
     }
 
+    /**
+     * Retrieve notification Events
+     * <p>
+     * Receive a generator of notification Event objects previously created in the Stark Bank API
+     * <p>
+     * Parameters (optional):
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
+     * isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
+     * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+     * <p>
+     * Return:
+     * generator of Event objects with updated attributes
+     */
     public static Generator<Event> query(HashMap<String, Object> params, Project user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
+    /**
+     * Retrieve notification Events
+     * <p>
+     * Receive a generator of notification Event objects previously created in the Stark Bank API
+     * <p>
+     * Parameters (optional):
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
+     * isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
+     * <p>
+     * Return:
+     * generator of Event objects with updated attributes
+     */
     public static Generator<Event> query(HashMap<String, Object> params) throws Exception {
         return Rest.getList(data, params, null);
     }
 
+    /**
+     * Retrieve notification Events
+     * <p>
+     * Receive a generator of notification Event objects previously created in the Stark Bank API
+     * <p>
+     * Parameters (optional):
+     * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+     * <p>
+     * Return:
+     * generator of Event objects with updated attributes
+     */
     public static Generator<Event> query(Project user) throws Exception {
         return Rest.getList(data, new HashMap<>(), user);
     }
 
+    /**
+     * Delete notification Events
+     * <p>
+     * Delete a list of notification Event entities previously created in the Stark Bank API
+     * <p>
+     * Parameters (required):
+     * id [string]: Event unique id. ex: "5656565656565656"
+     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * <p>
+     * Return:
+     * deleted Event with updated attributes
+     */
     public static Event delete(String id, Project user) throws Exception {
         return Rest.delete(data, id, user);
+    }
+
+    /**
+     * Delete notification Events
+     * <p>
+     * Delete a list of notification Event entities previously created in the Stark Bank API
+     * <p>
+     * Parameters (required):
+     * id [string]: Event unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * deleted Event with updated attributes
+     */
+    public static Event delete(String id) throws Exception {
+        return Rest.delete(data, id, null);
     }
 }

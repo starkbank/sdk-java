@@ -1,6 +1,6 @@
 package utils;
 
-import com.starkbank.user.Project;
+import com.starkbank.Project;
 
 public class User {
 
