@@ -31,7 +31,8 @@ public class Boleto extends Resource {
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
-     * descriptions [list of dictionaries, default null]: list of dictionaries with "text":string and "amount":int pairs
+     * descriptions [list of Hashmaps, default null]: list of hashmaps with "text":string and (optional) "amount":int pairs
+     * discounts [list of Hashmaps, default null]: list of hashmaps with "percentage": Double and "date": string pairs
      * tags [list of strings]: list of strings for tagging
      * id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
      * fee [integer, default null]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
@@ -86,8 +87,8 @@ public class Boleto extends Resource {
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
-     * descriptions [list of HashMap, default null]: list of hashmaps with "text":string and "amount":int pairs
-     * discounts [list of Hashmap, default null]: list of hashmaps with "percentage": Double and "date": string pairs
+     * descriptions [list of HashMaps, default null]: list of hashmaps with "text":string and (optional) "amount":int pairs
+     * discounts [list of Hashmaps, default null]: list of hashmaps with "percentage": Double and "date": string pairs
      * tags [list of strings]: list of strings for tagging
      */
     public Boleto(Integer amount, String name, String taxId, String streetLine1, String streetLine2,
