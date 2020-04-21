@@ -28,6 +28,7 @@ public class Boleto extends Resource {
     public Integer overdueLimit;
     public String[] tags;
     public List<HashMap<String, String>> descriptions;
+    public List<HashMap<String, Object>> discounts;
     public Integer fee;
     public String line;
     public String barCode;
@@ -36,8 +37,9 @@ public class Boleto extends Resource {
 
     public Boleto(Integer amount, String name, String taxId, String streetLine1, String streetLine2,
                   String district, String city, String stateCode, String zipCode, String due, Double fine,
-                  Double interest, Integer overdueLimit, String[] tags, List<HashMap<String, String>> descriptions, String id,
-                  Integer fee, String line, String barCode, String status, String created
+                  Double interest, Integer overdueLimit, String[] tags, List<HashMap<String, String>> descriptions,
+                  List<HashMap<String, Object>> discounts, String id, Integer fee, String line, String barCode,
+                  String status, String created
     ) {
         super(id);
         this.amount = amount;
@@ -55,6 +57,7 @@ public class Boleto extends Resource {
         this.overdueLimit = overdueLimit;
         this.tags = tags;
         this.descriptions = descriptions;
+        this.discounts = discounts;
         this.fee = fee;
         this.line = line;
         this.barCode = barCode;
@@ -79,6 +82,7 @@ public class Boleto extends Resource {
         this.overdueLimit = (Integer) data.get("overdueLimit");
         this.tags = (String[]) data.get("tags");
         this.descriptions = (List<HashMap<String, String>>) data.get("descriptions");
+        this.discounts = (List<HashMap<String, Object>>) data.get("discounts");
     }
 
     public static Boleto get(String id, Project user) throws Exception {
