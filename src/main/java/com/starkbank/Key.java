@@ -3,6 +3,7 @@ package com.starkbank;
 import com.starkbank.ellipticcurve.PrivateKey;
 import com.starkbank.ellipticcurve.PublicKey;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
@@ -42,6 +43,10 @@ public class Key {
      */
     public static Key create(String savePath) throws FileNotFoundException {
         Key key = Key.create();
+        File directory = new File(savePath);
+        if (! directory.exists()){
+            directory.mkdirs();
+        }
         try (PrintWriter out = new PrintWriter(savePath + "/privateKey.pem")) {
             out.println(key.privatePem);
         }
