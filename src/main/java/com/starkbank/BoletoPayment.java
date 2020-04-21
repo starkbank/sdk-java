@@ -34,11 +34,11 @@ public class BoletoPayment extends Resource {
      * line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
      * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * <p>
-     * Parameters (required):
+     * Parameters:
      * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
      * tags [list of strings]: list of strings for tagging
      * <p>
@@ -76,7 +76,7 @@ public class BoletoPayment extends Resource {
      * line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
      * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * <p>
-     * Parameters (required):
+     * Parameters:
      * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * <p>
@@ -106,7 +106,7 @@ public class BoletoPayment extends Resource {
      * <p>
      * Receive a single BoletoPayment object previously created by the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -122,7 +122,7 @@ public class BoletoPayment extends Resource {
      * <p>
      * Receive a single BoletoPayment object previously created by the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -137,7 +137,7 @@ public class BoletoPayment extends Resource {
      * <p>
      * Receive a generator of BoletoPayment objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -158,7 +158,7 @@ public class BoletoPayment extends Resource {
      * <p>
      * Receive a generator of BoletoPayment objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -178,7 +178,7 @@ public class BoletoPayment extends Resource {
      * <p>
      * Receive a generator of BoletoPayment objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -199,7 +199,7 @@ public class BoletoPayment extends Resource {
      * <p>
      * Send a list of BoletoPayment objects for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * payments [list of BoletoPayment objects]: list of BoletoPayment objects to be created in the API
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -215,7 +215,7 @@ public class BoletoPayment extends Resource {
      * <p>
      * Send a list of BoletoPayment objects for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * payments [list of BoletoPayment objects]: list of BoletoPayment objects to be created in the API
      * <p>
      * Return:
@@ -231,7 +231,7 @@ public class BoletoPayment extends Resource {
      * Receive a single BoletoPayment pdf file generated in the Stark Bank API by passing its id.
      * Only valid for boleto payments with "success" status.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -248,7 +248,7 @@ public class BoletoPayment extends Resource {
      * Receive a single BoletoPayment pdf file generated in the Stark Bank API by passing its id.
      * Only valid for boleto payments with "success" status.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -263,7 +263,7 @@ public class BoletoPayment extends Resource {
      * <p>
      * Delete a BoletoPayment entity previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: BoletoPayment unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -279,7 +279,7 @@ public class BoletoPayment extends Resource {
      * <p>
      * Delete a BoletoPayment entity previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: BoletoPayment unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -325,7 +325,7 @@ public class BoletoPayment extends Resource {
          * <p>
          * Receive a single BoletoPayment Log object previously created by the Stark Bank API by passing its id
          * <p>
-         * Parameters (required):
+         * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
          * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
          * <p>
@@ -341,7 +341,7 @@ public class BoletoPayment extends Resource {
          * <p>
          * Receive a single BoletoPayment Log object previously created by the Stark Bank API by passing its id
          * <p>
-         * Parameters (required):
+         * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
          * <p>
          * Return:
@@ -356,7 +356,7 @@ public class BoletoPayment extends Resource {
          * <p>
          * Receive a generator of BoletoPayment Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -376,7 +376,7 @@ public class BoletoPayment extends Resource {
          * <p>
          * Receive a generator of BoletoPayment Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -395,7 +395,7 @@ public class BoletoPayment extends Resource {
          * <p>
          * Receive a generator of BoletoPayment Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
          * <p>
          * Return:

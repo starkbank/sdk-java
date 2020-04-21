@@ -20,7 +20,7 @@ public class Webhook extends Resource {
      * Currently available services for subscription are transfer, boleto, boleto-payment,
      * and utility-payment
      * <p>
-     * Parameters (required):
+     * Parameters:
      * url [string]: Url that will be notified when an event occurs.
      * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
      * Attributes:
@@ -39,7 +39,7 @@ public class Webhook extends Resource {
      * Currently available services for subscription are transfer, boleto, boleto-payment,
      * and utility-payment
      * <p>
-     * Parameters (required):
+     * Parameters:
      * url [string]: Url that will be notified when an event occurs.
      * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
      * Attributes:
@@ -56,7 +56,7 @@ public class Webhook extends Resource {
      * <p>
      * Receive a single Webhook subscription object previously created in the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -72,7 +72,7 @@ public class Webhook extends Resource {
      * <p>
      * Receive a single Webhook subscription object previously created in the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -87,7 +87,7 @@ public class Webhook extends Resource {
      * <p>
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -103,7 +103,7 @@ public class Webhook extends Resource {
      * <p>
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * <p>
      * Return:
@@ -118,7 +118,7 @@ public class Webhook extends Resource {
      * <p>
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
      * Return:
@@ -133,7 +133,7 @@ public class Webhook extends Resource {
      * <p>
      * Send a single Webhook subscription for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * webhook [Webhook object]: Webhook object.
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -149,7 +149,7 @@ public class Webhook extends Resource {
      * <p>
      * Send a single Webhook subscription for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * webhook [Webhook object]: Webhook object.
      * <p>
      * Return:
@@ -165,7 +165,7 @@ public class Webhook extends Resource {
      * <p>
      * Delete a Webhook subscription entity previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: Webhook unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -181,7 +181,7 @@ public class Webhook extends Resource {
      * <p>
      * Delete a Webhook subscription entity previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: Webhook unique id. ex: "5656565656565656"
      * <p>
      * Return:

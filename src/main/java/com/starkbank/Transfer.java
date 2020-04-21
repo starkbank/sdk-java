@@ -32,15 +32,13 @@ public class Transfer extends Resource {
      * created in the Stark Bank API. The "create" function sends the objects
      * to the Stark Bank API and returns the list of created objects.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * amount [integer]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
      * name [string]: receiver full name. ex: "Anthony Edward Stark"
      * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * bankCode [string]: receiver 1 to 3 digits of the bank institution in Brazil. ex: "200" or "341"
      * branchCode [string]: receiver bank account branch. Use "-" in case there is a verifier digit. ex: "1357-9"
      * accountNumber [string]: Receiver Bank Account number. Use "-" before the verifier digit. ex: "876543-2"
-     * <p>
-     * Parameters (optional):
      * tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
      * <p>
      * Attributes (return-only):
@@ -76,7 +74,7 @@ public class Transfer extends Resource {
      * created in the Stark Bank API. The "create" function sends the objects
      * to the Stark Bank API and returns the list of created objects.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * amount [integer]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
      * name [string]: receiver full name. ex: "Anthony Edward Stark"
      * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
@@ -111,7 +109,7 @@ public class Transfer extends Resource {
      * <p>
      * Receive a single Transfer object previously created in the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -127,7 +125,7 @@ public class Transfer extends Resource {
      * <p>
      * Receive a single Transfer object previously created in the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -142,7 +140,7 @@ public class Transfer extends Resource {
      * <p>
      * Receive a generator of Transfer objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
@@ -164,7 +162,7 @@ public class Transfer extends Resource {
      * <p>
      * Receive a generator of Transfer objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
@@ -185,7 +183,7 @@ public class Transfer extends Resource {
      * <p>
      * Receive a generator of Transfer objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
      * Return:
@@ -200,7 +198,7 @@ public class Transfer extends Resource {
      * <p>
      * Send a list of Transfer objects for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * transfers [list of Transfer objects]: list of Transfer objects to be created in the API
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -216,7 +214,7 @@ public class Transfer extends Resource {
      * <p>
      * Send a list of Transfer objects for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * transfers [list of Transfer objects]: list of Transfer objects to be created in the API
      * <p>
      * Return:
@@ -232,7 +230,7 @@ public class Transfer extends Resource {
      * Receive a single Transfer pdf receipt file generated in the Stark Bank API by passing its id.
      * Only valid for transfers with "processing" and "success" status.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -249,7 +247,7 @@ public class Transfer extends Resource {
      * Receive a single Transfer pdf receipt file generated in the Stark Bank API by passing its id.
      * Only valid for transfers with "processing" and "success" status.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -294,7 +292,7 @@ public class Transfer extends Resource {
          * <p>
          * Receive a single Transfer Log object previously created by the Stark Bank API by passing its id
          * <p>
-         * Parameters (required):
+         * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
          * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
          * <p>
@@ -310,7 +308,7 @@ public class Transfer extends Resource {
          * <p>
          * Receive a single Transfer Log object previously created by the Stark Bank API by passing its id
          * <p>
-         * Parameters (required):
+         * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
          * <p>
          * Return:
@@ -325,7 +323,7 @@ public class Transfer extends Resource {
          * <p>
          * Receive a generator of Transfer Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -345,7 +343,7 @@ public class Transfer extends Resource {
          * <p>
          * Receive a generator of Transfer Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -364,7 +362,7 @@ public class Transfer extends Resource {
          * <p>
          * Receive a generator of Transfer Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
          * <p>
          * Return:

@@ -33,10 +33,8 @@ public class UtilityPayment extends Resource {
      * line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
      * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * <p>
-     * Parameters (required):
+     * Parameters:
      * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
-     * <p>
-     * Parameters (optional):
      * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
      * tags [list of strings]: list of strings for tagging
      * <p>
@@ -73,7 +71,7 @@ public class UtilityPayment extends Resource {
      * line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
      * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * <p>
-     * Parameters (required):
+     * Parameters:
      * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * <p>
      * Parameters (optional):
@@ -101,7 +99,7 @@ public class UtilityPayment extends Resource {
      * <p>
      * Receive a single UtilityPayment object previously created by the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -117,7 +115,7 @@ public class UtilityPayment extends Resource {
      * <p>
      * Receive a single UtilityPayment object previously created by the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -132,7 +130,7 @@ public class UtilityPayment extends Resource {
      * <p>
      * Receive a generator of UtilityPayment objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -153,7 +151,7 @@ public class UtilityPayment extends Resource {
      * <p>
      * Receive a generator of UtilityPayment objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -173,7 +171,7 @@ public class UtilityPayment extends Resource {
      * <p>
      * Receive a generator of UtilityPayment objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
      * Return:
@@ -188,7 +186,7 @@ public class UtilityPayment extends Resource {
      * <p>
      * Send a list of UtilityPayment objects for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * payments [list of UtilityPayment objects]: list of UtilityPayment objects to be created in the API
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * Return:
@@ -203,7 +201,7 @@ public class UtilityPayment extends Resource {
      * <p>
      * Send a list of UtilityPayment objects for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * payments [list of UtilityPayment objects]: list of UtilityPayment objects to be created in the API
      * <p>
      * Return:
@@ -219,7 +217,7 @@ public class UtilityPayment extends Resource {
      * Receive a single UtilityPayment pdf file generated in the Stark Bank API by passing its id.
      * Only valid for utility payments with "success" status.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -236,7 +234,7 @@ public class UtilityPayment extends Resource {
      * Receive a single UtilityPayment pdf file generated in the Stark Bank API by passing its id.
      * Only valid for utility payments with "success" status.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -251,7 +249,7 @@ public class UtilityPayment extends Resource {
      * <p>
      * Delete a UtilityPayment entity previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: UtilityPayment unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -267,7 +265,7 @@ public class UtilityPayment extends Resource {
      * <p>
      * Delete a UtilityPayment entity previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: UtilityPayment unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -312,7 +310,7 @@ public class UtilityPayment extends Resource {
          * <p>
          * Receive a single UtilityPayment Log object previously created by the Stark Bank API by passing its id
          * <p>
-         * Parameters (required):
+         * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
          * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
          * <p>
@@ -328,7 +326,7 @@ public class UtilityPayment extends Resource {
          * <p>
          * Receive a single UtilityPayment Log object previously created by the Stark Bank API by passing its id
          * <p>
-         * Parameters (required):
+         * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
          * <p>
          * Return:
@@ -343,7 +341,7 @@ public class UtilityPayment extends Resource {
          * <p>
          * Receive a generator of UtilityPayment Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -363,7 +361,7 @@ public class UtilityPayment extends Resource {
          * <p>
          * Receive a generator of UtilityPayment Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -382,7 +380,7 @@ public class UtilityPayment extends Resource {
          * <p>
          * Receive a generator of UtilityPayment Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
          * <p>
          * Return:

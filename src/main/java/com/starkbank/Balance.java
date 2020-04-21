@@ -42,7 +42,7 @@ public class Balance extends Resource {
      * <p>
      * Receive the Balance object linked to your workspace in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
      * Return:

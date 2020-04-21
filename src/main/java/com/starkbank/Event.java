@@ -76,7 +76,7 @@ public class Event extends Resource {
      * If the provided digital signature does not check out with the StarkBank public key, a
      * starkbank.exception.InvalidSignatureException will be raised.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * content [string]: response content from request received at user endpoint (not parsed)
      * signature [string]: base-64 digital signature received at response header "Digital-Signature"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
@@ -158,7 +158,7 @@ public class Event extends Resource {
      * <p>
      * Receive a single notification Event object previously created in the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -174,7 +174,7 @@ public class Event extends Resource {
      * <p>
      * Receive a single notification Event object previously created in the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -189,7 +189,7 @@ public class Event extends Resource {
      * <p>
      * Receive a generator of notification Event objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
@@ -208,7 +208,7 @@ public class Event extends Resource {
      * <p>
      * Receive a generator of notification Event objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
@@ -226,7 +226,7 @@ public class Event extends Resource {
      * <p>
      * Receive a generator of notification Event objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
      * Return:
@@ -241,7 +241,7 @@ public class Event extends Resource {
      * <p>
      * Delete a list of notification Event entities previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: Event unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -257,7 +257,7 @@ public class Event extends Resource {
      * <p>
      * Delete a list of notification Event entities previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: Event unique id. ex: "5656565656565656"
      * <p>
      * Return:

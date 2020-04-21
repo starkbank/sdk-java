@@ -31,7 +31,7 @@ public class Boleto extends Resource {
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
-     * descriptions [list of dictionaries, default null]: list of dictionaries with "text":string and (optional) "amount":int pairs
+     * descriptions [list of dictionaries, default null]: list of dictionaries with "text":string and "amount":int pairs
      * tags [list of strings]: list of strings for tagging
      * id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
      * fee [integer, default null]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
@@ -72,7 +72,7 @@ public class Boleto extends Resource {
      * to the Stark Bank API and returns the list of created objects.
      * All parameters are passed in a HashMap<String, Object> object.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * amount [integer]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
      * name [string]: payer full name. ex: "Anthony Edward Stark"
      * taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
@@ -83,12 +83,10 @@ public class Boleto extends Resource {
      * stateCode [string]: payer address state. ex: GO
      * zipCode [string]: payer address zip code. ex: 01311-200
      * due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
-     * <p>
-     * Parameters (optional):
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
-     * descriptions [list of HashMap, default null]: list of hashmaps with "text":string and (optional) "amount":int pairs
+     * descriptions [list of HashMap, default null]: list of hashmaps with "text":string and "amount":int pairs
      * discounts [list of Hashmap, default null]: list of hashmaps with "percentage": Double and "date": string pairs
      * tags [list of strings]: list of strings for tagging
      */
@@ -130,7 +128,7 @@ public class Boleto extends Resource {
      * to the Stark Bank API and returns the list of created objects.
      * All parameters are passed in a HashMap<String, Object> object.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * amount [integer]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
      * name [string]: payer full name. ex: "Anthony Edward Stark"
      * taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
@@ -146,7 +144,7 @@ public class Boleto extends Resource {
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
-     * descriptions [list of HashMap, default null]: list of hashmaps with "text":string and (optional) "amount":int pairs
+     * descriptions [list of HashMap, default null]: list of hashmaps with "text":string and "amount":int pairs
      * discounts [list of Hashmap, default null]: list of hashmaps with "percentage": Double and "date": string pairs
      * tags [list of strings]: list of strings for tagging
      */
@@ -179,9 +177,9 @@ public class Boleto extends Resource {
      * <p>
      * Receive a single Boleto object previously created in the Stark Bank API by passing its id
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
-     * Parameters (optional):
+     * Parameters:
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * Return:
      * Boleto object with updated attributes
@@ -195,7 +193,7 @@ public class Boleto extends Resource {
      * <p>
      * Receive a generator of Boleto objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -216,7 +214,7 @@ public class Boleto extends Resource {
      * <p>
      * Receive a generator of Boleto objects previously created in the Stark Bank API
      * <p>
-     * Parameters (optional):
+     * Parameters:
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -251,7 +249,7 @@ public class Boleto extends Resource {
      * <p>
      * Send a list of Boleto objects for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * boletos [list of Boleto objects]: list of Boleto objects to be created in the API
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -267,7 +265,7 @@ public class Boleto extends Resource {
      * <p>
      * Send a list of Boleto objects for creation in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * boletos [list of Boleto objects]: list of Boleto objects to be created in the API
      * <p>
      * Return:
@@ -282,7 +280,7 @@ public class Boleto extends Resource {
      * <p>
      * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -298,7 +296,7 @@ public class Boleto extends Resource {
      * <p>
      * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -313,7 +311,7 @@ public class Boleto extends Resource {
      * <p>
      * Delete a Boleto entity previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: Boleto unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
@@ -329,7 +327,7 @@ public class Boleto extends Resource {
      * <p>
      * Delete a Boleto entity previously created in the Stark Bank API
      * <p>
-     * Parameters (required):
+     * Parameters:
      * id [string]: Boleto unique id. ex: "5656565656565656"
      * <p>
      * Return:
@@ -375,7 +373,7 @@ public class Boleto extends Resource {
          * <p>
          * Receive a single Boleto Log object previously created by the Stark Bank API by passing its id
          * <p>
-         * Parameters (required):
+         * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
          * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
          * <p>
@@ -391,7 +389,7 @@ public class Boleto extends Resource {
          * <p>
          * Receive a single Boleto Log object previously created by the Stark Bank API by passing its id
          * <p>
-         * Parameters (required):
+         * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
          * <p>
          * Return:
@@ -406,7 +404,7 @@ public class Boleto extends Resource {
          * <p>
          * Receive a generator of Boleto Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
@@ -426,7 +424,7 @@ public class Boleto extends Resource {
          * <p>
          * Receive a generator of Boleto Log objects previously created in the Stark Bank API
          * <p>
-         * Parameters (optional):
+         * Parameters:
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"

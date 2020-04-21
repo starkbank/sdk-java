@@ -39,7 +39,7 @@ public class Key {
      * Send a list of Boleto objects for creation in the Stark Bank API. Saves private and
      * public key PEMs in specified folder path
      * <p>
-     * Parameters (required):
+     * Parameters:
      * savePath [string]: path to save the keys .pem files. No files will be saved if this parameter isn't provided
      * <p>
      * Return:
