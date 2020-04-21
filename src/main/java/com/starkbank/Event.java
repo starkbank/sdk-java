@@ -6,9 +6,7 @@ import com.starkbank.ellipticcurve.PublicKey;
 import com.starkbank.ellipticcurve.Signature;
 import com.starkbank.ellipticcurve.utils.ByteString;
 import com.starkbank.error.InvalidSignatureError;
-import com.starkbank.utils.Generator;
-import com.starkbank.utils.Resource;
-import com.starkbank.utils.Rest;
+import com.starkbank.utils.*;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -84,7 +82,26 @@ public class Event extends Resource {
      * Return:
      * Event object with updated attributes
      */
-    public static Event parse(String content, ByteString signature, Project project) {
+    public static Event parse(String content, String signature) throws Exception {
+        return Event.parse(content, signature, null);
+    }
+
+    /**
+     * Create single notification Event from a content string
+     * <p>
+     * Create a single Event object received from event listening at subscribed user endpoint.
+     * If the provided digital signature does not check out with the StarkBank public key, a
+     * starkbank.exception.InvalidSignatureException will be raised.
+     * <p>
+     * Parameters:
+     * content [string]: response content from request received at user endpoint (not parsed)
+     * signature [string]: base-64 digital signature received at response header "Digital-Signature"
+     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * <p>
+     * Return:
+     * Event object with updated attributes
+     */
+    public static Event parse(String content, String signature, Project user) throws Exception {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
@@ -93,28 +110,46 @@ public class Event extends Resource {
 
         Signature signatureObject;
         try {
-            signatureObject = Signature.fromBase64(signature);
+            signatureObject = Signature.fromBase64(new ByteString(signature.getBytes()));
         } catch (Error e) {
             throw new Error("The provided signature is not valid");
         }
 
-        if (verifySignature(content, signatureObject, project, false)) {
+        if (verifySignature(user, content, signatureObject, false)) {
             return parsedEvent;
         }
-        if (verifySignature(content, signatureObject, project, true)) {
+        if (verifySignature(user, content, signatureObject, true)) {
             return parsedEvent;
         }
 
         throw new InvalidSignatureError("The provided signature and content do not match the Stark Bank public key");
     }
 
-    private static boolean verifySignature(String content, Signature signature, Project project, boolean refresh) {
-        PublicKey publicKey = User.StarkBankPublicKey;
-
+    private static boolean verifySignature(Project user, String content, Signature signature, boolean refresh) throws Exception {
+        PublicKey publicKey = Cache.starkBankPublicKey;
         if (publicKey == null || refresh) {
-            publicKey = project.publicKey();
+            publicKey = getStarkBankPublicKey(user);
+            Cache.starkBankPublicKey = publicKey;
         }
         return Ecdsa.verify(content, signature, publicKey);
+    }
+
+    private static PublicKey getStarkBankPublicKey(Project user) throws Exception {
+        HashMap<String, Object> query = new HashMap<>();
+        query.put("limit", 1);
+        String content = Response.fetch(
+            "public-key",
+            "GET",
+            null,
+            query,
+            user,
+            "v2"
+        ).content;
+        JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
+        JsonObject publicKeys = contentJson.get("publicKeys").getAsJsonObject();
+        return PublicKey.fromPem(
+            publicKeys.get(0).get("content") // TODO: fix get(0)
+        );
     }
 
     public static class TransferEvent extends Event {

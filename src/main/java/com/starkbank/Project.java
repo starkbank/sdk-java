@@ -3,11 +3,11 @@ package com.starkbank;
 public class Project extends User {
     static ClassData data = new ClassData(Project.class, "Project");
 
-    public Project(String id, String privateKey, String environment) throws Exception {
-        super(id, privateKey, environment);
+    public Project(String environment, String id, String privateKey) throws Exception {
+        super(environment, id, privateKey);
     }
 
     public String accessId() {
-        return data.name.toLowerCase() + "/" + this.id;
+        return "project/" + this.id;
     }
 }
