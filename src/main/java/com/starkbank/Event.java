@@ -6,7 +6,10 @@ import com.starkbank.ellipticcurve.PublicKey;
 import com.starkbank.ellipticcurve.Signature;
 import com.starkbank.ellipticcurve.utils.ByteString;
 import com.starkbank.error.InvalidSignatureError;
-import com.starkbank.utils.*;
+import com.starkbank.utils.Generator;
+import com.starkbank.utils.Resource;
+import com.starkbank.utils.Response;
+import com.starkbank.utils.Rest;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -114,7 +117,7 @@ public class Event extends Resource {
         Signature signatureObject;
         try {
             signatureObject = Signature.fromBase64(new ByteString(signature.getBytes()));
-        } catch (Error e) {
+        } catch (Error | RuntimeException e) {
             throw new InvalidSignatureError("The provided signature is not valid");
         }
 
@@ -141,17 +144,17 @@ public class Event extends Resource {
         HashMap<String, Object> query = new HashMap<>();
         query.put("limit", "1");
         String content = Response.fetch(
-            "/public-key",
-            "GET",
-            null,
-            query,
-            user,
-            "v2"
+                "/public-key",
+                "GET",
+                null,
+                query,
+                user,
+                "v2"
         ).content;
         JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
         JsonArray publicKeys = contentJson.get("publicKeys").getAsJsonArray();
         return PublicKey.fromPem(
-            publicKeys.get(0).getAsJsonObject().get("content").getAsString()
+                publicKeys.get(0).getAsJsonObject().get("content").getAsString()
         );
     }
 

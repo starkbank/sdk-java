@@ -1,5 +1,6 @@
 import com.starkbank.*;
 import com.starkbank.User;
+import com.starkbank.error.InvalidSignatureError;
 import com.starkbank.utils.Generator;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,8 +42,12 @@ public class TestEvent {
         String invalid_signature = "MEUCIQDOpo1j+V40DNZK2URL2786UQK/8mDXon9ayEd8U0/l7AIgYXtIZJBTs8zCRR3vmted6Ehz/qfw1GRut/eYyvf1yOk=";
 
         User.defaultUser = utils.User.defaultProject();
-        Event event = Event.parse(content, invalid_signature);
-        System.out.println(event);
+        try{
+            Event event = Event.parse(content, invalid_signature);
+            throw new Error("Signature incorrectly validated");
+        } catch (InvalidSignatureError e){
+            System.out.println("Signature correctly rejected");
+        }
     }
 
     @Test
@@ -51,7 +56,11 @@ public class TestEvent {
         String malformed_signature = "something is definitely wrong";
 
         User.defaultUser = utils.User.defaultProject();
-        Event event = Event.parse(content, malformed_signature);
-        System.out.println(event);
+        try{
+            Event event = Event.parse(content, malformed_signature);
+            throw new Error("Signature incorrectly validated");
+        } catch (InvalidSignatureError e){
+            System.out.println("Signature correctly rejected");
+        }
     }
 }
