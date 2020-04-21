@@ -15,7 +15,6 @@ public class InputErrors extends Error {
         this.errors = new ArrayList<>();
 
         JsonObject errorsJson = new Gson().fromJson(content, JsonObject.class);
-        System.out.println(errorsJson.toString());
         if (!errorsJson.get("errors").isJsonNull()) {
             for (JsonElement error : errorsJson.get("errors").getAsJsonArray()) {
                 JsonObject errorJson = error.getAsJsonObject();

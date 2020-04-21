@@ -106,7 +106,6 @@ public class Event extends Resource {
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
                 .create();
-        System.out.println(content);
         Event parsedEvent = gson.fromJson(
                 new Gson().fromJson(content, JsonObject.class).get("event").getAsJsonObject(),
                 Event.class
