@@ -83,7 +83,7 @@ public class Event extends Resource {
      * Event object with updated attributes
      */
     public static Event parse(String content, String signature) throws Exception {
-        return Event.parse(content, signature, null);
+        return Event.parse(content, signature, User.defaultUser);
     }
 
     /**
@@ -106,13 +106,17 @@ public class Event extends Resource {
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
                 .create();
-        Event parsedEvent = gson.fromJson(content, Event.class);
+        System.out.println(content);
+        Event parsedEvent = gson.fromJson(
+                new Gson().fromJson(content, JsonObject.class).get("event").getAsJsonObject(),
+                Event.class
+        );
 
         Signature signatureObject;
         try {
             signatureObject = Signature.fromBase64(new ByteString(signature.getBytes()));
         } catch (Error e) {
-            throw new Error("The provided signature is not valid");
+            throw new InvalidSignatureError("The provided signature is not valid");
         }
 
         if (verifySignature(user, content, signatureObject, false)) {
@@ -136,9 +140,9 @@ public class Event extends Resource {
 
     private static PublicKey getStarkBankPublicKey(Project user) throws Exception {
         HashMap<String, Object> query = new HashMap<>();
-        query.put("limit", 1);
+        query.put("limit", "1");
         String content = Response.fetch(
-            "public-key",
+            "/public-key",
             "GET",
             null,
             query,
@@ -146,9 +150,9 @@ public class Event extends Resource {
             "v2"
         ).content;
         JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
-        JsonObject publicKeys = contentJson.get("publicKeys").getAsJsonObject();
+        JsonArray publicKeys = contentJson.get("publicKeys").getAsJsonArray();
         return PublicKey.fromPem(
-            publicKeys.get(0).get("content") // TODO: fix get(0)
+            publicKeys.get(0).getAsJsonObject().get("content").getAsString()
         );
     }
 
