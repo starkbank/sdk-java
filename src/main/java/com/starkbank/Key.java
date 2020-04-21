@@ -8,20 +8,17 @@ import java.io.PrintWriter;
 
 
 public class Key {
-    public PrivateKey privateKey;
-    public PublicKey publicKey;
     public String privatePem;
     public String publicPem;
 
     public Key(String privatePem) {
+        PrivateKey privateKey = PrivateKey.fromPem(privatePem);
         this.privatePem = privatePem;
-        this.privateKey = PrivateKey.fromPem(this.privatePem);
-        this.publicKey = this.privateKey.publicKey();
-        this.publicPem = this.publicKey.toPem();
+        this.publicPem = privateKey.publicKey().toPem();
     }
 
     /**
-     * Create Key pair
+     * Create a key pair
      * <p>
      * Generates a secp256k1 ECDSA private/public key pair to be used in the API authentications
      * <p>
@@ -29,15 +26,13 @@ public class Key {
      * new Key object
      */
     public static Key create() {
-        PrivateKey privateKey = new PrivateKey();
-        return new Key(privateKey.toPem());
+        return new Key((new PrivateKey()).toPem());
     }
 
     /**
-     * Create Boletos
+     * Create a key pair
      * <p>
-     * Send a list of Boleto objects for creation in the Stark Bank API. Saves private and
-     * public key PEMs in specified folder path
+     * Generates a secp256k1 ECDSA private/public key pair to be used in the API authentications
      * <p>
      * Parameters:
      * savePath [string]: path to save the keys .pem files. No files will be saved if this parameter isn't provided
@@ -54,9 +49,5 @@ public class Key {
             out.println(key.publicPem);
         }
         return key;
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        Key.create(".");
     }
 }
