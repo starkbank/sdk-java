@@ -16,9 +16,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,7 +32,7 @@ public final class Response {
     }
 
     public static Response fetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
-        HttpResponse response = prepareFetchNew(path, method, payload, query, user);
+        HttpResponse response = prepareFetch(path, method, payload, query, user);
         int status = response.getStatusLine().getStatusCode();
         Reader streamReader;
         if (status >= 300) {
@@ -62,13 +59,13 @@ public final class Response {
     }
 
     public static InputStream fetchStream(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
-        HttpURLConnection connection = prepareFetch(path, method, payload, query, user);
-        int status = connection.getResponseCode();
+        HttpResponse response = prepareFetch(path, method, payload, query, user);
+        int status = response.getStatusLine().getStatusCode();
         InputStream streamReader;
         if (status >= 300) {
-            streamReader = connection.getErrorStream();
+            streamReader = response.getEntity().getContent();
         } else {
-            streamReader = connection.getInputStream();
+            streamReader = response.getEntity().getContent();
         }
         if (status >= 300) {
             BufferedReader in = new BufferedReader(new InputStreamReader(streamReader));
@@ -82,40 +79,8 @@ public final class Response {
         }
         return streamReader;
     }
-    private static HttpURLConnection prepareFetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
-        if (user == null) {
-            user = User.defaultUser;
-        }
-        String urlString = host(user, "v2") + path;
-        if (query != null) {
-            urlString += Url.encode(query);
-        }
-        String accessTime = String.valueOf(Math.round(Instant.now().getEpochSecond()));
 
-        String message = user.accessId() + ':' + accessTime + ':';
-        if (payload != null) {
-            String body = payload.toString();
-            message += body;
-        }
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        Signature signature = Ecdsa.sign(message, user.privateKey());
-        setHeaders(connection, user.accessId(), accessTime, signature.toBase64());
-
-        connection.setRequestMethod(method);
-        if (method.equals("POST") || method.equals("PATCH")){
-            connection.setDoOutput(true);
-            try (OutputStream out = connection.getOutputStream()) {
-                assert payload != null;
-                byte[] input = payload.toString().getBytes(StandardCharsets.UTF_8);
-                out.write(input, 0, input.length);
-            }
-        }
-
-        return connection;
-    }
-
-    private static HttpResponse prepareFetchNew(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws IOException {
+    private static HttpResponse prepareFetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws IOException {
         if (user == null) {
             user = User.defaultUser;
         }
@@ -140,7 +105,7 @@ public final class Response {
                 .setHeader("User-Agent", "SDK-Java-" + System.getProperty("java.version"))
                 .setHeader("Content-Type", "application/json");
 
-        if (method.equals("POST") || method.equals("PATCH")){
+        if (method.equals("POST") || method.equals("PATCH")) {
             requestBuilder = requestBuilder
                     .setEntity(new StringEntity(payload.toString(), "UTF-8"))
                     .setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
@@ -152,7 +117,7 @@ public final class Response {
         return client.execute(request);
     }
 
-    private static String host(Project user, String version){
+    private static String host(Project user, String version) {
         switch (user.environment) {
             case "production":
                 return "https://api.starkbank.com/" + version;
@@ -163,11 +128,4 @@ public final class Response {
         }
     }
 
-    private static void setHeaders(HttpURLConnection connection, String accessId, String accessTime, String signature) {
-        connection.setRequestProperty("Access-Id", accessId);
-        connection.setRequestProperty("Access-Time", accessTime);
-        connection.setRequestProperty("Access-Signature", signature);
-        connection.setRequestProperty("User-Agent", "SDK Java" + System.getProperty("java.version"));
-        connection.setRequestProperty("Content-Type", "application/json");
-    }
 }

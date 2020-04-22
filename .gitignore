@@ -10,6 +10,7 @@ out/*
 bin/
 
 # Files
+**/*.pdf
 **/privateKey.pem
 **/publicKey.pem
 **/development.json
