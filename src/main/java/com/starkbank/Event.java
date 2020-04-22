@@ -19,7 +19,7 @@ public class Event extends Resource {
     static ClassData data = new ClassData(Event.class, "Event");
 
     public String created;
-    public String delivered;
+    public Boolean isDelivered;
     public String subscription;
 
     /**
@@ -33,13 +33,13 @@ public class Event extends Resource {
      * id [string]: unique id returned when the log is created. ex: "5656565656565656"
      * log [Log]: a Log object from one the subscription services (Transfer Log, Boleto Log, BoletoPaymentlog or UtilityPayment Log)
      * created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000"
-     * delivered [string]: delivery datetime when the notification was delivered to the user url. Will be null if no successful attempts to deliver the event occurred. ex: "2020-03-10 10:30:00.000"
+     * isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
      * subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
      */
-    public Event(String created, String delivered, String subscription, String id) {
+    public Event(String created, Boolean isDelivered, String subscription, String id) {
         super(id);
         this.created = created;
-        this.delivered = delivered;
+        this.isDelivered = isDelivered;
         this.subscription = subscription;
     }
 
@@ -160,8 +160,8 @@ public class Event extends Resource {
     public static class TransferEvent extends Event {
         public Transfer.Log log;
 
-        public TransferEvent(Transfer.Log log, String created, String delivered, String subscription, String id) {
-            super(created, delivered, subscription, id);
+        public TransferEvent(Transfer.Log log, String created, Boolean isDelivered, String subscription, String id) {
+            super(created, isDelivered, subscription, id);
             this.log = log;
         }
     }
@@ -169,8 +169,8 @@ public class Event extends Resource {
     public static class BoletoEvent extends Event {
         public Boleto.Log log;
 
-        public BoletoEvent(Boleto.Log log, String created, String delivered, String subscription, String id) {
-            super(created, delivered, subscription, id);
+        public BoletoEvent(Boleto.Log log, String created, Boolean isDelivered, String subscription, String id) {
+            super(created, isDelivered, subscription, id);
             this.log = log;
         }
     }
@@ -178,8 +178,8 @@ public class Event extends Resource {
     public static class BoletoPaymentEvent extends Event {
         public BoletoPayment.Log log;
 
-        public BoletoPaymentEvent(BoletoPayment.Log log, String created, String delivered, String subscription, String id) {
-            super(created, delivered, subscription, id);
+        public BoletoPaymentEvent(BoletoPayment.Log log, String created, Boolean isDelivered, String subscription, String id) {
+            super(created, isDelivered, subscription, id);
             this.log = log;
         }
     }
@@ -187,8 +187,8 @@ public class Event extends Resource {
     public static class UtilityPaymentEvent extends Event {
         public UtilityPayment.Log log;
 
-        public UtilityPaymentEvent(UtilityPayment.Log log, String created, String delivered, String subscription, String id) {
-            super(created, delivered, subscription, id);
+        public UtilityPaymentEvent(UtilityPayment.Log log, String created, Boolean isDelivered, String subscription, String id) {
+            super(created, isDelivered, subscription, id);
             this.log = log;
         }
     }

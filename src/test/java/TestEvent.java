@@ -31,6 +31,7 @@ public class TestEvent {
         User.defaultUser = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 1);
+        params.put("isDelivered", false);
         Generator<Event> events = Event.query(params);
         HashMap<String, Object> data = new HashMap<>();
         data.put("isDelivered", true);
@@ -40,6 +41,7 @@ public class TestEvent {
             System.out.println(event);
             i += 1;
             event = Event.update(event.id, data);
+            Assert.assertTrue(event.isDelivered);
         }
         Assert.assertTrue(i > 0);
     }
