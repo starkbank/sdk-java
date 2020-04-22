@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class Transfer extends Resource {
+public final class Transfer extends Resource {
     static ClassData data = new ClassData(Transfer.class, "Transfer");
 
     public Integer amount;
@@ -111,13 +111,12 @@ public class Transfer extends Resource {
      * <p>
      * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
-     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
      * Return:
      * Transfer object with updated attributes
      */
-    public static Transfer get(String id, Project user) throws Exception {
-        return Rest.getId(data, id, user);
+    public static Transfer get(String id) throws Exception {
+        return Transfer.get(id, null);
     }
 
     /**
@@ -127,34 +126,13 @@ public class Transfer extends Resource {
      * <p>
      * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
+     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * Transfer object with updated attributes
      */
-    public static Transfer get(String id) throws Exception {
-        return Rest.getId(data, id, null);
-    }
-
-    /**
-     * Retrieve Transfers
-     * <p>
-     * Receive a generator of Transfer objects previously created in the Stark Bank API
-     * <p>
-     * Parameters:
-     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-     * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
-     * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
-     * transactionIds [list of strings, default null]: list of transaction IDs linked to the desired transfers. ex: ["5656565656565656", "4545454545454545"]
-     * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
-     * sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
-     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-     * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
-     * <p>
-     * Return:
-     * generator of Transfer objects with updated attributes
-     */
-    public static Generator<Transfer> query(HashMap<String, Object> params, Project user) throws Exception {
-        return Rest.getList(data, params, user);
+    public static Transfer get(String id, Project user) throws Exception {
+        return Rest.getId(data, id, user);
     }
 
     /**
@@ -175,7 +153,7 @@ public class Transfer extends Resource {
      * generator of Transfer objects with updated attributes
      */
     public static Generator<Transfer> query(HashMap<String, Object> params) throws Exception {
-        return Rest.getList(data, params, null);
+        return Transfer.query(params, null);
     }
 
     /**
@@ -184,29 +162,47 @@ public class Transfer extends Resource {
      * Receive a generator of Transfer objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+     * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * generator of Transfer objects with updated attributes
      */
     public static Generator<Transfer> query(Project user) throws Exception {
-        return Rest.getList(data, new HashMap<>(), user);
+        return Transfer.query(new HashMap<>(), user);
     }
 
     /**
-     * Create Transfers
+     * Retrieve Transfers
      * <p>
-     * Send a list of Transfer objects for creation in the Stark Bank API
-     * <p>
-     * Parameters:
-     * transfers [list of Transfer objects]: list of Transfer objects to be created in the API
-     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * Receive a generator of Transfer objects previously created in the Stark Bank API
      * <p>
      * Return:
-     * list of Transfer objects with updated attributes
+     * generator of Transfer objects with updated attributes
      */
-    public static List<Transfer> create(List<Transfer> transfers, Project user) throws Exception {
-        return Rest.post(data, transfers, user);
+    public static Generator<Transfer> query() throws Exception {
+        return Transfer.query(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve Transfers
+     * <p>
+     * Receive a generator of Transfer objects previously created in the Stark Bank API
+     * <p>
+     * Parameters:
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
+     * transactionIds [list of strings, default null]: list of transaction IDs linked to the desired transfers. ex: ["5656565656565656", "4545454545454545"]
+     * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+     * sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * generator of Transfer objects with updated attributes
+     */
+    public static Generator<Transfer> query(HashMap<String, Object> params, Project user) throws Exception {
+        return Rest.getList(data, params, user);
     }
 
     /**
@@ -221,24 +217,23 @@ public class Transfer extends Resource {
      * list of Transfer objects with updated attributes
      */
     public static List<Transfer> create(List<Transfer> transfers) throws Exception {
-        return Rest.post(data, transfers, null);
+        return Transfer.create(transfers, null);
     }
 
     /**
-     * Retrieve a specific Transfer pdf file
+     * Create Transfers
      * <p>
-     * Receive a single Transfer pdf receipt file generated in the Stark Bank API by passing its id.
-     * Only valid for transfers with "processing" and "success" status.
+     * Send a list of Transfer objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * id [string]: object unique id. ex: "5656565656565656"
-     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * transfers [list of Transfer objects]: list of Transfer objects to be created in the API
+     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * Transfer pdf file
+     * list of Transfer objects with updated attributes
      */
-    public static InputStream pdf(String id, Project user) throws Exception {
-        return Rest.getPdf(data, id, user);
+    public static List<Transfer> create(List<Transfer> transfers, Project user) throws Exception {
+        return Rest.post(data, transfers, user);
     }
 
     /**
@@ -254,10 +249,27 @@ public class Transfer extends Resource {
      * Transfer pdf file
      */
     public static InputStream pdf(String id) throws Exception {
-        return Rest.getPdf(data, id, null);
+        return Transfer.pdf(id, null);
     }
 
-    public static class Log extends Resource {
+    /**
+     * Retrieve a specific Transfer pdf file
+     * <p>
+     * Receive a single Transfer pdf receipt file generated in the Stark Bank API by passing its id.
+     * Only valid for transfers with "processing" and "success" status.
+     * <p>
+     * Parameters:
+     * id [string]: object unique id. ex: "5656565656565656"
+     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * Transfer pdf file
+     */
+    public static InputStream pdf(String id, Project user) throws Exception {
+        return Rest.getPdf(data, id, user);
+    }
+
+    public final static class Log extends Resource {
         static ClassData data = new ClassData(Log.class, "TransferLog");
 
         public String created;
@@ -294,13 +306,12 @@ public class Transfer extends Resource {
          * <p>
          * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
-         * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
          * <p>
          * Return:
          * Transfer Log object with updated attributes
          */
-        public static Log get(String id, Project user) throws Exception {
-            return Rest.getId(data, id, user);
+        public static Log get(String id) throws Exception {
+            return Log.get(id, null);
         }
 
         /**
@@ -310,32 +321,13 @@ public class Transfer extends Resource {
          * <p>
          * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
+         * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * Transfer Log object with updated attributes
          */
-        public static Log get(String id) throws Exception {
-            return Rest.getId(data, id, null);
-        }
-
-        /**
-         * Retrieve Transfer Logs
-         * <p>
-         * Receive a generator of Transfer Log objects previously created in the Stark Bank API
-         * <p>
-         * Parameters:
-         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-         * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
-         * types [list of strings, default null]: filter retrieved objects by types. ex: "success" or "failed"
-         * transferIds [list of strings, default null]: list of Transfer ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-         * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
-         * <p>
-         * Return:
-         * list of Transfer Log objects with updated attributes
-         */
-        public static Generator<Log> query(HashMap<String, Object> params, Project user) throws Exception {
-            return Rest.getList(data, params, user);
+        public static Log get(String id, Project user) throws Exception {
+            return Rest.getId(data, id, user);
         }
 
         /**
@@ -354,7 +346,7 @@ public class Transfer extends Resource {
          * list of Transfer Log objects with updated attributes
          */
         public static Generator<Log> query(HashMap<String, Object> params) throws Exception {
-            return Rest.getList(data, params, null);
+            return Log.query(params, null);
         }
 
         /**
@@ -363,14 +355,45 @@ public class Transfer extends Resource {
          * Receive a generator of Transfer Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+         * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * list of Transfer Log objects with updated attributes
          */
         public static Generator<Log> query(Project user) throws Exception {
-            return Rest.getList(data, new HashMap<>(), user);
+            return Log.query(new HashMap<>(), user);
         }
 
+        /**
+         * Retrieve Transfer Logs
+         * <p>
+         * Receive a generator of Transfer Log objects previously created in the Stark Bank API
+         * <p>
+         * Return:
+         * list of Transfer Log objects with updated attributes
+         */
+        public static Generator<Log> query() throws Exception {
+            return Log.query(new HashMap<>(), null);
+        }
+
+        /**
+         * Retrieve Transfer Logs
+         * <p>
+         * Receive a generator of Transfer Log objects previously created in the Stark Bank API
+         * <p>
+         * Parameters:
+         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter retrieved objects by types. ex: "success" or "failed"
+         * transferIds [list of strings, default null]: list of Transfer ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+         * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * list of Transfer Log objects with updated attributes
+         */
+        public static Generator<Log> query(HashMap<String, Object> params, Project user) throws Exception {
+            return Rest.getList(data, params, user);
+        }
     }
 }

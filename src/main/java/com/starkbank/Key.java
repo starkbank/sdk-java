@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 
-public class Key {
+public final class Key {
     public String privatePem;
     public String publicPem;
 
@@ -44,7 +44,7 @@ public class Key {
         Key key = Key.create();
         File directory = new File(savePath);
         if (! directory.exists()){
-            directory.mkdirs();
+            Boolean success = directory.mkdirs();
         }
         try (PrintWriter out = new PrintWriter(savePath + "/privateKey.pem")) {
             out.println(key.privatePem);

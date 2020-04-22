@@ -46,7 +46,7 @@ public class TestBoletoPayment {
             i += 1;
             payment = BoletoPayment.get(payment.id);
             System.out.println(payment);
-            Assert.assertNotNull(BoletoPayment.pdf(payment.id));
+            Assert.assertNotNull(BoletoPayment.pdf(payment.id)); // TODO: write pdf file
         }
         System.out.println(i);
     }

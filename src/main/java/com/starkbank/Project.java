@@ -1,6 +1,6 @@
 package com.starkbank;
 
-public class Project extends User {
+public final class Project extends User {
     static ClassData data = new ClassData(Project.class, "Project");
 
     public Project(String environment, String id, String privateKey) throws Exception {

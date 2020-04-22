@@ -46,7 +46,7 @@ public class TestTransfer {
             i += 1;
             transfer = Transfer.get(transfer.id);
             System.out.println(transfer);
-            Assert.assertNotNull(Transfer.pdf(transfer.id));
+            Assert.assertNotNull(Transfer.pdf(transfer.id)); // TODO: write pdf file
         }
         System.out.println(i);
     }

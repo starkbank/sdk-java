@@ -11,10 +11,10 @@ public class TestWebhook {
     @Test
     public void testPostAndDelete() throws Exception {
         User.defaultUser = utils.User.defaultProject();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("url", "https://winterfell.westeros.gov/events-from-stark-bank");
-        data.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment"});
-        Webhook webhook = Webhook.create(new Webhook(data));
+        Webhook webhook = Webhook.create(
+            "https://winterfell.westeros.gov/events-from-stark-bank",
+            new String[]{"boleto", "boleto-payment", "transfer", "utility-payment"}
+        );
         webhook = Webhook.delete(webhook.id);
         System.out.println(webhook);
     }

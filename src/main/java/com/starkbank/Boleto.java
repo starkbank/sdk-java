@@ -181,7 +181,7 @@ public final class Boleto extends Resource {
      * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
      * Parameters:
-     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * Boleto object with updated attributes
      */
@@ -201,7 +201,7 @@ public final class Boleto extends Resource {
      * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+     * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * generator of Boleto objects with updated attributes
@@ -236,7 +236,7 @@ public final class Boleto extends Resource {
      * Receive a generator of Boleto objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+     * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * generator of Boleto objects with updated attributes
@@ -252,7 +252,7 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters:
      * boletos [list of Boleto objects]: list of Boleto objects to be created in the API
-     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * list of Boleto objects with updated attributes
@@ -298,7 +298,7 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
-     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * Boleto pdf file
@@ -329,7 +329,7 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters:
      * id [string]: Boleto unique id. ex: "5656565656565656"
-     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * deleted Boleto with updated attributes
@@ -391,7 +391,7 @@ public final class Boleto extends Resource {
          * <p>
          * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
-         * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
+         * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * Boleto Log object with updated attributes
@@ -425,7 +425,7 @@ public final class Boleto extends Resource {
          * Receive a generator of Boleto Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+         * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * list of Boleto Log objects with updated attributes
@@ -457,7 +457,7 @@ public final class Boleto extends Resource {
          * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
          * boletoIds [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-         * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+         * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * list of Boleto Log objects with updated attributes
