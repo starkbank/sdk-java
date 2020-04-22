@@ -5,7 +5,6 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.util.HashMap;
-import java.util.List;
 
 
 public final class Webhook extends Resource {
@@ -154,8 +153,8 @@ public final class Webhook extends Resource {
      * Return:
      * Webhook object with updated attributes
      */
-    public static Webhook create(String url, String[] subscriptions) throws Exception {
-        return Webhook.create(url, subscriptions, null);
+    public static Webhook create(HashMap<String, Object> webhookData) throws Exception {
+        return Webhook.create(webhookData, null);
     }
 
     /**
@@ -171,7 +170,9 @@ public final class Webhook extends Resource {
      * Return:
      * Webhook object with updated attributes
      */
-    public static Webhook create(String url, String[] subscriptions, Project user) throws Exception {
+    public static Webhook create(HashMap<String, Object> webhookData, Project user) throws Exception {
+        String url = (String) webhookData.get("url");
+        String[] subscriptions = (String[]) webhookData.get("subscriptions");
         return Rest.postSingle(data, new Webhook(url, subscriptions, null), user);
     }
 

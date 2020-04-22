@@ -648,7 +648,7 @@ To create a webhook subscription and be notified whenever an event occurs, run:
 HashMap<String, Object> data = new HashMap<>();
 data.put("url", "https://winterfell.westeros.gov/events-from-stark-bank");
 data.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment"});
-Webhook webhook = Webhook.create(new Webhook(data));
+Webhook webhook = Webhook.create(data);
 
 System.out.println(webhook);
 ```
