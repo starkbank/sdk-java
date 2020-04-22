@@ -1,6 +1,4 @@
-import com.starkbank.Balance;
 import com.starkbank.Key;
-import com.starkbank.User;
 import org.junit.Test;
 
 import java.io.File;

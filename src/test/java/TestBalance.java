@@ -2,8 +2,6 @@ import com.starkbank.Balance;
 import com.starkbank.User;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class TestBalance {
 

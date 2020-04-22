@@ -1,7 +1,6 @@
 import com.starkbank.*;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
-import org.junit.Assert;
 
 import java.time.Instant;
 import java.util.ArrayList;
