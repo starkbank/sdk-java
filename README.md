@@ -128,12 +128,16 @@ There are two ways to inform the user to the SDK:
 4.1 Passing the user as argument in all functions:
 
 ```java
+import com.starkbank.*;
+
 Balance balance = new Balance.get(project);
 ```
 
 4.2 Set it as a default user in the SDK:
 
 ```java
+import com.starkbank.*;
+
 User.defaultUser = project;
 
 Balance balance = new Balance.get();
@@ -166,6 +170,8 @@ Here are a few examples on how to use the SDK. If you have any doubts, use the b
 To know how much money you have in your workspace, run:
 
 ```java
+import com.starkbank.*;
+
 Balance balance = new Balance.get();
 
 System.out.println(balance);
@@ -177,6 +183,8 @@ You can create boletos to charge customers or to receive money from accounts
 you have in other banks.
 
 ```java
+import com.starkbank.*;
+
 List<Boleto> boletos = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
 data.put("amount", 400000);
@@ -207,6 +215,8 @@ for (Boleto boleto : boletos){
 You can get a list of created boletos given some filters.
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
 params.put("before", "2020-04-30");
@@ -223,6 +233,8 @@ After its creation, information on a boleto may be retrieved by passing its id.
 Its status indicates whether it's been paid.
 
 ```java
+import com.starkbank.*;
+
 Boleto boleto = Boleto.get("5730174175805440");
 
 System.out.println(boleto);
@@ -257,6 +269,8 @@ You can also cancel a boleto by its id.
 Note that this is not possible if it has been processed already.
 
 ```java
+import com.starkbank.*;
+
 Boleto boleto = Boleto.delete("5669456873259008");
 
 System.out.println(boleto);
@@ -267,6 +281,8 @@ System.out.println(boleto);
 Logs are pretty important to understand the life cycle of a boleto.
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
 params.put("before", "2020-04-30");
@@ -282,6 +298,8 @@ for (Boleto.Log log : logs){
 You can get a single log by its id.
 
 ```java
+import com.starkbank.*;
+
 Boleto.Log log = Boleto.Log.get("6532638269505536");
 
 System.out.println(log);
@@ -292,6 +310,8 @@ System.out.println(log);
 You can also create transfers in the SDK (TED/DOC).
 
 ```java
+import com.starkbank.*;
+
 List<Transfer> transfers = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
 data.put("amount", 100000000);
@@ -315,6 +335,8 @@ for (Transfer transfer : transfers){
 You can query multiple transfers according to filters.
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
 params.put("before", "2020-04-30");
@@ -330,6 +352,8 @@ for (Transfer transfer : transfers){
 To get a single transfer by its id, run:
 
 ```java
+import com.starkbank.*;
+
 Transfer transfer = Transfer.get("6532638269505536");
 
 System.out.println(transfer);
@@ -363,6 +387,8 @@ and strange characters.
 You can query transfer logs to better understand transfer life cycles.
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
 params.put("before", "2020-04-30");
@@ -378,6 +404,8 @@ for (Transfer.Log log : logs){
 You can also get a specific log by its id.
 
 ```java
+import com.starkbank.*;
+
 Transfer.Log log = Transfer.Log.get("6532638269505536");
 
 System.out.println(log);
@@ -388,6 +416,8 @@ System.out.println(log);
 Paying boletos is also simple.
 
 ```java
+import com.starkbank.*;
+
 List<BoletoPayment> payments = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
 data.put("line", "34191.09107 05447.947309 71444.640008 8 84660000011631");
@@ -409,6 +439,8 @@ for (BoletoPayment payment : payments){
 You can search for boleto payments using filters. 
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
 params.put("before", "2020-04-30");
@@ -424,6 +456,8 @@ for (BoletoPayment payment : payments){
 To get a single boleto payment by its id, run:
 
 ```java
+import com.starkbank.*;
+
 BoletoPayment payment = BoletoPayment.get("6532638269505536");
 
 System.out.println(payment);
@@ -458,6 +492,8 @@ You can also cancel a boleto payment by its id.
 Note that this is not possible if it has been processed already.
 
 ```java
+import com.starkbank.*;
+
 BoletoPayment payment = BoletoPayment.delete("5669456873259008");
 
 System.out.println(payment);
@@ -468,6 +504,8 @@ System.out.println(payment);
 Searches are also possible with boleto payment logs:
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("paymentIds", "4785987200745472");
 Generator<BoletoPayment.Log> logs = BoletoPayment.Log.query(params);
@@ -483,6 +521,8 @@ for (BoletoPayment.Log log : logs){
 You can also get a boleto payment log by specifying its id.
 
 ```java
+import com.starkbank.*;
+
 BoletoPayment.Log log = BoletoPayment.Log.get("6532638269505536");
 
 System.out.println(log);
@@ -493,6 +533,8 @@ System.out.println(log);
 Its also simple to pay utility bills (such electricity and water bills) in the SDK.
 
 ```java
+import com.starkbank.*;
+
 List<UtilityPayment> payments = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
 data.put("line", "83640000001 1 07540138007 0 61053026111 0 08067159411 9");
@@ -513,6 +555,8 @@ for (UtilityPayment payment : payments){
 To search for utility payments using filters, run:
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
 params.put("before", "2020-04-30");
@@ -528,6 +572,8 @@ for (UtilityPayment payment : payments){
 You can get a specific bill by its id:
 
 ```java
+import com.starkbank.*;
+
 UtilityPayment payment = UtilityPayment.get("6532638269505536");
 
 System.out.println(payment);
@@ -562,6 +608,8 @@ You can also cancel a utility payment by its id.
 Note that this is not possible if it has been processed already.
 
 ```java
+import com.starkbank.*;
+
 UtilityPayment payment = UtilityPayment.delete("5669456873259008");
 
 System.out.println(payment);
@@ -573,6 +621,8 @@ You can search for payment logs by specifying filters. Use this to understand th
 bills life cycles.
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("paymentIds", "6683343345156096");
 Generator<UtilityPayment.Log> logs = UtilityPayment.Log.query(params);
@@ -587,6 +637,8 @@ for (UtilityPayment.Log log : logs){
 If you want to get a specific payment log by its id, just run:
 
 ```java
+import com.starkbank.*;
+
 UtilityPayment.Log log = UtilityPayment.Log.get("6532638269505536");
 
 System.out.println(log);
@@ -597,6 +649,8 @@ System.out.println(log);
 To send money between Stark Bank accounts, you can create transactions:
 
 ```java
+import com.starkbank.*;
+
 List<Transaction> transactions = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
 data.put("amount", 10000);
@@ -620,6 +674,8 @@ transactions. Note that our system creates transactions for you when
 you receive boleto payments, pay a bill or make transfers, for example.
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
 params.put("before", "2020-04-30");
@@ -635,6 +691,8 @@ for (Transaction transaction : transactions){
 You can get a specific transaction by its id:
 
 ```java
+import com.starkbank.*;
+
 Transaction transaction = Transaction.get("5155966664310784");
 
 System.out.println(transaction);
@@ -645,6 +703,8 @@ System.out.println(transaction);
 To create a webhook subscription and be notified whenever an event occurs, run:
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> data = new HashMap<>();
 data.put("url", "https://winterfell.westeros.gov/events-from-stark-bank");
 data.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment"});
@@ -658,6 +718,8 @@ System.out.println(webhook);
 To search for registered webhooks, run:
 
 ```java
+import com.starkbank.*;
+
 Generator<Webhook> webhooks = Webhook.query();
 
 for (Webhook webhook : webhooks){
@@ -670,6 +732,8 @@ for (Webhook webhook : webhooks){
 You can get a specific webhook by its id.
 
 ```java
+import com.starkbank.*;
+
 Webhook webhook = Webhook.get("5730174175805440");
 
 System.out.println(webhook);
@@ -680,6 +744,8 @@ System.out.println(webhook);
 You can also delete a specific webhook by its id.
 
 ```java
+import com.starkbank.*;
+
 Webhook webhook = Webhook.delete("6699417864241152");
 
 System.out.println(webhook);
@@ -728,6 +794,8 @@ app.listen(port, () => console.log(`Example app listening at http://localhost:${
 To search for webhooks events, run:
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("isDelivered", false);
 params.put("after", "2020-04-01");
@@ -744,6 +812,8 @@ for (Event event : events){
 You can get a specific webhook event by its id.
 
 ```java
+import com.starkbank.*;
+
 Event event = Event.get("5730174175805440");
 
 System.out.println(event);
@@ -754,6 +824,8 @@ System.out.println(event);
 You can also delete a specific webhook event by its id.
 
 ```java
+import com.starkbank.*;
+
 Event event = Event.delete("6312789471657984");
 
 System.out.println(event);
@@ -766,6 +838,8 @@ With this function, you can manually set events retrieved from the API as
 "delivered" to help future event queries with `isDelivered=false`.
 
 ```java
+import com.starkbank.*;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("id", "5824181711142912");
 params.put("isDelivered", true);
