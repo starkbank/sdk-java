@@ -233,12 +233,18 @@ System.out.println(boleto);
 After its creation, a boleto PDF may be retrieved by passing its id. 
 
 ```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
 InputStream pdf = Boleto.pdf("5915632394567680", project);
 
 java.nio.file.Files.copy(
         pdf,
         new File("boleto.pdf").toPath(),
-        StandardCopyOption.REPLACE_EXISTING);
+        StandardCopyOption.REPLACE_EXISTING
+);
 ```
 
 Be careful not to accidentally enforce any encoding on the raw pdf content,
@@ -334,12 +340,18 @@ System.out.println(transfer);
 After its creation, a transfer PDF may also be retrieved by passing its id. 
 
 ```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
 InputStream pdf = Transfer.pdf("6266195376340992", project);
 
 java.nio.file.Files.copy(
         pdf,
         new File("transfer.pdf").toPath(),
-        StandardCopyOption.REPLACE_EXISTING);
+        StandardCopyOption.REPLACE_EXISTING
+);
 ```
 
 Be careful not to accidentally enforce any encoding on the raw pdf content,
@@ -422,12 +434,18 @@ System.out.println(payment);
 After its creation, a boleto payment PDF may be retrieved by passing its id. 
 
 ```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
 InputStream pdf = BoletoPayment.pdf("6311252829667328", project);
 
 java.nio.file.Files.copy(
         pdf,
         new File("boleto-payment.pdf").toPath(),
-        StandardCopyOption.REPLACE_EXISTING);
+        StandardCopyOption.REPLACE_EXISTING
+);
 ```
 
 Be careful not to accidentally enforce any encoding on the raw pdf content,
@@ -520,12 +538,18 @@ System.out.println(payment);
 After its creation, a utility payment PDF may also be retrieved by passing its id. 
 
 ```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
 InputStream pdf = UtilityPayment.pdf("6565645839761408", project);
 
 java.nio.file.Files.copy(
         pdf,
         new File("utility-payment.pdf").toPath(),
-        StandardCopyOption.REPLACE_EXISTING);
+        StandardCopyOption.REPLACE_EXISTING
+);
 ```
 
 Be careful not to accidentally enforce any encoding on the raw pdf content,

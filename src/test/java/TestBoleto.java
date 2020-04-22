@@ -3,6 +3,9 @@ import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +55,13 @@ public class TestBoleto {
             i += 1;
             boleto = Boleto.get(boleto.id);
             System.out.println(boleto);
-            Assert.assertNotNull(Boleto.pdf(boleto.id)); // TODO: write pdf file
+            InputStream pdf = Boleto.pdf(boleto.id);
+            Assert.assertNotNull(pdf);
+            java.nio.file.Files.copy(
+                    pdf,
+                    new File("boleto.pdf").toPath(),
+                    StandardCopyOption.REPLACE_EXISTING
+            );
         }
         System.out.println(i);
     }
