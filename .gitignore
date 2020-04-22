@@ -1,0 +1,18 @@
+# Folders
+.idea
+
+# Gradle files
+.gradle/*
+build/*
+out/*
+
+# compiler output
+bin/
+
+# Files
+**/*.pdf
+**/privateKey.pem
+**/publicKey.pem
+**/development.json
+**/sandbox.json
+**/snippet.java
