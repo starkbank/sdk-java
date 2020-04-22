@@ -339,7 +339,7 @@ public class Event extends Resource {
     private static PublicKey getStarkBankPublicKey(Project user) throws Exception {
         HashMap<String, Object> query = new HashMap<>();
         query.put("limit", "1");
-        String content = Response.fetchNew(
+        String content = Response.fetch(
                 "/public-key",
                 "GET",
                 null,

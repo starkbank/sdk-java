@@ -34,7 +34,7 @@ public final class Response {
         this.content = content;
     }
 
-    public static Response fetchNew(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
+    public static Response fetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
         HttpResponse response = prepareFetchNew(path, method, payload, query, user);
         int status = response.getStatusLine().getStatusCode();
         Reader streamReader;
