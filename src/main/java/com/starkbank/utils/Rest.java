@@ -34,10 +34,9 @@ public final class Rest {
     }
 
     public static <T extends Resource> T patch(Resource.ClassData resource, String id, HashMap<String, Object> data, Project user) throws Exception {
-        JsonObject payload = new JsonObject();
-        payload.add(Api.getLastNamePlural(resource), new Gson().toJsonTree(data));
+        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
         System.out.println(payload.toString());
-        String content = Response.fetch(Api.endpoint(resource, id), "patch", payload, null, user).content;
+        String content = Response.fetch(Api.endpoint(resource, id), "PATCH", payload, null, user).content;
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")

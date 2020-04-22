@@ -774,34 +774,33 @@ the event.
 
 ```java
 import com.starkbank.*;
-const express = require('express')
-const app = express()
+try {
+    Request request = Listener.listen(); // this is the method you made to get the events posted to your webhook
 
-app.use(express.json())
-const port = 3000
-app.post('/', async (req, res) => {
-    try {
-        let event = await starkbank.event.parse({
-            content: request.body,
-            signature: request.headers["Digital-Signature"]
-        });
-        if (event.subscription === "transfer") {
-            console.log(event.log.transfer);
-        } else if (event.subscription === "boleto") {
-            console.log(event.log.boleto);
-        } else if (event.subscription === "boleto-payment") {
-            console.log(event.log.payment);
-        } else if (event.subscription === "utility-payment") {
-            console.log(event.log.payment);
-        }
-        res.end()
+    String content = request.content.toString();
+    String signature = request.headers.get("Digital-Signature");
+
+    Event event = Event.parse(content, signature);
+    if (event.subscription == “transfer”) {
+        Transfer.Log log = (Transfer.Log) event.log;
+        Console.WriteLine(log.transfer);
     }
-    catch (err) {
-        console.log(err)
-        res.status(400).end()
+    else if (event.subscription == “boleto”) {
+        Boleto.Log log = event.Log as StarkBank.Boleto.Log;
+        Console.WriteLine(log.boleto);
     }
-})
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+    else if (event.subscription == “boleto-payment”) {
+        BoletoPayment.Log log = (BoletoPayment.Log) event.log;
+        Console.WriteLine(log.payment);
+    }
+    else if (event.subscription == “utility-payment”) {
+        UtilityPayment.Log log = (UtilityPayment.Log) event.log;
+        Console.WriteLine(log.payment);
+    }
+}
+catch (Error e) {
+    System.out.println(e);
+}
 ```
 
 ### Query webhook events
