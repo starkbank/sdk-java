@@ -181,7 +181,9 @@ you have in other banks.
 
 ```java
 import com.starkbank.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 List<Boleto> boletos = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -194,7 +196,7 @@ data.put("district", "Itaim Bibi");
 data.put("city", "São Paulo");
 data.put("stateCode", "SP");
 data.put("zipCode", "01500-000");
-data.put("due", "2020-04-20");
+data.put("due", "2021-04-20");
 data.put("fine", 2.5);
 data.put("interest", 1.3);
 data.put("overdueLimit", 5);
@@ -214,6 +216,7 @@ You can get a list of created boletos given some filters.
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
@@ -249,12 +252,12 @@ import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
 import com.starkbank.*;
 
-InputStream pdf = Boleto.pdf("5915632394567680", project);
+InputStream pdf = Boleto.pdf("5915632394567680");
 
 java.nio.file.Files.copy(
-        pdf,
-        new File("boleto.pdf").toPath(),
-        StandardCopyOption.REPLACE_EXISTING
+    pdf,
+    new File("boleto.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
 );
 ```
 
@@ -281,6 +284,7 @@ Logs are pretty important to understand the life cycle of a boleto.
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
@@ -311,7 +315,9 @@ You can also create transfers in the SDK (TED/DOC).
 
 ```java
 import com.starkbank.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 List<Transfer> transfers = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -371,12 +377,12 @@ import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
 import com.starkbank.*;
 
-InputStream pdf = Transfer.pdf("6266195376340992", project);
+InputStream pdf = Transfer.pdf("6266195376340992");
 
 java.nio.file.Files.copy(
-        pdf,
-        new File("transfer.pdf").toPath(),
-        StandardCopyOption.REPLACE_EXISTING
+    pdf,
+    new File("transfer.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
 );
 ```
 
@@ -390,6 +396,7 @@ You can query transfer logs to better understand transfer life cycles.
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
@@ -420,7 +427,9 @@ Paying boletos is also simple.
 
 ```java
 import com.starkbank.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 List<BoletoPayment> payments = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -444,6 +453,7 @@ You can search for boleto payments using filters.
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
@@ -478,12 +488,12 @@ import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
 import com.starkbank.*;
 
-InputStream pdf = BoletoPayment.pdf("6311252829667328", project);
+InputStream pdf = BoletoPayment.pdf("6311252829667328");
 
 java.nio.file.Files.copy(
-        pdf,
-        new File("boleto-payment.pdf").toPath(),
-        StandardCopyOption.REPLACE_EXISTING
+    pdf,
+    new File("boleto-payment.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
 );
 ```
 
@@ -510,6 +520,7 @@ Searches are also possible with boleto payment logs:
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
@@ -540,7 +551,9 @@ Its also simple to pay utility bills (such electricity and water bills) in the S
 
 ```java
 import com.starkbank.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 List<UtilityPayment> payments = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -563,6 +576,7 @@ To search for utility payments using filters, run:
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
@@ -597,12 +611,12 @@ import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
 import com.starkbank.*;
 
-InputStream pdf = UtilityPayment.pdf("6565645839761408", project);
+InputStream pdf = UtilityPayment.pdf("6565645839761408");
 
 java.nio.file.Files.copy(
-        pdf,
-        new File("utility-payment.pdf").toPath(),
-        StandardCopyOption.REPLACE_EXISTING
+    pdf,
+    new File("utility-payment.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
 );
 ```
 
@@ -630,6 +644,7 @@ bills life cycles.
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
@@ -659,7 +674,9 @@ To send money between Stark Bank accounts, you can create transactions:
 
 ```java
 import com.starkbank.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 List<Transaction> transactions = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -686,6 +703,7 @@ you receive boleto payments, pay a bill or make transfers, for example.
 ```java
 import com.starkbank.*;
 import java.util.HashMap;
+import com.starkbank.utils.Generator;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
@@ -731,6 +749,7 @@ To search for registered webhooks, run:
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 
 Generator<Webhook> webhooks = Webhook.query();
 
@@ -778,21 +797,21 @@ String content = request.content.toString();
 String signature = request.headers.get("Digital-Signature");
 
 Event event = Event.parse(content, signature);
-if (event.subscription == “transfer”) {
-    Transfer.Log log = (Transfer.Log) event.log;
-    Console.WriteLine(log.transfer);
+if (event.subscription.equals("transfer")) {
+    Transfer.Log log = ((Event.TransferEvent) event).log;
+    System.out.println(log.transfer);
 }
-else if (event.subscription == “boleto”) {
-    Boleto.Log log = event.Log as StarkBank.Boleto.Log;
-    Console.WriteLine(log.boleto);
+else if (event.subscription.equals("boleto")) {
+    Boleto.Log log = ((Event.BoletoEvent) event).log;
+    System.out.println(log.boleto);
 }
-else if (event.subscription == “boleto-payment”) {
-    BoletoPayment.Log log = (BoletoPayment.Log) event.log;
-    Console.WriteLine(log.payment);
+else if (event.subscription.equals("boleto-payment")) {
+    BoletoPayment.Log log = ((Event.BoletoPaymentEvent) event).log;
+    System.out.println(log.payment);
 }
-else if (event.subscription == “utility-payment”) {
-    UtilityPayment.Log log = (UtilityPayment.Log) event.log;
-    Console.WriteLine(log.payment);
+else if (event.subscription.equals("utility-payment")) {
+    UtilityPayment.Log log = ((Event.UtilityPaymentEvent) event).log;
+    System.out.println(log.payment);
 }
 ```
 
@@ -802,6 +821,7 @@ To search for webhooks events, run:
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
@@ -850,11 +870,10 @@ import com.starkbank.*;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
-params.put("id", "5824181711142912");
 params.put("isDelivered", true);
-Event event = Event.update(params);
+Event event = Event.update("5824181711142912", params);
 
-System.out.println(eventObject);
+System.out.println(event);
 ```
 
 ## Handling errors
@@ -864,15 +883,20 @@ The SDK may raise one of four types of errors: __InputErrors__, __InternalServer
 __InputErrors__ will be raised whenever the API detects an error in your request (status code 400).
 If you catch such an error, you can get its elements to verify each of the
 individual errors that were detected in your request by the API.
+
 For example:
 
 ```java
 import com.starkbank.*;
+import com.starkbank.error.InputErrors;
+import com.starkbank.error.ErrorElement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 List<Transaction> transactions = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
-data.put("amount", 10000);
+data.put("amount", -200);
 data.put("receiverId", "5651751147405412");
 data.put("description", ".");
 data.put("externalId", "repeated_id");
@@ -880,11 +904,13 @@ data.put("tags", new String[]{"Error", "Example"});
 transactions.add(new Transaction(data));
 
 try {
-    transactions = Transaction.create(transactions);
-} catch (Exception e) {
-    throw new Exception("Error creating transaction");
+    Transaction.create(transactions);
+} catch (InputErrors e) {
+    for (ErrorElement error : e.errors){
+        System.out.println(error.code);
+        System.out.println(error.message);
+    }
 }
-return key;
 ```
 
 __InternalServerError__ will be raised if the API runs into an internal error.
