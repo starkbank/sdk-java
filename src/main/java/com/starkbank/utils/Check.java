@@ -5,7 +5,7 @@ import com.starkbank.ellipticcurve.PrivateKey;
 import java.util.Arrays;
 
 
-public class Check {
+public final class Check {
     public static String key(String key) throws Exception {
         try {
             PrivateKey privateKey = PrivateKey.fromPem(key);

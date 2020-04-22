@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class Boleto extends Resource {
+public final class Boleto extends Resource {
     /**
      * Boleto object
      * <p>
@@ -283,6 +283,21 @@ public class Boleto extends Resource {
      * <p>
      * Parameters:
      * id [string]: object unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * Boleto pdf file
+     */
+    public static InputStream pdf(String id) throws Exception {
+        return Boleto.pdf(id, null);
+    }
+
+    /**
+     * Retrieve a specific Boleto pdf file
+     * <p>
+     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
+     * <p>
+     * Parameters:
+     * id [string]: object unique id. ex: "5656565656565656"
      * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
      * Return:
@@ -293,18 +308,18 @@ public class Boleto extends Resource {
     }
 
     /**
-     * Retrieve a specific Boleto pdf file
+     * Delete a Boleto entity
      * <p>
-     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
+     * Delete a Boleto entity previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * id [string]: object unique id. ex: "5656565656565656"
+     * id [string]: Boleto unique id. ex: "5656565656565656"
      * <p>
      * Return:
-     * Boleto pdf file
+     * deleted Boleto with updated attributes
      */
-    public static InputStream pdf(String id) throws Exception {
-        return Rest.getPdf(data, id, null);
+    public static Boleto delete(String id) throws Exception {
+        return Boleto.delete(id, null);
     }
 
     /**
@@ -323,22 +338,7 @@ public class Boleto extends Resource {
         return Rest.delete(data, id, user);
     }
 
-    /**
-     * Delete a Boleto entity
-     * <p>
-     * Delete a Boleto entity previously created in the Stark Bank API
-     * <p>
-     * Parameters:
-     * id [string]: Boleto unique id. ex: "5656565656565656"
-     * <p>
-     * Return:
-     * deleted Boleto with updated attributes
-     */
-    public static Boleto delete(String id) throws Exception {
-        return Rest.delete(data, id, null);
-    }
-
-    public static class Log extends Resource {
+    public final static class Log extends Resource {
         static ClassData data = new ClassData(Log.class, "BoletoLog");
 
         public String created;
@@ -376,6 +376,21 @@ public class Boleto extends Resource {
          * <p>
          * Parameters:
          * id [string]: object unique id. ex: "5656565656565656"
+         * <p>
+         * Return:
+         * Boleto Log object with updated attributes
+         */
+        public static Log get(String id) throws Exception {
+            return Log.get(id, null);
+        }
+
+        /**
+         * Retrieve a specific Boleto Log
+         * <p>
+         * Receive a single Boleto Log object previously created by the Stark Bank API by passing its id
+         * <p>
+         * Parameters:
+         * id [string]: object unique id. ex: "5656565656565656"
          * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
          * <p>
          * Return:
@@ -386,18 +401,49 @@ public class Boleto extends Resource {
         }
 
         /**
-         * Retrieve a specific Boleto Log
+         * Retrieve Boleto Logs
          * <p>
-         * Receive a single Boleto Log object previously created by the Stark Bank API by passing its id
+         * Receive a generator of Boleto Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * id [string]: object unique id. ex: "5656565656565656"
+         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
+         * boletoIds [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
          * <p>
          * Return:
-         * Boleto Log object with updated attributes
+         * list of Boleto Log objects with updated attributes
          */
-        public static Log get(String id) throws Exception {
-            return Rest.getId(data, id, null);
+        public static Generator<Log> query(HashMap<String, Object> params) throws Exception {
+            return Log.query(params, null);
+        }
+
+        /**
+         * Retrieve Boleto Logs
+         * <p>
+         * Receive a generator of Boleto Log objects previously created in the Stark Bank API
+         * <p>
+         * Parameters:
+         * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
+         * <p>
+         * Return:
+         * list of Boleto Log objects with updated attributes
+         */
+        public static Generator<Log> query(Project user) throws Exception {
+            return Log.query(new HashMap<>(), user);
+        }
+
+        /**
+         * Retrieve Boleto Logs
+         * <p>
+         * Receive a generator of Boleto Log objects previously created in the Stark Bank API
+         * <p>
+         * Return:
+         * list of Boleto Log objects with updated attributes
+         */
+        public static Generator<Log> query() throws Exception {
+            return Log.query(new HashMap<>(), null);
         }
 
         /**
@@ -418,40 +464,6 @@ public class Boleto extends Resource {
          */
         public static Generator<Log> query(HashMap<String, Object> params, Project user) throws Exception {
             return Rest.getList(data, params, user);
-        }
-
-        /**
-         * Retrieve Boleto Logs
-         * <p>
-         * Receive a generator of Boleto Log objects previously created in the Stark Bank API
-         * <p>
-         * Parameters:
-         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-         * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
-         * types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
-         * boletoIds [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-         * <p>
-         * Return:
-         * list of Boleto Log objects with updated attributes
-         */
-        public static Generator<Log> query(HashMap<String, Object> params) throws Exception {
-            return Rest.getList(data, params, null);
-        }
-
-        /**
-         * Retrieve Boleto Logs
-         * <p>
-         * Receive a generator of Boleto Log objects previously created in the Stark Bank API
-         * <p>
-         * Parameters:
-         * user [Project object, default null]: Project object. Not necessary if starkbank.user was set before function call
-         * <p>
-         * Return:
-         * list of Boleto Log objects with updated attributes
-         */
-        public static Generator<Log> query(Project user) throws Exception {
-            return Rest.getList(data, new HashMap<>(), user);
         }
     }
 }

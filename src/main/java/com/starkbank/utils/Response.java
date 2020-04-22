@@ -16,7 +16,7 @@ import java.time.Instant;
 import java.util.HashMap;
 
 
-public class Response {
+public final class Response {
 
     public int status;
     public String content;

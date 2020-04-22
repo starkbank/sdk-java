@@ -38,7 +38,7 @@ public class TestBoleto {
     }
 
     @Test
-    public void testGetAndGetInfoAncPdf() throws Exception {
+    public void testGetAndGetInfoAndPdf() throws Exception {
         User.defaultUser = utils.User.defaultProject();
 
         HashMap<String, Object> params = new HashMap<>();
@@ -52,7 +52,7 @@ public class TestBoleto {
             i += 1;
             boleto = Boleto.get(boleto.id);
             System.out.println(boleto);
-            Assert.assertNotNull(Boleto.pdf(boleto.id));
+            Assert.assertNotNull(Boleto.pdf(boleto.id)); // TODO: write pdf file
         }
         System.out.println(i);
     }

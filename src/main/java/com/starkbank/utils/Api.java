@@ -1,7 +1,7 @@
 package com.starkbank.utils;
 
 
-class Api {
+final class Api {
     static String endpoint(Resource.ClassData resource){
         return "/" + Case.camelToKebab(resource.name).replace("-log", "/log");
     }

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class Rest {
+public final class Rest {
     public static <T extends Resource> T getId(Resource.ClassData resource, String id, Project user) throws Exception {
         String content = Response.fetch(Api.endpoint(resource, id), "GET", null, null, user).content;
         JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);

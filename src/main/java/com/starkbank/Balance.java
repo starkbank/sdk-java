@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class Balance extends Resource {
+public final class Balance extends Resource {
     static ClassData data = new ClassData(Balance.class, "Balance");
 
     public int amount;

@@ -1,6 +1,6 @@
 package com.starkbank.utils;
 
-public class Case {
+final class Case {
     public static String camelToKebab(String text) {
         if (text == null) {
             return null;

@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputErrors extends Error {
+public final class InputErrors extends Error {
     public List<ErrorElement> errors;
 
     public InputErrors(String content) {
