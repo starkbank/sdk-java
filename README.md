@@ -774,32 +774,28 @@ the event.
 
 ```java
 import com.starkbank.*;
-try {
-    Request request = Listener.listen(); // this is the method you made to get the events posted to your webhook
 
-    String content = request.content.toString();
-    String signature = request.headers.get("Digital-Signature");
+Request request = Listener.listen(); // this is the method you made to get the events posted to your webhook
 
-    Event event = Event.parse(content, signature);
-    if (event.subscription == “transfer”) {
-        Transfer.Log log = (Transfer.Log) event.log;
-        Console.WriteLine(log.transfer);
-    }
-    else if (event.subscription == “boleto”) {
-        Boleto.Log log = event.Log as StarkBank.Boleto.Log;
-        Console.WriteLine(log.boleto);
-    }
-    else if (event.subscription == “boleto-payment”) {
-        BoletoPayment.Log log = (BoletoPayment.Log) event.log;
-        Console.WriteLine(log.payment);
-    }
-    else if (event.subscription == “utility-payment”) {
-        UtilityPayment.Log log = (UtilityPayment.Log) event.log;
-        Console.WriteLine(log.payment);
-    }
+String content = request.content.toString();
+String signature = request.headers.get("Digital-Signature");
+
+Event event = Event.parse(content, signature);
+if (event.subscription == “transfer”) {
+    Transfer.Log log = (Transfer.Log) event.log;
+    Console.WriteLine(log.transfer);
 }
-catch (Error e) {
-    System.out.println(e);
+else if (event.subscription == “boleto”) {
+    Boleto.Log log = event.Log as StarkBank.Boleto.Log;
+    Console.WriteLine(log.boleto);
+}
+else if (event.subscription == “boleto-payment”) {
+    BoletoPayment.Log log = (BoletoPayment.Log) event.log;
+    Console.WriteLine(log.payment);
+}
+else if (event.subscription == “utility-payment”) {
+    UtilityPayment.Log log = (UtilityPayment.Log) event.log;
+    Console.WriteLine(log.payment);
 }
 ```
 
