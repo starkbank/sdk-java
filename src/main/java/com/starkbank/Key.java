@@ -1,7 +1,6 @@
 package com.starkbank;
 
 import com.starkbank.ellipticcurve.PrivateKey;
-import com.starkbank.ellipticcurve.PublicKey;
 
 import java.io.File;
 import java.io.FileNotFoundException;

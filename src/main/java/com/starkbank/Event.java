@@ -284,13 +284,12 @@ public class Event extends Resource {
      * <p>
      * Parameters:
      * id [string]: Event unique id. ex: "5656565656565656"
-     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
      * Return:
      * deleted Event with updated attributes
      */
-    public static Event delete(String id, Project user) throws Exception {
-        return Rest.delete(data, id, user);
+    public static Event delete(String id) throws Exception {
+        return Event.delete(id, null);
     }
 
     /**
@@ -300,11 +299,12 @@ public class Event extends Resource {
      * <p>
      * Parameters:
      * id [string]: Event unique id. ex: "5656565656565656"
+     * user [Project object]: Project object. Not necessary if starkbank.user was set before function call
      * <p>
      * Return:
      * deleted Event with updated attributes
      */
-    public static Event delete(String id) throws Exception {
-        return Rest.delete(data, id, null);
+    public static Event delete(String id, Project user) throws Exception {
+        return Rest.delete(data, id, user);
     }
 }

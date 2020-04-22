@@ -63,17 +63,22 @@ You can use one of following methods:
 ```java
 import com.starkbank.*;
 
-Key key = Key.create("/sample/destination/path");
+Key key = Key.create();
 
 String privatePem = key.privatePem;
 String publicPem = key.publicPem;
 
 System.out.print(privatePem);
 System.out.print(publicPem);
-let [privateKey, publicKey] = starkbank.key.create()
 
 // or, to also save .pem files in a specific path
-let [privateKey, publicKey] = starkbank.key.create("file/keys/")
+Key key = Key.create("/file/keys/");
+
+String privatePem = key.privatePem;
+String publicPem = key.publicPem;
+
+System.out.print(privatePem);
+System.out.print(publicPem);
 ```
 
 ### 3. Create a Project
