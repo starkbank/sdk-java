@@ -246,6 +246,21 @@ public final class Boleto extends Resource {
     }
 
     /**
+     * Retrieve Boletos
+     * <p>
+     * Receive a generator of Boleto objects previously created in the Stark Bank API
+     * <p>
+     * Parameters:
+     * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * generator of Boleto objects with updated attributes
+     */
+    public static Generator<Boleto> query() throws Exception {
+        return Rest.getList(data, new HashMap<>(), null);
+    }
+
+    /**
      * Create Boletos
      * <p>
      * Send a list of Boleto objects for creation in the Stark Bank API
