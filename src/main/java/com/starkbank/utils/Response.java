@@ -88,7 +88,7 @@ public final class Response {
         }
         String urlString = host(user, "v2") + path;
         if (query != null) {
-            urlString += queryBuild(query);
+            urlString += Url.encode(query);
         }
         String accessTime = String.valueOf(Math.round(Instant.now().getEpochSecond()));
 
@@ -115,14 +115,13 @@ public final class Response {
         return connection;
     }
 
-
     private static HttpResponse prepareFetchNew(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws IOException {
         if (user == null) {
             user = User.defaultUser;
         }
         String urlString = host(user, "v2") + path;
         if (query != null) {
-            urlString += queryBuild(query);
+            urlString += Url.encode(query);
         }
         String accessTime = String.valueOf(Math.round(Instant.now().getEpochSecond()));
 
@@ -151,20 +150,6 @@ public final class Response {
         HttpUriRequest request = requestBuilder.build();
         System.out.println(Arrays.toString(request.getAllHeaders()));
         return client.execute(request);
-    }
-
-    private static StringBuilder queryBuild(HashMap<String, Object> query){
-        StringBuilder queryString = new StringBuilder();
-        String separator = "?";
-        for (HashMap.Entry<String, Object> entry : query.entrySet()) {
-            String key = entry.getKey();
-            String value = String.valueOf(entry.getValue());
-            if (value != null) {
-                queryString.append(separator).append(key).append("=").append(value);
-                separator = "&";
-            }
-        }
-        return queryString;
     }
 
     private static String host(Project user, String version){
