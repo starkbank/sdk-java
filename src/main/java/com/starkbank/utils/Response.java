@@ -48,7 +48,6 @@ public final class Response {
             content.append(inputLine);
         }
         in.close();
-        System.out.println(content.toString());
         if (status >= 500) {
             throw new InternalServerError(content.toString());
         }
@@ -93,7 +92,6 @@ public final class Response {
             String body = payload.toString();
             message += body;
         }
-        System.out.println(message);
         Signature signature = Ecdsa.sign(message, user.privateKey());
         RequestBuilder requestBuilder = RequestBuilder.create(method)
                 .setUri(urlString)
@@ -111,7 +109,6 @@ public final class Response {
 
         HttpClient client = HttpClients.custom().build();
         HttpUriRequest request = requestBuilder.build();
-        System.out.println(Arrays.toString(request.getAllHeaders()));
         return client.execute(request);
     }
 
