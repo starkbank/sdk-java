@@ -184,6 +184,7 @@ you have in other banks.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 List<Boleto> boletos = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -216,6 +217,7 @@ You can get a list of created boletos given some filters.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
@@ -282,6 +284,7 @@ Logs are pretty important to understand the life cycle of a boleto.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
@@ -311,6 +314,7 @@ You can also create transfers in the SDK (TED/DOC).
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 List<Transfer> transfers = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -336,6 +340,7 @@ You can query multiple transfers according to filters.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
@@ -388,6 +393,7 @@ You can query transfer logs to better understand transfer life cycles.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
@@ -417,6 +423,7 @@ Paying boletos is also simple.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 List<BoletoPayment> payments = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -440,6 +447,7 @@ You can search for boleto payments using filters.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
@@ -505,6 +513,7 @@ Searches are also possible with boleto payment logs:
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("paymentIds", "4785987200745472");
@@ -534,6 +543,7 @@ Its also simple to pay utility bills (such electricity and water bills) in the S
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 List<UtilityPayment> payments = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -556,6 +566,7 @@ To search for utility payments using filters, run:
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
@@ -622,6 +633,7 @@ bills life cycles.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("paymentIds", "6683343345156096");
@@ -650,6 +662,7 @@ To send money between Stark Bank accounts, you can create transactions:
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 List<Transaction> transactions = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
@@ -675,6 +688,7 @@ you receive boleto payments, pay a bill or make transfers, for example.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
@@ -704,6 +718,7 @@ To create a webhook subscription and be notified whenever an event occurs, run:
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> data = new HashMap<>();
 data.put("url", "https://winterfell.westeros.gov/events-from-stark-bank");
@@ -795,6 +810,7 @@ To search for webhooks events, run:
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("isDelivered", false);
@@ -839,6 +855,7 @@ With this function, you can manually set events retrieved from the API as
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("id", "5824181711142912");
@@ -859,6 +876,7 @@ For example:
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 List<Transaction> transactions = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
