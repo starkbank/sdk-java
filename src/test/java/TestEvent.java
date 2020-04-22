@@ -11,10 +11,10 @@ import java.util.HashMap;
 public class TestEvent {
 
     @Test
-    public void testEventGet() throws Exception{
+    public void testEventQuery() throws Exception{
         User.defaultUser = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
-        params.put("limit", 1);
+        params.put("limit", 5);
         params.put("after", "2019-04-01");
         params.put("before", "2030-04-30");
         Generator<Event> events = Event.query(params);
@@ -22,13 +22,14 @@ public class TestEvent {
         int i = 0;
         for (Event event : events) {
             i += 1;
-            System.out.println(event.subscription);
+            Assert.assertNotNull(event.id);
+            System.out.println(event);
         }
         Assert.assertTrue(i > 0);
     }
 
     @Test
-    public void testEventUpdate() throws Exception{
+    public void testEventQueryAndUpdate() throws Exception{
         User.defaultUser = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 1);
@@ -41,6 +42,7 @@ public class TestEvent {
         for (Event event : events) {
             System.out.println(event);
             i += 1;
+            Assert.assertFalse(event.isDelivered);
             event = Event.update(event.id, data);
             Assert.assertTrue(event.isDelivered);
         }
@@ -48,7 +50,7 @@ public class TestEvent {
     }
 
     @Test
-    public void testEventDelete() throws Exception{
+    public void testEventQueryAndDelete() throws Exception{
         User.defaultUser = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 1);
@@ -69,7 +71,7 @@ public class TestEvent {
     }
 
     @Test
-    public void testFakeEventParse() throws Exception{
+    public void testEventParseInvalidSignature() throws Exception{
         String content = "{\"event\": {\"log\": {\"transfer\": {\"status\": \"processing\", \"updated\": \"2020-04-03T13:20:33.485644+00:00\", \"fee\": 160, \"name\": \"Lawrence James\", \"accountNumber\": \"10000-0\", \"id\": \"5107489032896512\", \"tags\": [], \"taxId\": \"91.642.017/0001-06\", \"created\": \"2020-04-03T13:20:32.530367+00:00\", \"amount\": 2, \"transactionIds\": [\"6547649079541760\"], \"bankCode\": \"01\", \"branchCode\": \"0001\"}, \"errors\": [], \"type\": \"sending\", \"id\": \"5648419829841920\", \"created\": \"2020-04-03T13:20:33.164373+00:00\"}, \"subscription\": \"transfer\", \"id\": \"6234355449987072\", \"created\": \"2020-04-03T13:20:40.784479+00:00\"}}";
         String invalid_signature = "MEUCIQDOpo1j+V40DNZK2URL2786UQK/8mDXon9ayEd8U0/l7AIgYXtIZJBTs8zCRR3vmted6Ehz/qfw1GRut/eYyvf1yOk=";
 
@@ -83,7 +85,7 @@ public class TestEvent {
     }
 
     @Test
-    public void testMalformedEventParse() throws Exception{
+    public void testEventParseMalformedSignature() throws Exception{
         String content = "{\"event\": {\"log\": {\"transfer\": {\"status\": \"processing\", \"updated\": \"2020-04-03T13:20:33.485644+00:00\", \"fee\": 160, \"name\": \"Lawrence James\", \"accountNumber\": \"10000-0\", \"id\": \"5107489032896512\", \"tags\": [], \"taxId\": \"91.642.017/0001-06\", \"created\": \"2020-04-03T13:20:32.530367+00:00\", \"amount\": 2, \"transactionIds\": [\"6547649079541760\"], \"bankCode\": \"01\", \"branchCode\": \"0001\"}, \"errors\": [], \"type\": \"sending\", \"id\": \"5648419829841920\", \"created\": \"2020-04-03T13:20:33.164373+00:00\"}, \"subscription\": \"transfer\", \"id\": \"6234355449987072\", \"created\": \"2020-04-03T13:20:40.784479+00:00\"}}";
         String malformed_signature = "something is definitely wrong";
 

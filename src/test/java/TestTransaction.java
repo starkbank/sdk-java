@@ -1,6 +1,7 @@
 import com.starkbank.*;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
+import org.junit.Assert;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -10,11 +11,11 @@ import java.util.List;
 public class TestTransaction {
 
     @Test
-    public void testPost() throws Exception {
+    public void testCreate() throws Exception {
         User.defaultUser = utils.User.defaultProject();
         List<Transaction> transactions = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
-        data.put("amount", 10000);
+        data.put("amount", 1);
         data.put("description", "A Lannister always pays his debts");
         data.put("externalId", String.valueOf(Instant.now().getEpochSecond()));
         data.put("receiverId", "5768064935133184");
@@ -24,12 +25,13 @@ public class TestTransaction {
         transactions = Transaction.create(transactions);
 
         for (Transaction transaction : transactions) {
+            Assert.assertNotNull(transaction.id);
             System.out.println(transaction);
         }
     }
 
     @Test
-    public void testGet() throws Exception {
+    public void testQuery() throws Exception {
         User.defaultUser = utils.User.defaultProject();
 
         HashMap<String, Object> params = new HashMap<>();
@@ -42,6 +44,7 @@ public class TestTransaction {
         for (Transaction transaction : transactions) {
             i += 1;
             transaction = Transaction.get(transaction.id);
+            Assert.assertNotNull(transaction.id);
             System.out.println(transaction);
         }
         System.out.println(i);

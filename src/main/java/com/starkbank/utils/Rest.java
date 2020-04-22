@@ -35,7 +35,6 @@ public final class Rest {
 
     public static <T extends Resource> T patch(Resource.ClassData resource, String id, HashMap<String, Object> data, Project user) throws Exception {
         JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
-        System.out.println(payload.toString());
         String content = Response.fetch(Api.endpoint(resource, id), "PATCH", payload, null, user).content;
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())

@@ -14,7 +14,7 @@ import java.util.List;
 public class TestTransfer {
 
     @Test
-    public void testPost() throws Exception {
+    public void testCreate() throws Exception {
         User.defaultUser = utils.User.defaultProject();
         List<Transfer> transfers = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
@@ -30,12 +30,13 @@ public class TestTransfer {
         transfers = Transfer.create(transfers);
 
         for (Transfer transfer : transfers) {
+            Assert.assertNotNull(transfer.id);
             System.out.println(transfer);
         }
     }
 
     @Test
-    public void testGetAndGetInfoAndPdf() throws Exception {
+    public void testQueryGetAndPdf() throws Exception {
         User.defaultUser = utils.User.defaultProject();
 
         HashMap<String, Object> params = new HashMap<>();
@@ -53,16 +54,16 @@ public class TestTransfer {
             InputStream pdf = Transfer.pdf(transfer.id);
             Assert.assertNotNull(pdf);
             java.nio.file.Files.copy(
-                    pdf,
-                    new File("boleto.pdf").toPath(),
-                    StandardCopyOption.REPLACE_EXISTING
+                pdf,
+                new File("transfer.pdf").toPath(),
+                StandardCopyOption.REPLACE_EXISTING
             );
         }
         System.out.println(i);
     }
 
     @Test
-    public void testLogGet() throws Exception{
+    public void testLogQueryAndGet() throws Exception{
         User.defaultUser = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
@@ -74,7 +75,9 @@ public class TestTransfer {
         for (Transfer.Log log : logs) {
             i += 1;
             log = Transfer.Log.get(log.id);
-            System.out.println(log.transfer.id);
+            Assert.assertNotNull(log.id);
+            Assert.assertNotNull(log.transfer.id);
+            System.out.println(log);
         }
         Assert.assertTrue(i > 0);
     }

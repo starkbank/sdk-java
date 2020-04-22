@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class TestUtilityPayment {
 
     @Test
-    public void testPost() throws Exception {
+    public void testCreate() throws Exception {
         User.defaultUser = utils.User.defaultProject();
         List<UtilityPayment> payments = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
@@ -30,12 +30,13 @@ public class TestUtilityPayment {
         payments = UtilityPayment.create(payments);
 
         for (UtilityPayment payment : payments) {
+            Assert.assertNotNull(payment.id);
             System.out.println(payment);
         }
     }
 
     @Test
-    public void testGetAndGetInfoAndPdf() throws Exception {
+    public void testQueryGetAndPdf() throws Exception {
         User.defaultUser = utils.User.defaultProject();
 
         HashMap<String, Object> params = new HashMap<>();
@@ -54,7 +55,7 @@ public class TestUtilityPayment {
             Assert.assertNotNull(pdf);
             java.nio.file.Files.copy(
                     pdf,
-                    new File("boleto.pdf").toPath(),
+                    new File("utility-payment.pdf").toPath(),
                     StandardCopyOption.REPLACE_EXISTING
             );
         }
@@ -62,7 +63,7 @@ public class TestUtilityPayment {
     }
 
     @Test
-    public void testPostAndDelete() throws Exception {
+    public void testCreateAndDelete() throws Exception {
         User.defaultUser = utils.User.defaultProject();
         List<UtilityPayment> payments = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
@@ -77,12 +78,13 @@ public class TestUtilityPayment {
 
         for (UtilityPayment payment : payments) {
             payment = UtilityPayment.delete(payment.id);
+            Assert.assertNotNull(payment.id);
             System.out.println(payment);
         }
     }
 
     @Test
-    public void testLogGet() throws Exception {
+    public void testLogQueryAndGet() throws Exception {
         User.defaultUser = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
@@ -94,6 +96,8 @@ public class TestUtilityPayment {
         for (UtilityPayment.Log log : logs) {
             i += 1;
             log = UtilityPayment.Log.get(log.id);
+            Assert.assertNotNull(log.id);
+            Assert.assertNotNull(log.payment.id);
             System.out.println(log);
         }
         Assert.assertTrue(i > 0);
