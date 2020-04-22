@@ -1,24 +1,19 @@
 package com.starkbank.utils;
 
 import com.google.gson.JsonObject;
+import com.starkbank.Project;
 import com.starkbank.User;
 import com.starkbank.ellipticcurve.Ecdsa;
 import com.starkbank.ellipticcurve.Signature;
-import com.starkbank.Project;
 import com.starkbank.error.InputErrors;
 import com.starkbank.error.InternalServerError;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -37,32 +32,6 @@ public final class Response {
     public Response(int status, String content) {
         this.status = status;
         this.content = content;
-    }
-
-    public static Response fetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
-        HttpURLConnection connection = prepareFetch(path, method, payload, query, user);
-        int status = connection.getResponseCode();
-        Reader streamReader;
-        if (status >= 300) {
-            streamReader = new InputStreamReader(connection.getErrorStream());
-        } else {
-            streamReader = new InputStreamReader(connection.getInputStream());
-        }
-
-        BufferedReader in = new BufferedReader(streamReader);
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-        in.close();
-        if (status >= 500) {
-            throw new InternalServerError(content.toString());
-        }
-        if (status >= 300) {
-            throw new InputErrors(content.toString());
-        }
-        return new Response(status, content.toString());
     }
 
     public static Response fetchNew(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
@@ -113,7 +82,6 @@ public final class Response {
         }
         return streamReader;
     }
-
     private static HttpURLConnection prepareFetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
         if (user == null) {
             user = User.defaultUser;
@@ -130,7 +98,6 @@ public final class Response {
             message += body;
         }
         URL url = new URL(urlString);
-        Http.allowMethods("PATCH");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         Signature signature = Ecdsa.sign(message, user.privateKey());
         setHeaders(connection, user.accessId(), accessTime, signature.toBase64());
@@ -176,7 +143,7 @@ public final class Response {
 
         if (method.equals("POST") || method.equals("PATCH")){
             requestBuilder = requestBuilder
-                    .setEntity(new StringEntity(message, ContentType.APPLICATION_JSON))
+                    .setEntity(new StringEntity(payload.toString(), "UTF-8"))
                     .setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         }
 
