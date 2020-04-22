@@ -42,11 +42,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 ### 1. Install our SDK
 
-1.1 To install the package with npm, run:
-
-```sh
-compile "com.starkbank:sdk"
-```
+Manually install the desired SDK version with the JAR found in our
+[GitHub page](https://github.com/starkbank/sdk-java/releases/latest).
 
 ### 2. Create your Private and Public Keys
 
@@ -72,7 +69,7 @@ System.out.print(privatePem);
 System.out.print(publicPem);
 
 // or, to also save .pem files in a specific path
-Key key = Key.create("/file/keys/");
+Key key = Key.create("file/keys/");
 
 String privatePem = key.privatePem;
 String publicPem = key.publicPem;
@@ -111,7 +108,7 @@ Project project = new Project(
 
 NOTE 1: Never hard-code your private key. Get it from an environment variable or an encrypted database.
 
-NOTE 2: We support `'sandbox'` and `'production'` as environments.
+NOTE 2: We support `"sandbox"` and `"production"` as environments.
 
 NOTE 3: The project you created in `sandbox` does not exist in `production` and vice versa.
 
@@ -130,7 +127,7 @@ There are two ways to inform the user to the SDK:
 ```java
 import com.starkbank.*;
 
-Balance balance = new Balance.get(project);
+Balance balance = Balance.get(project);
 ```
 
 4.2 Set it as a default user in the SDK:
@@ -140,7 +137,7 @@ import com.starkbank.*;
 
 User.defaultUser = project;
 
-Balance balance = new Balance.get();
+Balance balance = Balance.get();
 ```
 
 Just select the way of passing the project user that is more convenient to you.
@@ -172,7 +169,7 @@ To know how much money you have in your workspace, run:
 ```java
 import com.starkbank.*;
 
-Balance balance = new Balance.get();
+Balance balance = Balance.get();
 
 System.out.println(balance);
 ```

@@ -81,9 +81,7 @@ public final class Response {
     }
 
     private static HttpResponse prepareFetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws IOException {
-        if (user == null) {
-            user = User.defaultUser;
-        }
+        user = Check.user(user);
         String urlString = host(user, "v2") + path;
         if (query != null) {
             urlString += Url.encode(query);
