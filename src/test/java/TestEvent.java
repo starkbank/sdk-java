@@ -68,6 +68,29 @@ public class TestEvent {
         User.defaultUser = utils.User.defaultProject();
         Event event = Event.parse(content, valid_signature);
         System.out.println(event);
+
+        switch (event.subscription) {
+            case "transfer": {
+                Transfer.Log log = ((Event.TransferEvent) event).log;
+                System.out.println(log.transfer);
+                break;
+            }
+            case "boleto": {
+                Boleto.Log log = ((Event.BoletoEvent) event).log;
+                System.out.println(log.boleto);
+                break;
+            }
+            case "boleto-payment": {
+                BoletoPayment.Log log = ((Event.BoletoPaymentEvent) event).log;
+                System.out.println(log.payment);
+                break;
+            }
+            case "utility-payment": {
+                UtilityPayment.Log log = ((Event.UtilityPaymentEvent) event).log;
+                System.out.println(log.payment);
+                break;
+            }
+        }
     }
 
     @Test

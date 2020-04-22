@@ -797,21 +797,27 @@ String content = request.content.toString();
 String signature = request.headers.get("Digital-Signature");
 
 Event event = Event.parse(content, signature);
-if (event.subscription.equals("transfer")) {
-    Transfer.Log log = ((Event.TransferEvent) event).log;
-    System.out.println(log.transfer);
-}
-else if (event.subscription.equals("boleto")) {
-    Boleto.Log log = ((Event.BoletoEvent) event).log;
-    System.out.println(log.boleto);
-}
-else if (event.subscription.equals("boleto-payment")) {
-    BoletoPayment.Log log = ((Event.BoletoPaymentEvent) event).log;
-    System.out.println(log.payment);
-}
-else if (event.subscription.equals("utility-payment")) {
-    UtilityPayment.Log log = ((Event.UtilityPaymentEvent) event).log;
-    System.out.println(log.payment);
+switch (event.subscription) {
+    case "transfer": {
+        Transfer.Log log = ((Event.TransferEvent) event).log;
+        System.out.println(log.transfer);
+        break;
+    }
+    case "boleto": {
+        Boleto.Log log = ((Event.BoletoEvent) event).log;
+        System.out.println(log.boleto);
+        break;
+    }
+    case "boleto-payment": {
+        BoletoPayment.Log log = ((Event.BoletoPaymentEvent) event).log;
+        System.out.println(log.payment);
+        break;
+    }
+    case "utility-payment": {
+        UtilityPayment.Log log = ((Event.UtilityPaymentEvent) event).log;
+        System.out.println(log.payment);
+        break;
+    }
 }
 ```
 
