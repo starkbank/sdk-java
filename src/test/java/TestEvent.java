@@ -27,6 +27,35 @@ public class TestEvent {
     }
 
     @Test
+    public void testEventUpdate() throws Exception{
+        User.defaultUser = utils.User.defaultProject();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 1);
+        Generator<Event> events = Event.query(params);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("isDelivered", true);
+
+        int i = 0;
+        for (Event event : events) {
+            System.out.println(event);
+            i += 1;
+            event = Event.update(event.id, data);
+        }
+        Assert.assertTrue(i > 0);
+    }
+
+    @Test
+    public void testEventDelete() throws Exception{
+        User.defaultUser = utils.User.defaultProject();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 1);
+        for (Event event : Event.query(params)) {
+            event = Event.delete(event.id);
+            System.out.println(event);
+        }
+    }
+
+    @Test
     public void testEventParse() throws Exception{
         String content = "{\"event\": {\"log\": {\"transfer\": {\"status\": \"processing\", \"updated\": \"2020-04-03T13:20:33.485644+00:00\", \"fee\": 160, \"name\": \"Lawrence James\", \"accountNumber\": \"10000-0\", \"id\": \"5107489032896512\", \"tags\": [], \"taxId\": \"91.642.017/0001-06\", \"created\": \"2020-04-03T13:20:32.530367+00:00\", \"amount\": 2, \"transactionIds\": [\"6547649079541760\"], \"bankCode\": \"01\", \"branchCode\": \"0001\"}, \"errors\": [], \"type\": \"sending\", \"id\": \"5648419829841920\", \"created\": \"2020-04-03T13:20:33.164373+00:00\"}, \"subscription\": \"transfer\", \"id\": \"6234355449987072\", \"created\": \"2020-04-03T13:20:40.784479+00:00\"}}";
         String valid_signature = "MEYCIQCmFCAn2Z+6qEHmf8paI08Ee5ZJ9+KvLWSS3ddp8+RF3AIhALlK7ltfRvMCXhjS7cy8SPlcSlpQtjBxmhN6ClFC0Tv6";

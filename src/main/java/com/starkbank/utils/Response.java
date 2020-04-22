@@ -97,6 +97,10 @@ public class Response {
         connection.setRequestMethod(method);
         if (method.equals("POST") || method.equals("PATCH")){
             connection.setDoOutput(true);
+            if (method.equals("PATCH")){
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+            }
             try (OutputStream out = connection.getOutputStream()) {
                 assert payload != null;
                 byte[] input = payload.toString().getBytes(StandardCharsets.UTF_8);

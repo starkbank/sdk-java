@@ -224,6 +224,14 @@ public class Event extends Resource {
         return Rest.getId(data, id, null);
     }
 
+    public static Event update(String id, HashMap<String, Object> patchData, Project user) throws Exception {
+        return Rest.patch(data, id, patchData, user);
+    }
+
+    public static Event update(String id, HashMap<String, Object> patchData) throws Exception {
+        return Event.update(id, patchData, null);
+    }
+
     /**
      * Retrieve notification Events
      * <p>

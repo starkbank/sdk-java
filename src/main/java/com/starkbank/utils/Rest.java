@@ -33,6 +33,20 @@ public class Rest {
         return postEntities;
     }
 
+    public static <T extends Resource> T patch(Resource.ClassData resource, String id, HashMap<String, Object> data, Project user) throws Exception {
+        JsonObject payload = new JsonObject();
+        payload.add(Api.getLastNamePlural(resource), new Gson().toJsonTree(data));
+        System.out.println(payload.toString());
+        String content = Response.fetch(Api.endpoint(resource, id), "patch", payload, null, user).content;
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Event.class, new Event.Deserializer())
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
+                .create();
+        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
+        JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
+        return gson.fromJson(jsonObject, (Type) resource.cls);
+    }
+
     public static <T extends Resource> Generator<T> getList(Resource.ClassData resource, HashMap<String, Object> params, Project user) {
         return new Generator<T>() {
             public void run() throws Exception {
