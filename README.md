@@ -42,8 +42,27 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 ### 1. Install our SDK
 
-Manually install the desired SDK version with the JAR found in our
-[GitHub page](https://github.com/starkbank/sdk-java/releases/latest).
+Manually download the desired SDK version with the JAR found in our
+[GitHub page](https://github.com/starkbank/sdk-java/releases/latest)
+and add it to your project.
+
+1.1 If you are using Gradle, add this line to your dependencies in build.gradle:
+
+```sh
+implementation files("lib/starkbank-0.1.0.jar")
+```
+
+1.2 If you are using Maven, add this dependency to your pom.xml:
+
+```xml
+<dependency>
+    <groupId>com.starkbank</groupId>
+    <artifactId>starkbank</artifactId>
+    <version>0.1.0</version>
+    <scope>system</scope>
+    <systemPath>${basedir}/lib/starkbank-0.1.0.jar</systemPath>
+</dependency>
+```
 
 ### 2. Create your Private and Public Keys
 
