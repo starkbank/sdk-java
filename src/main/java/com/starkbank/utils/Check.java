@@ -3,14 +3,13 @@ package com.starkbank.utils;
 import com.starkbank.ellipticcurve.PrivateKey;
 
 import java.util.Arrays;
-import java.util.List;
 
 
 public class Check {
     public static String key(String key) throws Exception {
         try {
             PrivateKey privateKey = PrivateKey.fromPem(key);
-            if (privateKey.curve.name != "secp256k1") {
+            if (!privateKey.curve.name.equals("secp256k1")) {
                 throw new Exception();
             }
         } catch (Exception e) {
@@ -21,8 +20,7 @@ public class Check {
 
     public static String environment(String environment) throws Exception {
         String[] validEnvironments = {"sandbox", "production"};
-        List<String> list = Arrays.asList(validEnvironments);
-        if (list.contains(environment)){
+        if (Arrays.asList(validEnvironments).contains(environment)){
             return environment;
         }
         throw new Exception(

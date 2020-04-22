@@ -148,8 +148,7 @@ public class Event extends Resource {
                 "GET",
                 null,
                 query,
-                user,
-                "v2"
+                user
         ).content;
         JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
         JsonArray publicKeys = contentJson.get("publicKeys").getAsJsonArray();

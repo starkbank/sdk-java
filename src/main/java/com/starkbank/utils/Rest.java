@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Rest {
     public static <T extends Resource> T getId(Resource.ClassData resource, String id, Project user) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource, id), "GET", null, null, user, "v2").content;
+        String content = Response.fetch(Api.endpoint(resource, id), "GET", null, null, user).content;
         JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
         JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
         return new Gson().fromJson(jsonObject, (Type) resource.cls);
@@ -22,7 +22,7 @@ public class Rest {
     public static <T extends Resource> List<T> post(Resource.ClassData resource, List<T> entities, Project user) throws Exception {
         JsonObject payload = new JsonObject();
         payload.add(Api.getLastNamePlural(resource), new Gson().toJsonTree(entities).getAsJsonArray());
-        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user, "v2").content;
+        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content;
         JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
         List<T> postEntities = new ArrayList<>();
         JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
@@ -44,7 +44,7 @@ public class Rest {
                     params.put("limit", limit > 100 ? "100" : limit.toString());
                     limit -= 100;
                 };
-                String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user, "v2").content;
+                String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user).content;
                 Gson gson = new GsonBuilder()
                         .registerTypeAdapter(Event.class, new Event.Deserializer())
                         .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
@@ -63,11 +63,11 @@ public class Rest {
     }
 
     public static InputStream getPdf(Resource.ClassData resource, String id, Project user) throws Exception {
-        return Response.fetchStream(Api.endpoint(resource, id) + "/pdf", "GET", null, null, user, "v2");
+        return Response.fetchStream(Api.endpoint(resource, id) + "/pdf", "GET", null, null, user);
     }
 
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, Project user) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource, id), "DELETE", null, null, user, "v2").content;
+        String content = Response.fetch(Api.endpoint(resource, id), "DELETE", null, null, user).content;
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
@@ -79,7 +79,7 @@ public class Rest {
 
     public static <T extends Resource> T postSingle(Resource.ClassData resource, Resource entity, Project user) throws Exception {
         JsonObject payload = (JsonObject) new Gson().toJsonTree((entity));
-        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user, "v2").content;
+        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content;
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")

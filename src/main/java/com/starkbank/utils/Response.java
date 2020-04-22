@@ -26,8 +26,8 @@ public class Response {
         this.content = content;
     }
 
-    public static Response fetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user, String version) throws Exception {
-        HttpURLConnection connection = prepareFetch(path, method, payload, query, user, version);
+    public static Response fetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
+        HttpURLConnection connection = prepareFetch(path, method, payload, query, user);
         int status = connection.getResponseCode();
         Reader streamReader;
         if (status >= 300) {
@@ -52,8 +52,8 @@ public class Response {
         return new Response(status, content.toString());
     }
 
-    public static InputStream fetchStream(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user, String version) throws Exception {
-        HttpURLConnection connection = prepareFetch(path, method, payload, query, user, version);
+    public static InputStream fetchStream(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
+        HttpURLConnection connection = prepareFetch(path, method, payload, query, user);
         int status = connection.getResponseCode();
         InputStream streamReader;
         if (status >= 300) {
@@ -74,11 +74,11 @@ public class Response {
         return streamReader;
     }
 
-    private static HttpURLConnection prepareFetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user, String version) throws Exception {
+    private static HttpURLConnection prepareFetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
         if (user == null) {
             user = User.defaultUser;
         }
-        String urlString = host(user, version) + path;
+        String urlString = host(user, "v2") + path;
         if (query != null) {
             urlString += queryBuild(query);
         }

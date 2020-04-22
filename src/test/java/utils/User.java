@@ -6,16 +6,13 @@ public class User {
 
     public static Project defaultProject() throws Exception {
         return new Project(
-                "sandbox",
-                "5690398416568320",
-                "-----BEGIN EC PARAMETERS-----\n" +
-                "    BgUrgQQACg==\n" +
-                "    -----END EC PARAMETERS-----\n" +
-                "    -----BEGIN EC PRIVATE KEY-----\n" +
-                "    MHQCAQEEIIoYWZ2OGwqX6n1EVvj1C1YvWHSGqqhZJzfsZZnk0SVgoAcGBSuBBAAK\n" +
-                "    oUQDQgAEGS1jWJXoK9RUk+qoNNFquO7X4JzRf5ZA5UDJUfPCbbKe5KwtrBKTJC1/\n" +
-                "    vRGIpAM5gNsxdfKgmoXNriiuY4LEPQ==\n" +
-                "    -----END EC PRIVATE KEY-----"
-                );
+            "sandbox",
+            "9999999999999999",
+            "-----BEGIN EC PRIVATE KEY-----\n" +
+                    "MHQCAQEEIBEcEJZLk/DyuXVsEjz0w4vrE7plPXhQxODvcG1Jc0WToAcGBSuBBAAK\n" +
+                    "oUQDQgAE6t4OGx1XYktOzH/7HV6FBukxq0Xs2As6oeN6re1Ttso2fwrh5BJXDq75\n" +
+                    "mSYHeclthCRgU8zl6H1lFQ4BKZ5RCQ==\n" +
+                    "-----END EC PRIVATE KEY-----"
+        );
     }
 }
