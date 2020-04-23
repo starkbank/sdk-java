@@ -362,6 +362,7 @@ You can query multiple transfers according to filters.
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
@@ -564,7 +565,7 @@ BoletoPayment.Log log = BoletoPayment.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
-### Create utility payment
+### Pay utility bills
 
 Its also simple to pay utility bills (such electricity and water bills) in the SDK.
 
@@ -721,8 +722,8 @@ you receive boleto payments, pay a bill or make transfers, for example.
 
 ```java
 import com.starkbank.*;
-import java.util.HashMap;
 import com.starkbank.utils.Generator;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
@@ -746,7 +747,7 @@ Transaction transaction = Transaction.get("5155966664310784");
 System.out.println(transaction);
 ```
 
-### Create webhook subscription
+### Create a webhook subscription
 
 To create a webhook subscription and be notified whenever an event occurs, run:
 
