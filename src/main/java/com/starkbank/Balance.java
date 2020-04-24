@@ -12,9 +12,9 @@ import java.util.List;
 public final class Balance extends Resource {
     static ClassData data = new ClassData(Balance.class, "Balance");
 
-    public int amount;
-    public String currency;
-    public String updated;
+    public final int amount;
+    public final String currency;
+    public final String updated;
 
     /**
      * Balance object

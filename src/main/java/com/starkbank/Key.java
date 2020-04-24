@@ -8,8 +8,8 @@ import java.io.PrintWriter;
 
 
 public final class Key {
-    public String privatePem;
-    public String publicPem;
+    public final String privatePem;
+    public final String publicPem;
 
     public Key(String privatePem) {
         PrivateKey privateKey = PrivateKey.fromPem(privatePem);

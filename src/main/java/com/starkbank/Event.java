@@ -19,9 +19,9 @@ import java.util.Map;
 public class Event extends Resource {
     static ClassData data = new ClassData(Event.class, "Event");
 
-    public String created;
-    public Boolean isDelivered;
-    public String subscription;
+    public final String created;
+    public final Boolean isDelivered;
+    public final String subscription;
 
     /**
      * Webhook Event object
