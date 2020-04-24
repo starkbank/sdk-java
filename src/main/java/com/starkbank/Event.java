@@ -13,6 +13,7 @@ import com.starkbank.utils.Rest;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class Event extends Resource {
@@ -150,7 +151,7 @@ public class Event extends Resource {
      * Return:
      * generator of Event objects with updated attributes
      */
-    public static Generator<Event> query(HashMap<String, Object> params) throws Exception {
+    public static Generator<Event> query(Map<String, Object> params) throws Exception {
         return Event.query(params, null);
     }
 
@@ -196,7 +197,7 @@ public class Event extends Resource {
      * Return:
      * generator of Event objects with updated attributes
      */
-    public static Generator<Event> query(HashMap<String, Object> params, Project user) throws Exception {
+    public static Generator<Event> query(Map<String, Object> params, Project user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -244,7 +245,7 @@ public class Event extends Resource {
      * Return:
      * Event object with updated attributes
      */
-    public static Event update(String id, HashMap<String, Object> patchData) throws Exception {
+    public static Event update(String id, Map<String, Object> patchData) throws Exception {
         return Event.update(id, patchData, null);
     }
 
@@ -262,7 +263,7 @@ public class Event extends Resource {
      * Return:
      * Event object with updated attributes
      */
-    public static Event update(String id, HashMap<String, Object> patchData, Project user) throws Exception {
+    public static Event update(String id, Map<String, Object> patchData, Project user) throws Exception {
         return Rest.patch(data, id, patchData, user);
     }
 

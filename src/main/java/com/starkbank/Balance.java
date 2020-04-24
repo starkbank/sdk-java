@@ -50,7 +50,7 @@ public final class Balance extends Resource {
      */
     public static Balance get(Project user) throws Exception {
         List<Balance> balanceList = new ArrayList<>();
-        Generator<Balance> balances = Rest.getList(data, new HashMap<>(), user);
+        Generator<Balance> balances = Rest.getList(data, new HashMap<String, Object>(), user);
         for (Balance balance : balances) {
             balanceList.add(balance);
         }

@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 public final class Webhook extends Resource {
@@ -45,7 +46,7 @@ public final class Webhook extends Resource {
      * Attributes:
      * id [string, default null]: unique id returned when the log is created. ex: "5656565656565656"
      */
-    public Webhook(HashMap<String, Object> data) {
+    public Webhook(Map<String, Object> data) {
         super(null);
         this.url = (String) data.get("url");
         this.subscriptions = (String[]) data.get("subscriptions");
@@ -93,7 +94,7 @@ public final class Webhook extends Resource {
      * Return:
      * generator of Webhook objects with updated attributes
      */
-    public static Generator<Webhook> query(HashMap<String, Object> params) throws Exception {
+    public static Generator<Webhook> query(Map<String, Object> params) throws Exception {
         return Webhook.query(params, null);
     }
 
@@ -136,7 +137,7 @@ public final class Webhook extends Resource {
      * Return:
      * generator of Webhook objects with updated attributes
      */
-    public static Generator<Webhook> query(HashMap<String, Object> params, Project user) throws Exception {
+    public static Generator<Webhook> query(Map<String, Object> params, Project user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -153,7 +154,7 @@ public final class Webhook extends Resource {
      * Return:
      * Webhook object with updated attributes
      */
-    public static Webhook create(HashMap<String, Object> webhookData) throws Exception {
+    public static Webhook create(Map<String, Object> webhookData) throws Exception {
         return Webhook.create(webhookData, null);
     }
 
@@ -170,7 +171,7 @@ public final class Webhook extends Resource {
      * Return:
      * Webhook object with updated attributes
      */
-    public static Webhook create(HashMap<String, Object> webhookData, Project user) throws Exception {
+    public static Webhook create(Map<String, Object> webhookData, Project user) throws Exception {
         String url = (String) webhookData.get("url");
         String[] subscriptions = (String[]) webhookData.get("subscriptions");
         return Rest.postSingle(data, new Webhook(url, subscriptions, null), user);

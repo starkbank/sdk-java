@@ -7,6 +7,7 @@ import com.starkbank.utils.Rest;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public final class Boleto extends Resource {
@@ -57,8 +58,8 @@ public final class Boleto extends Resource {
     public Double interest;
     public Integer overdueLimit;
     public String[] tags;
-    public List<HashMap<String, Object>> descriptions;
-    public List<HashMap<String, Object>> discounts;
+    public List<Map<String, Object>> descriptions;
+    public List<Map<String, Object>> discounts;
     public Integer fee;
     public String line;
     public String barCode;
@@ -71,7 +72,7 @@ public final class Boleto extends Resource {
      * When you initialize a Boleto, the entity will not be automatically
      * sent to the Stark Bank API. The "create" function sends the objects
      * to the Stark Bank API and returns the list of created objects.
-     * All parameters are passed in a HashMap<String, Object> object.
+     * All parameters are passed in a Map<String, Object> object.
      * <p>
      * Parameters:
      * amount [integer]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
@@ -93,8 +94,8 @@ public final class Boleto extends Resource {
      */
     public Boleto(Integer amount, String name, String taxId, String streetLine1, String streetLine2,
                   String district, String city, String stateCode, String zipCode, String due, Double fine,
-                  Double interest, Integer overdueLimit, String[] tags, List<HashMap<String, Object>> descriptions,
-                  List<HashMap<String, Object>> discounts, String id, Integer fee, String line, String barCode,
+                  Double interest, Integer overdueLimit, String[] tags, List<Map<String, Object>> descriptions,
+                  List<Map<String, Object>> discounts, String id, Integer fee, String line, String barCode,
                   String status, String created
     ) {
         super(id);
@@ -127,7 +128,7 @@ public final class Boleto extends Resource {
      * When you initialize a Boleto, the entity will not be automatically
      * sent to the Stark Bank API. The "create" function sends the objects
      * to the Stark Bank API and returns the list of created objects.
-     * All parameters are passed in a HashMap<String, Object> object.
+     * All parameters are passed in a Map<String, Object> object.
      * <p>
      * Parameters:
      * amount [integer]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
@@ -150,7 +151,7 @@ public final class Boleto extends Resource {
      * tags [list of strings]: list of strings for tagging
      */
     @SuppressWarnings("unchecked")
-    public Boleto(HashMap<String, Object> data) {
+    public Boleto(Map<String, Object> data) {
         super(null);
         this.amount = (Integer) data.get("amount");
         this.name = (String) data.get("name");
@@ -166,8 +167,8 @@ public final class Boleto extends Resource {
         this.interest = (Double) data.get("interest");
         this.overdueLimit = (Integer) data.get("overdueLimit");
         this.tags = (String[]) data.get("tags");
-        this.descriptions = (List<HashMap<String, Object>>) data.get("descriptions");
-        this.discounts = (List<HashMap<String, Object>>) data.get("discounts");
+        this.descriptions = (List<Map<String, Object>>) data.get("descriptions");
+        this.discounts = (List<Map<String, Object>>) data.get("discounts");
     }
 
     /**
@@ -217,7 +218,7 @@ public final class Boleto extends Resource {
      * Return:
      * generator of Boleto objects with updated attributes
      */
-    public static Generator<Boleto> query(HashMap<String, Object> params, Project user) throws Exception {
+    public static Generator<Boleto> query(Map<String, Object> params, Project user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -237,7 +238,7 @@ public final class Boleto extends Resource {
      * Return:
      * generator of Boleto objects with updated attributes
      */
-    public static Generator<Boleto> query(HashMap<String, Object> params) throws Exception {
+    public static Generator<Boleto> query(Map<String, Object> params) throws Exception {
         return Rest.getList(data, params, null);
     }
 
@@ -441,7 +442,7 @@ public final class Boleto extends Resource {
          * Return:
          * list of Boleto Log objects with updated attributes
          */
-        public static Generator<Log> query(HashMap<String, Object> params) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params) throws Exception {
             return Log.query(params, null);
         }
 
@@ -488,7 +489,7 @@ public final class Boleto extends Resource {
          * Return:
          * list of Boleto Log objects with updated attributes
          */
-        public static Generator<Log> query(HashMap<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }
