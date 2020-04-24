@@ -12,15 +12,15 @@ import java.util.Map;
 public final class Transaction extends Resource {
     static ClassData data = new ClassData(Transaction.class, "Transaction");
 
-    public int amount;
-    public String description;
-    public String externalId;
-    public String senderId;
-    public String receiverId;
-    public String[] tags;
-    public Integer fee;
-    public String created;
-    public String source;
+    public final int amount;
+    public final String description;
+    public final String externalId;
+    public final String senderId;
+    public final String receiverId;
+    public final String[] tags;
+    public final Integer fee;
+    public final String created;
+    public final String source;
 
     /**
      * Transaction object
@@ -93,6 +93,10 @@ public final class Transaction extends Resource {
         this.externalId = (String) data.get("externalId");
         this.receiverId = (String) data.get("receiverId");
         this.tags = (String[]) data.get("tags");
+        this.created = null;
+        this.fee = null;
+        this.senderId = null;
+        this.source = null;
     }
 
     /**

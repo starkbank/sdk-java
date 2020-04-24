@@ -44,27 +44,27 @@ public final class Boleto extends Resource {
      */
     static ClassData data = new ClassData(Boleto.class, "Boleto");
 
-    public Integer amount;
-    public String name;
-    public String taxId;
-    public String streetLine1;
-    public String streetLine2;
-    public String district;
-    public String city;
-    public String stateCode;
-    public String zipCode;
-    public String due;
-    public Double fine;
-    public Double interest;
-    public Integer overdueLimit;
-    public String[] tags;
-    public List<Map<String, Object>> descriptions;
-    public List<Map<String, Object>> discounts;
-    public Integer fee;
-    public String line;
-    public String barCode;
-    public String status;
-    public String created;
+    public final Integer amount;
+    public final String name;
+    public final String taxId;
+    public final String streetLine1;
+    public final String streetLine2;
+    public final String district;
+    public final String city;
+    public final String stateCode;
+    public final String zipCode;
+    public final String due;
+    public final Double fine;
+    public final Double interest;
+    public final Integer overdueLimit;
+    public final String[] tags;
+    public final List<Map<String, Object>> descriptions;
+    public final List<Map<String, Object>> discounts;
+    public final Integer fee;
+    public final String line;
+    public final String barCode;
+    public final String status;
+    public final String created;
 
     /**
      * Boleto object
@@ -169,6 +169,11 @@ public final class Boleto extends Resource {
         this.tags = (String[]) data.get("tags");
         this.descriptions = (List<Map<String, Object>>) data.get("descriptions");
         this.discounts = (List<Map<String, Object>>) data.get("discounts");
+        this.barCode = null;
+        this.created = null;
+        this.fee = null;
+        this.line = null;
+        this.status = null;
     }
 
     public static Boleto get(String id, Project user) throws Exception {

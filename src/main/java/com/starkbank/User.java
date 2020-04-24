@@ -8,8 +8,8 @@ import com.starkbank.utils.Resource;
 public abstract class User extends Resource{
     public static Project defaultUser = null;
 
-    public String pem;
-    public String environment;
+    public final String pem;
+    public final String environment;
 
     public User(String environment, String id, String privateKey) throws Exception {
         super(id);

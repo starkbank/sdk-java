@@ -13,18 +13,18 @@ import java.util.Map;
 public final class Transfer extends Resource {
     static ClassData data = new ClassData(Transfer.class, "Transfer");
 
-    public Integer amount;
-    public String name;
-    public String taxId;
-    public String bankCode;
-    public String branchCode;
-    public String accountNumber;
-    public String[] tags;
-    public Integer fee;
-    public String status;
-    public String created;
-    public String updated;
-    public String[] transactionIds;
+    public final Integer amount;
+    public final String name;
+    public final String taxId;
+    public final String bankCode;
+    public final String branchCode;
+    public final String accountNumber;
+    public final String[] tags;
+    public final Integer fee;
+    public final String status;
+    public final String created;
+    public final String updated;
+    public final String[] transactionIds;
 
     /**
      * Transfer object
@@ -103,6 +103,11 @@ public final class Transfer extends Resource {
         this.branchCode = (String) data.get("branchCode");
         this.accountNumber = (String) data.get("accountNumber");
         this.tags = (String[]) data.get("tags");
+        this.created = null;
+        this.fee = null;
+        this.status = null;
+        this.transactionIds = null;
+        this.updated = null;
     }
 
     /**
