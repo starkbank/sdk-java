@@ -2,7 +2,6 @@ package com.starkbank.utils;
 
 import com.google.gson.JsonObject;
 import com.starkbank.Project;
-import com.starkbank.User;
 import com.starkbank.ellipticcurve.Ecdsa;
 import com.starkbank.ellipticcurve.Signature;
 import com.starkbank.error.InputErrors;
@@ -17,7 +16,6 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.*;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashMap;
 
 

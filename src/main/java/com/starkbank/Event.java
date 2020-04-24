@@ -6,7 +6,7 @@ import com.starkbank.ellipticcurve.PublicKey;
 import com.starkbank.ellipticcurve.Signature;
 import com.starkbank.ellipticcurve.utils.ByteString;
 import com.starkbank.error.InvalidSignatureError;
-import com.starkbank.utils.Generator;
+import io.herrmann.generator.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Response;
 import com.starkbank.utils.Rest;

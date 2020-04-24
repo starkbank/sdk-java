@@ -1,7 +1,9 @@
 package com.starkbank.error;
 
 public final class InvalidSignatureError extends Error{
-    public InvalidSignatureError(String message){
+	private static final long serialVersionUID = 1802886978614069344L;
+
+	public InvalidSignatureError(String message){
         super(message);
     }
 }

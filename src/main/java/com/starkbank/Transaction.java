@@ -1,6 +1,6 @@
 package com.starkbank;
 
-import com.starkbank.utils.Generator;
+import io.herrmann.generator.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 

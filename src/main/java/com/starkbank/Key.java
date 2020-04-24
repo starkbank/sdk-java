@@ -44,7 +44,7 @@ public final class Key {
         Key key = Key.create();
         File directory = new File(savePath);
         if (! directory.exists()){
-            Boolean success = directory.mkdirs();
+            directory.mkdirs();
         }
         try (PrintWriter out = new PrintWriter(savePath + "/privateKey.pem")) {
             out.println(key.privatePem);

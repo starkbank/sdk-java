@@ -4,6 +4,8 @@ import com.google.gson.*;
 import com.starkbank.Event;
 import com.starkbank.Project;
 
+import io.herrmann.generator.Generator;
+
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -47,29 +49,34 @@ public final class Rest {
 
     public static <T extends Resource> Generator<T> getList(Resource.ClassData resource, HashMap<String, Object> params, Project user) {
         return new Generator<T>() {
-            public void run() throws Exception {
-            Integer limit = (Integer) params.get("limit");
-            String cursor = "";
-            do {
-                params.put("cursor", cursor);
-                if (limit != null){
-                    params.put("limit", limit > 100 ? "100" : limit.toString());
-                    limit -= 100;
-                };
-                String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user).content;
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Event.class, new Event.Deserializer())
-                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
-                        .create();
-                JsonObject contentJson = gson.fromJson(content, JsonObject.class);
-                JsonElement cursorJson = contentJson.get("cursor");
-                cursor = cursorJson.isJsonNull() ? "" : cursorJson.getAsString();
-                JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
-                for (JsonElement resourceElement : jsonArray) {
-                    JsonObject jsonObject = resourceElement.getAsJsonObject();
-                    yield(gson.fromJson(jsonObject, (Type) resource.cls));
-                }
-            } while(!cursor.isEmpty() && (limit == null || limit > 0));
+            public void run() throws InterruptedException {
+                Integer limit = (Integer) params.get("limit");
+                String cursor = "";
+                do {
+                    params.put("cursor", cursor);
+                    if (limit != null){
+                        params.put("limit", limit > 100 ? "100" : limit.toString());
+                        limit -= 100;
+                    };
+                    try {
+                        String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user).content;
+                        Gson gson = new GsonBuilder()
+                            .registerTypeAdapter(Event.class, new Event.Deserializer())
+                            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
+                            .create();
+                        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
+                        JsonElement cursorJson = contentJson.get("cursor");
+                        cursor = cursorJson.isJsonNull() ? "" : cursorJson.getAsString();
+                        JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
+                        for (JsonElement resourceElement : jsonArray) {
+                            JsonObject jsonObject = resourceElement.getAsJsonObject();
+                            yield(gson.fromJson(jsonObject, (Type) resource.cls));
+                        }
+                    }
+                    catch (Exception e) {
+                        throw new InterruptedException(e.getMessage());
+                    }
+                } while(!cursor.isEmpty() && (limit == null || limit > 0));
             }
         };
     }

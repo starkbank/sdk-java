@@ -1,6 +1,6 @@
 import com.starkbank.User;
 import com.starkbank.UtilityPayment;
-import com.starkbank.utils.Generator;
+import io.herrmann.generator.Generator;
 import org.junit.Assert;
 import org.junit.Test;
 

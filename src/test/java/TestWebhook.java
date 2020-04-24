@@ -1,6 +1,6 @@
 import com.starkbank.User;
 import com.starkbank.Webhook;
-import com.starkbank.utils.Generator;
+import io.herrmann.generator.Generator;
 import org.junit.Test;
 import org.junit.Assert;
 

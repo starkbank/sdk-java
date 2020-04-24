@@ -7,9 +7,9 @@ import com.google.gson.GsonBuilder;
 public abstract class Resource {
     protected static class ClassData {
         public String name;
-        public Class cls;
+        public Class<?> cls;
 
-        public ClassData(Class cls, String name){
+        public ClassData(Class<?> cls, String name){
             this.cls = cls;
             this.name = name;
         }
