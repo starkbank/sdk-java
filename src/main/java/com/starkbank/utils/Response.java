@@ -16,7 +16,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.*;
 import java.time.Instant;
-import java.util.HashMap;
+import java.util.Map;
 
 
 public final class Response {
@@ -29,7 +29,7 @@ public final class Response {
         this.content = content;
     }
 
-    public static Response fetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
+    public static Response fetch(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws Exception {
         HttpResponse response = prepareFetch(path, method, payload, query, user);
         int status = response.getStatusLine().getStatusCode();
         Reader streamReader;
@@ -55,7 +55,7 @@ public final class Response {
         return new Response(status, content.toString());
     }
 
-    public static InputStream fetchStream(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws Exception {
+    public static InputStream fetchStream(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws Exception {
         HttpResponse response = prepareFetch(path, method, payload, query, user);
         int status = response.getStatusLine().getStatusCode();
         InputStream streamReader;
@@ -77,7 +77,7 @@ public final class Response {
         return streamReader;
     }
 
-    private static HttpResponse prepareFetch(String path, String method, JsonObject payload, HashMap<String, Object> query, Project user) throws IOException {
+    private static HttpResponse prepareFetch(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws IOException {
         user = Check.user(user);
         String urlString = host(user, "v2") + path;
         if (query != null) {

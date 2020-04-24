@@ -6,6 +6,7 @@ import com.starkbank.utils.Rest;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public final class Transaction extends Resource {
@@ -85,7 +86,7 @@ public final class Transaction extends Resource {
      * fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the boleto. ex: "2020-03-10 10:30:00.000"
      */
-    public Transaction(HashMap<String, Object> data) {
+    public Transaction(Map<String, Object> data) {
         super(null);
         this.amount = (int) data.get("amount");
         this.description = (String) data.get("description");
@@ -139,7 +140,7 @@ public final class Transaction extends Resource {
      * Return:
      * generator of Transaction objects with updated attributes
      */
-    public static Generator<Transaction> query(HashMap<String, Object> params) throws Exception {
+    public static Generator<Transaction> query(Map<String, Object> params) throws Exception {
         return Transaction.query(params, null);
     }
 
@@ -185,7 +186,7 @@ public final class Transaction extends Resource {
      * Return:
      * generator of Transaction objects with updated attributes
      */
-    public static Generator<Transaction> query(HashMap<String, Object> params, Project user) throws Exception {
+    public static Generator<Transaction> query(Map<String, Object> params, Project user) throws Exception {
         return Rest.getList(data, params, user);
     }
 

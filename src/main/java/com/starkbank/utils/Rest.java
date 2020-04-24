@@ -9,8 +9,8 @@ import io.herrmann.generator.Generator;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public final class Rest {
@@ -35,7 +35,7 @@ public final class Rest {
         return postEntities;
     }
 
-    public static <T extends Resource> T patch(Resource.ClassData resource, String id, HashMap<String, Object> data, Project user) throws Exception {
+    public static <T extends Resource> T patch(Resource.ClassData resource, String id, Map<String, Object> data, Project user) throws Exception {
         JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
         String content = Response.fetch(Api.endpoint(resource, id), "PATCH", payload, null, user).content;
         Gson gson = new GsonBuilder()
@@ -47,7 +47,7 @@ public final class Rest {
         return gson.fromJson(jsonObject, (Type) resource.cls);
     }
 
-    public static <T extends Resource> Generator<T> getList(Resource.ClassData resource, HashMap<String, Object> params, Project user) {
+    public static <T extends Resource> Generator<T> getList(Resource.ClassData resource, Map<String, Object> params, Project user) {
         return new Generator<T>() {
             public void run() throws InterruptedException {
                 Integer limit = (Integer) params.get("limit");

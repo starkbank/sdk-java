@@ -7,6 +7,7 @@ import com.starkbank.utils.Rest;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public final class UtilityPayment extends Resource {
@@ -85,7 +86,7 @@ public final class UtilityPayment extends Resource {
      * fee [integer, default null]: fee charged when utility payment is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
      */
-    public UtilityPayment(HashMap<String, Object> data) {
+    public UtilityPayment(Map<String, Object> data) {
         super(null);
         this.description = (String) data.get("description");
         this.line = (String) data.get("line");
@@ -141,7 +142,7 @@ public final class UtilityPayment extends Resource {
      * Return:
      * generator of UtilityPayment objects with updated attributes
      */
-    public static Generator<UtilityPayment> query(HashMap<String, Object> params) throws Exception {
+    public static Generator<UtilityPayment> query(Map<String, Object> params) throws Exception {
         return UtilityPayment.query(params, null);
     }
 
@@ -189,7 +190,7 @@ public final class UtilityPayment extends Resource {
      * Return:
      * generator of UtilityPayment objects with updated attributes
      */
-    public static Generator<UtilityPayment> query(HashMap<String, Object> params, Project user) throws Exception {
+    public static Generator<UtilityPayment> query(Map<String, Object> params, Project user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -363,7 +364,7 @@ public final class UtilityPayment extends Resource {
          * Return:
          * list of UtilityPayment Log objects with updated attributes
          */
-        public static Generator<Log> query(HashMap<String, Object> params) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params) throws Exception {
             return Log.query(params, null);
         }
 
@@ -410,7 +411,7 @@ public final class UtilityPayment extends Resource {
          * Return:
          * list of UtilityPayment Log objects with updated attributes
          */
-        public static Generator<Log> query(HashMap<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }

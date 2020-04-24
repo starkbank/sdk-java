@@ -7,6 +7,7 @@ import com.starkbank.utils.Rest;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public final class BoletoPayment extends Resource {
@@ -91,7 +92,7 @@ public final class BoletoPayment extends Resource {
      * fee [integer, default null]: fee charged when boleto payment is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
      */
-    public BoletoPayment(HashMap<String, Object> data) {
+    public BoletoPayment(Map<String, Object> data) {
         super(null);
         this.taxId = (String) data.get("taxId");
         this.description = (String) data.get("description");
@@ -148,7 +149,7 @@ public final class BoletoPayment extends Resource {
      * Return:
      * generator of BoletoPayment objects with updated attributes
      */
-    public static Generator<BoletoPayment> query(HashMap<String, Object> params) throws Exception {
+    public static Generator<BoletoPayment> query(Map<String, Object> params) throws Exception {
         return BoletoPayment.query(params, null);
     }
 
@@ -196,7 +197,7 @@ public final class BoletoPayment extends Resource {
      * Return:
      * generator of BoletoPayment objects with updated attributes
      */
-    public static Generator<BoletoPayment> query(HashMap<String, Object> params, Project user) throws Exception {
+    public static Generator<BoletoPayment> query(Map<String, Object> params, Project user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -372,7 +373,7 @@ public final class BoletoPayment extends Resource {
          * Return:
          * list of BoletoPayment Log objects with updated attributes
          */
-        public static Generator<Log> query(HashMap<String, Object> params) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params) throws Exception {
             return Log.query(params, null);
         }
 
@@ -419,7 +420,7 @@ public final class BoletoPayment extends Resource {
          * Return:
          * list of BoletoPayment Log objects with updated attributes
          */
-        public static Generator<Log> query(HashMap<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }

@@ -7,6 +7,7 @@ import com.starkbank.utils.Rest;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public final class Transfer extends Resource {
@@ -93,7 +94,7 @@ public final class Transfer extends Resource {
      * created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      * updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      */
-    public Transfer(HashMap<String, Object> data) {
+    public Transfer(Map<String, Object> data) {
         super(null);
         this.amount = (Integer) data.get("amount");
         this.name = (String) data.get("name");
@@ -152,7 +153,7 @@ public final class Transfer extends Resource {
      * Return:
      * generator of Transfer objects with updated attributes
      */
-    public static Generator<Transfer> query(HashMap<String, Object> params) throws Exception {
+    public static Generator<Transfer> query(Map<String, Object> params) throws Exception {
         return Transfer.query(params, null);
     }
 
@@ -201,7 +202,7 @@ public final class Transfer extends Resource {
      * Return:
      * generator of Transfer objects with updated attributes
      */
-    public static Generator<Transfer> query(HashMap<String, Object> params, Project user) throws Exception {
+    public static Generator<Transfer> query(Map<String, Object> params, Project user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -345,7 +346,7 @@ public final class Transfer extends Resource {
          * Return:
          * list of Transfer Log objects with updated attributes
          */
-        public static Generator<Log> query(HashMap<String, Object> params) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params) throws Exception {
             return Log.query(params, null);
         }
 
@@ -392,7 +393,7 @@ public final class Transfer extends Resource {
          * Return:
          * list of Transfer Log objects with updated attributes
          */
-        public static Generator<Log> query(HashMap<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }
