@@ -48,7 +48,7 @@ public final class Balance extends Resource {
      * Return:
      * Balance object with updated attributes
      */
-    public static Balance get(Project user) {
+    public static Balance get(Project user) throws Exception {
         List<Balance> balanceList = new ArrayList<>();
         Generator<Balance> balances = Rest.getList(data, new HashMap<>(), user);
         for (Balance balance : balances) {
@@ -57,7 +57,7 @@ public final class Balance extends Resource {
         return balanceList.get(0);
     }
 
-    public static Balance get() {
+    public static Balance get() throws Exception {
         return Balance.get(null);
     }
 }
