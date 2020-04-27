@@ -7,6 +7,9 @@ final class Url {
         StringBuilder queryString = new StringBuilder();
         String separator = "?";
         for (HashMap.Entry<String, Object> entry : query.entrySet()) {
+            if (entry.getValue() == null) {
+                continue;
+            }
             String key = entry.getKey();
             String value = String.valueOf(entry.getValue());
             if (value != null) {

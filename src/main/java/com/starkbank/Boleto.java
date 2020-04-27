@@ -169,8 +169,18 @@ public final class Boleto extends Resource {
         this.discounts = (List<HashMap<String, Object>>) data.get("discounts");
     }
 
-    public static Boleto get(String id, Project user) throws Exception {
-        return Rest.getId(data, id, user);
+    /**
+     * Retrieve a specific Boleto
+     * <p>
+     * Receive a single Boleto object previously created in the Stark Bank API by passing its id
+     * <p>
+     * Parameters:
+     * id [string]: object unique id. ex: "5656565656565656"
+     * Return:
+     * Boleto object with updated attributes
+     */
+    public static Boleto get(String id) throws Exception {
+        return Boleto.get(id, null);
     }
 
     /**
@@ -185,8 +195,8 @@ public final class Boleto extends Resource {
      * Return:
      * Boleto object with updated attributes
      */
-    public static Boleto get(String id) throws Exception {
-        return Rest.getId(data, id, null);
+    public static Boleto get(String id, Project user) throws Exception {
+        return Rest.getId(data, id, user);
     }
 
     /**
