@@ -49,7 +49,7 @@ and add it to your project.
 1.1 If you are using Gradle, add this line to your dependencies in build.gradle:
 
 ```sh
-implementation files("lib/starkbank-0.1.0.jar")
+implementation files("lib/starkbank-0.1.1.jar")
 ```
 
 1.2 If you are using Maven, add this dependency to your pom.xml:
@@ -58,9 +58,9 @@ implementation files("lib/starkbank-0.1.0.jar")
 <dependency>
     <groupId>com.starkbank</groupId>
     <artifactId>starkbank</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <scope>system</scope>
-    <systemPath>${basedir}/lib/starkbank-0.1.0.jar</systemPath>
+    <systemPath>${basedir}/lib/starkbank-0.1.1.jar</systemPath>
 </dependency>
 ```
 
