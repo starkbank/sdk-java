@@ -14,7 +14,6 @@ final class Url {
             }
             String key = entry.getKey();
             String value;
-            System.out.println(entry.getValue());
             try {
                 List<Object> list = (List<Object>) entry.getValue();
                 entry.setValue(list.toArray(new Object[0]));
