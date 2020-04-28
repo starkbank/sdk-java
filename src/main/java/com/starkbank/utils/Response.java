@@ -86,7 +86,7 @@ public final class Response {
             urlString += Url.encode(query);
         }
         String accessTime = String.valueOf(Math.round(Instant.now().getEpochSecond()));
-
+        System.out.println(urlString);
         String message = user.accessId() + ':' + accessTime + ':';
         if (payload != null) {
             String body = payload.toString();
