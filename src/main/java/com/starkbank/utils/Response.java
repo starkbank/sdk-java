@@ -2,7 +2,6 @@ package com.starkbank.utils;
 
 import com.google.gson.JsonObject;
 import com.starkbank.Project;
-import com.starkbank.User;
 import com.starkbank.ellipticcurve.Ecdsa;
 import com.starkbank.ellipticcurve.Signature;
 import com.starkbank.error.InputErrors;
@@ -97,7 +96,7 @@ public final class Response {
                 .setHeader("Access-Id", user.accessId())
                 .setHeader("Access-Time", accessTime)
                 .setHeader("Access-Signature", signature.toBase64())
-                .setHeader("User-Agent", "Java-" + System.getProperty("java.version") + "-SDK-0.1.1")
+                .setHeader("User-Agent", "Java-" + System.getProperty("java.version") + "-SDK-0.1.2")
                 .setHeader("Content-Type", "application/json");
 
         if (method.equals("POST") || method.equals("PATCH")) {
