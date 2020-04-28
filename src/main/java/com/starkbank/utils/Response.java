@@ -18,6 +18,8 @@ import java.io.*;
 import java.time.Instant;
 import java.util.Map;
 
+import static com.starkbank.User.userAgentOverride;
+
 
 public final class Response {
 
@@ -96,7 +98,7 @@ public final class Response {
                 .setHeader("Access-Id", user.accessId())
                 .setHeader("Access-Time", accessTime)
                 .setHeader("Access-Signature", signature.toBase64())
-                .setHeader("User-Agent", "Java-" + System.getProperty("java.version") + "-SDK-0.1.2")
+                .setHeader("User-Agent", getUserAgent())
                 .setHeader("Content-Type", "application/json");
 
         if (method.equals("POST") || method.equals("PATCH")) {
@@ -121,4 +123,8 @@ public final class Response {
         }
     }
 
+    private static String getUserAgent() {
+        String javaUserAgent = "Java-" + System.getProperty("java.version") + "-SDK-0.1.2";
+        return (userAgentOverride == null) ? javaUserAgent : userAgentOverride;
+    }
 }

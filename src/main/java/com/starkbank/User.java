@@ -7,6 +7,7 @@ import com.starkbank.utils.Resource;
 
 public abstract class User extends Resource{
     public static Project defaultUser = null;
+    public static String userAgentOverride = null;
 
     public final String pem;
     public final String environment;
