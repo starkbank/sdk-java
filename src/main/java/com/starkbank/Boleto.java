@@ -149,6 +149,7 @@ public final class Boleto extends Resource {
      * discounts [list of Hashmap, default null]: list of hashmaps with "percentage": Double and "date": string pairs
      * tags [list of strings]: list of strings for tagging
      */
+    @SuppressWarnings("unchecked")
     public Boleto(HashMap<String, Object> data) {
         super(null);
         this.amount = (Integer) data.get("amount");

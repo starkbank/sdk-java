@@ -100,7 +100,7 @@ public class TestEvent {
 
         User.defaultUser = utils.User.defaultProject();
         try{
-            Event event = Event.parse(content, invalid_signature);
+            Event.parse(content, invalid_signature);
             throw new Error("Signature incorrectly validated");
         } catch (InvalidSignatureError e){
             System.out.println("Signature correctly rejected");
@@ -114,7 +114,7 @@ public class TestEvent {
 
         User.defaultUser = utils.User.defaultProject();
         try{
-            Event event = Event.parse(content, malformed_signature);
+            Event.parse(content, malformed_signature);
             throw new Error("Signature incorrectly validated");
         } catch (InvalidSignatureError e){
             System.out.println("Signature correctly rejected");
