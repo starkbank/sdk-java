@@ -86,7 +86,6 @@ public final class Response {
             urlString += Url.encode(query);
         }
         String accessTime = String.valueOf(Math.round(Instant.now().getEpochSecond()));
-
         String message = user.accessId() + ':' + accessTime + ':';
         if (payload != null) {
             String body = payload.toString();
@@ -101,7 +100,7 @@ public final class Response {
                 .setHeader("User-Agent", getUserAgent())
                 .setHeader("Content-Type", "application/json");
 
-        if (method.equals("POST") || method.equals("PATCH")) {
+        if (payload != null) {
             requestBuilder = requestBuilder
                     .setEntity(new StringEntity(payload.toString(), "UTF-8"))
                     .setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
