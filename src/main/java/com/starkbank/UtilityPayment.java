@@ -88,17 +88,23 @@ public final class UtilityPayment extends Resource {
      * fee [integer, default null]: fee charged when utility payment is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
      */
-    public UtilityPayment(Map<String, Object> data) {
+    public UtilityPayment(Map<String, Object> data) throws Exception {
         super(null);
-        this.description = (String) data.get("description");
-        this.line = (String) data.get("line");
-        this.barCode = (String) data.get("barCode");
-        this.scheduled = (String) data.get("scheduled");
-        this.tags = (String[]) data.get("tags");
+        HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+        this.description = (String) dataCopy.remove("description");
+        this.line = (String) dataCopy.remove("line");
+        this.barCode = (String) dataCopy.remove("barCode");
+        this.scheduled = (String) dataCopy.remove("scheduled");
+        this.tags = (String[]) dataCopy.remove("tags");
         this.amount = null;
         this.created = null;
         this.fee = null;
         this.status = null;
+
+        if (!dataCopy.isEmpty()) {
+            throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+        }
     }
 
     /**

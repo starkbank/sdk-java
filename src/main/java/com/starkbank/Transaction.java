@@ -88,17 +88,23 @@ public final class Transaction extends Resource {
      * fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the boleto. ex: "2020-03-10 10:30:00.000"
      */
-    public Transaction(Map<String, Object> data) {
+    public Transaction(Map<String, Object> data) throws Exception {
         super(null);
-        this.amount = (int) data.get("amount");
-        this.description = (String) data.get("description");
-        this.externalId = (String) data.get("externalId");
-        this.receiverId = (String) data.get("receiverId");
-        this.tags = (String[]) data.get("tags");
+        HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+        this.amount = (int) dataCopy.remove("amount");
+        this.description = (String) dataCopy.remove("description");
+        this.externalId = (String) dataCopy.remove("externalId");
+        this.receiverId = (String) dataCopy.remove("receiverId");
+        this.tags = (String[]) dataCopy.remove("tags");
         this.created = null;
         this.fee = null;
         this.senderId = null;
         this.source = null;
+
+        if (!dataCopy.isEmpty()) {
+            throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+        }
     }
 
     /**

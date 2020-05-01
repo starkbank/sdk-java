@@ -158,29 +158,35 @@ public final class Boleto extends Resource {
      * tags [list of strings]: list of strings for tagging
      */
     @SuppressWarnings("unchecked")
-    public Boleto(Map<String, Object> data) {
+    public Boleto(Map<String, Object> data) throws Exception {
         super(null);
-        this.amount = (Integer) data.get("amount");
-        this.name = (String) data.get("name");
-        this.taxId = (String) data.get("taxId");
-        this.streetLine1 = (String) data.get("streetLine1");
-        this.streetLine2 = (String) data.get("streetLine2");
-        this.district = (String) data.get("district");
-        this.city = (String) data.get("city");
-        this.stateCode = (String) data.get("stateCode");
-        this.zipCode = (String) data.get("zipCode");
-        this.due = (String) data.get("due");
-        this.fine = (Double) data.get("fine");
-        this.interest = (Double) data.get("interest");
-        this.overdueLimit = (Integer) data.get("overdueLimit");
-        this.tags = (String[]) data.get("tags");
-        this.descriptions = (List<Map<String, Object>>) data.get("descriptions");
-        this.discounts = (List<Map<String, Object>>) data.get("discounts");
+        HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+        this.amount = (Integer) dataCopy.remove("amount");
+        this.name = (String) dataCopy.remove("name");
+        this.taxId = (String) dataCopy.remove("taxId");
+        this.streetLine1 = (String) dataCopy.remove("streetLine1");
+        this.streetLine2 = (String) dataCopy.remove("streetLine2");
+        this.district = (String) dataCopy.remove("district");
+        this.city = (String) dataCopy.remove("city");
+        this.stateCode = (String) dataCopy.remove("stateCode");
+        this.zipCode = (String) dataCopy.remove("zipCode");
+        this.due = (String) dataCopy.remove("due");
+        this.fine = (Double) dataCopy.remove("fine");
+        this.interest = (Double) dataCopy.remove("interest");
+        this.overdueLimit = (Integer) dataCopy.remove("overdueLimit");
+        this.tags = (String[]) dataCopy.remove("tags");
+        this.descriptions = (List<Map<String, Object>>) dataCopy.remove("descriptions");
+        this.discounts = (List<Map<String, Object>>) dataCopy.remove("discounts");
         this.barCode = null;
         this.created = null;
         this.fee = null;
         this.line = null;
         this.status = null;
+
+        if (!dataCopy.isEmpty()) {
+            throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+        }
     }
 
     /**

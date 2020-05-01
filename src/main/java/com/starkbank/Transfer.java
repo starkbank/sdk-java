@@ -96,20 +96,26 @@ public final class Transfer extends Resource {
      * created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      * updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      */
-    public Transfer(Map<String, Object> data) {
+    public Transfer(Map<String, Object> data) throws Exception {
         super(null);
-        this.amount = (Integer) data.get("amount");
-        this.name = (String) data.get("name");
-        this.taxId = (String) data.get("taxId");
-        this.bankCode = (String) data.get("bankCode");
-        this.branchCode = (String) data.get("branchCode");
-        this.accountNumber = (String) data.get("accountNumber");
-        this.tags = (String[]) data.get("tags");
+        HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+        this.amount = (Integer) dataCopy.remove("amount");
+        this.name = (String) dataCopy.remove("name");
+        this.taxId = (String) dataCopy.remove("taxId");
+        this.bankCode = (String) dataCopy.remove("bankCode");
+        this.branchCode = (String) dataCopy.remove("branchCode");
+        this.accountNumber = (String) dataCopy.remove("accountNumber");
+        this.tags = (String[]) dataCopy.remove("tags");
         this.created = null;
         this.fee = null;
         this.status = null;
         this.transactionIds = null;
         this.updated = null;
+
+        if (!dataCopy.isEmpty()) {
+            throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+        }
     }
 
     /**
