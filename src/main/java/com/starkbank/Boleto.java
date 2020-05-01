@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -293,15 +294,28 @@ public final class Boleto extends Resource {
      * Send a list of Boleto objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param boletos [list of Boleto objects]: list of Boleto objects to be created in the API
+     * @param boletos [list of Boleto objects or HashMaps]: list of Boleto objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of Boleto objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<Boleto> create(List<Boleto> boletos, Project user) throws Exception {
-        return Rest.post(data, boletos, user);
+    @SuppressWarnings("unchecked")
+    public static List<Boleto> create(List<?> boletos, Project user) throws Exception {
+        List<Boleto> boletoList = new ArrayList<>();
+        for (Object boleto : boletos){
+            if (boleto.getClass() == HashMap.class){
+                boletoList.add(new Boleto((Map<String, Object>) boleto));
+                continue;
+            }
+            if (boleto.getClass() == Boleto.class){
+                boletoList.add((Boleto) boleto);
+                continue;
+            }
+            throw new Exception("Unknown type \"" + boleto.getClass() + "\", use Boleto or HashMap");
+        }
+        return Rest.post(data, boletoList, user);
     }
 
     /**
@@ -310,14 +324,14 @@ public final class Boleto extends Resource {
      * Send a list of Boleto objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param boletos [list of Boleto objects]: list of Boleto objects to be created in the API
+     * @param boletos [list of Boleto objects or HashMaps]: list of Boleto objects to be created in the API
      * <p>
      * Return:
      * @return list of Boleto objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static List<Boleto> create(List<Boleto> boletos) throws Exception {
-        return Rest.post(data, boletos, null);
+    public static List<Boleto> create(List<?> boletos) throws Exception {
+        return Boleto.create(boletos, null);
     }
 
     /**

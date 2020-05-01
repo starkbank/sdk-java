@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -226,13 +227,13 @@ public final class Transfer extends Resource {
      * Send a list of Transfer objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param transfers [list of Transfer objects]: list of Transfer objects to be created in the API
+     * @param transfers [list of Transfer objects or HashMaps]: list of Transfer objects to be created in the API
      * <p>
      * Return:
      * @return list of Transfer objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<Transfer> create(List<Transfer> transfers) throws Exception {
+    public static List<Transfer> create(List<?> transfers) throws Exception {
         return Transfer.create(transfers, null);
     }
 
@@ -242,15 +243,28 @@ public final class Transfer extends Resource {
      * Send a list of Transfer objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param transfers [list of Transfer objects]: list of Transfer objects to be created in the API
+     * @param transfers [list of Transfer objects or HashMaps]: list of Transfer objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of Transfer objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<Transfer> create(List<Transfer> transfers, Project user) throws Exception {
-        return Rest.post(data, transfers, user);
+    @SuppressWarnings("unchecked")
+    public static List<Transfer> create(List<?> transfers, Project user) throws Exception {
+        List<Transfer> transferList = new ArrayList<>();
+        for (Object transfer : transfers){
+            if (transfer.getClass() == HashMap.class){
+                transferList.add(new Transfer((Map<String, Object>) transfer));
+                continue;
+            }
+            if (transfer.getClass() == Transfer.class){
+                transferList.add((Transfer) transfer);
+                continue;
+            }
+            throw new Exception("Unknown type \"" + transfer.getClass() + "\", use Transfer or HashMap");
+        }
+        return Rest.post(data, transferList, user);
     }
 
     /**

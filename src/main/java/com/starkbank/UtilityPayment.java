@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,14 +214,14 @@ public final class UtilityPayment extends Resource {
      * Send a list of UtilityPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param utilityPayments [list of UtilityPayment objects]: list of UtilityPayment objects to be created in the API
+     * @param utilityPayments [list of UtilityPayment objects or HashMaps]: list of UtilityPayment objects to be created in the API
      * <p>
      * Return:
      * @return list of UtilityPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<UtilityPayment> create(List<UtilityPayment> utilityPayments) throws Exception {
-        return UtilityPayment.create(utilityPayments, null);
+    public static List<UtilityPayment> create(List<?> payments) throws Exception {
+        return UtilityPayment.create(payments, null);
     }
 
     /**
@@ -229,14 +230,27 @@ public final class UtilityPayment extends Resource {
      * Send a list of UtilityPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param utilityPayments [list of UtilityPayment objects]: list of UtilityPayment objects to be created in the API
+     * @param utilityPayments [list of UtilityPayment objects or HashMaps]: list of UtilityPayment objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * @return list of UtilityPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<UtilityPayment> create(List<UtilityPayment> utilityPayments, Project user) throws Exception {
-        return Rest.post(data, utilityPayments, user);
+    @SuppressWarnings("unchecked")
+    public static List<UtilityPayment> create(List<?> payments, Project user) throws Exception {
+        List<UtilityPayment> paymentList = new ArrayList<>();
+        for (Object payment : payments){
+            if (payment.getClass() == HashMap.class){
+                paymentList.add(new UtilityPayment((Map<String, Object>) payment));
+                continue;
+            }
+            if (payment.getClass() == UtilityPayment.class){
+                paymentList.add((UtilityPayment) payment);
+                continue;
+            }
+            throw new Exception("Unknown type \"" + payment.getClass() + "\", use UtilityPayment or HashMap");
+        }
+        return Rest.post(data, paymentList, user);
     }
 
     /**

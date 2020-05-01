@@ -4,6 +4,7 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -209,13 +210,13 @@ public final class Transaction extends Resource {
      * Send a list of Transaction objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param transactions [list of Transaction objects]: list of Transaction objects to be created in the API
+     * @param transactions [list of Transaction objects or HashMaps]: list of Transaction objects to be created in the API
      * <p>
      * Return:
      * @return list of Transaction objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<Transaction> create(List<Transaction> transactions) throws Exception {
+    public static List<Transaction> create(List<?> transactions) throws Exception {
         return Transaction.create(transactions, null);
     }
 
@@ -225,14 +226,27 @@ public final class Transaction extends Resource {
      * Send a list of Transaction objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param transactions [list of Transaction objects]: list of Transaction objects to be created in the API
+     * @param transactions [list of Transaction objects or HashMaps]: list of Transaction objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of Transaction objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<Transaction> create(List<Transaction> transactions, Project user) throws Exception {
-        return Rest.post(data, transactions, user);
+    @SuppressWarnings("unchecked")
+    public static List<Transaction> create(List<?> transactions, Project user) throws Exception {
+        List<Transaction> transactionList = new ArrayList<>();
+        for (Object transaction : transactions){
+            if (transaction.getClass() == HashMap.class){
+                transactionList.add(new Transaction((Map<String, Object>) transaction));
+                continue;
+            }
+            if (transaction.getClass() == Transaction.class){
+                transactionList.add((Transaction) transaction);
+                continue;
+            }
+            throw new Exception("Unknown type \"" + transaction.getClass() + "\", use Transaction or HashMap");
+        }
+        return Rest.post(data, transactionList, user);
     }
 }

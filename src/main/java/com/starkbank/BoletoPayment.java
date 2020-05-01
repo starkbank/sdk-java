@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -226,14 +227,14 @@ public final class BoletoPayment extends Resource {
      * Send a list of BoletoPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param boletoPayments [list of BoletoPayment objects]: list of BoletoPayment objects to be created in the API
+     * @param boletoPayments [list of BoletoPayment objects or HashMaps]: list of BoletoPayment objects to be created in the API
      * <p>
      * Return:
      * @return list of BoletoPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<BoletoPayment> create(List<BoletoPayment> boletoPayments) throws Exception {
-        return BoletoPayment.create(boletoPayments, null);
+    public static List<BoletoPayment> create(List<?> payments) throws Exception {
+        return BoletoPayment.create(payments, null);
     }
 
     /**
@@ -242,15 +243,28 @@ public final class BoletoPayment extends Resource {
      * Send a list of BoletoPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param boletoPayments [list of BoletoPayment objects]: list of BoletoPayment objects to be created in the API
+     * @param boletoPayments [list of BoletoPayment objects or HashMaps]: list of BoletoPayment objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of BoletoPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<BoletoPayment> create(List<BoletoPayment> boletoPayments, Project user) throws Exception {
-        return Rest.post(data, boletoPayments, user);
+    @SuppressWarnings("unchecked")
+    public static List<BoletoPayment> create(List<?> payments, Project user) throws Exception {
+        List<BoletoPayment> paymentList = new ArrayList<>();
+        for (Object payment : payments){
+            if (payment.getClass() == HashMap.class){
+                paymentList.add(new BoletoPayment((Map<String, Object>) payment));
+                continue;
+            }
+            if (payment.getClass() == BoletoPayment.class){
+                paymentList.add((BoletoPayment) payment);
+                continue;
+            }
+            throw new Exception("Unknown type \"" + payment.getClass() + "\", use BoletoPayment or HashMap");
+        }
+        return Rest.post(data, paymentList, user);
     }
 
     /**
