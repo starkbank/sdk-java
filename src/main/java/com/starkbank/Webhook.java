@@ -22,10 +22,10 @@ public final class Webhook extends Resource {
      * and utility-payment
      * <p>
      * Parameters:
-     * url [string]: Url that will be notified when an event occurs.
-     * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
+     * @param url [string]: Url that will be notified when an event occurs.
+     * @param subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
      * Attributes:
-     * id [string, default null]: unique id returned when the log is created. ex: "5656565656565656"
+     * @param id [string, default null]: unique id returned when the log is created. ex: "5656565656565656"
      */
     public Webhook(String url, String[] subscriptions, String id) {
         super(id);
@@ -41,6 +41,7 @@ public final class Webhook extends Resource {
      * and utility-payment
      * <p>
      * Parameters:
+     * @param data map of properties for the creation of the WebHook
      * url [string]: Url that will be notified when an event occurs.
      * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
      * Attributes:
@@ -58,10 +59,11 @@ public final class Webhook extends Resource {
      * Receive a single Webhook subscription object previously created in the Stark Bank API by passing its id
      * <p>
      * Parameters:
-     * id [string]: object unique id. ex: "5656565656565656"
+     * @param id [string]: object unique id. ex: "5656565656565656"
      * <p>
      * Return:
-     * Webhook object with updated attributes
+     * @return Webhook object with updated attributes
+     * @throws Exception error in the request
      */
     public static Webhook get(String id) throws Exception {
         return Webhook.get(id, null);
@@ -73,11 +75,12 @@ public final class Webhook extends Resource {
      * Receive a single Webhook subscription object previously created in the Stark Bank API by passing its id
      * <p>
      * Parameters:
-     * id [string]: object unique id. ex: "5656565656565656"
-     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * Webhook object with updated attributes
+     * @return Webhook object with updated attributes
+     * @throws Exception error in the request
      */
     public static Webhook get(String id, Project user) throws Exception {
         return Rest.getId(data, id, user);
@@ -89,10 +92,12 @@ public final class Webhook extends Resource {
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API
      * <p>
      * Parameters:
+     * @param params parameters of the query
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * <p>
      * Return:
-     * generator of Webhook objects with updated attributes
+     * @return generator of Webhook objects with updated attributes
+     * @throws Exception error in the request
      */
     public static Generator<Webhook> query(Map<String, Object> params) throws Exception {
         return Webhook.query(params, null);
@@ -104,10 +109,11 @@ public final class Webhook extends Resource {
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * generator of Webhook objects with updated attributes
+     * @return generator of Webhook objects with updated attributes
+     * @throws Exception error in the request
      */
     public static Generator<Webhook> query(Project user) throws Exception {
         return Webhook.query(new HashMap<>(), user);
@@ -119,7 +125,8 @@ public final class Webhook extends Resource {
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API
      * <p>
      * Return:
-     * generator of Webhook objects with updated attributes
+     * @return generator of Webhook objects with updated attributes
+     * @throws Exception error in the request
      */
     public static Generator<Webhook> query() throws Exception {
         return Webhook.query(new HashMap<>(), null);
@@ -131,11 +138,13 @@ public final class Webhook extends Resource {
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API
      * <p>
      * Parameters:
+     * @param params parameters of the query
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-     * user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * generator of Webhook objects with updated attributes
+     * @return generator of Webhook objects with updated attributes
+     * @throws Exception error in the request
      */
     public static Generator<Webhook> query(Map<String, Object> params, Project user) throws Exception {
         return Rest.getList(data, params, user);
@@ -147,12 +156,13 @@ public final class Webhook extends Resource {
      * Send a single Webhook subscription for creation in the Stark Bank API
      * <p>
      * Parameters:
+     * @param webhookData parameters for the creation of the webhook
      * url [string]: Url that will be notified when an event occurs.
      * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
-     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * Webhook object with updated attributes
+     * @return Webhook object with updated attributes
+     * @throws Exception error in the request
      */
     public static Webhook create(Map<String, Object> webhookData) throws Exception {
         return Webhook.create(webhookData, null);
@@ -164,12 +174,14 @@ public final class Webhook extends Resource {
      * Send a single Webhook subscription for creation in the Stark Bank API
      * <p>
      * Parameters:
+     * @param webhookData parameters for the creation of the webhook
      * url [string]: Url that will be notified when an event occurs.
      * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
-     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * Webhook object with updated attributes
+     * @return Webhook object with updated attributes
+     * @throws Exception error in the request
      */
     public static Webhook create(Map<String, Object> webhookData, Project user) throws Exception {
         String url = (String) webhookData.get("url");
@@ -183,10 +195,11 @@ public final class Webhook extends Resource {
      * Delete a Webhook subscription entity previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * id [string]: Webhook unique id. ex: "5656565656565656"
+     * @param id [string]: Webhook unique id. ex: "5656565656565656"
      * <p>
      * Return:
-     * deleted Webhook with updated attributes
+     * @return deleted Webhook with updated attributes
+     * @throws Exception error in the request
      */
     public static Webhook delete(String id) throws Exception {
         return Webhook.delete(id, null);
@@ -198,11 +211,12 @@ public final class Webhook extends Resource {
      * Delete a Webhook subscription entity previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * id [string]: Webhook unique id. ex: "5656565656565656"
-     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param id [string]: Webhook unique id. ex: "5656565656565656"
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * deleted Webhook with updated attributes
+     * @return deleted Webhook with updated attributes
+     * @throws Exception error in the request
      */
     public static Webhook delete(String id, Project user) throws Exception {
         return Rest.delete(data, id, user);
