@@ -7,12 +7,8 @@ public class User {
     public static Project defaultProject() throws Exception {
         return new Project(
             "sandbox",
-            "9999999999999999",
-            "-----BEGIN EC PRIVATE KEY-----\n" +
-                    "MHQCAQEEIBEcEJZLk/DyuXVsEjz0w4vrE7plPXhQxODvcG1Jc0WToAcGBSuBBAAK\n" +
-                    "oUQDQgAE6t4OGx1XYktOzH/7HV6FBukxq0Xs2As6oeN6re1Ttso2fwrh5BJXDq75\n" +
-                    "mSYHeclthCRgU8zl6H1lFQ4BKZ5RCQ==\n" +
-                    "-----END EC PRIVATE KEY-----"
+            "5690398416568320",
+            "-----BEGIN EC PARAMETERS-----\nBgUrgQQACg==\n-----END EC PARAMETERS-----\n-----BEGIN EC PRIVATE KEY-----\nMHQCAQEEIIoYWZ2OGwqX6n1EVvj1C1YvWHSGqqhZJzfsZZnk0SVgoAcGBSuBBAAK\noUQDQgAEGS1jWJXoK9RUk+qoNNFquO7X4JzRf5ZA5UDJUfPCbbKe5KwtrBKTJC1/\nvRGIpAM5gNsxdfKgmoXNriiuY4LEPQ==\n-----END EC PRIVATE KEY-----\n"
         );
     }
 }
