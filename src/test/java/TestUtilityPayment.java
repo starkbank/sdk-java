@@ -7,9 +7,12 @@ import org.junit.Test;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -21,8 +24,13 @@ public class TestUtilityPayment {
         List<UtilityPayment> payments = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
         int randomNum = ThreadLocalRandom.current().nextInt(1, 100000000);
+
+        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        String paymentDay = dateFormat.format(tomorrow);
+
         data.put("barCode", "8364000" + String.format("%08d", randomNum) + "01380076105302611108067159411");
-        data.put("scheduled", "2020-04-30");
+        data.put("scheduled", paymentDay);
         data.put("description", "Electricity for the Long Night");
         data.put("tags", new String[]{"Energy", "Winterfell"});
         payments.add(new UtilityPayment(data));
@@ -68,8 +76,13 @@ public class TestUtilityPayment {
         List<UtilityPayment> payments = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
         int randomNum = ThreadLocalRandom.current().nextInt(1, 100000000);
+
+        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        String paymentDay = dateFormat.format(tomorrow);
+
         data.put("barCode", "8364000" + String.format("%08d", randomNum) + "01380076105302611108067159411");
-        data.put("scheduled", "2020-04-30");
+        data.put("scheduled", paymentDay);
         data.put("description", "Electricity for the Long Night");
         data.put("tags", new String[]{"Energy", "Winterfell"});
         payments.add(new UtilityPayment(data));
