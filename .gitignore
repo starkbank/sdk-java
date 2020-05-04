@@ -16,3 +16,4 @@ bin/
 **/development.json
 **/sandbox.json
 **/snippet.java
+gradle.properties
