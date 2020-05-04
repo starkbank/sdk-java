@@ -23,7 +23,7 @@ public final class Key {
      * Generates a secp256k1 ECDSA private/public key pair to be used in the API authentications
      * <p>
      * Return:
-     * new Key object
+     * @return new Key object
      */
     public static Key create() {
         return new Key((new PrivateKey()).toPem());
@@ -35,10 +35,11 @@ public final class Key {
      * Generates a secp256k1 ECDSA private/public key pair to be used in the API authentications
      * <p>
      * Parameters:
-     * savePath [string]: path to save the keys .pem files. No files will be saved if this parameter isn't provided
+     * @param savePath [string]: path to save the keys .pem files. No files will be saved if this parameter isn't provided
      * <p>
      * Return:
-     * new Key object
+     * @return new Key object
+     * @throws FileNotFoundException error when the savePath is not found
      */
     public static Key create(String savePath) throws FileNotFoundException {
         Key key = Key.create();

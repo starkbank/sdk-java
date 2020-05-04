@@ -6,9 +6,12 @@ import org.junit.Assert;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -20,9 +23,15 @@ public class TestBoletoPayment {
         List<BoletoPayment> payments = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
         int randomNum = ThreadLocalRandom.current().nextInt(1, 100000000);
+
+        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        String boletoDay = dateFormat.format(tomorrow);
+        
+
         data.put("line", "34191.09107 05447.947309 71444.640008 8 846600" + String.format("%08d", randomNum));
         data.put("taxId", "38.435.677/0001-25");
-        data.put("scheduled", "2020-04-30");
+        data.put("scheduled", boletoDay);
         data.put("description", "Payment for killing white walkers");
         data.put("tags", new String[]{"little girl", "no one"});
         payments.add(new BoletoPayment(data));
@@ -68,9 +77,14 @@ public class TestBoletoPayment {
         List<BoletoPayment> payments = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
         int randomNum = ThreadLocalRandom.current().nextInt(1, 100000000);
+
+        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        String boletoDay = dateFormat.format(tomorrow);
+
         data.put("line", "34191.09107 05447.947309 71444.640008 8 846600" + String.format("%08d", randomNum));
         data.put("taxId", "38.435.677/0001-25");
-        data.put("scheduled", "2020-04-30");
+        data.put("scheduled", boletoDay);
         data.put("description", "Payment for killing white walkers");
         data.put("tags", new String[]{"little girl", "no one"});
         payments.add(new BoletoPayment(data));
