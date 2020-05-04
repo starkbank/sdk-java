@@ -117,6 +117,7 @@ public abstract class Generator<T> implements Iterable<T> {
         producer.start();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void finalize() throws Throwable {
         producer.interrupt();
