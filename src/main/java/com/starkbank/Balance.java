@@ -25,10 +25,10 @@ public final class Balance extends Resource {
      * can be retrieved to see the information available.
      * <p>
      * Attributes (return-only):
-     * id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
-     * amount [integer, default null]: current balance amount of the workspace in cents. ex: 200 (= R$ 2.00)
-     * currency [string, default null]: currency of the current workspace. Expect others to be added eventually. ex: "BRL"
-     * updated [string, default null]: update datetime for the balance. ex: "2020-03-10 10:30:00.000"
+     * @param id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
+     * @param amount [integer, default null]: current balance amount of the workspace in cents. ex: 200 (= R$ 2.00)
+     * @param currency [string, default null]: currency of the current workspace. Expect others to be added eventually. ex: "BRL"
+     * @param updated [string, default null]: update datetime for the balance. ex: "2020-03-10 10:30:00.000"
      */
     public Balance(int amount, String currency, String updated, String id) {
         super(id);
@@ -43,10 +43,11 @@ public final class Balance extends Resource {
      * Receive the Balance object linked to your workspace in the Stark Bank API
      * <p>
      * Parameters:
-     * user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * Balance object with updated attributes
+     * @return Balance object with updated attributes
+     * @throws Exception error in the request
      */
     public static Balance get(Project user) throws Exception {
         List<Balance> balanceList = new ArrayList<>();
@@ -57,6 +58,15 @@ public final class Balance extends Resource {
         return balanceList.get(0);
     }
 
+     /**
+     * Retrieve the Balance object
+     * <p>
+     * Receive the Balance object linked to your workspace in the Stark Bank API
+     * <p>
+     * Return:
+     * @return Balance object with updated attributes
+     * @throws Exception error in the request
+     */
     public static Balance get() throws Exception {
         return Balance.get(null);
     }
