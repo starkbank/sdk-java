@@ -17,3 +17,4 @@ bin/
 **/sandbox.json
 **/snippet.java
 gradle.properties
+projectCredentials.json
