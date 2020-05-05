@@ -20,7 +20,7 @@ public final class Boleto extends Resource {
      * to the Stark Bank API and returns the list of created objects.
      * <p>
      * Parameters:
-     * amount [integer]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
+     * amount [long]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
      * name [string]: payer full name. ex: "Anthony Edward Stark"
      * taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * streetLine1 [string]: payer main address. ex: Av. Paulista, 200
@@ -45,7 +45,7 @@ public final class Boleto extends Resource {
      */
     static ClassData data = new ClassData(Boleto.class, "Boleto");
 
-    public final Integer amount;
+    public final long amount;
     public final String name;
     public final String taxId;
     public final String streetLine1;
@@ -75,7 +75,7 @@ public final class Boleto extends Resource {
      * All parameters are passed in a Map of String and Object object.
 
      * Parameters:
-     * @param amount [integer]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
+     * @param amount [long]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
      * @param name [string]: payer full name. ex: "Anthony Edward Stark"
      * @param taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * @param streetLine1 [string]: payer main address. ex: Av. Paulista, 200
@@ -98,7 +98,7 @@ public final class Boleto extends Resource {
      * @param status status of the boleto
      * @param created date the boleto was created
      */
-    public Boleto(Integer amount, String name, String taxId, String streetLine1, String streetLine2,
+    public Boleto(long amount, String name, String taxId, String streetLine1, String streetLine2,
                   String district, String city, String stateCode, String zipCode, String due, Double fine,
                   Double interest, Integer overdueLimit, String[] tags, List<Map<String, Object>> descriptions,
                   List<Map<String, Object>> discounts, String id, Integer fee, String line, String barCode,
@@ -138,7 +138,7 @@ public final class Boleto extends Resource {
      * <p>
      * @param data map of parameters for the creation of the Boleto
      * Parameters:
-     * amount [integer]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
+     * amount [long]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
      * name [string]: payer full name. ex: "Anthony Edward Stark"
      * taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * streetLine1 [string]: payer main address. ex: Av. Paulista, 200
@@ -162,7 +162,7 @@ public final class Boleto extends Resource {
         super(null);
         HashMap<String, Object> dataCopy = new HashMap<>(data);
 
-        this.amount = (Integer) dataCopy.remove("amount");
+        this.amount = ((Number) dataCopy.remove("amount")).longValue();
         this.name = (String) dataCopy.remove("name");
         this.taxId = (String) dataCopy.remove("taxId");
         this.streetLine1 = (String) dataCopy.remove("streetLine1");

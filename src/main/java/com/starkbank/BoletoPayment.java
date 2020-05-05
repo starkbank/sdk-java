@@ -14,7 +14,7 @@ import java.util.Map;
 public final class BoletoPayment extends Resource {
     static ClassData data = new ClassData(BoletoPayment.class, "BoletoPayment");
 
-    public final Integer amount;
+    public final Long amount;
     public final String taxId;
     public final String description;
     public final String line;
@@ -57,8 +57,8 @@ public final class BoletoPayment extends Resource {
      * @param line numeric code of the BoletoPayment
      * @param barCode bar code of the Boleto
      */
-    public BoletoPayment(int amount, String taxId, String[] tags, String description, String scheduled,
-                         String line, String barCode, String id, int fee, String status, String created
+    public BoletoPayment(Long amount, String taxId, String[] tags, String description, String scheduled,
+                         String line, String barCode, String id, Integer fee, String status, String created
     ) {
         super(id);
         this.taxId = taxId;

@@ -20,7 +20,7 @@ public final class UtilityPayment extends Resource {
     public final String scheduled;
     public final String[] tags;
     public final String status;
-    public final Integer amount;
+    public final Long amount;
     public final Integer fee;
     public final String created;
 
@@ -43,11 +43,11 @@ public final class UtilityPayment extends Resource {
      * Attributes (return-only):
      * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
      * @param status [string, default null]: current payment status. ex: "processing" or "success"
-     * @param amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-     * @param fee [integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
+     * @param amount [long, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
+     * @param fee [Integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
      * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
      */
-    public UtilityPayment(Integer amount, String[] tags, String description, String scheduled,
+    public UtilityPayment(Long amount, String[] tags, String description, String scheduled,
                           String line, String barCode, String id, Integer fee, String status, String created
     ) {
         super(id);
@@ -85,7 +85,7 @@ public final class UtilityPayment extends Resource {
      * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
      * status [string, default null]: current payment status. ex: "processing" or "success"
      * amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-     * fee [integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
+     * fee [Integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
      */
     public UtilityPayment(Map<String, Object> data) throws Exception {
@@ -147,7 +147,7 @@ public final class UtilityPayment extends Resource {
      * <p>
      * Parameters:
      * @param params parameters of the query
-     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     * limit [Integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
@@ -198,7 +198,7 @@ public final class UtilityPayment extends Resource {
      * <p>
      * Parameters:
      * @param params paremeters of the query
-     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     * limit [Integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
@@ -397,7 +397,7 @@ public final class UtilityPayment extends Resource {
          * <p>
          * Parameters:
          * @param params map of parameters for the query
-         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * limit [Integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter retrieved objects by event types. ex: "processing" or "success"
@@ -447,7 +447,7 @@ public final class UtilityPayment extends Resource {
          * <p>
          * Parameters:
          * @param params parameters of the query
-         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * limit [Integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter retrieved objects by event types. ex: "processing" or "success"
