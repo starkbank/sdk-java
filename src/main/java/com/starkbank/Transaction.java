@@ -13,15 +13,16 @@ import java.util.Map;
 public final class Transaction extends Resource {
     static ClassData data = new ClassData(Transaction.class, "Transaction");
 
-    public final int amount;
+    public final long amount;
     public final String description;
     public final String externalId;
     public final String senderId;
     public final String receiverId;
     public final String[] tags;
     public final Integer fee;
-    public final String created;
     public final String source;
+    public final Long balance;
+    public final String created;
 
     /**
      * Transaction object
@@ -43,12 +44,13 @@ public final class Transaction extends Resource {
      * Attributes (return-only):
      * @param senderId [string]: unique id of the sending workspace. ex: "5656565656565656"
      * @param source [string, default null]: unique locator of the related entity in the API reference
-     * @param id [string, default null]: unique id returned when Transaction is created. ex: "7656565656565656"
-     * @param fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
-     * @param created [string, default null]: creation datetime for the boleto. ex: "2020-03-10 10:30:00.000"
+     * @param id [string, default null]: unique id returned when the transaction is created. ex: "7656565656565656"
+     * @param fee [integer, default null]: fee charged when the transaction is created. ex: 200 (= R$ 2.00)
+     * @param balance [integer, default null]: account balance after transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
+     * @param created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000"
      */
-    public Transaction(int amount, String description, String externalId, String receiverId, String senderId,
-                       String[] tags, int fee, String created, String source, String id) {
+    public Transaction(long amount, String description, String externalId, String receiverId, String senderId,
+                       String[] tags, int fee, String created, String source, long balance, String id) {
         super(id);
         this.amount = amount;
         this.description = description;
@@ -57,8 +59,9 @@ public final class Transaction extends Resource {
         this.senderId = senderId;
         this.tags = tags;
         this.fee = fee;
-        this.created = created;
         this.source = source;
+        this.balance = balance;
+        this.created = created;
     }
 
     /**
@@ -84,9 +87,10 @@ public final class Transaction extends Resource {
      * tags [list of strings]: list of strings for reference when searching transactions (may be empty). ex: ["abc", "test"]
      * Attributes (return-only):
      * source [string, default null]: unique locator of the related entity in the API reference
-     * id [string, default null]: unique id returned when Transaction is created. ex: "7656565656565656"
-     * fee [integer, default null]: fee charged when transfer is created. ex: 200 (= R$ 2.00)
-     * created [string, default null]: creation datetime for the boleto. ex: "2020-03-10 10:30:00.000"
+     * id [string, default null]: unique id returned when transaction is created. ex: "7656565656565656"
+     * fee [integer, default null]: fee charged when the transaction is created. ex: 200 (= R$ 2.00)
+     * balance [integer, default null]: account balance after the transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
+     * created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000"
      */
     public Transaction(Map<String, Object> data) throws Exception {
         super(null);
@@ -97,10 +101,11 @@ public final class Transaction extends Resource {
         this.externalId = (String) dataCopy.remove("externalId");
         this.receiverId = (String) dataCopy.remove("receiverId");
         this.tags = (String[]) dataCopy.remove("tags");
-        this.created = null;
         this.fee = null;
         this.senderId = null;
         this.source = null;
+        this.balance = null;
+        this.created = null;
 
         if (!dataCopy.isEmpty()) {
             throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");

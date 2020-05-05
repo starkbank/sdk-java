@@ -32,7 +32,7 @@ public final class Boleto extends Resource {
      * due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
-     * overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
+     * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
      * descriptions [list of Hashmaps, default null]: list of hashmaps with "text":string and (optional) "amount":int pairs
      * discounts [list of Hashmaps, default null]: list of hashmaps with "percentage": Double and "date": string pairs
      * tags [list of strings]: list of strings for tagging
@@ -152,7 +152,7 @@ public final class Boleto extends Resource {
      * Parameters (optional):
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
-     * overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
+     * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
      * descriptions [list of HashMap, default null]: list of hashmaps with "text":string and "amount":int pairs
      * discounts [list of Hashmap, default null]: list of hashmaps with "percentage": Double and "date": string pairs
      * tags [list of strings]: list of strings for tagging
@@ -230,7 +230,7 @@ public final class Boleto extends Resource {
      * @param params map of parameters
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-     * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
@@ -253,7 +253,7 @@ public final class Boleto extends Resource {
      * @param params map of parameters
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-     * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
@@ -427,7 +427,7 @@ public final class Boleto extends Resource {
          * @param boleto [Boleto]: Boleto entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this Boleto event
          * @param type [string]: type of the Boleto event which triggered the log creation. ex: "registered" or "paid"
-         * @param created [string]: creation datetime for the boleto. ex: "2020-03-10 10:30:00.000"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
          */
         public Log(String created, String type, String[] errors, Boleto boleto, String id) {
             super(id);
@@ -479,7 +479,7 @@ public final class Boleto extends Resource {
          * @param params map of parameters
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-         * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
          * boletoIds [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
          * <p>
@@ -529,7 +529,7 @@ public final class Boleto extends Resource {
          * @param params map of parameters
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-         * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
          * boletoIds [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
          * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call

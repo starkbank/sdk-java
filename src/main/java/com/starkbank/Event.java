@@ -31,7 +31,7 @@ public class Event extends Resource {
      * list all generated updates on entities.
      * <p>
      * Attributes:
-     * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
+     * @param id [string]: unique id returned when the event is created. ex: "5656565656565656"
      * @param created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000"
      * @param isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
      * @param subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
@@ -147,7 +147,7 @@ public class Event extends Resource {
      * @param params parameters of the query
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
-     * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
+     * before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
      * isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
      * <p>
      * Return:
@@ -196,7 +196,7 @@ public class Event extends Resource {
      * @param params parameters of the query
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
-     * before [string, default null]: date filter for objects only before specified date. ex: "2020-03-10"
+     * before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
      * isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
      * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
