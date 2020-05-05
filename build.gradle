@@ -77,9 +77,9 @@ uploadArchives {
 
         developers {
           developer {
-            id 'thalesmello'
-            name 'Thales Mello'
-            email 'thalesmello@gmail.com'
+            id 'rcmstark'
+            name 'Rafael Stark'
+            email 'rafael@starkbank.com'
           }
         }
       }
