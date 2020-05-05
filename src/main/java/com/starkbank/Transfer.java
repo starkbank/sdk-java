@@ -14,7 +14,7 @@ import java.util.Map;
 public final class Transfer extends Resource {
     static ClassData data = new ClassData(Transfer.class, "Transfer");
 
-    public final Integer amount;
+    public final long amount;
     public final String name;
     public final String taxId;
     public final String bankCode;
@@ -35,7 +35,7 @@ public final class Transfer extends Resource {
      * to the Stark Bank API and returns the list of created objects.
      * <p>
      * Parameters:
-     * @param amount [integer]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
+     * @param amount [long]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
      * @param name [string]: receiver full name. ex: "Anthony Edward Stark"
      * @param taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * @param bankCode [string]: 1 to 3 digits of the receiver bank institution in Brazil. ex: "200" or "341"
@@ -51,8 +51,8 @@ public final class Transfer extends Resource {
      * @param created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      * @param updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      */
-    public Transfer(String id, int amount, String name, String taxId, String bankCode, String branchCode,
-                    String accountNumber, String[] tags, int fee, String status, String created,
+    public Transfer(String id, long amount, String name, String taxId, String bankCode, String branchCode,
+                    String accountNumber, String[] tags, Integer fee, String status, String created,
                     String updated, String[] transactionIds) {
         super(id);
         this.amount = amount;
@@ -78,7 +78,7 @@ public final class Transfer extends Resource {
      * <p>
      * Parameters:
      * @param data map of properties for the creation of the Transfer
-     * amount [integer]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
+     * amount [long]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
      * name [string]: receiver full name. ex: "Anthony Edward Stark"
      * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * bankCode [string]: 1 to 3 digits of the receiver bank institution in Brazil. ex: "200" or "341"
@@ -100,7 +100,7 @@ public final class Transfer extends Resource {
         super(null);
         HashMap<String, Object> dataCopy = new HashMap<>(data);
 
-        this.amount = (Integer) dataCopy.remove("amount");
+        this.amount = ((Number) dataCopy.remove("amount")).longValue();
         this.name = (String) dataCopy.remove("name");
         this.taxId = (String) dataCopy.remove("taxId");
         this.bankCode = (String) dataCopy.remove("bankCode");
