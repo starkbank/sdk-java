@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,17 +88,23 @@ public final class UtilityPayment extends Resource {
      * fee [integer, default null]: fee charged when utility payment is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
      */
-    public UtilityPayment(Map<String, Object> data) {
+    public UtilityPayment(Map<String, Object> data) throws Exception {
         super(null);
-        this.description = (String) data.get("description");
-        this.line = (String) data.get("line");
-        this.barCode = (String) data.get("barCode");
-        this.scheduled = (String) data.get("scheduled");
-        this.tags = (String[]) data.get("tags");
+        HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+        this.description = (String) dataCopy.remove("description");
+        this.line = (String) dataCopy.remove("line");
+        this.barCode = (String) dataCopy.remove("barCode");
+        this.scheduled = (String) dataCopy.remove("scheduled");
+        this.tags = (String[]) dataCopy.remove("tags");
         this.amount = null;
         this.created = null;
         this.fee = null;
         this.status = null;
+
+        if (!dataCopy.isEmpty()) {
+            throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+        }
     }
 
     /**
@@ -213,14 +220,14 @@ public final class UtilityPayment extends Resource {
      * Send a list of UtilityPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param utilityPayments [list of UtilityPayment objects]: list of UtilityPayment objects to be created in the API
+     * @param utilityPayments [list of UtilityPayment objects or HashMaps]: list of UtilityPayment objects to be created in the API
      * <p>
      * Return:
      * @return list of UtilityPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<UtilityPayment> create(List<UtilityPayment> utilityPayments) throws Exception {
-        return UtilityPayment.create(utilityPayments, null);
+    public static List<UtilityPayment> create(List<?> payments) throws Exception {
+        return UtilityPayment.create(payments, null);
     }
 
     /**
@@ -229,14 +236,27 @@ public final class UtilityPayment extends Resource {
      * Send a list of UtilityPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param utilityPayments [list of UtilityPayment objects]: list of UtilityPayment objects to be created in the API
+     * @param utilityPayments [list of UtilityPayment objects or HashMaps]: list of UtilityPayment objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * @return list of UtilityPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<UtilityPayment> create(List<UtilityPayment> utilityPayments, Project user) throws Exception {
-        return Rest.post(data, utilityPayments, user);
+    @SuppressWarnings("unchecked")
+    public static List<UtilityPayment> create(List<?> payments, Project user) throws Exception {
+        List<UtilityPayment> paymentList = new ArrayList<>();
+        for (Object payment : payments){
+            if (payment.getClass() == HashMap.class){
+                paymentList.add(new UtilityPayment((Map<String, Object>) payment));
+                continue;
+            }
+            if (payment.getClass() == UtilityPayment.class){
+                paymentList.add((UtilityPayment) payment);
+                continue;
+            }
+            throw new Exception("Unknown type \"" + payment.getClass() + "\", use UtilityPayment or HashMap");
+        }
+        return Rest.post(data, paymentList, user);
     }
 
     /**

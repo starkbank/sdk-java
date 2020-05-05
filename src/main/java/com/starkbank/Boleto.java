@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,29 +158,35 @@ public final class Boleto extends Resource {
      * tags [list of strings]: list of strings for tagging
      */
     @SuppressWarnings("unchecked")
-    public Boleto(Map<String, Object> data) {
+    public Boleto(Map<String, Object> data) throws Exception {
         super(null);
-        this.amount = (Integer) data.get("amount");
-        this.name = (String) data.get("name");
-        this.taxId = (String) data.get("taxId");
-        this.streetLine1 = (String) data.get("streetLine1");
-        this.streetLine2 = (String) data.get("streetLine2");
-        this.district = (String) data.get("district");
-        this.city = (String) data.get("city");
-        this.stateCode = (String) data.get("stateCode");
-        this.zipCode = (String) data.get("zipCode");
-        this.due = (String) data.get("due");
-        this.fine = (Double) data.get("fine");
-        this.interest = (Double) data.get("interest");
-        this.overdueLimit = (Integer) data.get("overdueLimit");
-        this.tags = (String[]) data.get("tags");
-        this.descriptions = (List<Map<String, Object>>) data.get("descriptions");
-        this.discounts = (List<Map<String, Object>>) data.get("discounts");
+        HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+        this.amount = (Integer) dataCopy.remove("amount");
+        this.name = (String) dataCopy.remove("name");
+        this.taxId = (String) dataCopy.remove("taxId");
+        this.streetLine1 = (String) dataCopy.remove("streetLine1");
+        this.streetLine2 = (String) dataCopy.remove("streetLine2");
+        this.district = (String) dataCopy.remove("district");
+        this.city = (String) dataCopy.remove("city");
+        this.stateCode = (String) dataCopy.remove("stateCode");
+        this.zipCode = (String) dataCopy.remove("zipCode");
+        this.due = (String) dataCopy.remove("due");
+        this.fine = (Double) dataCopy.remove("fine");
+        this.interest = (Double) dataCopy.remove("interest");
+        this.overdueLimit = (Integer) dataCopy.remove("overdueLimit");
+        this.tags = (String[]) dataCopy.remove("tags");
+        this.descriptions = (List<Map<String, Object>>) dataCopy.remove("descriptions");
+        this.discounts = (List<Map<String, Object>>) dataCopy.remove("discounts");
         this.barCode = null;
         this.created = null;
         this.fee = null;
         this.line = null;
         this.status = null;
+
+        if (!dataCopy.isEmpty()) {
+            throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+        }
     }
 
     /**
@@ -293,15 +300,28 @@ public final class Boleto extends Resource {
      * Send a list of Boleto objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param boletos [list of Boleto objects]: list of Boleto objects to be created in the API
+     * @param boletos [list of Boleto objects or HashMaps]: list of Boleto objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of Boleto objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<Boleto> create(List<Boleto> boletos, Project user) throws Exception {
-        return Rest.post(data, boletos, user);
+    @SuppressWarnings("unchecked")
+    public static List<Boleto> create(List<?> boletos, Project user) throws Exception {
+        List<Boleto> boletoList = new ArrayList<>();
+        for (Object boleto : boletos){
+            if (boleto.getClass() == HashMap.class){
+                boletoList.add(new Boleto((Map<String, Object>) boleto));
+                continue;
+            }
+            if (boleto.getClass() == Boleto.class){
+                boletoList.add((Boleto) boleto);
+                continue;
+            }
+            throw new Exception("Unknown type \"" + boleto.getClass() + "\", use Boleto or HashMap");
+        }
+        return Rest.post(data, boletoList, user);
     }
 
     /**
@@ -310,14 +330,14 @@ public final class Boleto extends Resource {
      * Send a list of Boleto objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param boletos [list of Boleto objects]: list of Boleto objects to be created in the API
+     * @param boletos [list of Boleto objects or HashMaps]: list of Boleto objects to be created in the API
      * <p>
      * Return:
      * @return list of Boleto objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static List<Boleto> create(List<Boleto> boletos) throws Exception {
-        return Rest.post(data, boletos, null);
+    public static List<Boleto> create(List<?> boletos) throws Exception {
+        return Boleto.create(boletos, null);
     }
 
     /**

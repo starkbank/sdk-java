@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,18 +100,24 @@ public final class BoletoPayment extends Resource {
      * fee [integer, default null]: fee charged when boleto payment is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
      */
-    public BoletoPayment(Map<String, Object> data) {
+    public BoletoPayment(Map<String, Object> data) throws Exception {
         super(null);
-        this.taxId = (String) data.get("taxId");
-        this.description = (String) data.get("description");
-        this.line = (String) data.get("line");
-        this.barCode = (String) data.get("barCode");
-        this.scheduled = (String) data.get("scheduled");
-        this.tags = (String[]) data.get("tags");
+        HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+        this.taxId = (String) dataCopy.remove("taxId");
+        this.description = (String) dataCopy.remove("description");
+        this.line = (String) dataCopy.remove("line");
+        this.barCode = (String) dataCopy.remove("barCode");
+        this.scheduled = (String) dataCopy.remove("scheduled");
+        this.tags = (String[]) dataCopy.remove("tags");
         this.amount = null;
         this.created = null;
         this.fee = null;
         this.status = null;
+
+        if (!dataCopy.isEmpty()) {
+            throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+        }
     }
 
     /**
@@ -226,14 +233,14 @@ public final class BoletoPayment extends Resource {
      * Send a list of BoletoPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param boletoPayments [list of BoletoPayment objects]: list of BoletoPayment objects to be created in the API
+     * @param boletoPayments [list of BoletoPayment objects or HashMaps]: list of BoletoPayment objects to be created in the API
      * <p>
      * Return:
      * @return list of BoletoPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<BoletoPayment> create(List<BoletoPayment> boletoPayments) throws Exception {
-        return BoletoPayment.create(boletoPayments, null);
+    public static List<BoletoPayment> create(List<?> payments) throws Exception {
+        return BoletoPayment.create(payments, null);
     }
 
     /**
@@ -242,15 +249,28 @@ public final class BoletoPayment extends Resource {
      * Send a list of BoletoPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param boletoPayments [list of BoletoPayment objects]: list of BoletoPayment objects to be created in the API
+     * @param boletoPayments [list of BoletoPayment objects or HashMaps]: list of BoletoPayment objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of BoletoPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<BoletoPayment> create(List<BoletoPayment> boletoPayments, Project user) throws Exception {
-        return Rest.post(data, boletoPayments, user);
+    @SuppressWarnings("unchecked")
+    public static List<BoletoPayment> create(List<?> payments, Project user) throws Exception {
+        List<BoletoPayment> paymentList = new ArrayList<>();
+        for (Object payment : payments){
+            if (payment.getClass() == HashMap.class){
+                paymentList.add(new BoletoPayment((Map<String, Object>) payment));
+                continue;
+            }
+            if (payment.getClass() == BoletoPayment.class){
+                paymentList.add((BoletoPayment) payment);
+                continue;
+            }
+            throw new Exception("Unknown type \"" + payment.getClass() + "\", use BoletoPayment or HashMap");
+        }
+        return Rest.post(data, paymentList, user);
     }
 
     /**

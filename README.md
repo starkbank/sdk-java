@@ -229,6 +229,8 @@ for (Boleto boleto : boletos){
 }
 ```
 
+**Note**: Instead of using Boleto objects, you can also pass each boleto element in HashMap format
+
 ### Query boletos
 
 You can get a list of created boletos given some filters.
@@ -356,6 +358,8 @@ for (Transfer transfer : transfers){
 }
 ```
 
+**Note**: Instead of using Transfer objects, you can also pass each transfer element in HashMap format
+
 ### Query transfers
 
 You can query multiple transfers according to filters.
@@ -466,6 +470,8 @@ for (BoletoPayment payment : payments){
     System.out.println(payment);
 }
 ```
+
+**Note**: Instead of using BoletoPayment objects, you can also pass each payment element in HashMap format
 
 ### Query boleto payments
 
@@ -714,6 +720,8 @@ for (Transaction transaction : transactions){
 }
 ```
 
+**Note**: Instead of using UtilityPayment objects, you can also pass each payment element in HashMap format
+
 ### Query transactions
 
 To understand your balance changes (bank statement), you can query
@@ -762,6 +770,8 @@ Webhook webhook = Webhook.create(data);
 
 System.out.println(webhook);
 ```
+
+**Note**: Instead of using Transaction objects, you can also pass each transaction element in HashMap format
 
 ### Query webhooks
 

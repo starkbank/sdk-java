@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,20 +96,26 @@ public final class Transfer extends Resource {
      * created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      * updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      */
-    public Transfer(Map<String, Object> data) {
+    public Transfer(Map<String, Object> data) throws Exception {
         super(null);
-        this.amount = (Integer) data.get("amount");
-        this.name = (String) data.get("name");
-        this.taxId = (String) data.get("taxId");
-        this.bankCode = (String) data.get("bankCode");
-        this.branchCode = (String) data.get("branchCode");
-        this.accountNumber = (String) data.get("accountNumber");
-        this.tags = (String[]) data.get("tags");
+        HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+        this.amount = (Integer) dataCopy.remove("amount");
+        this.name = (String) dataCopy.remove("name");
+        this.taxId = (String) dataCopy.remove("taxId");
+        this.bankCode = (String) dataCopy.remove("bankCode");
+        this.branchCode = (String) dataCopy.remove("branchCode");
+        this.accountNumber = (String) dataCopy.remove("accountNumber");
+        this.tags = (String[]) dataCopy.remove("tags");
         this.created = null;
         this.fee = null;
         this.status = null;
         this.transactionIds = null;
         this.updated = null;
+
+        if (!dataCopy.isEmpty()) {
+            throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+        }
     }
 
     /**
@@ -226,13 +233,13 @@ public final class Transfer extends Resource {
      * Send a list of Transfer objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param transfers [list of Transfer objects]: list of Transfer objects to be created in the API
+     * @param transfers [list of Transfer objects or HashMaps]: list of Transfer objects to be created in the API
      * <p>
      * Return:
      * @return list of Transfer objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<Transfer> create(List<Transfer> transfers) throws Exception {
+    public static List<Transfer> create(List<?> transfers) throws Exception {
         return Transfer.create(transfers, null);
     }
 
@@ -242,15 +249,28 @@ public final class Transfer extends Resource {
      * Send a list of Transfer objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param transfers [list of Transfer objects]: list of Transfer objects to be created in the API
+     * @param transfers [list of Transfer objects or HashMaps]: list of Transfer objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of Transfer objects with updated attributes
      * @throws Exception error in the request
      */
-    public static List<Transfer> create(List<Transfer> transfers, Project user) throws Exception {
-        return Rest.post(data, transfers, user);
+    @SuppressWarnings("unchecked")
+    public static List<Transfer> create(List<?> transfers, Project user) throws Exception {
+        List<Transfer> transferList = new ArrayList<>();
+        for (Object transfer : transfers){
+            if (transfer.getClass() == HashMap.class){
+                transferList.add(new Transfer((Map<String, Object>) transfer));
+                continue;
+            }
+            if (transfer.getClass() == Transfer.class){
+                transferList.add((Transfer) transfer);
+                continue;
+            }
+            throw new Exception("Unknown type \"" + transfer.getClass() + "\", use Transfer or HashMap");
+        }
+        return Rest.post(data, transferList, user);
     }
 
     /**
