@@ -123,7 +123,7 @@ public final class Response {
     }
 
     private static String getUserAgent() {
-        String javaUserAgent = "Java-" + System.getProperty("java.version") + "-SDK-0.1.4";
+        String javaUserAgent = "Java-" + System.getProperty("java.version") + "-SDK-0.2.0";
         return (userAgentOverride == null) ? javaUserAgent : userAgentOverride;
     }
 }
