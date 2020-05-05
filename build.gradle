@@ -43,46 +43,56 @@ signing {
 }
 
 uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: "ossrhUsername", password: "ossrhPassword")
+            }
 
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: "ossrhUsername", password: "ossrhPassword")
+            }
 
-      pom.project {
-        name 'StarkBank SDK Java'
-        packaging 'jar'
-        // optionally artifactId can be defined here 
-        description 'SDK to facilitate Java integrations with the Stark Bank API'
-        url 'https://github.com/starkbank/sdk-java'
+            pom.project {
+                name 'StarkBank SDK Java'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'SDK to facilitate Java integrations with the Stark Bank API'
+                url 'https://github.com/starkbank/sdk-java'
 
-        scm {
-          connection 'scm:git:git://github.com/starkbank/sdk-java.git'
-          developerConnection 'scm:git:ssh://github.com/starkbank/sdk-java.git'
-          url 'https://github.com/starkbank/sdk-java/'
+                scm {
+                    connection 'scm:git:git://github.com/starkbank/sdk-java.git'
+                    developerConnection 'scm:git:ssh://github.com/starkbank/sdk-java.git'
+                    url 'https://github.com/starkbank/sdk-java/'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT License'
+                        url 'https://github.com/starkbank/sdk-java/blob/master/LICENSE'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'daltonmenezes'
+                        name 'Dalton Menezes'
+                        email 'dalton.menezes@starkbank.com'
+                    }
+                    developer {
+                        id 'cdottori'
+                        name 'Caio Dottori'
+                        email 'caio.dottori@starkbank.com'
+                    }
+                    developer {
+                        id 'thalesmello'
+                        name 'Thales Mello'
+                        email 'thalesmello@gmail.com'
+                    }
+                }
+            }
         }
-
-        licenses {
-          license {
-            name 'MIT License'
-            url 'https://github.com/starkbank/sdk-java/blob/master/LICENSE'
-          }
-        }
-
-        developers {
-          developer {
-            id 'thalesmello'
-            name 'Thales Mello'
-            email 'thalesmello@gmail.com'
-          }
-        }
-      }
     }
-  }
 }
