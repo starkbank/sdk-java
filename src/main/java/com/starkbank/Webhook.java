@@ -25,7 +25,7 @@ public final class Webhook extends Resource {
      * @param url [string]: Url that will be notified when an event occurs.
      * @param subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
      * Attributes:
-     * @param id [string, default null]: unique id returned when the log is created. ex: "5656565656565656"
+     * @param id [string, default null]: unique id returned when the webhook is created. ex: "5656565656565656"
      */
     public Webhook(String url, String[] subscriptions, String id) {
         super(id);
@@ -45,7 +45,7 @@ public final class Webhook extends Resource {
      * url [string]: Url that will be notified when an event occurs.
      * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
      * Attributes:
-     * id [string, default null]: unique id returned when the log is created. ex: "5656565656565656"
+     * id [string, default null]: unique id returned when the webhook is created. ex: "5656565656565656"
      */
     public Webhook(Map<String, Object> data) {
         super(null);

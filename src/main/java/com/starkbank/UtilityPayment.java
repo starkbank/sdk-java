@@ -42,9 +42,9 @@ public final class UtilityPayment extends Resource {
      * <p>
      * Attributes (return-only):
      * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-     * @param status [string, default null]: current payment status. ex: "registered" or "paid"
+     * @param status [string, default null]: current payment status. ex: "processing" or "success"
      * @param amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-     * @param fee [integer, default null]: fee charged when utility payment is created. ex: 200 (= R$ 2.00)
+     * @param fee [integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
      * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
      */
     public UtilityPayment(Integer amount, String[] tags, String description, String scheduled,
@@ -83,9 +83,9 @@ public final class UtilityPayment extends Resource {
      * <p>
      * Attributes (return-only):
      * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-     * status [string, default null]: current payment status. ex: "registered" or "paid"
+     * status [string, default null]: current payment status. ex: "processing" or "success"
      * amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-     * fee [integer, default null]: fee charged when utility payment is created. ex: 200 (= R$ 2.00)
+     * fee [integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
      */
     public UtilityPayment(Map<String, Object> data) throws Exception {
@@ -149,10 +149,10 @@ public final class UtilityPayment extends Resource {
      * @param params parameters of the query
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-     * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * status [string, default null]: filter for status of retrieved objects. ex: "paid"
+     * status [string, default null]: filter for status of retrieved objects. ex: "success"
      * <p>
      * Return:
      * @return generator of UtilityPayment objects with updated attributes
@@ -200,10 +200,10 @@ public final class UtilityPayment extends Resource {
      * @param params paremeters of the query
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-     * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * status [string, default null]: filter for status of retrieved objects. ex: "paid"
+     * status [string, default null]: filter for status of retrieved objects. ex: "success"
      * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
@@ -220,7 +220,7 @@ public final class UtilityPayment extends Resource {
      * Send a list of UtilityPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param utilityPayments [list of UtilityPayment objects or HashMaps]: list of UtilityPayment objects to be created in the API
+     * @param payments [list of UtilityPayment objects or HashMaps]: list of UtilityPayment objects to be created in the API
      * <p>
      * Return:
      * @return list of UtilityPayment objects with updated attributes
@@ -236,7 +236,7 @@ public final class UtilityPayment extends Resource {
      * Send a list of UtilityPayment objects for creation in the Stark Bank API
      * <p>
      * Parameters:
-     * @param utilityPayments [list of UtilityPayment objects or HashMaps]: list of UtilityPayment objects to be created in the API
+     * @param payments [list of UtilityPayment objects or HashMaps]: list of UtilityPayment objects to be created in the API
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * @return list of UtilityPayment objects with updated attributes
@@ -345,9 +345,9 @@ public final class UtilityPayment extends Resource {
          * Attributes:
          * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * @param payment [UtilityPayment]: UtilityPayment entity to which the log refers to.
-         * @param errors [list of strings]: list of errors linked to this BoletoPayment event.
-         * @param type [string]: type of the UtilityPayment event which triggered the log creation. ex: "registered" or "paid"
-         * @param created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
+         * @param errors [list of strings]: list of errors linked to this UtilityPayment event.
+         * @param type [string]: type of the UtilityPayment event which triggered the log creation. ex: "processing" or "success"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
          */
         public Log(String created, String type, String[] errors, UtilityPayment payment, String id) {
             super(id);
@@ -399,8 +399,8 @@ public final class UtilityPayment extends Resource {
          * @param params map of parameters for the query
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-         * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
-         * types [list of strings, default null]: filter retrieved objects by event types. ex: "paid" or "registered"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter retrieved objects by event types. ex: "processing" or "success"
          * paymentIds [list of strings, default null]: list of UtilityPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
          * <p>
          * Return:
@@ -449,8 +449,8 @@ public final class UtilityPayment extends Resource {
          * @param params parameters of the query
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-         * before [string, default null] date filter for objects only before specified date. ex: "2020-03-10"
-         * types [list of strings, default null]: filter retrieved objects by event types. ex: "paid" or "registered"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter retrieved objects by event types. ex: "processing" or "success"
          * paymentIds [list of strings, default null]: list of UtilityPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
          * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
