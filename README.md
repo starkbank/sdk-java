@@ -49,18 +49,18 @@ and add it to your project.
 1.1 If you are using Gradle, add this line to your dependencies in build.gradle:
 
 ```sh
-implementation files("lib/starkbank-0.2.2.jar")
+dependencies {
+  implementation 'com.starkbank.sdk:sdk-java:0.2.2'
+}
 ```
 
 1.2 If you are using Maven, add this dependency to your pom.xml:
 
 ```xml
 <dependency>
-    <groupId>com.starkbank</groupId>
-    <artifactId>starkbank</artifactId>
-    <version>0.2.2</version>
-    <scope>system</scope>
-    <systemPath>${basedir}/lib/starkbank-0.2.2.jar</systemPath>
+  <groupId>com.starkbank.sdk</groupId>
+  <artifactId>sdk-java</artifactId>
+  <version>0.2.2</version>
 </dependency>
 ```
 
