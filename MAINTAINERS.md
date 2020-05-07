@@ -10,3 +10,5 @@ signing.secretKeyRingFile=${HOME}/.gnupg/secring.gpg
 ossrhUsername=usernametoken
 ossrhPassword=usernamepassword
 ```
+
+Then execute the `uploadArchives` task in Gradle to upload the project to the Maven repository.

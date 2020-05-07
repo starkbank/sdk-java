@@ -48,11 +48,17 @@ uploadArchives {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: "ossrhUsername", password: "ossrhPassword")
+                authentication(
+                    userName: project.hasProperty('ossrhUsername') ? project.property('ossrhUsername') : 'username',
+                    password: project.hasProperty('ossrhPassword') ? project.property('ossrhPassword') : 'password'
+                )
             }
 
             snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: "ossrhUsername", password: "ossrhPassword")
+                authentication(
+                    userName: project.hasProperty('ossrhUsername') ? project.property('ossrhUsername') : 'username',
+                    password: project.hasProperty('ossrhPassword') ? project.property('ossrhPassword') : 'password'
+                )
             }
 
             pom.project {
@@ -76,6 +82,11 @@ uploadArchives {
                 }
 
                 developers {
+                    developer {
+                        id 'rcmstark'
+                        name 'Rafael Stark'
+                        email 'rafael@starkbank.com'
+                    }
                     developer {
                         id 'daltonmenezes'
                         name 'Dalton Menezes'
