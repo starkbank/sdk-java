@@ -2,6 +2,7 @@ package com.starkbank;
 
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
+import com.starkbank.utils.SubResource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
@@ -33,8 +34,8 @@ public final class Boleto extends Resource {
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
-     * descriptions [list of Hashmaps, default null]: list of hashmaps with "text":string and (optional) "amount":int pairs
-     * discounts [list of Hashmaps, default null]: list of hashmaps with "percentage": Double and "date": string pairs
+     * descriptions [list of Boleto.Description, default null]: list of Boleto.Descriptions
+     * discounts [list of Boleto.Discount, default null]: list of Boleto.Discounts
      * tags [list of strings]: list of strings for tagging
      * id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
      * fee [integer, default null]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
@@ -59,8 +60,8 @@ public final class Boleto extends Resource {
     public final Double interest;
     public final Integer overdueLimit;
     public final String[] tags;
-    public final List<Map<String, Object>> descriptions;
-    public final List<Map<String, Object>> discounts;
+    public final List<Boleto.Description> descriptions;
+    public final List<Boleto.Discount> discounts;
     public final Integer fee;
     public final String line;
     public final String barCode;
@@ -100,8 +101,8 @@ public final class Boleto extends Resource {
      */
     public Boleto(long amount, String name, String taxId, String streetLine1, String streetLine2,
                   String district, String city, String stateCode, String zipCode, String due, Double fine,
-                  Double interest, Integer overdueLimit, String[] tags, List<Map<String, Object>> descriptions,
-                  List<Map<String, Object>> discounts, String id, Integer fee, String line, String barCode,
+                  Double interest, Integer overdueLimit, String[] tags, List<Boleto.Description> descriptions,
+                  List<Boleto.Discount> discounts, String id, Integer fee, String line, String barCode,
                   String status, String created
     ) {
         super(id);
@@ -176,8 +177,8 @@ public final class Boleto extends Resource {
         this.interest = (Double) dataCopy.remove("interest");
         this.overdueLimit = (Integer) dataCopy.remove("overdueLimit");
         this.tags = (String[]) dataCopy.remove("tags");
-        this.descriptions = (List<Map<String, Object>>) dataCopy.remove("descriptions");
-        this.discounts = (List<Map<String, Object>>) dataCopy.remove("discounts");
+        this.descriptions = (List<Boleto.Description>) dataCopy.remove("descriptions");
+        this.discounts = (List<Boleto.Discount>) dataCopy.remove("discounts");
         this.barCode = null;
         this.created = null;
         this.fee = null;
@@ -404,6 +405,72 @@ public final class Boleto extends Resource {
      */
     public static Boleto delete(String id, Project user) throws Exception {
         return Rest.delete(data, id, user);
+    }
+
+    /**
+     * Boleto.Discount object
+     * <p>
+     * Used to define a discount in the boleto
+     * <p>
+     * Parameters:
+     * date [string]: Date up to when the discount will be applied. ex: "2020-03-12"
+     * percentage [double]: discount percentage that will be applied. ex: 2.5
+     */
+    public final static class Discount extends SubResource{
+        public String date;
+        public Double percentage;
+
+        /**
+         * Boleto.Discount object
+         * Used to define a discount in the boleto
+
+         * Parameters:
+         * @param date [string]: Date up to when the discount will be applied. ex: "2020-03-12"
+         * @param percentage [double]: discount percentage that will be applied. ex: 2.5
+         */
+        public Discount(String date, Double percentage){
+            this.date = date;
+            this.percentage = percentage;
+        }
+    }
+
+    /**
+     * Boleto.Description object
+     * <p>
+     * Used to define a description in the boleto
+     * <p>
+     * Parameters:
+     * text [string]: text describing a part of the boleto value. ex: "Taxes"
+     * amount [integer]: amount to which the text refers to. ex: 120 (=R$1,20)
+     */
+    public final static class Description extends SubResource {
+        public String text;
+        public Integer amount;
+
+        /**
+         * Boleto.Description object
+         * Used to define a description in the boleto
+
+         * Parameters:
+         * @param text [string]: text describing a part of the boleto value. ex: "Taxes"
+         */
+        public Description(String text){
+            this.text = text;
+            this.amount = null;
+        }
+
+        /**
+         * Boleto.Description object
+         * Used to define a description in the boleto
+
+         * Parameters:
+         * @param text [string]: text describing a part of the boleto value. ex: "Taxes"
+         * @param amount [integer]: amount to which the text refers to. ex: 120 (=R$1,20)
+         */
+        public Description(String text, Integer amount){
+            this.text = text;
+            this.amount = amount;
+        }
     }
 
     public final static class Log extends Resource {
