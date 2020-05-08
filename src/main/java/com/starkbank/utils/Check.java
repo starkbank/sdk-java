@@ -35,7 +35,7 @@ public final class Check {
             user = User.defaultUser;
         }
         if (user == null) {
-            throw new Error("A user is required to access our API. Check our README: https://github.com/starkbank/sdk-dotnet/");
+            throw new Error("A user is required to access our API. Check our README: https://github.com/starkbank/sdk-java/");
         }
         return user;
     }
