@@ -59,8 +59,8 @@ public final class Boleto extends Resource {
     public final Double interest;
     public final Integer overdueLimit;
     public final String[] tags;
-    public final List<Map<String, Object>> descriptions;
-    public final List<Map<String, Object>> discounts;
+    public final List<Boleto.Description> descriptions;
+    public final List<Boleto.Discount> discounts;
     public final Integer fee;
     public final String line;
     public final String barCode;
@@ -100,8 +100,8 @@ public final class Boleto extends Resource {
      */
     public Boleto(long amount, String name, String taxId, String streetLine1, String streetLine2,
                   String district, String city, String stateCode, String zipCode, String due, Double fine,
-                  Double interest, Integer overdueLimit, String[] tags, List<Map<String, Object>> descriptions,
-                  List<Map<String, Object>> discounts, String id, Integer fee, String line, String barCode,
+                  Double interest, Integer overdueLimit, String[] tags, List<Boleto.Description> descriptions,
+                  List<Boleto.Discount> discounts, String id, Integer fee, String line, String barCode,
                   String status, String created
     ) {
         super(id);
@@ -176,8 +176,8 @@ public final class Boleto extends Resource {
         this.interest = (Double) dataCopy.remove("interest");
         this.overdueLimit = (Integer) dataCopy.remove("overdueLimit");
         this.tags = (String[]) dataCopy.remove("tags");
-        this.descriptions = (List<Map<String, Object>>) dataCopy.remove("descriptions");
-        this.discounts = (List<Map<String, Object>>) dataCopy.remove("discounts");
+        this.descriptions = (List<Boleto.Description>) dataCopy.remove("descriptions");
+        this.discounts = (List<Boleto.Discount>) dataCopy.remove("discounts");
         this.barCode = null;
         this.created = null;
         this.fee = null;
@@ -404,6 +404,26 @@ public final class Boleto extends Resource {
      */
     public static Boleto delete(String id, Project user) throws Exception {
         return Rest.delete(data, id, user);
+    }
+
+    public final static class Discount{
+        public String date;
+        public Double percentage;
+
+        public Discount(String date, Double percentage){
+            this.date = date;
+            this.percentage = percentage;
+        }
+    }
+
+    public final static class Description{
+        public String text;
+        public Integer amount;
+
+        public Description(String text, Integer amount){
+            this.text = text;
+            this.amount = amount;
+        }
     }
 
     public final static class Log extends Resource {
