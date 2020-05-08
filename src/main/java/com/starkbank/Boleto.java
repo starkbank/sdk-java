@@ -2,6 +2,7 @@ package com.starkbank;
 
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
+import com.starkbank.utils.SubResource;
 import com.starkbank.utils.Rest;
 
 import java.io.InputStream;
@@ -415,7 +416,7 @@ public final class Boleto extends Resource {
      * date [string]: Date up to when the discount will be applied. ex: "2020-03-12"
      * percentage [double]: discount percentage that will be applied. ex: 2.5
      */
-    public final static class Discount{
+    public final static class Discount extends SubResource{
         public String date;
         public Double percentage;
 
@@ -442,7 +443,7 @@ public final class Boleto extends Resource {
      * text [string]: text describing a part of the boleto value. ex: "Taxes"
      * amount [integer]: amount to which the text refers to. ex: 120 (=R$1,20)
      */
-    public final static class Description{
+    public final static class Description extends SubResource {
         public String text;
         public Integer amount;
 
