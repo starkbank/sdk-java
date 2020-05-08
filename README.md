@@ -215,11 +215,22 @@ data.put("district", "Itaim Bibi");
 data.put("city", "São Paulo");
 data.put("stateCode", "SP");
 data.put("zipCode", "01500-000");
-data.put("due", "2021-04-20");
+data.put("due", "2021-05-20");
 data.put("fine", 2.5);
 data.put("interest", 1.3);
 data.put("overdueLimit", 5);
 data.put("tags", new String[]{"War supply", "Invoice #1234"});
+
+List<Boleto.Description> descriptions = new ArrayList<>();
+descriptions.add(new Boleto.Description("taxes", 3000));
+descriptions.add(new Boleto.Description("this will be an incredible payment"));
+data.put("descriptions", descriptions);
+
+List<Boleto.Discount> discounts = new ArrayList<>();
+discounts.add(new Boleto.Discount("2020-05-17", 2.5));
+discounts.add(new Boleto.Discount("2020-05-18", 2.0));
+data.put("discounts", discounts);
+
 boletos.add(new Boleto(data));
 
 boletos = Boleto.create(boletos);
