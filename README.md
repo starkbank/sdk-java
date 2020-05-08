@@ -50,7 +50,7 @@ and add it to your project.
 
 ```sh
 dependencies {
-  implementation 'com.starkbank.sdk:sdk-java:0.2.3'
+  implementation 'com.starkbank.sdk:sdk-java:0.3.0'
 }
 ```
 
@@ -60,7 +60,7 @@ dependencies {
 <dependency>
   <groupId>com.starkbank.sdk</groupId>
   <artifactId>sdk-java</artifactId>
-  <version>0.2.3</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
