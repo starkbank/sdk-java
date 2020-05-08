@@ -12,8 +12,8 @@ repositories {
 }
 
 dependencies {
-    implementation files("lib/starkbank-ecdsa.jar")
     compile('org.apache.httpcomponents:httpclient:4.5.2')
+    compile('com.starkbank.ellipticcurve:starkbank-ecdsa:1.0.0')
     implementation 'com.google.code.gson:gson:2.8.6'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
