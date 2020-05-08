@@ -33,8 +33,8 @@ public final class Boleto extends Resource {
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
-     * descriptions [list of Hashmaps, default null]: list of hashmaps with "text":string and (optional) "amount":int pairs
-     * discounts [list of Hashmaps, default null]: list of hashmaps with "percentage": Double and "date": string pairs
+     * descriptions [list of Boleto.Description, default null]: list of Boleto.Descriptions
+     * discounts [list of Boleto.Discount, default null]: list of Boleto.Discounts
      * tags [list of strings]: list of strings for tagging
      * id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
      * fee [integer, default null]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
@@ -406,20 +406,66 @@ public final class Boleto extends Resource {
         return Rest.delete(data, id, user);
     }
 
+    /**
+     * Boleto.Discount object
+     * <p>
+     * Used to define a discount in the boleto
+     * <p>
+     * Parameters:
+     * date [string]: Date up to when the discount will be applied. ex: "2020-03-12"
+     * percentage [double]: discount percentage that will be applied. ex: 2.5
+     */
     public final static class Discount{
         public String date;
         public Double percentage;
 
+        /**
+         * Boleto.Discount object
+         * Used to define a discount in the boleto
+
+         * Parameters:
+         * @param date [string]: Date up to when the discount will be applied. ex: "2020-03-12"
+         * @param percentage [double]: discount percentage that will be applied. ex: 2.5
+         */
         public Discount(String date, Double percentage){
             this.date = date;
             this.percentage = percentage;
         }
     }
 
+    /**
+     * Boleto.Description object
+     * <p>
+     * Used to define a description in the boleto
+     * <p>
+     * Parameters:
+     * text [string]: text describing a part of the boleto value. ex: "Taxes"
+     * amount [integer]: amount to which the text refers to. ex: 120 (=R$1,20)
+     */
     public final static class Description{
         public String text;
         public Integer amount;
 
+        /**
+         * Boleto.Description object
+         * Used to define a description in the boleto
+
+         * Parameters:
+         * @param text [string]: text describing a part of the boleto value. ex: "Taxes"
+         */
+        public Description(String text){
+            this.text = text;
+            this.amount = null;
+        }
+
+        /**
+         * Boleto.Description object
+         * Used to define a description in the boleto
+
+         * Parameters:
+         * @param text [string]: text describing a part of the boleto value. ex: "Taxes"
+         * @param amount [integer]: amount to which the text refers to. ex: 120 (=R$1,20)
+         */
         public Description(String text, Integer amount){
             this.text = text;
             this.amount = amount;
