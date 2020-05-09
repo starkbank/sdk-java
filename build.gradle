@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'com.starkbank.sdk'
+group 'com.starkbank'
 version '0.3.0'
 
 sourceCompatibility = 1.8
@@ -21,7 +21,7 @@ dependencies {
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-archivesBaseName = "sdk-java"
+archivesBaseName = "sdk"
 
 
 task javadocJar(type: Jar) {
