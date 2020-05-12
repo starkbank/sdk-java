@@ -34,8 +34,10 @@ public final class Boleto extends Resource {
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
-     * descriptions [list of Boleto.Description, default null]: list of Boleto.Descriptions
-     * discounts [list of Boleto.Discount, default null]: list of Boleto.Discounts
+     * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
+     * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * descriptions [list of Boleto.Description or HashMap, default null]: list of Boleto.Descriptions or HashMaps
+     * discounts [list of Boleto.Discount or HashMap, default null]: list of Boleto.Discounts or HashMaps
      * tags [list of strings]: list of strings for tagging
      * id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
      * fee [integer, default null]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
@@ -59,6 +61,8 @@ public final class Boleto extends Resource {
     public final Double fine;
     public final Double interest;
     public final Integer overdueLimit;
+    public final String receiverName;
+    public final String receiverTaxId;
     public final String[] tags;
     public final List<Boleto.Description> descriptions;
     public final List<Boleto.Discount> discounts;
@@ -89,8 +93,10 @@ public final class Boleto extends Resource {
      * @param fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * @param interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * @param overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
-     * @param descriptions [list of HashMaps, default null]: list of hashmaps with "text":string and (optional) "amount":int pairs
-     * @param discounts [list of Hashmaps, default null]: list of hashmaps with "percentage": Double and "date": string pairs
+     * @param receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
+     * @param receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * @param descriptions [list of Boleto.Description or Hashmaps, default null]: list of Boleto.Descriptions or hashmaps with "text":string and (optional) "amount":int pairs
+     * @param discounts [list of Boleto.Discounts or Hashmaps, default null]: list of Boleto.Discounts or hashmaps with "percentage": Double and "date": string pairs
      * @param tags [list of strings]: list of strings for tagging
      * @param id id of the object
      * @param fee fee to be charged in the Boleto
@@ -101,7 +107,7 @@ public final class Boleto extends Resource {
      */
     public Boleto(long amount, String name, String taxId, String streetLine1, String streetLine2,
                   String district, String city, String stateCode, String zipCode, String due, Double fine,
-                  Double interest, Integer overdueLimit, String[] tags, List<Boleto.Description> descriptions,
+                  Double interest, Integer overdueLimit, String receiverName, String receiverTaxId, String[] tags, List<Boleto.Description> descriptions,
                   List<Boleto.Discount> discounts, String id, Integer fee, String line, String barCode,
                   String status, String created
     ) {
@@ -119,6 +125,8 @@ public final class Boleto extends Resource {
         this.fine = fine;
         this.interest = interest;
         this.overdueLimit = overdueLimit;
+        this.receiverName = receiverName;
+        this.receiverTaxId = receiverTaxId;
         this.tags = tags;
         this.descriptions = descriptions;
         this.discounts = discounts;
@@ -154,8 +162,10 @@ public final class Boleto extends Resource {
      * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
-     * descriptions [list of HashMap, default null]: list of hashmaps with "text":string and "amount":int pairs
-     * discounts [list of Hashmap, default null]: list of hashmaps with "percentage": Double and "date": string pairs
+     * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
+     * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * descriptions [list of Boleto.Description or HashMap, default null]: list of Boleto.Descriptions or HashMaps with "text":string and "amount":int pairs
+     * discounts [list of Boleto.Discount or Hashmap, default null]: list of Boleto.Discounts or HashMaps with "percentage": Double and "date": string pairs
      * tags [list of strings]: list of strings for tagging
      */
     @SuppressWarnings("unchecked")
@@ -176,6 +186,8 @@ public final class Boleto extends Resource {
         this.fine = (Double) dataCopy.remove("fine");
         this.interest = (Double) dataCopy.remove("interest");
         this.overdueLimit = (Integer) dataCopy.remove("overdueLimit");
+        this.receiverName = (String) dataCopy.remove("receiverName");
+        this.receiverTaxId = (String) dataCopy.remove("receiverTaxId");
         this.tags = (String[]) dataCopy.remove("tags");
         this.descriptions = (List<Boleto.Description>) dataCopy.remove("descriptions");
         this.discounts = (List<Boleto.Discount>) dataCopy.remove("discounts");
