@@ -31,6 +31,8 @@ public class TestBoleto {
         data.put("fine", 2.5);
         data.put("interest", 1.3);
         data.put("overdueLimit", 5);
+        data.put("receiverName", "Iron Bank Receiver S.A.");
+        data.put("receiverTaxId", "123.456.789-09");
         data.put("tags", new String[]{"War supply", "Invoice #1234"});
 
         List<Boleto.Description> descriptions = new ArrayList<>();
