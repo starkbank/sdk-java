@@ -80,8 +80,8 @@ public final class Rest {
         };
     }
 
-    public static InputStream getPdf(Resource.ClassData resource, String id, Project user) throws Exception {
-        return Response.fetchStream(Api.endpoint(resource, id) + "/pdf", "GET", null, null, user);
+    public static InputStream getPdf(Resource.ClassData resource, String id, Project user, Map<String, Object> options) throws Exception {
+        return Response.fetchStream(Api.endpoint(resource, id) + "/pdf", "GET", null, options, user);
     }
 
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, Project user) throws Exception {

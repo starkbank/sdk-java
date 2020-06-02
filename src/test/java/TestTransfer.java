@@ -38,7 +38,6 @@ public class TestTransfer {
     @Test
     public void testQueryGetAndPdf() throws Exception {
         Settings.user = utils.User.defaultProject();
-        Settings.language = "pt-BR";
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
