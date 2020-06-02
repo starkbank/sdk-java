@@ -296,7 +296,7 @@ public class Event extends Resource {
      * @throws Exception error in the request
      */
     public static Event parse(String content, String signature) throws Exception {
-        return Event.parse(content, signature, User.defaultUser);
+        return Event.parse(content, signature, Settings.user);
     }
 
     /**

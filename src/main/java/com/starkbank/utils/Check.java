@@ -1,6 +1,6 @@
 package com.starkbank.utils;
 
-import com.starkbank.User;
+import com.starkbank.Settings;
 import com.starkbank.Project;
 import com.starkbank.ellipticcurve.PrivateKey;
 
@@ -32,11 +32,22 @@ public final class Check {
 
     static Project user(Project user) throws Error {
         if (user == null) {
-            user = User.defaultUser;
+            user = Settings.user;
         }
         if (user == null) {
             throw new Error("A user is required to access our API. Check our README: https://github.com/starkbank/sdk-java/");
         }
         return user;
+    }
+
+    public static String language() throws Exception {
+        String[] validLanguages = {"en-US", "pt-BR"};
+        String language = Settings.language;
+        if (Arrays.asList(validLanguages).contains(language)){
+            return language;
+        }
+        throw new Exception(
+            String.format("Invalid language, please choose one among %s", Arrays.toString(validLanguages))
+        );
     }
 }
