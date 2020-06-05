@@ -6,9 +6,12 @@ import org.junit.Assert;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 
 public class TestBoleto {
@@ -27,7 +30,7 @@ public class TestBoleto {
         data.put("city", "São Paulo");
         data.put("stateCode", "SP");
         data.put("zipCode", "01500-000");
-        data.put("due", "2020-05-20");
+        data.put("due", getDateString(3));
         data.put("fine", 2.5);
         data.put("interest", 1.3);
         data.put("overdueLimit", 5);
@@ -41,8 +44,8 @@ public class TestBoleto {
         data.put("descriptions", descriptions);
 
         List<Boleto.Discount> discounts = new ArrayList<>();
-        discounts.add(new Boleto.Discount("2020-05-17", 2.5));
-        discounts.add(new Boleto.Discount("2020-05-18", 2.0));
+        discounts.add(new Boleto.Discount(getDateString(1), 2.5));
+        discounts.add(new Boleto.Discount(getDateString(2), 2.0));
         data.put("discounts", discounts);
 
         boletos.add(new Boleto(data));
@@ -130,5 +133,11 @@ public class TestBoleto {
             System.out.println(log);
         }
         Assert.assertTrue(i > 0);
+    }
+
+    public String getDateString(int delta) {
+        LocalDateTime datetime = LocalDateTime.now().plusDays(delta);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        return dateFormat.format(datetime);
     }
 }
