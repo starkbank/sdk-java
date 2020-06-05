@@ -366,7 +366,25 @@ public final class Boleto extends Resource {
      * @throws Exception error in the request 
      */
     public static InputStream pdf(String id) throws Exception {
-        return Boleto.pdf(id, null);
+        return Boleto.pdf(id, null, null);
+    }
+
+    /**
+     * Retrieve a specific Boleto pdf file
+     * <p>
+     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * @param options [Map<String, Object>]: PDF generation options
+     * layout [string]: Layout specification. Available options are "default" and "booklet"
+     * <p>
+     * Return:
+     * @return Boleto pdf file
+     * @throws Exception error in the request
+     */
+    public static InputStream pdf(String id, Map<String, Object> options) throws Exception {
+        return Boleto.pdf(id, options, null);
     }
 
     /**
@@ -383,7 +401,26 @@ public final class Boleto extends Resource {
      * @throws Exception error in the request 
      */
     public static InputStream pdf(String id, Project user) throws Exception {
-        return Rest.getPdf(data, id, user);
+        return Boleto.pdf(id, null, user);
+    }
+
+    /**
+     * Retrieve a specific Boleto pdf file
+     * <p>
+     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * @param options [Map<String, Object>]: PDF generation options
+     * layout [string]: Layout specification. Available options are "default" and "booklet"
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Boleto pdf file
+     * @throws Exception error in the request
+     */
+    public static InputStream pdf(String id, Map<String, Object> options, Project user) throws Exception {
+        return Rest.getPdf(data, id, user, options);
     }
 
     /**

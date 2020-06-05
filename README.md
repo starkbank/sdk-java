@@ -297,7 +297,10 @@ import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
 import com.starkbank.*;
 
-InputStream pdf = Boleto.pdf("5915632394567680");
+HashMap<String, Object> options = new HashMap<>();
+options.put("layout", "booklet");
+
+InputStream pdf = Boleto.pdf("5915632394567680", options);
 
 java.nio.file.Files.copy(
     pdf,

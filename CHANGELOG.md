@@ -16,6 +16,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Added
 - Transfer query taxId parameter
 - Global error language setting
+- Boleto PDF layout option
 ### Change
 - Test user credentials to environment variable instead of hard-code
 - StarkBank.User.defaultUser to StarkBank.Settings.user

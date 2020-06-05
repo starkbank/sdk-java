@@ -75,7 +75,9 @@ public class TestBoleto {
             i += 1;
             boleto = Boleto.get(boleto.id);
             System.out.println(boleto);
-            InputStream pdf = Boleto.pdf(boleto.id);
+            HashMap<String, Object> options = new HashMap<>();
+            options.put("layout", "booklet");
+            InputStream pdf = Boleto.pdf(boleto.id, options);
             Assert.assertNotNull(pdf);
             java.nio.file.Files.copy(
                     pdf,

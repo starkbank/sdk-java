@@ -306,7 +306,7 @@ public final class Transfer extends Resource {
      * @throws Exception error in the request
      */
     public static InputStream pdf(String id, Project user) throws Exception {
-        return Rest.getPdf(data, id, user);
+        return Rest.getPdf(data, id, user, null);
     }
 
     public final static class Log extends Resource {
