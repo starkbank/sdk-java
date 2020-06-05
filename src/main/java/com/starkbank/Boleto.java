@@ -376,7 +376,7 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param options [Map<String, Object>]: PDF generation options
+     * @param options [Map of String: Object]: PDF generation options
      * layout [string]: Layout specification. Available options are "default" and "booklet"
      * <p>
      * Return:
@@ -411,7 +411,7 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param options [Map<String, Object>]: PDF generation options
+     * @param options [Map of String: Object]: PDF generation options
      * layout [string]: Layout specification. Available options are "default" and "booklet"
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
