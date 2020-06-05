@@ -1,4 +1,4 @@
-import com.starkbank.User;
+import com.starkbank.Settings;
 import com.starkbank.Webhook;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
@@ -11,7 +11,7 @@ public class TestWebhook {
 
     @Test
     public void testCreateAndDelete() throws Exception {
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
         params.put("url", "https://winterfell.westeros.gov/events-from-stark-bank");
         params.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment"});
@@ -25,7 +25,7 @@ public class TestWebhook {
 
     @Test
     public void testQueryAndGet() throws Exception {
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
 
         Generator<Webhook> webhooks = Webhook.query();
 

@@ -18,7 +18,7 @@ public class TestBoleto {
 
     @Test
     public void testCreate() throws Exception {
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
         List<Boleto> boletos = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
         data.put("amount", 4000);
@@ -62,7 +62,7 @@ public class TestBoleto {
 
     @Test
     public void testQueryGetAndPdf() throws Exception {
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
@@ -88,7 +88,7 @@ public class TestBoleto {
 
     @Test
     public void testCreateAndDelete() throws Exception {
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
         List<Boleto> boletos = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
         data.put("amount", 1234);
@@ -117,7 +117,7 @@ public class TestBoleto {
 
     @Test
     public void testLogQueryAndGet() throws Exception{
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
         params.put("after", "2019-04-01");

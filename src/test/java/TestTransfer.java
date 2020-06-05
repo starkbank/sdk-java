@@ -15,7 +15,7 @@ public class TestTransfer {
 
     @Test
     public void testCreate() throws Exception {
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
         List<Transfer> transfers = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
         data.put("amount", 100000000);
@@ -37,7 +37,8 @@ public class TestTransfer {
 
     @Test
     public void testQueryGetAndPdf() throws Exception {
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
+        Settings.language = "pt-BR";
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
@@ -64,7 +65,7 @@ public class TestTransfer {
 
     @Test
     public void testLogQueryAndGet() throws Exception{
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
         params.put("after", "2019-04-01");

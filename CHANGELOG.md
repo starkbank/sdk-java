@@ -15,8 +15,10 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Added
 - Transfer query taxId parameter
+- Global error language setting
 ### Change
 - Test user credentials to environment variable instead of hard-code
+- StarkBank.User.defaultUser to StarkBank.Settings.user
 
 ## [0.4.0] - 2020-05-12
 ### Added

@@ -18,7 +18,7 @@ import java.io.*;
 import java.time.Instant;
 import java.util.Map;
 
-import static com.starkbank.User.userAgentOverride;
+import static com.starkbank.Settings.userAgentOverride;
 
 
 public final class Response {
@@ -79,8 +79,10 @@ public final class Response {
         return streamReader;
     }
 
-    private static HttpResponse prepareFetch(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws IOException {
+    private static HttpResponse prepareFetch(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws Exception {
         user = Check.user(user);
+        String language = Check.language();
+
         String urlString = host(user, "v2") + path;
         if (query != null) {
             urlString += Url.encode(query);
@@ -98,7 +100,8 @@ public final class Response {
                 .setHeader("Access-Time", accessTime)
                 .setHeader("Access-Signature", signature.toBase64())
                 .setHeader("User-Agent", getUserAgent())
-                .setHeader("Content-Type", "application/json");
+                .setHeader("Content-Type", "application/json")
+                .setHeader("Accept-Language", language);
 
         if (payload != null) {
             requestBuilder = requestBuilder

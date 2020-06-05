@@ -12,7 +12,7 @@ public class TestTransaction {
 
     @Test
     public void testCreate() throws Exception {
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
         List<Transaction> transactions = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
         data.put("amount", 1);
@@ -32,7 +32,7 @@ public class TestTransaction {
 
     @Test
     public void testQuery() throws Exception {
-        User.defaultUser = utils.User.defaultProject();
+        Settings.user = utils.User.defaultProject();
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);

@@ -154,13 +154,26 @@ Balance balance = Balance.get(project);
 ```java
 import com.starkbank.*;
 
-User.defaultUser = project;
+Settings.user = project;
 
 Balance balance = Balance.get();
 ```
 
 Just select the way of passing the project user that is more convenient to you.
 On all following examples we will assume a default user has been set.
+
+### 5. Setting up the error language
+
+The error language can also be set in the same way as the default user:
+
+```java
+import com.starkbank.*;
+
+Settings.language = "en-US";
+```
+
+Language options are "en-US" for english and "pt-BR" for brazilian portuguese. English is default.
+
 
 ## Testing in Sandbox
 
