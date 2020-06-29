@@ -346,7 +346,7 @@ import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("after", "2020-04-01");
-params.put("before", "2020-04-30");
+params.put("before", "2021-04-30");
 Generator<Boleto.Log> logs = Boleto.Log.query(params);
 
 for (Boleto.Log log : logs){
@@ -726,6 +726,252 @@ If you want to get a specific payment log by its id, just run:
 import com.starkbank.*;
 
 UtilityPayment.Log log = UtilityPayment.Log.get("6532638269505536");
+
+System.out.println(log);
+```
+
+### Pay DAS taxes
+
+Its also simple to pay DAS taxes in the SDK.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+List<DasPayment> payments = new ArrayList<>();
+HashMap<String, Object> data = new HashMap<>();
+data.put("line", "83640000001 1 07540138007 0 61053026111 0 08067159411 9");
+data.put("scheduled", "2020-04-11");
+data.put("description", "April taxes");
+data.put("tags", new String[]{"government", "winterfell"});
+payments.add(new DasPayment(data));
+
+payments = DasPayment.create(payments);
+
+for (DasPayment payment : payments){
+    System.out.println(payment);
+}
+```
+
+### Query DAS payments
+
+To search for DAS payments using filters, run:
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<DasPayment> payments = DasPayment.query(params);
+
+for (DasPayment payment : payments){
+    System.out.println(payment);
+}
+```
+
+### Get DAS payment
+
+You can get a specific tax by its id:
+
+```java
+import com.starkbank.*;
+
+DasPayment payment = DasPayment.get("6532638269505536");
+
+System.out.println(payment);
+```
+
+### Get DAS payment PDF
+
+After its creation, a DAS payment PDF may also be retrieved by passing its id. 
+
+```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
+InputStream pdf = DasPayment.pdf("6565645839761408");
+
+java.nio.file.Files.copy(
+    pdf,
+    new File("das-payment.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+Be careful not to accidentally enforce any encoding on the raw PDF content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Delete DAS payment
+
+You can also cancel a DAS payment by its id.
+Note that this is not possible if it has been processed already.
+
+```java
+import com.starkbank.*;
+
+DasPayment payment = DasPayment.delete("5669456873259008");
+
+System.out.println(payment);
+```
+
+### Query DAS tax payment logs
+
+You can search for payment logs by specifying filters. Use this to understand the
+taxes life cycles.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("paymentIds", "6683343345156096");
+Generator<DasPayment.Log> logs = DasPayment.Log.query(params);
+
+for (DasPayment.Log log : logs){
+    System.out.println(log);
+}
+```
+
+### Get DAS tax payment log
+
+If you want to get a specific payment log by its id, just run:
+
+```java
+import com.starkbank.*;
+
+DasPayment.Log log = DasPayment.Log.get("6532638269505536");
+
+System.out.println(log);
+```
+
+### Pay ISS taxes
+
+Its also simple to pay ISS taxes in the SDK.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+List<IssPayment> payments = new ArrayList<>();
+HashMap<String, Object> data = new HashMap<>();
+data.put("line", "83640000001 1 07540138007 0 61053026111 0 08067159411 9");
+data.put("scheduled", "2020-04-11");
+data.put("description", "April taxes");
+data.put("tags", new String[]{"government", "winterfell"});
+payments.add(new IssPayment(data));
+
+payments = IssPayment.create(payments);
+
+for (IssPayment payment : payments){
+    System.out.println(payment);
+}
+```
+
+### Query ISS payments
+
+To search for ISS payments using filters, run:
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<IssPayment> payments = IssPayment.query(params);
+
+for (IssPayment payment : payments){
+    System.out.println(payment);
+}
+```
+
+### Get ISS payment
+
+You can get a specific tax by its id:
+
+```java
+import com.starkbank.*;
+
+IssPayment payment = IssPayment.get("6532638269505536");
+
+System.out.println(payment);
+```
+
+### Get ISS payment PDF
+
+After its creation, a ISS payment PDF may also be retrieved by passing its id. 
+
+```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
+InputStream pdf = IssPayment.pdf("6565645839761408");
+
+java.nio.file.Files.copy(
+    pdf,
+    new File("iss-payment.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+Be careful not to accidentally enforce any encoding on the raw PDF content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Delete ISS payment
+
+You can also cancel a ISS payment by its id.
+Note that this is not possible if it has been processed already.
+
+```java
+import com.starkbank.*;
+
+IssPayment payment = IssPayment.delete("5669456873259008");
+
+System.out.println(payment);
+```
+
+### Query ISS tax payment logs
+
+You can search for payment logs by specifying filters. Use this to understand the
+taxes life cycles.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("paymentIds", "6683343345156096");
+Generator<IssPayment.Log> logs = IssPayment.Log.query(params);
+
+for (IssPayment.Log log : logs){
+    System.out.println(log);
+}
+```
+
+### Get ISS tax payment log
+
+If you want to get a specific payment log by its id, just run:
+
+```java
+import com.starkbank.*;
+
+IssPayment.Log log = IssPayment.Log.get("6532638269505536");
 
 System.out.println(log);
 ```
