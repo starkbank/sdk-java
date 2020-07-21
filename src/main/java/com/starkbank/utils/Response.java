@@ -14,11 +14,14 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 
-import java.io.*;
-import java.time.Instant;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Map;
 
 import static com.starkbank.Settings.userAgentOverride;
+import static java.lang.System.currentTimeMillis;
 
 
 public final class Response {
@@ -87,7 +90,7 @@ public final class Response {
         if (query != null) {
             urlString += Url.encode(query);
         }
-        String accessTime = String.valueOf(Math.round(Instant.now().getEpochSecond()));
+        String accessTime = String.valueOf(currentTimeMillis()/1000L);
         String message = user.accessId() + ':' + accessTime + ':';
         if (payload != null) {
             String body = payload.toString();
