@@ -360,7 +360,7 @@ public class Event extends Resource {
                 null,
                 query,
                 user
-        ).content;
+        ).content();
         JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
         JsonArray publicKeys = contentJson.get("publicKeys").getAsJsonArray();
         return PublicKey.fromPem(

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class InputErrors extends RuntimeException {
-	private static final long serialVersionUID = 2980515306068476056L;
+
 	public List<ErrorElement> errors;
 
     public InputErrors(String content) {

@@ -14,7 +14,7 @@ import java.util.Map;
 public final class Rest {
 
     public static <T extends Resource> T getId(Resource.ClassData resource, String id, Project user) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource, id), "GET", null, null, user).content;
+        String content = Response.fetch(Api.endpoint(resource, id), "GET", null, null, user).content();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
@@ -27,7 +27,7 @@ public final class Rest {
     public static <T extends Resource> List<T> post(Resource.ClassData resource, List<T> entities, Project user) throws Exception {
         JsonObject payload = new JsonObject();
         payload.add(Api.getLastNamePlural(resource), new Gson().toJsonTree(entities).getAsJsonArray());
-        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content;
+        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content();
         JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
         List<T> postEntities = new ArrayList<>();
         JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
@@ -40,7 +40,7 @@ public final class Rest {
 
     public static <T extends Resource> T patch(Resource.ClassData resource, String id, Map<String, Object> data, Project user) throws Exception {
         JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
-        String content = Response.fetch(Api.endpoint(resource, id), "PATCH", payload, null, user).content;
+        String content = Response.fetch(Api.endpoint(resource, id), "PATCH", payload, null, user).content();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
@@ -62,7 +62,7 @@ public final class Rest {
                         limit -= 100;
                     }
                     ;
-                    String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user).content;
+                    String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user).content();
                     Gson gson = new GsonBuilder()
                             .registerTypeAdapter(Event.class, new Event.Deserializer())
                             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
@@ -81,11 +81,11 @@ public final class Rest {
     }
 
     public static InputStream getPdf(Resource.ClassData resource, String id, Project user, Map<String, Object> options) throws Exception {
-        return Response.fetchStream(Api.endpoint(resource, id) + "/pdf", "GET", null, options, user);
+        return Response.fetch(Api.endpoint(resource, id) + "/pdf", "GET", null, options, user).stream;
     }
 
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, Project user) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource, id), "DELETE", null, null, user).content;
+        String content = Response.fetch(Api.endpoint(resource, id), "DELETE", null, null, user).content();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
@@ -97,7 +97,7 @@ public final class Rest {
 
     public static <T extends Resource> T postSingle(Resource.ClassData resource, Resource entity, Project user) throws Exception {
         JsonObject payload = (JsonObject) new Gson().toJsonTree((entity));
-        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content;
+        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")

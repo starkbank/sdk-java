@@ -15,6 +15,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased] - 2020-07-20
 ### Change
 - Unix Epoch function replaced from java.time.Instant.now to java.lang.System.currentTimeMillis for better Android compatibility
+- Switched HTTP Client from Apache to Retrofit for better Android compatibility
+- Changed Error of HTTP status outside 200, 400 and 500 to UnknownError 
 
 ## [0.5.0] - 2020-06-05
 ### Added

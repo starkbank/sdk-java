@@ -3,21 +3,30 @@ package com.starkbank.utils;
 import com.google.gson.JsonObject;
 import com.starkbank.Project;
 import com.starkbank.ellipticcurve.Ecdsa;
-import com.starkbank.ellipticcurve.Signature;
 import com.starkbank.error.InputErrors;
 import com.starkbank.error.InternalServerError;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClients;
 
-import java.io.BufferedReader;
+import com.starkbank.error.UnknownError;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Retrofit;
+import retrofit2.Call;
+import retrofit2.http.HeaderMap;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.PATCH;
+import retrofit2.http.DELETE;
+
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.starkbank.Settings.userAgentOverride;
@@ -27,109 +36,138 @@ import static java.lang.System.currentTimeMillis;
 public final class Response {
 
     public int status;
-    public String content;
+    public InputStream stream;
 
-    public Response(int status, String content) {
+    public Response(int status, InputStream stream) {
         this.status = status;
-        this.content = content;
+        this.stream = stream;
+    }
+
+    public String content() throws java.io.IOException {
+        StringBuilder textBuilder = new StringBuilder();
+        try (Reader reader = new BufferedReader(new InputStreamReader
+                (stream, Charset.forName(StandardCharsets.UTF_8.name())))) {
+            int c;
+            while ((c = reader.read()) != -1) {
+                textBuilder.append((char) c);
+            }
+        }
+        return textBuilder.toString();
+    }
+
+    private interface ClientService {
+        @GET
+        Call<ResponseBody> get(@retrofit2.http.Url String path, @HeaderMap Map<String, String> headers);
+
+        @POST
+        Call<ResponseBody> post(@retrofit2.http.Url String path, @Body RequestBody body, @HeaderMap Map<String, String> headers);
+
+        @PUT
+        Call<ResponseBody> put(@retrofit2.http.Url String path, @Body RequestBody body, @HeaderMap Map<String, String> headers);
+
+        @PATCH
+        Call<ResponseBody> patch(@retrofit2.http.Url String path, @Body RequestBody body, @HeaderMap Map<String, String> headers);
+
+        @DELETE
+        Call<ResponseBody> delete(@retrofit2.http.Url String path, @HeaderMap Map<String, String> headers);
     }
 
     public static Response fetch(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws Exception {
-        HttpResponse response = prepareFetch(path, method, payload, query, user);
-        int status = response.getStatusLine().getStatusCode();
-        Reader streamReader;
-        if (status >= 300) {
-            streamReader = new InputStreamReader(response.getEntity().getContent());
-        } else {
-            streamReader = new InputStreamReader(response.getEntity().getContent());
-        }
-
-        BufferedReader in = new BufferedReader(streamReader);
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-        in.close();
-        if (status >= 500) {
-            throw new InternalServerError(content.toString());
-        }
-        if (status >= 300) {
-            throw new InputErrors(content.toString());
-        }
-        return new Response(status, content.toString());
-    }
-
-    public static InputStream fetchStream(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws Exception {
-        HttpResponse response = prepareFetch(path, method, payload, query, user);
-        int status = response.getStatusLine().getStatusCode();
-        InputStream streamReader;
-        if (status >= 300) {
-            streamReader = response.getEntity().getContent();
-        } else {
-            streamReader = response.getEntity().getContent();
-        }
-        if (status >= 300) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(streamReader));
-            String inputLine;
-            StringBuilder content = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-            in.close();
-            throw new InputErrors(content.toString());
-        }
-        return streamReader;
-    }
-
-    private static HttpResponse prepareFetch(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws Exception {
         user = Check.user(user);
         String language = Check.language();
 
-        String urlString = host(user, "v2") + path;
         if (query != null) {
-            urlString += Url.encode(query);
+            path += Url.encode(query);
         }
+        if (path.startsWith("/")) {
+            path = path.substring(1);
+        };
+
         String accessTime = String.valueOf(currentTimeMillis()/1000L);
         String message = user.accessId() + ':' + accessTime + ':';
+        String body = "";
         if (payload != null) {
-            String body = payload.toString();
+            body = payload.toString();
             message += body;
         }
-        Signature signature = Ecdsa.sign(message, user.privateKey());
-        RequestBuilder requestBuilder = RequestBuilder.create(method)
-                .setUri(urlString)
-                .setHeader("Access-Id", user.accessId())
-                .setHeader("Access-Time", accessTime)
-                .setHeader("Access-Signature", signature.toBase64())
-                .setHeader("User-Agent", getUserAgent())
-                .setHeader("Content-Type", "application/json")
-                .setHeader("Accept-Language", language);
 
-        if (payload != null) {
-            requestBuilder = requestBuilder
-                    .setEntity(new StringEntity(payload.toString(), "UTF-8"))
-                    .setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Access-Id", user.accessId());
+        headers.put("Access-Time", accessTime);
+        headers.put("Access-Signature", Ecdsa.sign(message, user.privateKey()).toBase64());
+        headers.put("User-Agent", getUserAgent());
+        headers.put("Content-Type", "application/json");
+        headers.put("Accept-Language", language);
+
+        Response response = executeMethod(host(user), path, method, body, headers);
+        if (response.status == 400) {
+            throw new InputErrors(response.content());
         }
-
-        HttpClient client = HttpClients.custom().build();
-        HttpUriRequest request = requestBuilder.build();
-        return client.execute(request);
+        if (response.status == 500) {
+            throw new InternalServerError(response.content());
+        }
+        if (response.status != 200) {
+            throw new UnknownError(response.content());
+        }
+        return response;
     }
 
-    private static String host(Project user, String version) {
+    private static Response executeMethod(String url, String path, String method, String body, Map<String, String> headers) throws Exception {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(url).build();
+        ClientService service = retrofit.create(ClientService.class);
+        retrofit2.Response<ResponseBody> response;
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), body);
+        switch (method) {
+            case "GET":
+                response = service.get(path, headers).execute();
+                break;
+            case "POST":
+                response = service.post(path, requestBody, headers).execute();
+                break;
+            case "PATCH":
+                response = service.patch(path, requestBody, headers).execute();
+                break;
+            case "PUT":
+                response = service.put(path, requestBody, headers).execute();
+                break;
+            case "DELETE":
+                response = service.delete(path, headers).execute();
+                break;
+            default:
+                throw new Exception("unknown HTTP method");
+        }
+
+        int status = response.code();
+
+        InputStream contentStream;
+        if (status == 200) {
+            try (ResponseBody responseBody = response.body()) {
+                assert responseBody != null;
+                contentStream = responseBody.byteStream();
+            }
+        } else {
+            try (ResponseBody responseBody = response.errorBody()) {
+                assert responseBody != null;
+                contentStream = responseBody.byteStream();
+            }
+        }
+
+        return new Response(status, contentStream);
+    }
+
+    private static String host(Project user) throws Exception {
+        String version = "v2/";
         switch (user.environment) {
             case "production":
                 return "https://api.starkbank.com/" + version;
             case "sandbox":
                 return "https://sandbox.api.starkbank.com/" + version;
             default:
-                throw new IllegalStateException("Unexpected value: " + user.environment);
+                throw new Exception("Unexpected value: " + user.environment);
         }
     }
 
     private static String getUserAgent() {
-        String javaUserAgent = "Java-" + System.getProperty("java.version") + "-SDK-0.5.0";
-        return (userAgentOverride == null) ? javaUserAgent : userAgentOverride;
+        return (userAgentOverride == null) ? "Java-" + System.getProperty("java.version") + "-SDK-0.5.0" : userAgentOverride;
     }
 }
