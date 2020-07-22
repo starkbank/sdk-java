@@ -47,10 +47,10 @@ public final class Key {
         if (! directory.exists()){
             directory.mkdirs();
         }
-        try (PrintWriter out = new PrintWriter(savePath + "/privateKey.pem")) {
+        try (PrintWriter out = new PrintWriter(new File(savePath, "privateKey.pem"))) {
             out.println(key.privatePem);
         }
-        try (PrintWriter out = new PrintWriter(savePath + "/publicKey.pem")) {
+        try (PrintWriter out = new PrintWriter(new File(savePath, "publicKey.pem"))) {
             out.println(key.publicPem);
         }
         return key;
