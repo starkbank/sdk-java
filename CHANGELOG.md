@@ -12,7 +12,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 
-## [Unreleased] - 2020-07-20
+## [Unreleased]
+
+## [0.5.1] - 2020-07-22
 ### Change
 - Unix Epoch function replaced from java.time.Instant.now to java.lang.System.currentTimeMillis for better Android compatibility
 - Switched HTTP Client from Apache to Retrofit for better Android compatibility
