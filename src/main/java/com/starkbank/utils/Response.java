@@ -5,8 +5,8 @@ import com.starkbank.Project;
 import com.starkbank.ellipticcurve.Ecdsa;
 import com.starkbank.error.InputErrors;
 import com.starkbank.error.InternalServerError;
-
 import com.starkbank.error.UnknownError;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -81,9 +81,9 @@ public final class Response {
         }
         if (path.startsWith("/")) {
             path = path.substring(1);
-        };
+        }
 
-        String accessTime = String.valueOf(currentTimeMillis()/1000L);
+        String accessTime = String.valueOf(currentTimeMillis() / 1000L);
         String message = user.accessId() + ':' + accessTime + ':';
         String body = "";
         if (payload != null) {
