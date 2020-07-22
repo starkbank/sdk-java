@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Fix
+- Non-Unix path on Key.create(path) 
 
 ## [0.5.1] - 2020-07-22
 ### Change

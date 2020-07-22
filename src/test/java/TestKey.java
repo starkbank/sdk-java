@@ -14,13 +14,13 @@ public class TestKey {
 
     @Test
     public void testCreateWithSavepath() throws Exception {
-        String savepath = "./keys";
+        String savepath = "keys";
         Key.create(savepath);
-        File f = new File(savepath + "/privateKey.pem");
+        File f = new File(savepath, "privateKey.pem");
         if(!(f.exists() && !f.isDirectory())) {
             throw new Error("Private Key not created!");
         }
-        f = new File(savepath + "/publicKey.pem");
+        f = new File(savepath, "publicKey.pem");
         if(!(f.exists() && !f.isDirectory())) {
             throw new Error("Public Key not created!");
         }
