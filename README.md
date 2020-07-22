@@ -64,6 +64,15 @@ dependencies {
 </dependency>
 ```
 
+**Note**: If you are using Android, don't forget to [add the compileOptions to your build.gradle](https://developer.android.com/studio/write/java8-support):
+
+```gradle
+compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+```
+
 ### 2. Create your Private and Public Keys
 
 We use ECDSA. That means you need to generate a secp256k1 private
