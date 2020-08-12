@@ -432,7 +432,7 @@ public final class Boleto extends Resource {
      * @param id [string]: Boleto unique id. ex: "5656565656565656"
      * <p>
      * Return:
-     * @return deleted Boleto with updated attributes
+     * @return deleted Boleto object
      * @throws Exception error in the request 
      */
     public static Boleto delete(String id) throws Exception {
@@ -449,7 +449,7 @@ public final class Boleto extends Resource {
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * @return deleted Boleto with updated attributes
+     * @return deleted Boleto object
      * @throws Exception error in the request 
      */
     public static Boleto delete(String id, Project user) throws Exception {

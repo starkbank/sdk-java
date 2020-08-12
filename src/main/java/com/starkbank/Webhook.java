@@ -198,7 +198,7 @@ public final class Webhook extends Resource {
      * @param id [string]: Webhook unique id. ex: "5656565656565656"
      * <p>
      * Return:
-     * @return deleted Webhook with updated attributes
+     * @return deleted Webhook object
      * @throws Exception error in the request
      */
     public static Webhook delete(String id) throws Exception {
@@ -215,7 +215,7 @@ public final class Webhook extends Resource {
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * @return deleted Webhook with updated attributes
+     * @return deleted Webhook object
      * @throws Exception error in the request
      */
     public static Webhook delete(String id, Project user) throws Exception {

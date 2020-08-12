@@ -217,7 +217,7 @@ public class Event extends Resource {
      * @param id [string]: Event unique id. ex: "5656565656565656"
      * <p>
      * Return:
-     * @return deleted Event with updated attributes
+     * @return deleted Event object
      * @throws Exception error in the request
      */
     public static Event delete(String id) throws Exception {
@@ -234,7 +234,7 @@ public class Event extends Resource {
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * @return deleted Event with updated attributes
+     * @return deleted Event object
      * @throws Exception error in the request
      */
     public static Event delete(String id, Project user) throws Exception {
