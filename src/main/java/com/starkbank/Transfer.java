@@ -20,6 +20,7 @@ public final class Transfer extends Resource {
     public final String bankCode;
     public final String branchCode;
     public final String accountNumber;
+    public final String scheduled;
     public final String[] tags;
     public final Integer fee;
     public final String status;
@@ -41,6 +42,7 @@ public final class Transfer extends Resource {
      * @param bankCode [string]: 1 to 3 digits of the receiver bank institution in Brazil. ex: "200" or "341"
      * @param branchCode [string]: receiver bank account branch. Use "-" in case there is a verifier digit. ex: "1357-9"
      * @param accountNumber [string]: Receiver Bank Account number. Use "-" before the verifier digit. ex: "876543-2"
+     * @param scheduled [string]: datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
      * @param tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
      * <p>
      * Attributes (return-only):
@@ -52,7 +54,7 @@ public final class Transfer extends Resource {
      * @param updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      */
     public Transfer(String id, long amount, String name, String taxId, String bankCode, String branchCode,
-                    String accountNumber, String[] tags, Integer fee, String status, String created,
+                    String accountNumber, String scheduled, String[] tags, Integer fee, String status, String created,
                     String updated, String[] transactionIds) {
         super(id);
         this.amount = amount;
@@ -61,6 +63,7 @@ public final class Transfer extends Resource {
         this.bankCode = bankCode;
         this.branchCode = branchCode;
         this.accountNumber = accountNumber;
+        this.scheduled = scheduled;
         this.tags = tags;
         this.fee = fee;
         this.status = status;
@@ -87,6 +90,7 @@ public final class Transfer extends Resource {
      * <p>
      * Parameters (optional):
      * tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+     * scheduled [string, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
      * <p>
      * Attributes (return-only):
      * id [string, default null]: unique id returned when transfer is created. ex: "5656565656565656"
@@ -106,6 +110,7 @@ public final class Transfer extends Resource {
         this.bankCode = (String) dataCopy.remove("bankCode");
         this.branchCode = (String) dataCopy.remove("branchCode");
         this.accountNumber = (String) dataCopy.remove("accountNumber");
+        this.scheduled = (String) dataCopy.remove("scheduled");
         this.tags = (String[]) dataCopy.remove("tags");
         this.created = null;
         this.fee = null;
@@ -149,6 +154,39 @@ public final class Transfer extends Resource {
      */
     public static Transfer get(String id, Project user) throws Exception {
         return Rest.getId(data, id, user);
+    }
+
+    /**
+     * Delete a Transfer entity
+     * <p>
+     * Delete a Transfer entity previously created in the Stark Bank API
+     * <p>
+     * Parameters:
+     * @param id [string]: Transfer unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * @return deleted Transfer object
+     * @throws Exception error in the request
+     */
+    public static Transfer delete(String id) throws Exception {
+        return Transfer.delete(id, null);
+    }
+
+    /**
+     * Delete a Transfer entity
+     * <p>
+     * Delete a Transfer entity previously created in the Stark Bank API
+     * <p>
+     * Parameters:
+     * @param id [string]: Transfer unique id. ex: "5656565656565656"
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return deleted Transfer object
+     * @throws Exception error in the request
+     */
+    public static Transfer delete(String id, Project user) throws Exception {
+        return Rest.delete(data, id, user);
     }
 
     /**

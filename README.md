@@ -384,6 +384,7 @@ data.put("branchCode", "2201");
 data.put("accountNumber", "76543-8");
 data.put("taxId", "594.739.480-42");
 data.put("name", "Daenerys Targaryen Stormborn");
+data.put("scheduled", "2020-04-11");
 data.put("tags", new String[]{"daenerys", "invoice/1234"});
 transfers.add(new Transfer(data));
 
@@ -423,6 +424,18 @@ To get a single transfer by its id, run:
 import com.starkbank.*;
 
 Transfer transfer = Transfer.get("6532638269505536");
+
+System.out.println(transfer);
+```
+
+### Cancel a scheduled transfer
+
+To cancel a scheduled transfer by its id, run:
+
+```java
+import com.starkbank.*;
+
+Transfer transfer = Transfer.delete("6532638269505536");
 
 System.out.println(transfer);
 ```
