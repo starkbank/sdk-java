@@ -17,6 +17,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - Travis CI configuration
 - Transfer.scheduled parameter to allow Transfer scheduling
 - StarkBank.Transfer.delete to cancel scheduled Transfers
+- Transaction query by tags
 
 ## [0.5.2] - 2020-07-22
 ### Fixed
