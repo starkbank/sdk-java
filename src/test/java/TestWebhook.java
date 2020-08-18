@@ -41,11 +41,8 @@ public class TestWebhook {
                 webhook = Webhook.get(webhook.id);
             } catch (InputErrors e)
             {
-                for(ErrorElement elem : e.errors)
-                {
-                    if(elem.code.equals("invalidWebhookId"))
-                        throw new AssumptionViolatedException("Inconclusive");
-                }
+                if(e.errors.get(0).code.equals("invalidWebhookId"))
+                    throw new AssumptionViolatedException("Inconclusive");
             }
             Assert.assertNotNull(webhook.id);
             Assert.assertNotNull(webhook.url);
