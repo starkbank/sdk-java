@@ -1,15 +1,25 @@
-language: java
-install: true
 
 matrix:
   include:
-    - jdk: openjdk8
-    - jdk: openjdk9
-    - jdk: openjdk10
-    - jdk: openjdk11
-    - jdk: openjdk12
-    - jdk: openjdk13
-    - jdk: openjdk14
-    - jdk: openjdk-ea
-  allow_failures:
-    - jdk: openjdk-ea
+    - language: java
+      install: true
+      jdk:
+        - openjdk8
+        - openjdk9
+        - openjdk10
+        - openjdk11
+        - openjdk12
+        - openjdk13
+        - openjdk14
+        - openjdk-ea
+      allow_failures:
+        - openjdk-ea
+    - language: android
+      install: true
+      dist: trusty
+      jdk: oraclejdk8
+      android:
+        components:
+          - build-tools-29.0.2
+          - android-29
+
