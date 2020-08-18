@@ -8,9 +8,8 @@ jdk:
   - openjdk12
   - openjdk13
   - openjdk14
-  - openjdk-ea
 
-allow_failure:
+allow_failures:
   - openjdk-ea
 
 matrix:
@@ -23,3 +22,5 @@ matrix:
         components:
           - build-tools-29.0.2
           - android-29
+      script:
+        - ./gradlew check
