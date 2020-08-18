@@ -3,15 +3,14 @@ matrix:
   include:
     - language: java
       install: true
-      jdk:
-        - openjdk8
-        - openjdk9
-        - openjdk10
-        - openjdk11
-        - openjdk12
-        - openjdk13
-        - openjdk14
-        - openjdk-ea
+      jdk: [openjdk8,
+            openjdk9,
+            openjdk10,
+            openjdk11,
+            openjdk12,
+            openjdk13,
+            openjdk14,
+            openjdk-ea]
       allow_failures:
         - openjdk-ea
     - language: android
