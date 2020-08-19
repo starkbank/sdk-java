@@ -116,8 +116,8 @@ public final class Response {
 
     private static Response executeMethod(String url, String path, String method, String body, Map<String, String> headers) throws Exception {
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(20, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS).build();
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS).build();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(url)
                 .client(client).build();
         ClientService service = retrofit.create(ClientService.class);
