@@ -46,23 +46,6 @@ public final class Response {
         return textBuilder.toString();
     }
 
-//    private interface ClientService {
-//        @GET
-//        Call<ResponseBody> get(@retrofit2.http.Url String path, @HeaderMap Map<String, String> headers);
-//
-//        @POST
-//        Call<ResponseBody> post(@retrofit2.http.Url String path, @Body RequestBody body, @HeaderMap Map<String, String> headers);
-//
-//        @PUT
-//        Call<ResponseBody> put(@retrofit2.http.Url String path, @Body RequestBody body, @HeaderMap Map<String, String> headers);
-//
-//        @PATCH
-//        Call<ResponseBody> patch(@retrofit2.http.Url String path, @Body RequestBody body, @HeaderMap Map<String, String> headers);
-//
-//        @DELETE
-//        Call<ResponseBody> delete(@retrofit2.http.Url String path, @HeaderMap Map<String, String> headers);
-//    }
-
     public static Response fetch(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws Exception {
         user = Check.user(user);
         String language = Check.language();
@@ -144,18 +127,6 @@ public final class Response {
 
         return new Response(status, contentStream);
     }
-
-//    private static String host(Project user) throws Exception {
-//        String version = "v2/";
-//        switch (user.environment) {
-//            case "production":
-//                return "https://api.starkbank.com/" + version;
-//            case "sandbox":
-//                return "https://sandbox.api.starkbank.com/" + version;
-//            default:
-//                throw new Exception("Unexpected value: " + user.environment);
-//        }
-//    }
 
     private static String getUserAgent() {
         return (userAgentOverride == null) ? "Java-" + System.getProperty("java.version") + "-SDK-0.5.2" : userAgentOverride;
