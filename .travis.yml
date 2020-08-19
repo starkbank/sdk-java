@@ -9,8 +9,6 @@ jdk:
   - openjdk13
   - openjdk14
 
-allow_failures:
-  - openjdk-ea
 
 matrix:
   include:
@@ -24,3 +22,11 @@ matrix:
           - android-29
       script:
         - ./gradlew check
+
+    - language: java
+      install: true
+      jdk: openjdk-ea
+
+    allow_failures:
+      - jdk: openjdk-ea
+
