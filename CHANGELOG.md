@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [0.6.0] - 2020-08-19
 ### Added
 - Travis CI configuration
 - Transfer.scheduled parameter to allow Transfer scheduling
