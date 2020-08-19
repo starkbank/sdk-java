@@ -73,7 +73,10 @@ public final class Rest {
                     JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
                     for (JsonElement resourceElement : jsonArray) {
                         JsonObject jsonObject = resourceElement.getAsJsonObject();
-                        yield(gson.fromJson(jsonObject, (Type) resource.cls));
+                        T element = gson.fromJson(jsonObject, (Type) resource.cls);
+                        if(element == null)
+                            break;
+                        this.yield(element);
                     }
                 } while (!cursor.isEmpty() && (limit == null || limit > 0));
             }

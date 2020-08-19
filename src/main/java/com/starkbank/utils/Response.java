@@ -8,6 +8,7 @@ import com.starkbank.error.InternalServerError;
 import com.starkbank.error.UnknownError;
 
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
@@ -28,6 +29,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static com.starkbank.Settings.userAgentOverride;
 import static java.lang.System.currentTimeMillis;
@@ -113,7 +115,11 @@ public final class Response {
     }
 
     private static Response executeMethod(String url, String path, String method, String body, Map<String, String> headers) throws Exception {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(url).build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(url)
+                .client(client).build();
         ClientService service = retrofit.create(ClientService.class);
         retrofit2.Response<ResponseBody> response;
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), body);

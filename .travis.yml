@@ -1,0 +1,28 @@
+language: java
+install: true
+jdk:
+  - openjdk8
+  - openjdk9
+  - openjdk10
+  - openjdk11
+  - openjdk12
+  - openjdk13
+  - openjdk14
+  - openjdk-ea
+
+matrix:
+  allow_failures:
+    - jdk: openjdk-ea
+
+  include:
+    - language: android
+      install: true
+      dist: trusty
+      jdk: oraclejdk8
+      android:
+        components:
+          - build-tools-29.0.2
+          - android-29
+      script:
+        - ./gradlew check
+
