@@ -63,6 +63,9 @@ public class Event extends Resource {
                     case "utility-payment":
                         return context.deserialize(jsonObject,
                                 UtilityPaymentEvent.class);
+                    default:
+                        return context.deserialize(jsonObject,
+                                UnknownEvent.class);
                 }
             }
             return null;
@@ -100,6 +103,15 @@ public class Event extends Resource {
         public UtilityPayment.Log log;
 
         public UtilityPaymentEvent(UtilityPayment.Log log, String created, Boolean isDelivered, String subscription, String id) {
+            super(created, isDelivered, subscription, id);
+            this.log = log;
+        }
+    }
+
+    public final static class UnknownEvent extends Event {
+        public JsonObject log;
+
+        public UnknownEvent(JsonObject log, String created, Boolean isDelivered, String subscription, String id) {
             super(created, isDelivered, subscription, id);
             this.log = log;
         }
@@ -217,7 +229,7 @@ public class Event extends Resource {
      * @param id [string]: Event unique id. ex: "5656565656565656"
      * <p>
      * Return:
-     * @return deleted Event with updated attributes
+     * @return deleted Event object
      * @throws Exception error in the request
      */
     public static Event delete(String id) throws Exception {
@@ -234,7 +246,7 @@ public class Event extends Resource {
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
-     * @return deleted Event with updated attributes
+     * @return deleted Event object
      * @throws Exception error in the request
      */
     public static Event delete(String id, Project user) throws Exception {

@@ -1,5 +1,4 @@
 import com.starkbank.*;
-import com.starkbank.User;
 import com.starkbank.error.InvalidSignatureError;
 import com.starkbank.utils.Generator;
 import org.junit.Assert;
@@ -35,7 +34,7 @@ public class TestEvent {
     }
 
     @Test
-    public void testEventQueryAndUpdate() throws Exception{
+    public void testEventQueryGetAndUpdate() throws Exception{
         Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 1);
@@ -49,6 +48,7 @@ public class TestEvent {
             System.out.println(event);
             i += 1;
             Assert.assertFalse(event.isDelivered);
+            event = Event.get(event.id);
             event = Event.update(event.id, data);
             Assert.assertTrue(event.isDelivered);
         }

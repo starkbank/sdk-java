@@ -6,9 +6,12 @@ import org.junit.Assert;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 
 public class TestTransfer {
@@ -33,6 +36,36 @@ public class TestTransfer {
             Assert.assertNotNull(transfer.id);
             System.out.println(transfer);
         }
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        Settings.user = utils.User.defaultProject();
+        List<Transfer> transfers = new ArrayList<>();
+        HashMap<String, Object> data = new HashMap<>();
+
+        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        String tomorrowString = dateFormat.format(tomorrow);
+
+        data.put("amount", 100000000);
+        data.put("bankCode", "341");
+        data.put("branchCode", "2201");
+        data.put("accountNumber", "76543-8");
+        data.put("taxId", "594.739.480-42");
+        data.put("name", "Daenerys Targaryen Stormborn");
+        data.put("scheduled", tomorrowString);
+        data.put("tags", new String[]{"daenerys", "invoice/1234"});
+        transfers.add(new Transfer(data));
+
+        transfers = Transfer.create(transfers);
+        Transfer createdTransfer = transfers.get(0);
+        Transfer deletedTransfer = Transfer.delete(transfers.get(0).id);
+
+        Assert.assertEquals("canceled", deletedTransfer.status);
+        Assert.assertEquals(createdTransfer.id, deletedTransfer.id);
+
+        System.out.println(deletedTransfer);
     }
 
     @Test
