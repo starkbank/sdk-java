@@ -15,10 +15,7 @@ public final class Rest {
 
     public static <T extends Resource> T getId(Resource.ClassData resource, String id, Project user) throws Exception {
         String content = Response.fetch(Api.endpoint(resource, id), "GET", null, null, user).content();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Event.class, new Event.Deserializer())
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
-                .create();
+        Gson gson = GsonEventInstance.getInstance();
         JsonObject contentJson = gson.fromJson(content, JsonObject.class);
         JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
         return gson.fromJson(jsonObject, (Type) resource.cls);
@@ -41,10 +38,7 @@ public final class Rest {
     public static <T extends Resource> T patch(Resource.ClassData resource, String id, Map<String, Object> data, Project user) throws Exception {
         JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
         String content = Response.fetch(Api.endpoint(resource, id), "PATCH", payload, null, user).content();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Event.class, new Event.Deserializer())
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
-                .create();
+        Gson gson = GsonEventInstance.getInstance();
         JsonObject contentJson = gson.fromJson(content, JsonObject.class);
         JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
         return gson.fromJson(jsonObject, (Type) resource.cls);
@@ -63,10 +57,7 @@ public final class Rest {
                     }
                     ;
                     String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user).content();
-                    Gson gson = new GsonBuilder()
-                            .registerTypeAdapter(Event.class, new Event.Deserializer())
-                            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
-                            .create();
+                    Gson gson = GsonEventInstance.getInstance();
                     JsonObject contentJson = gson.fromJson(content, JsonObject.class);
                     JsonElement cursorJson = contentJson.get("cursor");
                     cursor = cursorJson.isJsonNull() ? "" : cursorJson.getAsString();
@@ -89,10 +80,7 @@ public final class Rest {
 
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, Project user) throws Exception {
         String content = Response.fetch(Api.endpoint(resource, id), "DELETE", null, null, user).content();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Event.class, new Event.Deserializer())
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
-                .create();
+        Gson gson = GsonEventInstance.getInstance();
         JsonObject contentJson = gson.fromJson(content, JsonObject.class);
         JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
         return gson.fromJson(jsonObject, (Type) resource.cls);
@@ -101,10 +89,7 @@ public final class Rest {
     public static <T extends Resource> T postSingle(Resource.ClassData resource, Resource entity, Project user) throws Exception {
         JsonObject payload = (JsonObject) new Gson().toJsonTree((entity));
         String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Event.class, new Event.Deserializer())
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
-                .create();
+        Gson gson = GsonEventInstance.getInstance();
         JsonObject contentJson = gson.fromJson(content, JsonObject.class);
         JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
         return gson.fromJson(jsonObject, (Type) resource.cls);
