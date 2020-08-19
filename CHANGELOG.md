@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- Travis CI configuration
 
 ## [0.5.2] - 2020-07-22
 ### Fixed
