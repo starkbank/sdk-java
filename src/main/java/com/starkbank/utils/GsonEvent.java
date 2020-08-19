@@ -4,24 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.starkbank.Event;
 
-class GsonEventInstance {
+class GsonEvent {
      private static Gson instance;
 
-     private GsonEventInstance()
-     {
-
-     }
+     private GsonEvent() {}
 
      public static synchronized Gson getInstance()
      {
          if(instance == null)
-         {
              instance = new GsonBuilder()
                      .registerTypeAdapter(Event.class, new Event.Deserializer())
                      .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
                      .create();
-         }
-
          return instance;
      }
 }

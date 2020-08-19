@@ -87,7 +87,7 @@ public final class Response {
     }
 
     private static Response executeMethod(Project user, String path, String method, String body, Map<String, String> headers) throws Exception {
-        ClientService service = RetrofitInstance.getProjectInstance(user);
+        ClientService service = HttpClient.getProjectInstance(user);
         retrofit2.Response<ResponseBody> response;
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), body);
         switch (method) {
