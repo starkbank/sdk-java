@@ -8,18 +8,8 @@ import com.starkbank.error.InternalServerError;
 import com.starkbank.error.UnknownError;
 
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
-import retrofit2.Call;
-import retrofit2.http.HeaderMap;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.PATCH;
-import retrofit2.http.DELETE;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -29,7 +19,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static com.starkbank.Settings.userAgentOverride;
 import static java.lang.System.currentTimeMillis;
@@ -55,23 +44,6 @@ public final class Response {
             }
         }
         return textBuilder.toString();
-    }
-
-    private interface ClientService {
-        @GET
-        Call<ResponseBody> get(@retrofit2.http.Url String path, @HeaderMap Map<String, String> headers);
-
-        @POST
-        Call<ResponseBody> post(@retrofit2.http.Url String path, @Body RequestBody body, @HeaderMap Map<String, String> headers);
-
-        @PUT
-        Call<ResponseBody> put(@retrofit2.http.Url String path, @Body RequestBody body, @HeaderMap Map<String, String> headers);
-
-        @PATCH
-        Call<ResponseBody> patch(@retrofit2.http.Url String path, @Body RequestBody body, @HeaderMap Map<String, String> headers);
-
-        @DELETE
-        Call<ResponseBody> delete(@retrofit2.http.Url String path, @HeaderMap Map<String, String> headers);
     }
 
     public static Response fetch(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws Exception {
@@ -101,7 +73,7 @@ public final class Response {
         headers.put("Content-Type", "application/json");
         headers.put("Accept-Language", language);
 
-        Response response = executeMethod(host(user), path, method, body, headers);
+        Response response = executeMethod(user, path, method, body, headers);
         if (response.status == 400) {
             throw new InputErrors(response.content());
         }
@@ -114,13 +86,8 @@ public final class Response {
         return response;
     }
 
-    private static Response executeMethod(String url, String path, String method, String body, Map<String, String> headers) throws Exception {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS).build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(url)
-                .client(client).build();
-        ClientService service = retrofit.create(ClientService.class);
+    private static Response executeMethod(Project user, String path, String method, String body, Map<String, String> headers) throws Exception {
+        ClientService service = HttpClient.getProjectInstance(user);
         retrofit2.Response<ResponseBody> response;
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), body);
         switch (method) {
@@ -159,18 +126,6 @@ public final class Response {
         }
 
         return new Response(status, contentStream);
-    }
-
-    private static String host(Project user) throws Exception {
-        String version = "v2/";
-        switch (user.environment) {
-            case "production":
-                return "https://api.starkbank.com/" + version;
-            case "sandbox":
-                return "https://sandbox.api.starkbank.com/" + version;
-            default:
-                throw new Exception("Unexpected value: " + user.environment);
-        }
     }
 
     private static String getUserAgent() {
