@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -114,4 +115,33 @@ public class TestTransfer {
         }
         Assert.assertTrue(i > 0);
     }
+
+    @Test
+    public void testQueryIds() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 10);
+        Generator<Transfer> transfers = Transfer.query(params);
+
+        ArrayList<String> transfersIdsExpected = new ArrayList<String>();
+        for (Transfer transfer : transfers) {
+            Assert.assertNotNull(transfer.id);
+            transfersIdsExpected.add(transfer.id);
+        }
+
+        params.put("ids", transfersIdsExpected.toArray(new String[0]));
+        Generator<Transfer> transfersResult = Transfer.query(params);
+    
+        ArrayList<String> transfersIdsResult = new ArrayList<String>();
+        for (Transfer transfer : transfersResult){
+            Assert.assertNotNull(transfer.id);
+            transfersIdsResult.add(transfer.id);
+        }
+        
+        Collections.sort(transfersIdsExpected);
+        Collections.sort(transfersIdsResult);
+        Assert.assertEquals(transfersIdsExpected, transfersIdsResult);
+    }
+
 }
