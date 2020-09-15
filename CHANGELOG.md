@@ -17,6 +17,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - ids parameter to Transaction.query
 - ids parameter to Transfer.query
 
+### Fixed
+- Fixed params alterations on queries
+
 ## [0.6.0] - 2020-08-19
 ### Added
 - Travis CI configuration
