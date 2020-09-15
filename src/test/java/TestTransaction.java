@@ -5,6 +5,7 @@ import org.junit.Assert;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,5 +49,33 @@ public class TestTransaction {
             System.out.println(transaction);
         }
         System.out.println(i);
+    }
+
+    @Test
+    public void testQueryIds() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 10);
+        Generator<Transaction> transactions = Transaction.query(params);
+
+        ArrayList<String> transactionsIdsExpected = new ArrayList<String>();
+        for (Transaction transaction : transactions) {
+            Assert.assertNotNull(transaction.id);
+            transactionsIdsExpected.add(transaction.id);
+        }
+
+        params.put("ids", transactionsIdsExpected.toArray(new String[0]));
+        Generator<Transaction> transactionsResult = Transaction.query(params);
+    
+        ArrayList<String> transactionsIdsResult = new ArrayList<String>();
+        for (Transaction transaction : transactionsResult){
+            Assert.assertNotNull(transaction.id);
+            transactionsIdsResult.add(transaction.id);
+        }
+        
+        Collections.sort(transactionsIdsExpected);
+        Collections.sort(transactionsIdsResult);
+        Assert.assertEquals(transactionsIdsExpected, transactionsIdsResult);
     }
 }

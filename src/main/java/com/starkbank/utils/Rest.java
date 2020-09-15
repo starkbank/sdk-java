@@ -6,9 +6,11 @@ import com.starkbank.Project;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.text.DefaultEditorKit.CopyAction;
 
 public final class Rest {
 
@@ -46,16 +48,19 @@ public final class Rest {
     public static <T extends Resource> Generator<T> getList(Resource.ClassData resource, Map<String, Object> params, Project user) {
         return new Generator<T>() {
             public void run() throws Exception {
-                Integer limit = (Integer) params.get("limit");
+                Map<String, Object> paramsCopy = new HashMap<>();
+                for (Map.Entry<String, Object> entry: params.entrySet()) {
+                    paramsCopy.put(entry.getKey(), entry.getValue());
+                }
+                Integer limit = (Integer) paramsCopy.get("limit");
                 String cursor = "";
                 do {
-                    params.put("cursor", cursor);
+                    paramsCopy.put("cursor", cursor);
                     if (limit != null) {
-                        params.put("limit", limit > 100 ? "100" : limit.toString());
+                        paramsCopy.put("limit", limit > 100 ? "100" : limit.toString());
                         limit -= 100;
                     }
-                    ;
-                    String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user).content();
+                    String content = Response.fetch(Api.endpoint(resource), "GET", null, paramsCopy, user).content();
                     Gson gson = GsonEvent.getInstance();
                     JsonObject contentJson = gson.fromJson(content, JsonObject.class);
                     JsonElement cursorJson = contentJson.get("cursor");
