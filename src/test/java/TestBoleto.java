@@ -77,6 +77,7 @@ public class TestBoleto {
             System.out.println(boleto);
             HashMap<String, Object> options = new HashMap<>();
             options.put("layout", "booklet");
+            options.put("hiddenFields", new String[]{"customerAddress"});
             InputStream pdf = Boleto.pdf(boleto.id, options);
             Assert.assertNotNull(pdf);
             java.nio.file.Files.copy(

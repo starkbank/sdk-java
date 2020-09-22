@@ -378,6 +378,7 @@ public final class Boleto extends Resource {
      * @param id [string]: object unique id. ex: "5656565656565656"
      * @param options [Map of String: Object]: PDF generation options
      * layout [string]: Layout specification. Available options are "default" and "booklet"
+     * hiddenFields [list of strings, default null]: List of string fields to be hidden in the Boleto pdf. ex: ["customerAddress"]
      * <p>
      * Return:
      * @return Boleto pdf file
@@ -413,6 +414,7 @@ public final class Boleto extends Resource {
      * @param id [string]: object unique id. ex: "5656565656565656"
      * @param options [Map of String: Object]: PDF generation options
      * layout [string]: Layout specification. Available options are "default" and "booklet"
+     * hiddenFields [list of strings, default null]: List of string fields to be hidden in the Boleto pdf. ex: ["customerAddress"]
      * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
