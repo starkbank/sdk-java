@@ -17,6 +17,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - ids parameter to Transaction.query
 - ids parameter to Transfer.query
 - hiddenFields parameter to Boleto.pdf
+- ourNumber attribute to Boleto
 
 ### Fixed
 - Fixed params alterations on queries

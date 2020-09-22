@@ -45,6 +45,7 @@ public final class Boleto extends Resource {
      * barCode [string, default null]: generated Boleto bar-code for payment. ex: "34195819600000000621090063571277307144464000"
      * status [string, default null]: current Boleto status. ex: "registered" or "paid"
      * created [string, default null]: creation datetime for the Boleto. ex: "2020-03-10 10:30:00.000"
+     * ourNumber [string, default null]: Reference number registered at the settlement bank. ex:“10131474”
      */
     static ClassData data = new ClassData(Boleto.class, "Boleto");
 
@@ -71,6 +72,7 @@ public final class Boleto extends Resource {
     public final String barCode;
     public final String status;
     public final String created;
+    public final String ourNumber;
 
     /**
      * Boleto object
@@ -104,12 +106,13 @@ public final class Boleto extends Resource {
      * @param barCode numeric barcode of the boleto
      * @param status status of the boleto
      * @param created date the boleto was created
+     * @param ourNumber [string, default null]: Reference number registered at the settlement bank. ex:“10131474”
      */
     public Boleto(long amount, String name, String taxId, String streetLine1, String streetLine2,
                   String district, String city, String stateCode, String zipCode, String due, Double fine,
                   Double interest, Integer overdueLimit, String receiverName, String receiverTaxId, String[] tags, List<Boleto.Description> descriptions,
                   List<Boleto.Discount> discounts, String id, Integer fee, String line, String barCode,
-                  String status, String created
+                  String status, String created, String ourNumber
     ) {
         super(id);
         this.amount = amount;
@@ -135,6 +138,7 @@ public final class Boleto extends Resource {
         this.barCode = barCode;
         this.status = status;
         this.created = created;
+        this.ourNumber = ourNumber;
     }
 
     /**
@@ -196,6 +200,7 @@ public final class Boleto extends Resource {
         this.fee = null;
         this.line = null;
         this.status = null;
+        this.ourNumber = null;
 
         if (!dataCopy.isEmpty()) {
             throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
