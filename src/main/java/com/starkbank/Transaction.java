@@ -136,7 +136,7 @@ public final class Transaction extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Transaction object with updated attributes
@@ -174,7 +174,7 @@ public final class Transaction extends Resource {
      * Receive a generator of Transaction objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Transaction objects with updated attributes
@@ -209,7 +209,7 @@ public final class Transaction extends Resource {
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * externalIds [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Transaction objects with updated attributes
@@ -242,7 +242,7 @@ public final class Transaction extends Resource {
      * <p>
      * Parameters:
      * @param transactions [list of Transaction objects or HashMaps]: list of Transaction objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of Transaction objects with updated attributes

@@ -144,7 +144,7 @@ public final class BoletoPayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return BoletoPayment object with updated attributes
@@ -251,7 +251,7 @@ public final class BoletoPayment extends Resource {
      * <p>
      * Parameters:
      * @param payments [list of BoletoPayment objects or HashMaps]: list of BoletoPayment objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of BoletoPayment objects with updated attributes
@@ -299,7 +299,7 @@ public final class BoletoPayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return BoletoPayment pdf file
@@ -332,7 +332,7 @@ public final class BoletoPayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: BoletoPayment unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return deleted BoletoPayment object
@@ -396,7 +396,7 @@ public final class BoletoPayment extends Resource {
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"
-         * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return BoletoPayment Log object with updated attributes
@@ -433,7 +433,7 @@ public final class BoletoPayment extends Resource {
          * Receive a generator of BoletoPayment Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of BoletoPayment Log objects with updated attributes
@@ -468,7 +468,7 @@ public final class BoletoPayment extends Resource {
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter retrieved objects by event types. ex: "processing" or "success"
          * paymentIds [list of strings, default null]: list of BoletoPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of BoletoPayment Log objects with updated attributes

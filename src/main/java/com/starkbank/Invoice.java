@@ -262,7 +262,7 @@ public final class Invoice extends Resource {
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * @return Invoice object with updated attributes
      * @throws Exception error in the request
@@ -423,7 +423,7 @@ public final class Invoice extends Resource {
      *                  amount [string]: If the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer
      *                  due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
      *                  expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Invoice object with updated attributes
@@ -456,7 +456,7 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Invoice pdf file
@@ -489,7 +489,7 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Invoice pdf file

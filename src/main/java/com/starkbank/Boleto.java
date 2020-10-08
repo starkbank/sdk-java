@@ -279,7 +279,7 @@ public final class Boleto extends Resource {
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * @return Boleto object with updated attributes
      * @throws Exception error in the request 
@@ -301,7 +301,7 @@ public final class Boleto extends Resource {
      * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Boleto objects with updated attributes
@@ -339,7 +339,7 @@ public final class Boleto extends Resource {
      * Receive a generator of Boleto objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Boleto objects with updated attributes
@@ -368,7 +368,7 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters:
      * @param boletos [list of Boleto objects or HashMaps]: list of Boleto objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of Boleto objects with updated attributes
@@ -449,7 +449,7 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Boleto pdf file
@@ -469,7 +469,7 @@ public final class Boleto extends Resource {
      * @param options [Map of String: Object]: PDF generation options
      * layout [string]: Layout specification. Available options are "default" and "booklet"
      * hiddenFields [list of strings, default null]: List of string fields to be hidden in the Boleto pdf. ex: ["customerAddress"]
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Boleto pdf file
@@ -502,7 +502,7 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: Boleto unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return deleted Boleto object
@@ -632,7 +632,7 @@ public final class Boleto extends Resource {
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"
-         * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return Boleto Log object with updated attributes
@@ -669,7 +669,7 @@ public final class Boleto extends Resource {
          * Receive a generator of Boleto Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of Boleto Log objects with updated attributes
@@ -704,7 +704,7 @@ public final class Boleto extends Resource {
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter for log event types. ex: "paid" or "registered"
          * boletoIds [list of strings, default null]: list of Boleto ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of Boleto Log objects with updated attributes

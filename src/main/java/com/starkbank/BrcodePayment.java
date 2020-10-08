@@ -148,7 +148,7 @@ public final class BrcodePayment extends Resource {
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * @return BrcodePayment object with updated attributes
      * @throws Exception error in the request 
@@ -185,7 +185,7 @@ public final class BrcodePayment extends Resource {
      * @param id [string]: BrcodePayment unique ids. ex: "5656565656565656"
      * @param patchData map of properties to patch
      * status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return BrcodePayment object with updated attributes
@@ -218,7 +218,7 @@ public final class BrcodePayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return BrcodePayment pdf file
@@ -308,7 +308,7 @@ public final class BrcodePayment extends Resource {
      * <p>
      * Parameters:
      * @param payments [list of BrcodePayment objects or HashMaps]: list of BrcodePayment objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of BrcodePayment objects with updated attributes
@@ -400,7 +400,7 @@ public final class BrcodePayment extends Resource {
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"
-         * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return BrcodePayment Log object with updated attributes
