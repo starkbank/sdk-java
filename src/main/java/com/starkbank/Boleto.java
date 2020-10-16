@@ -49,30 +49,30 @@ public final class Boleto extends Resource {
      */
     static ClassData data = new ClassData(Boleto.class, "Boleto");
 
-    public final long amount;
-    public final String name;
-    public final String taxId;
-    public final String streetLine1;
-    public final String streetLine2;
-    public final String district;
-    public final String city;
-    public final String stateCode;
-    public final String zipCode;
-    public final String due;
-    public final Double fine;
-    public final Double interest;
-    public final Integer overdueLimit;
-    public final String receiverName;
-    public final String receiverTaxId;
-    public final String[] tags;
-    public final List<Boleto.Description> descriptions;
-    public final List<Boleto.Discount> discounts;
-    public final Integer fee;
-    public final String line;
-    public final String barCode;
-    public final String status;
-    public final String created;
-    public final String ourNumber;
+    public long amount;
+    public String name;
+    public String taxId;
+    public String streetLine1;
+    public String streetLine2;
+    public String district;
+    public String city;
+    public String stateCode;
+    public String zipCode;
+    public String due;
+    public Double fine;
+    public Double interest;
+    public Integer overdueLimit;
+    public String receiverName;
+    public String receiverTaxId;
+    public String[] tags;
+    public List<Boleto.Description> descriptions;
+    public List<Boleto.Discount> discounts;
+    public Integer fee;
+    public String line;
+    public String barCode;
+    public String status;
+    public String ourNumber;
+    public String created;
 
     /**
      * Boleto object

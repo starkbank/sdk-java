@@ -11,8 +11,8 @@ import java.util.Map;
 public final class Webhook extends Resource {
     static ClassData data = new ClassData(Webhook.class, "Webhook");
 
-    public final String url;
-    public final String[] subscriptions;
+    public String url;
+    public String[] subscriptions;
 
     /**
      * Webhook subscription object

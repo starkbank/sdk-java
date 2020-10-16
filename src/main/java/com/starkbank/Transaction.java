@@ -13,16 +13,16 @@ import java.util.Map;
 public final class Transaction extends Resource {
     static ClassData data = new ClassData(Transaction.class, "Transaction");
 
-    public final long amount;
-    public final String description;
-    public final String externalId;
-    public final String senderId;
-    public final String receiverId;
-    public final String[] tags;
-    public final Integer fee;
-    public final String source;
-    public final Long balance;
-    public final String created;
+    public long amount;
+    public String description;
+    public String externalId;
+    public String senderId;
+    public String receiverId;
+    public String[] tags;
+    public Integer fee;
+    public String source;
+    public Long balance;
+    public String created;
 
     /**
      * Transaction object
