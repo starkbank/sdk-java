@@ -15,13 +15,8 @@ public class TestTransaction {
     public void testCreate() throws Exception {
         Settings.user = utils.User.defaultProject();
         List<Transaction> transactions = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("amount", 1);
-        data.put("description", "A Lannister always pays his debts");
-        data.put("externalId", String.valueOf(Instant.now().getEpochSecond()));
-        data.put("receiverId", "5768064935133184");
-        data.put("tags", new String[]{"lannister", "debts"});
-        transactions.add(new Transaction(data));
+
+        transactions.add(TestTransaction.example());
 
         transactions = Transaction.create(transactions);
 
@@ -77,5 +72,16 @@ public class TestTransaction {
         Collections.sort(transactionsIdsExpected);
         Collections.sort(transactionsIdsResult);
         Assert.assertEquals(transactionsIdsExpected, transactionsIdsResult);
+    }
+
+    static Transaction example() throws Exception{
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("amount", 1);
+        data.put("description", "A Lannister always pays his debts");
+        data.put("externalId", String.valueOf(Instant.now().getEpochSecond()));
+        data.put("receiverId", "5768064935133184");
+        data.put("tags", new String[]{"lannister", "debts"});
+
+        return new Transaction(data);
     }
 }

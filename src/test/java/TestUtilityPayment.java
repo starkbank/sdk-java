@@ -22,18 +22,8 @@ public class TestUtilityPayment {
     public void testCreate() throws Exception {
         Settings.user = utils.User.defaultProject();
         List<UtilityPayment> payments = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 100000000);
 
-        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        String paymentDay = dateFormat.format(tomorrow);
-
-        data.put("barCode", "8364000" + String.format("%08d", randomNum) + "01380076105302611108067159411");
-        data.put("scheduled", paymentDay);
-        data.put("description", "Electricity for the Long Night");
-        data.put("tags", new String[]{"Energy", "Winterfell"});
-        payments.add(new UtilityPayment(data));
+        payments.add(TestUtilityPayment.example(true));
 
         payments = UtilityPayment.create(payments);
 
@@ -74,18 +64,8 @@ public class TestUtilityPayment {
     public void testCreateAndDelete() throws Exception {
         Settings.user = utils.User.defaultProject();
         List<UtilityPayment> payments = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 100000000);
 
-        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        String paymentDay = dateFormat.format(tomorrow);
-
-        data.put("barCode", "8364000" + String.format("%08d", randomNum) + "01380076105302611108067159411");
-        data.put("scheduled", paymentDay);
-        data.put("description", "Electricity for the Long Night");
-        data.put("tags", new String[]{"Energy", "Winterfell"});
-        payments.add(new UtilityPayment(data));
+        payments.add(TestUtilityPayment.example(true));
 
         payments = UtilityPayment.create(payments);
 
@@ -114,5 +94,23 @@ public class TestUtilityPayment {
             System.out.println(log);
         }
         Assert.assertTrue(i > 0);
+    }
+
+    static UtilityPayment example(boolean scheduled) throws Exception{
+        HashMap<String, Object> data = new HashMap<>();
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 100000000);
+
+        data.put("barCode", "8364000" + String.format("%08d", randomNum) + "01380076105302611108067159411");
+        data.put("description", "Electricity for the Long Night");
+        data.put("tags", new String[]{"Energy", "Winterfell"});
+
+        if(scheduled) {
+            LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+            String paymentDay = dateFormat.format(tomorrow);
+            data.put("scheduled", paymentDay);
+        }
+
+        return new UtilityPayment(data);
     }
 }

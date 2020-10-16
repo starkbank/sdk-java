@@ -31,7 +31,7 @@ public final class Rest {
         JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
         for (JsonElement resourceElement : jsonArray) {
             JsonObject jsonObject = resourceElement.getAsJsonObject();
-            postEntities.add(new Gson().fromJson(jsonObject, (Type) resource.cls));
+            postEntities.add(GsonEvent.getInstance().fromJson(jsonObject, (Type) resource.cls));
         }
         return postEntities;
     }

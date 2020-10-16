@@ -21,15 +21,8 @@ public class TestTransfer {
     public void testCreate() throws Exception {
         Settings.user = utils.User.defaultProject();
         List<Transfer> transfers = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("amount", 100000000);
-        data.put("bankCode", "341");
-        data.put("branchCode", "2201");
-        data.put("accountNumber", "76543-8");
-        data.put("taxId", "594.739.480-42");
-        data.put("name", "Daenerys Targaryen Stormborn");
-        data.put("tags", new String[]{"daenerys", "invoice/1234"});
-        transfers.add(new Transfer(data));
+
+        transfers.add(TestTransfer.example(false));
 
         transfers = Transfer.create(transfers);
 
@@ -43,21 +36,8 @@ public class TestTransfer {
     public void testDelete() throws Exception {
         Settings.user = utils.User.defaultProject();
         List<Transfer> transfers = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
 
-        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        String tomorrowString = dateFormat.format(tomorrow);
-
-        data.put("amount", 100000000);
-        data.put("bankCode", "341");
-        data.put("branchCode", "2201");
-        data.put("accountNumber", "76543-8");
-        data.put("taxId", "594.739.480-42");
-        data.put("name", "Daenerys Targaryen Stormborn");
-        data.put("scheduled", tomorrowString);
-        data.put("tags", new String[]{"daenerys", "invoice/1234"});
-        transfers.add(new Transfer(data));
+        transfers.add(TestTransfer.example(true));
 
         transfers = Transfer.create(transfers);
         Transfer createdTransfer = transfers.get(0);
@@ -142,6 +122,26 @@ public class TestTransfer {
         Collections.sort(transfersIdsExpected);
         Collections.sort(transfersIdsResult);
         Assert.assertEquals(transfersIdsExpected, transfersIdsResult);
+    }
+
+    static Transfer example(boolean scheduled) throws Exception{
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("amount", 100000000);
+        data.put("bankCode", "341");
+        data.put("branchCode", "2201");
+        data.put("accountNumber", "76543-8");
+        data.put("taxId", "594.739.480-42");
+        data.put("name", "Daenerys Targaryen Stormborn");
+        data.put("tags", new String[]{"daenerys", "invoice/1234"});
+
+        if(scheduled) {
+            LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+            String tomorrowString = dateFormat.format(tomorrow);
+            data.put("scheduled", tomorrowString);
+        }
+
+        return new Transfer(data);
     }
 
 }
