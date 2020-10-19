@@ -14,15 +14,15 @@ import java.util.Map;
 public final class UtilityPayment extends Resource {
     static ClassData data = new ClassData(UtilityPayment.class, "UtilityPayment");
 
-    public final String description;
-    public final String line;
-    public final String barCode;
-    public final String scheduled;
-    public final String[] tags;
-    public final String status;
-    public final Long amount;
-    public final Integer fee;
-    public final String created;
+    public String description;
+    public String line;
+    public String barCode;
+    public String scheduled;
+    public String[] tags;
+    public String status;
+    public Long amount;
+    public Integer fee;
+    public String created;
 
     /**
      * UtilityPayment object

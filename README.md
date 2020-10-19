@@ -804,6 +804,69 @@ Transaction transaction = Transaction.get("5155966664310784");
 System.out.println(transaction);
 ```
 
+### Create payment requests to be approved by authorized people in a cost center 
+
+You can also request payments that must pass through a specific cost center approval flow to be executed.
+In certain structures, this allows double checks for cash-outs and gives time to load your account
+with the required amount before the payments take place.
+The approvals can be granted at our web banking and must be performed according to the rules
+specified in the cost center.
+
+**Note**: The value of the centerId parameter can be consulted by logging into our web banking and going
+to the desired cost center page.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+HashMap<String, Object> paymentData = new HashMap<>();
+paymentData.put("amount", 100000000);
+paymentData.put("bankCode", "341");
+paymentData.put("branchCode", "2201");
+paymentData.put("accountNumber", "76543-8");
+paymentData.put("taxId", "594.739.480-42");
+paymentData.put("name", "Daenerys Targaryen Stormborn");
+Transfer payment = new Transfer(paymentData);
+
+List<PaymentRequest> requests = new ArrayList<>();
+HashMap<String, Object> data = new HashMap<>();
+data.put("centerId", "5967314465849344");
+data.put("payment", payment);
+data.put("due", "2020-04-11");
+data.put("tags", new String[]{"daenerys", "invoice/1234"});
+requests.add(new PaymentRequest(data));
+
+requests = PaymentRequest.create(requests);
+
+for (PaymentRequest request : requests){
+    System.out.println(request);
+}
+```
+
+**Note**: Instead of using PaymentRequest objects, you can also pass each request element in HashMap format
+
+### Query payment requests
+
+To search for payment requests, run:
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("centerId", "5967314465849344");
+params.put("after", "2020-04-01");
+params.put("limit", 10);
+Generator<PaymentRequest> requests = PaymentRequest.query(params);
+
+for (PaymentRequest request : requests){
+    System.out.println(request);
+}
+```
+
 ### Create a webhook subscription
 
 To create a webhook subscription and be notified whenever an event occurs, run:

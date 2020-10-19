@@ -14,19 +14,19 @@ import java.util.Map;
 public final class Transfer extends Resource {
     static ClassData data = new ClassData(Transfer.class, "Transfer");
 
-    public final long amount;
-    public final String name;
-    public final String taxId;
-    public final String bankCode;
-    public final String branchCode;
-    public final String accountNumber;
-    public final String scheduled;
-    public final String[] tags;
-    public final Integer fee;
-    public final String status;
-    public final String created;
-    public final String updated;
-    public final String[] transactionIds;
+    public long amount;
+    public String name;
+    public String taxId;
+    public String bankCode;
+    public String branchCode;
+    public String accountNumber;
+    public String scheduled;
+    public String[] tags;
+    public Integer fee;
+    public String status;
+    public String created;
+    public String updated;
+    public String[] transactionIds;
 
     /**
      * Transfer object
