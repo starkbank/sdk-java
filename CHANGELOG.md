@@ -13,12 +13,15 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.0.0] - 2020-10-21
 ### Added
 - ids parameter to Transaction.query
 - ids parameter to Transfer.query
 - hiddenFields parameter to Boleto.pdf
 - ourNumber attribute to Boleto
 - PaymentRequest resource to pass payments through manual approval flow
+- Boleto.Discount & Boleto.Description parsing on Boleto API responses
 
 ### Fixed
 - Fixed params alterations on queries
