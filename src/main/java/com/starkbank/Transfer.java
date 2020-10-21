@@ -99,6 +99,7 @@ public final class Transfer extends Resource {
      * transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
      * created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000"
      * updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
+     * @throws Exception error in the request
      */
     public Transfer(Map<String, Object> data) throws Exception {
         super(null);

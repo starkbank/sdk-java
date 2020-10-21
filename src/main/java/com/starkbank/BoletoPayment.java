@@ -99,6 +99,7 @@ public final class BoletoPayment extends Resource {
      * amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
      * fee [integer, default null]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
      * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
+     * @throws Exception error in the request
      */
     public BoletoPayment(Map<String, Object> data) throws Exception {
         super(null);

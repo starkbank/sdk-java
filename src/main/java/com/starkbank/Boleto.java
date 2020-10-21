@@ -171,6 +171,7 @@ public final class Boleto extends Resource {
      * descriptions [list of Boleto.Description or HashMap, default null]: list of Boleto.Descriptions or HashMaps with "text":string and "amount":int pairs
      * discounts [list of Boleto.Discount or Hashmap, default null]: list of Boleto.Discounts or HashMaps with "percentage": Double and "date": string pairs
      * tags [list of strings]: list of strings for tagging
+     * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
     public Boleto(Map<String, Object> data) throws Exception {
