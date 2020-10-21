@@ -194,8 +194,8 @@ public final class Boleto extends Resource {
         this.receiverName = (String) dataCopy.remove("receiverName");
         this.receiverTaxId = (String) dataCopy.remove("receiverTaxId");
         this.tags = (String[]) dataCopy.remove("tags");
-        this.descriptions = (List<Boleto.Description>) dataCopy.remove("descriptions");
-        this.discounts = (List<Boleto.Discount>) dataCopy.remove("discounts");
+        this.descriptions = parseDescriptions((List<Object>) dataCopy.remove("descriptions"));
+        this.discounts = parseDiscounts((List<Object>) dataCopy.remove("discounts"));
         this.barCode = null;
         this.created = null;
         this.fee = null;
@@ -206,6 +206,48 @@ public final class Boleto extends Resource {
         if (!dataCopy.isEmpty()) {
             throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Boleto.Description> parseDescriptions(List<Object> descriptions){
+        List<Boleto.Description> parsed = new ArrayList<>();
+        if (descriptions.size() == 0 || descriptions.get(0) instanceof Boleto.Description) {
+            for (Object description : descriptions) {
+                parsed.add((Boleto.Description) description);
+            }
+            return parsed;
+        }
+
+        for (Object description : descriptions) {
+            Boleto.Description descriptionObject = new Boleto.Description(
+                (String) ((HashMap<String, Object>) description).get("text"),
+                (Integer) ((HashMap<String, Object>) description).get("amount")
+            );
+            parsed.add(descriptionObject);
+        }
+        return parsed;
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Boleto.Discount> parseDiscounts(List<Object> discounts){
+        List<Boleto.Discount> parsed = new ArrayList<>();
+        if (discounts.size() == 0 || discounts.get(0) instanceof Boleto.Discount) {
+            for (Object discount : discounts) {
+                parsed.add((Boleto.Discount) discount);
+            }
+
+            return parsed;
+        }
+
+        for (Object discount : discounts) {
+            Boleto.Discount discountObject = new Boleto.Discount(
+                (String) ((HashMap<String, Object>) discount).get("date"),
+                (Double) ((HashMap<String, Object>) discount).get("percentage")
+            );
+            parsed.add(discountObject);
+        }
+        
+        return parsed;
     }
 
     /**
