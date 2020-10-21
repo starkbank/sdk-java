@@ -210,6 +210,9 @@ public final class Boleto extends Resource {
 
     @SuppressWarnings("unchecked")
     private List<Boleto.Description> parseDescriptions(List<Object> descriptions){
+        if (descriptions == null)
+            return null;
+            
         List<Boleto.Description> parsed = new ArrayList<>();
         if (descriptions.size() == 0 || descriptions.get(0) instanceof Boleto.Description) {
             for (Object description : descriptions) {
@@ -220,8 +223,8 @@ public final class Boleto extends Resource {
 
         for (Object description : descriptions) {
             Boleto.Description descriptionObject = new Boleto.Description(
-                (String) ((HashMap<String, Object>) description).get("text"),
-                (Integer) ((HashMap<String, Object>) description).get("amount")
+                (String) ((Map<String, Object>) description).get("text"),
+                (Integer) ((Map<String, Object>) description).get("amount")
             );
             parsed.add(descriptionObject);
         }
@@ -230,6 +233,9 @@ public final class Boleto extends Resource {
 
     @SuppressWarnings("unchecked")
     private List<Boleto.Discount> parseDiscounts(List<Object> discounts){
+        if (discounts == null)
+            return null;
+
         List<Boleto.Discount> parsed = new ArrayList<>();
         if (discounts.size() == 0 || discounts.get(0) instanceof Boleto.Discount) {
             for (Object discount : discounts) {
@@ -241,8 +247,8 @@ public final class Boleto extends Resource {
 
         for (Object discount : discounts) {
             Boleto.Discount discountObject = new Boleto.Discount(
-                (String) ((HashMap<String, Object>) discount).get("date"),
-                (Double) ((HashMap<String, Object>) discount).get("percentage")
+                (String) ((Map<String, Object>) discount).get("date"),
+                (Double) ((Map<String, Object>) discount).get("percentage")
             );
             parsed.add(discountObject);
         }
