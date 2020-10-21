@@ -1,4 +1,4 @@
-# Stark Bank Java SDK Beta
+# Stark Bank Java SDK
 
 Welcome to the Stark Bank Java SDK! This tool is made for Java 
 developers who want to easily integrate with our API.

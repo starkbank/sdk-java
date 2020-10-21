@@ -91,6 +91,7 @@ public final class Transaction extends Resource {
      * fee [integer, default null]: fee charged when the transaction is created. ex: 200 (= R$ 2.00)
      * balance [long, default null]: account balance after the transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
      * created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000"
+     * @throws Exception error in the request
      */
     public Transaction(Map<String, Object> data) throws Exception {
         super(null);

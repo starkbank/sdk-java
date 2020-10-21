@@ -107,6 +107,16 @@ public class TestBoleto {
         data.put("interest", 1.3);
         data.put("overdueLimit", 5);
         data.put("tags", new String[]{"War supply", "Invoice #1234"});
+        List<HashMap<String, Object>> descriptions = new ArrayList<>();
+        HashMap<String, Object> description = new HashMap<>();
+        description.put("text", "hello");
+        description.put("amount", 234);
+        descriptions.add(description);
+        data.put("descriptions", descriptions);
+        List<Boleto.Discount> discounts = new ArrayList<>();
+        Boleto.Discount discount = new Boleto.Discount(getDateString(0), 2.0);
+        discounts.add(discount);
+        data.put("discounts", discounts);
         boletos.add(new Boleto(data));
 
         boletos = Boleto.create(boletos);

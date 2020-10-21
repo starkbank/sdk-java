@@ -1,9 +1,11 @@
 package com.starkbank;
 
 import com.google.gson.*;
+import com.google.gson.internal.LinkedTreeMap;
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
+import com.starkbank.utils.SubResource;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -24,20 +26,18 @@ public final class PaymentRequest extends Resource {
      *     cost center page.
      * </p>
      *
-     * Properties
-     * <list>
-     *     <item>ID [String]: unique id returned when PaymentRequest is created. ex: "5656565656565656"</item>
-     *     <item>CenterID [String]: target cost center ID. ex: "5656565656565656"</item>
-     *     <item>Payment [Transfer, BoletoPayment, UtilityPayment, Transaction or dictionary]: payment entity that should be approved and executed.</item>
-     *     <item>Type [String]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"</item>
-     *     <item>Due [String]: Payment target date in ISO format. ex: 2020-12-31</item>
-     *     <item>Tags [list of strings]: list of strings for tagging</item>
-     *     <item>Amount [long integer]: PaymentRequest amount. ex: 100000 = R$1.000,00</item>
-     *     <item>Status [String]: current PaymentRequest status.ex: "pending" or "approved"</item>
-     *     <item>Actions [list of maps]: list of actions that are affecting this PaymentRequest.ex: [{"type": "member", "id": "56565656565656, "action": "requested"}]</item>
-     *     <item>Updated [String]: latest update datetime for the PaymentRequest. ex: 2020-12-31</item>
-     *     <item>Created [String]: creation datetime for the PaymentRequest. ex: 2020-12-31</item>
-     * </list>
+     * Parameters:
+     * id [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
+     * centerId [string]: target cost center ID. ex: "5656565656565656"
+     * payment [Transfer, BoletoPayment, UtilityPayment, Transaction or dictionary]: payment entity that should be approved and executed.
+     * type [string]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
+     * due [string]: Payment target date in ISO format. ex: 2020-12-31
+     * tags [list of strings]: list of strings for tagging
+     * amount [long integer]: PaymentRequest amount. ex: 100000 = R$1.000,00
+     * status [string]: current PaymentRequest status.ex: "pending" or "approved"
+     * actions [list of maps]: list of actions that are affecting this PaymentRequest.ex: [{"type": "member", "id": "56565656565656, "action": "requested"}]
+     * updated [String]: latest update datetime for the PaymentRequest. ex: 2020-12-31
+     * created [String]: creation datetime for the PaymentRequest. ex: 2020-12-31
      */
 
     public String centerId;
@@ -47,7 +47,7 @@ public final class PaymentRequest extends Resource {
     public String[] tags;
     public Long amount;
     public String status;
-    public List<Map<String, String>> actions;
+    public List<PaymentRequest.Action> actions;
     public String updated;
     public String created;
 
@@ -61,20 +61,23 @@ public final class PaymentRequest extends Resource {
      * <p>
      *
      * Parameters:
-     * @param id [string]: id of the object
      * @param centerId [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
      * @param payment [Transfer, BoletoPayment, UtilityPayment, Transaction or dictionary]: payment entity that should be approved and executed.
      * @param type [string]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
      * @param due [string]: Payment target date in ISO format.
      * @param tags [list of strings]: list of strings for tagging
+     * 
+     * Attributes (return-only):
+     * @param id [string]: id of the object
      * @param amount [long]: PaymentRequest amount. ex: 100000 = R$1.000,00
      * @param status [string]: current PaymentRequest status.ex: "pending" or "approved"
-     * @param actions [List of <Map<string, string>]: list of actions that are affecting this PaymentRequest.ex: [{"type": "member", "id": "56565656565656, "action": "requested"}]
+     * @param actions [list of PaymentRequest.Action, default null]: list of actions that are affecting this PaymentRequest.ex: [{"type": "member", "id": "56565656565656, "action": "requested"}]
      * @param updated [string]: latest update datetime for the PaymentRequest. ex: 2020-12-31
      * @param created [string]: creation datetime for the PaymentRequest. ex: 2020-12-31
+     * @throws Exception error in the request
      */
     public PaymentRequest(String id, String centerId, Resource payment, String type, String due, String[] tags, Long amount,
-                          String status, List<Map<String, String>> actions, String updated, String created) throws Exception{
+                          String status, List<PaymentRequest.Action> actions, String updated, String created) throws Exception{
         super(id);
         this.centerId = centerId;
         this.payment = payment;
@@ -111,6 +114,7 @@ public final class PaymentRequest extends Resource {
      * Parameters (optional):
      * due [string]: Payment target date in ISO format. ex: 2020-12-31
      * tags [list of strings]: list of strings for tagging
+     * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
     public PaymentRequest(Map<String, Object> data) throws Exception{
@@ -123,7 +127,7 @@ public final class PaymentRequest extends Resource {
         this.tags = (String[]) dataCopy.remove("tags");
         this.amount = (Long) dataCopy.remove("amount");
         this.status = (String) dataCopy.remove("status");
-        this.actions = (List<Map<String, String>>) dataCopy.remove("actions");
+        this.actions = (List<PaymentRequest.Action>) dataCopy.remove("actions");
         this.updated = (String) dataCopy.remove("updated");
         this.created = (String) dataCopy.remove("created");
 
@@ -137,6 +141,7 @@ public final class PaymentRequest extends Resource {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static class Deserializer implements JsonDeserializer<PaymentRequest> {
         @Override
         public PaymentRequest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext ctw) throws JsonParseException {
@@ -162,6 +167,16 @@ public final class PaymentRequest extends Resource {
             }
 
             request.payment = resource;
+
+            resourceElement = json.getAsJsonObject().get("actions");
+            for (LinkedTreeMap<Object, Object> action : (List<LinkedTreeMap<Object, Object>>) new Gson().fromJson(resourceElement, List.class)){
+                request.actions.add(new PaymentRequest.Action(
+                    (String) action.get("name"),
+                    (String) action.get("action"),
+                    (String) action.get("type"),
+                    (String) action.get("id")
+                ));
+            }
 
             return request;
         }
@@ -249,8 +264,8 @@ public final class PaymentRequest extends Resource {
      * Sends a list of PaymentRequests objects for creation in the Stark Bank API
      *
      * Parameters (required):
-     * @param paymentRequests [list of PaymentRequest objects]: list of PaymentRequest objects to be created in the API</item>
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.Default was set before function call
+     * @param paymentRequests [list of PaymentRequest objects]: list of PaymentRequest objects to be created in the API
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * @return list of PaymentRequest objects with updated attributes
      * @throws Exception When list contains unknown objects
      */
@@ -277,7 +292,7 @@ public final class PaymentRequest extends Resource {
      * Sends a list of PaymentRequests objects for creation in the Stark Bank API
      *
      * Parameters (required):
-     * @param paymentRequests [list of PaymentRequest objects]: list of PaymentRequest objects to be created in the API</item>
+     * @param paymentRequests [list of PaymentRequest objects]: list of PaymentRequest objects to be created in the API
      * @return list of PaymentRequest objects with updated attributes
      * @throws Exception When list contains unknown objects
      */
@@ -310,5 +325,41 @@ public final class PaymentRequest extends Resource {
             return "utility-payment";
 
         throw new Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment or a UtilityPayment.");
+    }
+
+    /**
+     * PaymentRequest.Action object
+     * <p>
+     * Gives information about an action taken on the PaymentRequest
+     * <p>
+     * Parameters:
+     * name [string]: name of the user that took the action. ex: "Stark Project"
+     * action [string]: action type. ex "requested", "approved"
+     * type [string]: type of the user that took the action. ex: "project", "member"
+     * id [string]: ID of the user that took the action. ex: "5129086980587520"
+     */
+    public final static class Action extends SubResource{
+        public String name;
+        public String action;
+        public String type;
+        public String id;
+
+        /**
+         * PaymentRequest.Action object
+         * 
+         * Used to define a action in the payment request
+         * 
+         * Parameters:
+         * @param name [string]: name of the user that took the action. ex: "Stark Project"
+         * @param action [string]: action type. ex "requested", "approved"
+         * @param type [string]: type of the user that took the action. ex: "project", "member"
+         * @param id [string]: ID of the user that took the action. ex: "5129086980587520"
+         */
+        public Action(String name, String action, String type, String id){
+            this.name = name;
+            this.action = action;
+            this.type = type;
+            this.id = id;
+        }
     }
 }
