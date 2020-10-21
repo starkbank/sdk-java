@@ -107,17 +107,33 @@ public class TestBoleto {
         data.put("interest", 1.3);
         data.put("overdueLimit", 5);
         data.put("tags", new String[]{"War supply", "Invoice #1234"});
+
         List<HashMap<String, Object>> descriptions = new ArrayList<>();
         HashMap<String, Object> description = new HashMap<>();
-        description.put("text", "hello");
-        description.put("amount", 234);
+        description.put("text", "Some supplies");
+        description.put("amount", 100000);
         descriptions.add(description);
         data.put("descriptions", descriptions);
-        List<Boleto.Discount> discounts = new ArrayList<>();
-        Boleto.Discount discount = new Boleto.Discount(getDateString(0), 2.0);
-        discounts.add(discount);
+
+        List<HashMap<String, Object>> discounts = new ArrayList<>();
+        HashMap<String, Object> discount = new HashMap<>();
+        discount.put("date", getDateString(1));
+        discount.put("percentage", 2.5);
         data.put("discounts", discounts);
+
         boletos.add(new Boleto(data));
+
+        HashMap<String, Object> simpleExample = new HashMap<>();
+        simpleExample.put("amount", 1234);
+        simpleExample.put("name", "Iron Bank S.A.");
+        simpleExample.put("taxId", "20.018.183/0001-80");
+        simpleExample.put("streetLine1", "Av. Faria Lima, 1844");
+        simpleExample.put("streetLine2", "CJ 13");
+        simpleExample.put("district", "Itaim Bibi");
+        simpleExample.put("city", "São Paulo");
+        simpleExample.put("stateCode", "SP");
+        simpleExample.put("zipCode", "01500-000");
+        boletos.add(new Boleto(simpleExample));
 
         boletos = Boleto.create(boletos);
 
