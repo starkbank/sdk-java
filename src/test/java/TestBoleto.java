@@ -31,7 +31,7 @@ public class TestBoleto {
         data.put("stateCode", "SP");
         data.put("zipCode", "01500-000");
         data.put("due", getDateString(3));
-        data.put("fine", 2.5);
+        data.put("fine", 2);
         data.put("interest", 1.3);
         data.put("overdueLimit", 5);
         data.put("receiverName", "Iron Bank Receiver S.A.");
@@ -44,7 +44,7 @@ public class TestBoleto {
         data.put("descriptions", descriptions);
 
         List<Boleto.Discount> discounts = new ArrayList<>();
-        discounts.add(new Boleto.Discount(getDateString(1), 2.5));
+        discounts.add(new Boleto.Discount(getDateString(1), 3));
         discounts.add(new Boleto.Discount(getDateString(2), 2.0));
         data.put("discounts", discounts);
 
