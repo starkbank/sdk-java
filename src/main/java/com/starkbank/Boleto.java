@@ -31,8 +31,8 @@ public final class Boleto extends Resource {
      * stateCode [string]: payer address state. ex: GO
      * zipCode [string]: payer address zip code. ex: 01311-200
      * due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
-     * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
-     * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
+     * fine [number, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
+     * interest [number, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
      * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
      * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
@@ -59,8 +59,8 @@ public final class Boleto extends Resource {
     public String stateCode;
     public String zipCode;
     public String due;
-    public Double fine;
-    public Double interest;
+    public Number fine;
+    public Number interest;
     public Integer overdueLimit;
     public String receiverName;
     public String receiverTaxId;
@@ -92,13 +92,13 @@ public final class Boleto extends Resource {
      * @param stateCode [string]: payer address state. ex: GO
      * @param zipCode [string]: payer address zip code. ex: 01311-200
      * @param due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
-     * @param fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
-     * @param interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
+     * @param fine [number, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
+     * @param interest [number, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * @param overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
      * @param receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
      * @param receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * @param descriptions [list of Boleto.Description or Hashmaps, default null]: list of Boleto.Descriptions or hashmaps with "text":string and (optional) "amount":int pairs
-     * @param discounts [list of Boleto.Discounts or Hashmaps, default null]: list of Boleto.Discounts or hashmaps with "percentage": Double and "date": string pairs
+     * @param discounts [list of Boleto.Discounts or Hashmaps, default null]: list of Boleto.Discounts or hashmaps with "percentage": Number and "date": string pairs
      * @param tags [list of strings]: list of strings for tagging
      * @param id id of the object
      * @param fee fee to be charged in the Boleto
@@ -109,8 +109,8 @@ public final class Boleto extends Resource {
      * @param ourNumber [string, default null]: Reference number registered at the settlement bank. ex:“10131474”
      */
     public Boleto(long amount, String name, String taxId, String streetLine1, String streetLine2,
-                  String district, String city, String stateCode, String zipCode, String due, Double fine,
-                  Double interest, Integer overdueLimit, String receiverName, String receiverTaxId, String[] tags, List<Boleto.Description> descriptions,
+                  String district, String city, String stateCode, String zipCode, String due, Number fine,
+                  Number interest, Integer overdueLimit, String receiverName, String receiverTaxId, String[] tags, List<Boleto.Description> descriptions,
                   List<Boleto.Discount> discounts, String id, Integer fee, String line, String barCode,
                   String status, String created, String ourNumber
     ) {
@@ -163,13 +163,13 @@ public final class Boleto extends Resource {
      * due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
      * <p>
      * Parameters (optional):
-     * fine [float, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
-     * interest [float, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
+     * fine [number, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
+     * interest [number, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
      * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
      * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * descriptions [list of Boleto.Description or HashMap, default null]: list of Boleto.Descriptions or HashMaps with "text":string and "amount":int pairs
-     * discounts [list of Boleto.Discount or Hashmap, default null]: list of Boleto.Discounts or HashMaps with "percentage": Double and "date": string pairs
+     * discounts [list of Boleto.Discount or Hashmap, default null]: list of Boleto.Discounts or HashMaps with "percentage": Number and "date": string pairs
      * tags [list of strings]: list of strings for tagging
      * @throws Exception error in the request
      */
@@ -188,8 +188,8 @@ public final class Boleto extends Resource {
         this.stateCode = (String) dataCopy.remove("stateCode");
         this.zipCode = (String) dataCopy.remove("zipCode");
         this.due = (String) dataCopy.remove("due");
-        this.fine = (Double) dataCopy.remove("fine");
-        this.interest = (Double) dataCopy.remove("interest");
+        this.fine = (Number) dataCopy.remove("fine");
+        this.interest = (Number) dataCopy.remove("interest");
         this.overdueLimit = (Integer) dataCopy.remove("overdueLimit");
         this.receiverName = (String) dataCopy.remove("receiverName");
         this.receiverTaxId = (String) dataCopy.remove("receiverTaxId");
@@ -248,7 +248,7 @@ public final class Boleto extends Resource {
         for (Object discount : discounts) {
             Boleto.Discount discountObject = new Boleto.Discount(
                 (String) ((Map<String, Object>) discount).get("date"),
-                (Double) ((Map<String, Object>) discount).get("percentage")
+                (Number) ((Map<String, Object>) discount).get("percentage")
             );
             parsed.add(discountObject);
         }
@@ -519,11 +519,11 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters:
      * date [string]: Date up to when the discount will be applied. ex: "2020-03-12"
-     * percentage [double]: discount percentage that will be applied. ex: 2.5
+     * percentage [number]: discount percentage that will be applied. ex: 2.5
      */
     public final static class Discount extends SubResource{
         public String date;
-        public Double percentage;
+        public Number percentage;
 
         /**
          * Boleto.Discount object
@@ -531,9 +531,9 @@ public final class Boleto extends Resource {
 
          * Parameters:
          * @param date [string]: Date up to when the discount will be applied. ex: "2020-03-12"
-         * @param percentage [double]: discount percentage that will be applied. ex: 2.5
+         * @param percentage [number]: discount percentage that will be applied. ex: 2.5
          */
-        public Discount(String date, Double percentage){
+        public Discount(String date, Number percentage){
             this.date = date;
             this.percentage = percentage;
         }
