@@ -66,6 +66,9 @@ public class Event extends Resource {
                     case "boleto-holmes":
                         return context.deserialize(jsonObject,
                                 BoletoHolmesEvent.class);
+                    case "invoice":
+                        return context.deserialize(jsonObject,
+                                InvoiceEvent.class);
                     default:
                         return context.deserialize(jsonObject,
                                 UnknownEvent.class);
@@ -115,6 +118,15 @@ public class Event extends Resource {
         public BoletoHolmes.Log log;
 
         public BoletoHolmesEvent(BoletoHolmes.Log log, String created, Boolean isDelivered, String subscription, String id) {
+            super(created, isDelivered, subscription, id);
+            this.log = log;
+        }
+    }
+
+    public final static class InvoiceEvent extends Event {
+        public Invoice.Log log;
+
+        public InvoiceEvent(Invoice.Log log, String created, Boolean isDelivered, String subscription, String id) {
             super(created, isDelivered, subscription, id);
             this.log = log;
         }

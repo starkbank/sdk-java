@@ -215,6 +215,169 @@ Balance balance = Balance.get();
 System.out.println(balance);
 ```
 
+### Create invoices
+
+You can create dynamic QR Code invoices to charge customers or to receive money from accounts
+you have in other banks.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+List<Invoice> invoices = new ArrayList<>();
+HashMap<String, Object> data = new HashMap<>();
+data.put("amount", 400000);
+data.put("due", "2020-11-28T17:59:26.249976+00:00");
+data.put("taxId", "20.018.183/0001-80");
+data.put("name", "Iron Bank S.A.");
+data.put("expiration", 123456789);
+data.put("fine", 2);
+data.put("interest", 1.3);
+
+List<HashMap<String, Object>> descriptions = new ArrayList<>();
+HashMap<String, Object> description = new HashMap<>();
+description.put("key", "Some supplies");
+description.put("value", "100000");
+descriptions.add(description);
+data.put("descriptions", descriptions);
+
+List<HashMap<String, Object>> discounts = new ArrayList<>();
+HashMap<String, Object> discount = new HashMap<>();
+discount.put("due", getDatetimeString(1));
+discount.put("percentage", 2.5);
+data.put("discounts", discounts);
+
+invoices.add(new Invoice(data));
+
+for (Invoice invoice : invoices) {
+    System.out.println(invoice);
+}
+```
+
+**Note**: Instead of using Invoice objects, you can also pass each invoice element in dictionary format
+
+### Get an invoice
+
+After its creation, information on an invoice may be retrieved by its id. 
+Its status indicates whether it's been paid.
+
+```java
+import com.starkbank.*;
+
+Invoice invoice = Invoice.get("5155165527080960")
+
+System.out.println(invoice);
+```
+
+### Get an invoice PDF (COMING SOON)
+
+After its creation, an invoice PDF may be retrieved by its id. 
+
+```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
+HashMap<String, Object> options = new HashMap<>();
+options.put("layout", "booklet");
+InputStream pdf = Invoice.pdf("5155165527080960", options);
+
+java.nio.file.Files.copy(
+        pdf,
+        new File("invoice.pdf").toPath(),
+        StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Cancel an invoice
+
+You can also cancel an invoice by its id.
+Note that this is not possible if it has been paid already.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> patchData = new HashMap<>();
+patchData.put("status", "canceled");
+Invoice invoice = Invoice.update("5155165527080960", patchData);
+
+System.out.println(invoice);
+```
+
+### Update an invoice
+
+You can update an invoice's amount, due date and expiration by its id.
+Note that this is not possible if it has been paid already.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> patchData = new HashMap<>();
+patchData.put("status", "canceled");
+patchData.put("amount", 999999);
+patchData.put("due", "2020-11-02T23:06:42.924000+00:00");
+patchData.put("expiration", 123456789);
+Invoice invoice = Invoice.update("5155165527080960", patchData);
+
+System.out.println(invoice);
+```
+
+### Query invoices
+
+You can get a list of created invoices given some filters.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("status", "created");
+params.put("limit", 1);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+
+Generator<Invoice> invoices = Invoice.query(params);
+for (Invoice invoice : invoices) {
+    System.out.println(invoice);
+}
+```
+
+### Query invoice logs
+
+Logs are pretty important to understand the life cycle of an invoice.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 3);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+Generator<Invoice.Log> logs = Invoice.Log.query(params);
+
+for (Invoice.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+### Get an invoice log
+
+You can get a single log by its id.
+
+```java
+import com.starkbank.*;
+
+Invoice.Log log = Invoice.Log.get("5155165527080960");
+
+System.out.println(log);
+```
+
 ### Create boletos
 
 You can create boletos to charge customers or to receive money from accounts
