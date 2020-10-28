@@ -74,6 +74,7 @@ public final class BoletoHolmes extends Resource {
      * result [string, default null]: result of boleto status investigation. ex: "paid" or "cancelled"
      * created [string, default null]: creation datetime for the holmes. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
      * updated [string, default null]: latest update datetime for the holmes. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+     * @throws Exception error in the request
      */
 
     public BoletoHolmes(Map<String, Object> data) throws Exception {
