@@ -261,11 +261,11 @@ public final class BoletoPayment extends Resource {
     public static List<BoletoPayment> create(List<?> payments, Project user) throws Exception {
         List<BoletoPayment> paymentList = new ArrayList<>();
         for (Object payment : payments){
-            if (payment.getClass() == HashMap.class){
+            if (payment instanceof Map){
                 paymentList.add(new BoletoPayment((Map<String, Object>) payment));
                 continue;
             }
-            if (payment.getClass() == BoletoPayment.class){
+            if (payment instanceof BoletoPayment){
                 paymentList.add((BoletoPayment) payment);
                 continue;
             }

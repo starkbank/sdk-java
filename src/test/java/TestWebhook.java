@@ -19,7 +19,7 @@ public class TestWebhook {
         HashMap<String, Object> params = new HashMap<>();
         String uuid = UUID.randomUUID().toString().replace("-", "");
         params.put("url", "https://winterfell.westeros.gov/events-from-stark-bank/" + uuid);
-        params.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment"});
+        params.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment", "boleto-holmes"});
         Webhook webhook = Webhook.create(params);
         webhook = Webhook.delete(webhook.id);
         Assert.assertNotNull(webhook.id);

@@ -620,6 +620,86 @@ BoletoPayment.Log log = BoletoPayment.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
+### Investigate a boleto
+
+You can discover if a StarkBank boleto has been recently paid before we receive the response on the next day.
+This can be done by creating a BoletoHolmes object, which fetches the updated status of the corresponding
+Boleto object according to CIP to check, for example, whether it is still payable or not. The investigation
+happens asynchronously and the most common way to retrieve the results is to register a "boleto-holmes" webhook
+subscription, although polling is also possible. 
+
+```java
+import com.starkbank;
+List<BoletoHolmes> holmes = new ArrayList<>();
+HashMap<String, Object> dataHolmes = new HashMap<>(); 
+dataHolmes.put("boletoId", "5976467733217280");
+holmes.add(new BoletoHolmes(dataHolmes));
+
+holmes = BoletoHolmes.create(holmes);
+
+for (BoletoHolmes sherlock : holmes){
+    System.out.println(sherlock);
+}
+```
+
+**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in dictionary format
+
+### Get boleto holmes
+
+To get a single Holmes by its id, run:
+
+```java
+import com.starkbank.*;
+sherlock = BoletoHolmes.get("6093880533450752")
+System.out.println(sherlock)
+```
+
+### Query boleto holmes
+
+You can search for boleto Holmes using filters. 
+
+```java
+import com.starkbank.*;
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 3);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+Generator<BoletoHolmes> holmes = BoletoHolmes.query(params);
+
+for (BoletoHolmes sherlock : holmes){
+    System.out.println(sherlock);
+}
+```
+
+### Query boleto holmes logs
+
+Searches are also possible with boleto holmes logs:
+
+```java
+import com.starkbank.*;
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 3);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+Generator<BoletoHolmes.Log> logs = BoletoHolmes.Log.query(params);
+
+for (BoletoHolmes.Log log : logs){
+    System.out.println(log);
+}
+```
+
+
+### Get boleto holmes log
+
+You can also get a boleto holmes log by specifying its id.
+
+```java
+import com.starkbank.*;
+log = BoletoHolmes.Log.get("5350990148534272")
+System.out.println(log);
+```
+
+
 ### Pay utility bills
 
 Its also simple to pay utility bills (such electricity and water bills) in the SDK.

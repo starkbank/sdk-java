@@ -378,11 +378,11 @@ public final class Boleto extends Resource {
     public static List<Boleto> create(List<?> boletos, Project user) throws Exception {
         List<Boleto> boletoList = new ArrayList<>();
         for (Object boleto : boletos){
-            if (boleto.getClass() == HashMap.class){
+            if (boleto instanceof Map){
                 boletoList.add(new Boleto((Map<String, Object>) boleto));
                 continue;
             }
-            if (boleto.getClass() == Boleto.class){
+            if (boleto instanceof Boleto){
                 boletoList.add((Boleto) boleto);
                 continue;
             }
