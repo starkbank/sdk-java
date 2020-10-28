@@ -11,7 +11,12 @@ final class Api {
     }
 
     static String getLastNamePlural(Resource.ClassData resource){
-        return getLastName(resource) + "s";
+        String lastName = getLastName(resource);
+        if (lastName.endsWith("s"))
+            return lastName;
+        if (lastName.endsWith("y"))
+            return lastName.substring(0, lastName.length()-1) + "ies";
+        return lastName + "s"; 
     }
 
     static String getLastName(Resource.ClassData resource){

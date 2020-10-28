@@ -247,11 +247,11 @@ public final class UtilityPayment extends Resource {
     public static List<UtilityPayment> create(List<?> payments, Project user) throws Exception {
         List<UtilityPayment> paymentList = new ArrayList<>();
         for (Object payment : payments){
-            if (payment.getClass() == HashMap.class){
+            if (payment instanceof Map){
                 paymentList.add(new UtilityPayment((Map<String, Object>) payment));
                 continue;
             }
-            if (payment.getClass() == UtilityPayment.class){
+            if (payment instanceof UtilityPayment){
                 paymentList.add((UtilityPayment) payment);
                 continue;
             }

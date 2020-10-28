@@ -252,11 +252,11 @@ public final class Transaction extends Resource {
     public static List<Transaction> create(List<?> transactions, Project user) throws Exception {
         List<Transaction> transactionList = new ArrayList<>();
         for (Object transaction : transactions){
-            if (transaction.getClass() == HashMap.class){
+            if (transaction instanceof Map){
                 transactionList.add(new Transaction((Map<String, Object>) transaction));
                 continue;
             }
-            if (transaction.getClass() == Transaction.class){
+            if (transaction instanceof Transaction){
                 transactionList.add((Transaction) transaction);
                 continue;
             }

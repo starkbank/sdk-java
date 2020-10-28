@@ -7,6 +7,7 @@ import org.junit.Test;
 
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class TestEvent {
 
@@ -37,16 +38,20 @@ public class TestEvent {
     public void testEventQueryGetAndUpdate() throws Exception{
         Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
-        params.put("limit", 1);
+        params.put("limit", 100);
         params.put("isDelivered", false);
         Generator<Event> events = Event.query(params);
         HashMap<String, Object> data = new HashMap<>();
         data.put("isDelivered", true);
 
+        int index = new Random().nextInt(100);
         int i = 0;
         for (Event event : events) {
+            i ++;
+            if (i != index) {
+                continue;
+            }
             System.out.println(event);
-            i += 1;
             Assert.assertFalse(event.isDelivered);
             event = Event.get(event.id);
             event = Event.update(event.id, data);
@@ -59,8 +64,14 @@ public class TestEvent {
     public void testEventQueryAndDelete() throws Exception{
         Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
-        params.put("limit", 1);
+        params.put("limit", 100);
+        int i = 0;
+        int index = new Random().nextInt(100);
         for (Event event : Event.query(params)) {
+            i ++;
+            if (i != index) {
+                continue;
+            }
             event = Event.delete(event.id);
             System.out.println(event);
         }
@@ -95,6 +106,10 @@ public class TestEvent {
                 UtilityPayment.Log log = ((Event.UtilityPaymentEvent) event).log;
                 System.out.println(log.payment);
                 break;
+            }
+            case "boleto-holmes": {
+                BoletoHolmes.Log log = ((Event.BoletoHolmesEvent) event).log;
+                System.out.println(log.holmes);
             }
         }
     }

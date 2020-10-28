@@ -302,11 +302,11 @@ public final class Transfer extends Resource {
     public static List<Transfer> create(List<?> transfers, Project user) throws Exception {
         List<Transfer> transferList = new ArrayList<>();
         for (Object transfer : transfers){
-            if (transfer.getClass() == HashMap.class){
+            if (transfer instanceof Map){
                 transferList.add(new Transfer((Map<String, Object>) transfer));
                 continue;
             }
-            if (transfer.getClass() == Transfer.class){
+            if (transfer instanceof Transfer){
                 transferList.add((Transfer) transfer);
                 continue;
             }
