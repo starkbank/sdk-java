@@ -215,6 +215,18 @@ Balance balance = Balance.get();
 System.out.println(balance);
 ```
 
+### Get dict key
+
+You can get PIX key's parameters by its id.
+
+```java
+import com.starkbank.*;
+
+DictKey dictKey = DictKey.get("tony@starkbank.com");
+
+System.out.println(dictKey);
+```
+
 ### Create invoices
 
 You can create dynamic QR Code invoices to charge customers or to receive money from accounts
