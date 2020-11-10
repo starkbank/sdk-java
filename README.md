@@ -390,6 +390,69 @@ Invoice.Log log = Invoice.Log.get("5155165527080960");
 System.out.println(log);
 ```
 
+### Query deposits
+
+You can get a list of created deposits given some filters.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<Deposit> deposits = Deposit.query(params);
+
+for (Deposit deposit : deposits){
+    System.out.println(deposit);
+}
+```
+
+### Get a deposit
+
+After its creation, information on a deposit may be retrieved by its id. 
+
+```java
+import com.starkbank.*;
+
+Deposit deposit = Deposit.get("5730174175805440");
+
+System.out.println(deposit);
+```
+
+### Query deposit logs
+
+Logs are pretty important to understand the life cycle of a deposit.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<Deposit.Log> logs = Deposit.Log.query(params);
+
+for (Deposit.Log log : logs){
+    System.out.println(log);
+}
+```
+
+### Get a deposit log
+
+You can get a single log by its id.
+
+```java
+import com.starkbank.*;
+
+Deposit.Log log = Deposit.Log.get("6532638269505536");
+
+System.out.println(log);
+```
+
+
 ### Create boletos
 
 You can create boletos to charge customers or to receive money from accounts
