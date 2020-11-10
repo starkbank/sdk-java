@@ -19,7 +19,7 @@ public final class Webhook extends Resource {
      * <p>
      * A Webhook is used to subscribe to notification events on a user-selected endpoint.
      * Currently available services for subscription are transfer, boleto, boleto-payment,
-     * and utility-payment
+     * utility-payment, invoice, deposit, e brcode-payment.
      * <p>
      * Parameters:
      * @param url [string]: Url that will be notified when an event occurs.
@@ -38,7 +38,7 @@ public final class Webhook extends Resource {
      * <p>
      * A Webhook is used to subscribe to notification events on a user-selected endpoint.
      * Currently available services for subscription are transfer, boleto, boleto-payment,
-     * and utility-payment
+     * utility-payment, invoice, deposit, e brcode-payment.
      * <p>
      * Parameters:
      * @param data map of properties for the creation of the WebHook

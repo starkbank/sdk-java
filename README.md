@@ -732,6 +732,119 @@ Transfer.Log log = Transfer.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
+### Pay a BR Code
+
+Paying a BR Code is also simple.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+List<BrcodePayment> payments = new ArrayList<>();
+HashMap<String, Object> data = new HashMap<>();
+data.put("line", "34191.09107 05447.947309 71444.640008 8 84660000011631");
+data.put("taxId", "38.435.677/0001-25");
+data.put("scheduled", "2020-04-11");
+data.put("description", "Payment for killing white walkers");
+data.put("tags", new String[]{"little girl", "no one"});
+payments.add(new BrcodePayment(data));
+
+payments = BrcodePayment.create(payments);
+
+for (BrcodePayment payment : payments){
+    System.out.println(payment);
+}
+```
+
+**Note**: Instead of using BrcodePayment objects, you can also pass each payment element in dictionary format
+
+### Query brcode payments
+
+You can search for brcode payments using filters. 
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<BrcodePayment> payments = BrcodePayment.query(params);
+
+for (BrcodePayment payment : payments){
+    System.out.println(payment);
+}
+```
+
+### Get brcode payment
+
+To get a single BR Code payment by its id, run:
+
+```java
+import com.starkbank.*;
+
+BrcodePayment payment = BrcodePayment.get("6532638269505536");
+
+System.out.println(payment);
+```
+
+### Get brcode payment PDF (COMMING SOON)
+
+After its creation, a boleto payment PDF may be retrieved by its id. 
+
+```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
+InputStream pdf = BrcodePayment.pdf("6311252829667328");
+
+java.nio.file.Files.copy(
+    pdf,
+    new File("brcode-payment.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Query BR Code payment logs
+
+Searches are also possible with BR Code payment logs:
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("paymentIds", "4785987200745472");
+Generator<BrcodePayment.Log> logs = BrcodePayment.Log.query(params);
+
+for (BrcodePayment.Log log : logs){
+    System.out.println(log);
+}
+```
+
+### Get BR Code payment log
+
+You can also get a BR Code payment log by specifying its id.
+
+```java
+import com.starkbank.*;
+
+BrcodePayment.Log log = BrcodePayment.Log.get("6532638269505536");
+
+System.out.println(log);
+```
+
+
 ### Pay a boleto
 
 Paying boletos is also simple.
