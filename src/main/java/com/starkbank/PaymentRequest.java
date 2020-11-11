@@ -29,8 +29,8 @@ public final class PaymentRequest extends Resource {
      * Parameters:
      * id [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
      * centerId [string]: target cost center ID. ex: "5656565656565656"
-     * payment [Transfer, BoletoPayment, UtilityPayment, Transaction or dictionary]: payment entity that should be approved and executed.
-     * type [string]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
+     * payment [Transfer, BoletoPayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
+     * type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * due [string]: Payment target date in ISO format. ex: 2020-12-31
      * tags [list of strings]: list of strings for tagging
      * amount [long integer]: PaymentRequest amount. ex: 100000 = R$1.000,00
@@ -62,8 +62,8 @@ public final class PaymentRequest extends Resource {
      *
      * Parameters:
      * @param centerId [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
-     * @param payment [Transfer, BoletoPayment, UtilityPayment, Transaction or dictionary]: payment entity that should be approved and executed.
-     * @param type [string]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
+     * @param payment [Transfer, BoletoPayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
+     * @param type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * @param due [string]: Payment target date in ISO format.
      * @param tags [list of strings]: list of strings for tagging
      * 
@@ -106,7 +106,7 @@ public final class PaymentRequest extends Resource {
      * @param data map of parameters for the creation of the PaymentRequest
      * Parameters:
      * centerId [string]: target cost center ID. ex: "5656565656565656"
-     * payment [Transfer, BoletoPayment, UtilityPayment, Transaction or dictionary]: payment entity that should be approved and executed.
+     * payment [Transfer, BoletoPayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
      * <p>
      * Parameters (conditionally required):
      * type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
@@ -194,7 +194,7 @@ public final class PaymentRequest extends Resource {
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * sort [string, default "-created"]: sort order considered in response. Valid options are "-created" or "-due".
      * status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
-     * type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
+     * type [string, default null]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -219,7 +219,7 @@ public final class PaymentRequest extends Resource {
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * sort [string, default "-created"]: sort order considered in response. Valid options are "-created" or "-due".
      * status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
-     * type [string, default null]: payment type, inferred from the payment parameter if it is not a dictionary. ex: "transfer", "boleto-payment"
+     * type [string, default null]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * <p>

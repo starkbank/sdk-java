@@ -45,7 +45,7 @@ public final class UtilityPayment extends Resource {
      * @param status [string, default null]: current payment status. ex: "processing" or "success"
      * @param amount [long, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
      * @param fee [Integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
-     * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
+     * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public UtilityPayment(Long amount, String[] tags, String description, String scheduled,
                           String line, String barCode, String id, Integer fee, String status, String created
@@ -86,7 +86,7 @@ public final class UtilityPayment extends Resource {
      * status [string, default null]: current payment status. ex: "processing" or "success"
      * amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
      * fee [Integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
-     * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
+     * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     public UtilityPayment(Map<String, Object> data) throws Exception {
@@ -348,7 +348,7 @@ public final class UtilityPayment extends Resource {
          * @param payment [UtilityPayment]: UtilityPayment entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this UtilityPayment event.
          * @param type [string]: type of the UtilityPayment event which triggered the log creation. ex: "processing" or "success"
-         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
          */
         public Log(String created, String type, String[] errors, UtilityPayment payment, String id) {
             super(id);

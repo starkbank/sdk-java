@@ -44,7 +44,7 @@ public final class Boleto extends Resource {
      * line [string, default null]: generated Boleto line for payment. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
      * barCode [string, default null]: generated Boleto bar-code for payment. ex: "34195819600000000621090063571277307144464000"
      * status [string, default null]: current Boleto status. ex: "registered" or "paid"
-     * created [string, default null]: creation datetime for the Boleto. ex: "2020-03-10 10:30:00.000"
+     * created [string, default null]: creation datetime for the Boleto. ex: "2020-03-10 10:30:00.000000+00:00"
      * ourNumber [string, default null]: Reference number registered at the settlement bank. ex:“10131474”
      */
     static ClassData data = new ClassData(Boleto.class, "Boleto");
@@ -599,7 +599,7 @@ public final class Boleto extends Resource {
          * @param boleto [Boleto]: Boleto entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this Boleto event
          * @param type [string]: type of the Boleto event which triggered the log creation. ex: "registered" or "paid"
-         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
          */
         public Log(String created, String type, String[] errors, Boleto boleto, String id) {
             super(id);

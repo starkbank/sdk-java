@@ -268,7 +268,7 @@ for (Invoice invoice : invoices) {
 }
 ```
 
-**Note**: Instead of using Invoice objects, you can also pass each invoice element in dictionary format
+**Note**: Instead of using Invoice objects, you can also pass each invoice element in map format
 
 ### Get an invoice
 
@@ -606,7 +606,7 @@ System.out.println(log);
 
 ### Create transfers
 
-You can also create transfers in the SDK (TED/DOC).
+You can also create transfers in the SDK (TED/PIX).
 
 ```java
 import com.starkbank.*;
@@ -615,16 +615,27 @@ import java.util.HashMap;
 import java.util.List;
 
 List<Transfer> transfers = new ArrayList<>();
-HashMap<String, Object> data = new HashMap<>();
-data.put("amount", 100000000);
-data.put("bankCode", "341");
-data.put("branchCode", "2201");
-data.put("accountNumber", "76543-8");
-data.put("taxId", "594.739.480-42");
-data.put("name", "Daenerys Targaryen Stormborn");
-data.put("scheduled", "2020-04-11");
-data.put("tags", new String[]{"daenerys", "invoice/1234"});
-transfers.add(new Transfer(data));
+HashMap<String, Object> data1 = new HashMap<>();
+data1.put("amount", 100000000);
+data1.put("bankCode", "341"); # TED
+data1.put("branchCode", "2201");
+data1.put("accountNumber", "76543-8");
+data1.put("taxId", "594.739.480-42");
+data1.put("name", "Daenerys Targaryen Stormborn");
+data1.put("scheduled", "2020-12-11");
+data1.put("tags", new String[]{"daenerys", "invoice/1234"});
+transfers.add(new Transfer(data1));
+
+HashMap<String, Object> data2 = new HashMap<>();
+data2.put("amount", 100000000);
+data2.put("bankCode", "20018183"); # PIX
+data2.put("branchCode", "2201");
+data2.put("accountNumber", "76543-8");
+data2.put("taxId", "594.739.480-42");
+data2.put("name", "Daenerys Targaryen Stormborn");
+data2.put("scheduled", "2020-11-11T15:01:39.903667+00:00");
+data2.put("tags", new String[]{"daenerys", "invoice/1234"});
+transfers.add(new Transfer(data2));
 
 transfers = Transfer.create(transfers);
 
@@ -758,7 +769,7 @@ for (BrcodePayment payment : payments){
 }
 ```
 
-**Note**: Instead of using BrcodePayment objects, you can also pass each payment element in dictionary format
+**Note**: Instead of using BrcodePayment objects, you can also pass each payment element in map format
 
 ### Query brcode payments
 
@@ -993,7 +1004,7 @@ for (BoletoHolmes sherlock : holmes){
 }
 ```
 
-**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in dictionary format
+**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in map format
 
 ### Get boleto holmes
 

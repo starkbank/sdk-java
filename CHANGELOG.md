@@ -15,7 +15,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Added
 - Invoice resource to load your account with dynamic QR Codes
-- Dict resource to get PIX key's parameters
+- DictKey resource to get DICT (PIX) key parameters
 - Deposit resource to receive transfers passively
 - PIX support in Transfer resource
 - BrcodePayment support to pay static and dynamic PIX QR Codes

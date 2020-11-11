@@ -47,7 +47,7 @@ public final class Transaction extends Resource {
      * @param id [string, default null]: unique id returned when the transaction is created. ex: "7656565656565656"
      * @param fee [integer, default null]: fee charged when the transaction is created. ex: 200 (= R$ 2.00)
      * @param balance [long, default null]: account balance after transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
-     * @param created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000"
+     * @param created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Transaction(long amount, String description, String externalId, String receiverId, String senderId,
                        String[] tags, int fee, String created, String source, Long balance, String id) {
@@ -90,7 +90,7 @@ public final class Transaction extends Resource {
      * id [string, default null]: unique id returned when transaction is created. ex: "7656565656565656"
      * fee [integer, default null]: fee charged when the transaction is created. ex: 200 (= R$ 2.00)
      * balance [long, default null]: account balance after the transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
-     * created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000"
+     * created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     public Transaction(Map<String, Object> data) throws Exception {

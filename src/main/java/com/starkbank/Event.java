@@ -32,7 +32,7 @@ public class Event extends Resource {
      * <p>
      * Attributes:
      * @param id [string]: unique id returned when the event is created. ex: "5656565656565656"
-     * @param created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000"
+     * @param created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000000+00:00"
      * @param isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
      * @param subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
      */

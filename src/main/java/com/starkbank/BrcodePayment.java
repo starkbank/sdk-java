@@ -22,14 +22,14 @@ public final class BrcodePayment extends Resource {
     * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
     * amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
-    * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000"
+    * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
     * tags [list of strings, default null]: list of strings for tagging
     * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
     * status [string, default null]: current payment status. ex: "success" or "failed"
     * type [string, default null]: brcode type. ex: "static" or "dynamic"
     * fee [integer, default null]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
-    * updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000"
-    * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
+    * updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+    * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     */
     static ClassData data = new ClassData(BrcodePayment.class, "BrcodePayment");
     
@@ -57,14 +57,14 @@ public final class BrcodePayment extends Resource {
     * @param taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
     * @param description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
     * @param amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
-    * @param scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000"
+    * @param scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
     * @param tags [list of strings, default null]: list of strings for tagging
     * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
     * @param status [string, default null]: current payment status. ex: "success" or "failed"
     * @param type [string, default null]: brcode type. ex: "static" or "dynamic"
     * @param fee [integer, default null]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
-    * @param updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000"
-    * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000"
+    * @param updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+    * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     */
     public BrcodePayment(String brcode, String taxId, String description, Number amount, String scheduled,
                         String[] tags, String id, String status, String type, Integer fee, String updated,
@@ -99,7 +99,7 @@ public final class BrcodePayment extends Resource {
     * <p>
     * Parameters (optional):
     * amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
-    * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000"
+    * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
     * tags [list of strings, default null]: list of strings for tagging. ex: ["Stark", "Suit"]
     * @throws Exception error in the request
     */
@@ -295,7 +295,7 @@ public final class BrcodePayment extends Resource {
          * @param payment [BrcodePayment]: BrcodePayment entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this BrcodePayment event
          * @param type [string]: type of the BrcodePayment event which triggered the log creation. ex: "success"
-         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
          */
         public Log(String created, String type, String[] errors, BrcodePayment payment, String id) {
             super(id);
@@ -411,5 +411,3 @@ public final class BrcodePayment extends Resource {
         }
     }
 }
-    
-    

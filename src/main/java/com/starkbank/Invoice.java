@@ -20,15 +20,15 @@ public final class Invoice extends Resource {
      * to the Stark Bank API and returns the list of created objects.
      * <p>
      * Parameters:
-     * amount           [number]: Invoice value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
+     * amount           [number]: Invoice value in cents. Minimum = 0 (any value will be accepted). ex: 1234 (= R$ 12.34)
      * due              [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
      * taxId            [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * name             [string]: payer name. ex: "Iron Bank S.A."
      * expiration       [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
      * fine             [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
      * interest         [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
-     * descriptions     [list of dictionaries, default null]: list of dictionaries with "key":string and (optional) "value":string pairs
-     * discounts        [list of dictionaries, default null]: list of dictionaries with "percentage":number and "due":string pairs
+     * descriptions     [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
+     * discounts        [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
      * tags             [list of strings, default null]: list of strings for tagging
      * nominalAmount    [number, default null]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
      * fineAmount       [number, default null]: Invoice fine value calculated over nominalAmount. ex: 20000
@@ -37,8 +37,8 @@ public final class Invoice extends Resource {
      * id               [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
      * brcode           [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
      * status           [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
-     * created          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
-     * updated          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
+     * created          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      *
      */
     static ClassData data = new ClassData(Invoice.class, "Invoice");
@@ -77,8 +77,8 @@ public final class Invoice extends Resource {
      * @param expiration        [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
      * @param fine              [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
      * @param interest          [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
-     * @param descriptions      [list of dictionaries, default null]: list of dictionaries with "key":string and (optional) "value":string pairs
-     * @param discounts         [list of dictionaries, default null]: list of dictionaries with "percentage":number and "due":datetime.datetime or string pairs
+     * @param descriptions      [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
+     * @param discounts         [list of maps, default null]: list of maps with "percentage":number and "due":datetime.datetime or string pairs
      * @param tags              [list of strings, default null]: list of strings for tagging
      * @param nominalAmount     [number, default null]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
      * @param fineAmount        [number, default null]: Invoice fine value calculated over nominalAmount. ex: 20000
@@ -87,8 +87,8 @@ public final class Invoice extends Resource {
      * @param id                [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
      * @param brcode            [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
      * @param status            [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
-     * @param created           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
-     * @param updated           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000"
+     * @param created           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param updated           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Invoice(Number amount, String due, String taxId, String name, Number expiration, Number fine,
                     Number interest, List<Invoice.Description> descriptions, List<Invoice.Discount> discounts,
@@ -135,8 +135,8 @@ public final class Invoice extends Resource {
      * expiration   [number, default 59 days]: time interval in seconds between due date and expiration date. ex 123456789
      * fine         [number, default 2.0]: Invoice fine for overdue payment in %. ex: 2.5
      * interest     [number, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
-     * descriptions [list of dictionaries, default null]: list of dictionaries with "key":string and (optional) "value":string pairs
-     * discounts    [list of dictionaries, default null]: list of dictionaries with "percentage":number and "due":string pairs
+     * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
+     * discounts    [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
      * tags         [list of strings, default null]: list of strings for tagging
      * @throws Exception error in the request
      */
@@ -488,7 +488,7 @@ public final class Invoice extends Resource {
          * @param invoice   [Invoice]: Invoice entity to which the log refers to.
          * @param errors    [list of strings]: list of errors linked to this Invoice event
          * @param type      [string]: type of the Invoice event which triggered the log creation. ex: "registered" or "paid"
-         * @param created   [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
+         * @param created   [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
          */
         public Log(String created, String type, String[] errors, Invoice invoice, String id) {
             super(id);

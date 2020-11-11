@@ -50,8 +50,8 @@ public final class Transfer extends Resource {
      * @param fee [integer, default null]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
      * @param status [string, default null]: current transfer status. ex: "processing" or "success"
      * @param transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-     * @param created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000"
-     * @param updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
+     * @param created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Transfer(String id, long amount, String name, String taxId, String bankCode, String branchCode,
                     String accountNumber, String scheduled, String[] tags, Integer fee, String status, String created,
@@ -97,8 +97,8 @@ public final class Transfer extends Resource {
      * fee [integer, default null]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
      * status [string, default null]: current transfer status. ex: "processing" or "success"
      * transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-     * created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000"
-     * updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
+     * created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     public Transfer(Map<String, Object> data) throws Exception {
@@ -370,7 +370,7 @@ public final class Transfer extends Resource {
          * @param transfer [Transfer]: Transfer entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to the Transfer event.
          * @param type [string]: type of the Transfer event which triggered the log creation. ex: "processing" or "success"
-         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
          */
         public Log(String created, String type, String[] errors, Transfer transfer, String id) {
             super(id);

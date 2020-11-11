@@ -17,17 +17,17 @@ public final class Deposit extends Resource {
      * id [string]: unique id associated with a Deposit when it is created. ex: "5656565656565656"
      * name [string]: payer name. ex: "Iron Bank S.A."
      * taxId [string]: payer tax ID (CPF or CNPJ). ex: "012.345.678-90" or "20.018.183/0001-80"
-     * bankCode [string]: code of the receiver bank institution in Brazil. ex: "20018183" or "341"
-     * branchCode [string]: receiver bank account branch. Use '-' in case there is a verifier digit. ex: "1357-9"
-     * accountNumber [string]: receiver bank account number. Use '-' before the verifier digit. ex: "876543-2"
-     * amount [long]: Deposit value in cents. Minimum = 0 (any value will be accepted). ex: 1234 (= R$ 12.34)
+     * bankCode [string]: payer bank code in Brazil. ex: "20018183" or "341"
+     * branchCode [string]: payer bank account branch. ex: "1357-9"
+     * accountNumber [string]: payer bank account number. ex: "876543-2"
+     * amount [long]: Deposit value in cents. ex: 1234 (= R$ 12.34)
      * type [string]: type of settlement that originated the deposit. ex: "pix" or "ted"
      * status [string]: current Deposit status. ex: "created"
-     * tags [list of strings]: list of strings that are tagging the deposit. ex: ["reconciliationId", "taxId"]
+     * tags [list of strings]: list of strings that are tagging the deposit. ex: ["reconciliationId", "txId"]
      * fee [integer]: fee charged when a deposit is created. ex: 50 (= R$ 0.50)
      * transactionIds [list of strings]: ledger transaction ids linked to this deposit (if there are more than one, all but first are reversals). ex: ["19827356981273"]
-     * created [string]: creation datetime for the Deposit. ex: "2020-03-10 10:30:00.000"
-     * updated [string]: latest update datetime for the Deposit. ex: "2020-03-10 10:30:00.000"
+     * created [string]: creation datetime for the Deposit. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated [string]: latest update datetime for the Deposit. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     static ClassData data = new ClassData(Deposit.class, "Deposit");
     
@@ -54,17 +54,17 @@ public final class Deposit extends Resource {
      * @param id [string]: unique id associated with a Deposit when it is created. ex: "5656565656565656"
      * @param name [string]: payer name. ex: "Iron Bank S.A."
      * @param taxId [string]: payer tax ID (CPF or CNPJ). ex: "012.345.678-90" or "20.018.183/0001-80"
-     * @param bankCode [string]: code of the receiver bank institution in Brazil. ex: "20018183" or "341"
-     * @param branchCode [string]: receiver bank account branch. Use '-' in case there is a verifier digit. ex: "1357-9"
-     * @param accountNumber [string]: receiver bank account number. Use '-' before the verifier digit. ex: "876543-2"
-     * @param amount [long]: Deposit value in cents. Minimum = 0 (any value will be accepted). ex: 1234 (= R$ 12.34)
+     * @param bankCode [string]: payer bank code in Brazil. ex: "20018183" or "341"
+     * @param branchCode [string]: payer bank account branch. ex: "1357-9"
+     * @param accountNumber [string]: payer bank account number. ex: "876543-2"
+     * @param amount [long]: Deposit value in cents. ex: 1234 (= R$ 12.34)
      * @param type [string]: type of settlement that originated the deposit. ex: "pix" or "ted"
      * @param status [string]: current Deposit status. ex: "created"
      * @param tags [list of strings]: list of strings that are tagging the deposit. ex: ["reconciliationId", "taxId"]
      * @param fee [integer]: fee charged when a deposit is created. ex: 50 (= R$ 0.50)
      * @param transactionIds [list of strings]: ledger transaction ids linked to this deposit (if there are more than one, all but first are reversals). ex: ["19827356981273"]
-     * @param created [string]: creation datetime for the Deposit. ex: "2020-03-10 10:30:00.000"
-     * @param updated [string]: latest update datetime for the Deposit. ex: "2020-03-10 10:30:00.000"
+     * @param created [string]: creation datetime for the Deposit. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param updated [string]: latest update datetime for the Deposit. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Deposit(String id, String name, String taxId, String bankCode, String branchCode, String accountNumber,
                     long amount, String type, String status, String[] tags, Integer fee, String[] transactionIds,
@@ -129,6 +129,7 @@ public final class Deposit extends Resource {
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+     * sort [string, default "-created"]: sort order considered in response. Valid options are "created" or "-created".
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -152,6 +153,7 @@ public final class Deposit extends Resource {
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+     * sort [string, default "-created"]: sort order considered in response. Valid options are "created" or "-created".
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * <p>
@@ -213,7 +215,7 @@ public final class Deposit extends Resource {
          * @param deposit [Deposit]: Deposit entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this Deposit event
          * @param type [string]: type of the Deposit event which triggered the log creation. ex: "created" or "credited"
-         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
          */
         public Log(String created, String type, String[] errors, Deposit deposit, String id) {
             super(id);
