@@ -100,7 +100,7 @@ public class DictKey extends Resource {
      * Parameters:
      * @param id [string]: DictKey object unique id and PIX key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * Return:
      * @return DictKey object with updated attributes
      * @throws Exception error in the request 

@@ -197,7 +197,7 @@ public final class PaymentRequest extends Resource {
      * type [string, default null]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of PaymentRequest objects with updated attributes
@@ -237,7 +237,7 @@ public final class PaymentRequest extends Resource {
      * Receive a generator of PaymentRequest objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of PaymentRequest objects with updated attributes
@@ -265,7 +265,7 @@ public final class PaymentRequest extends Resource {
      *
      * Parameters (required):
      * @param paymentRequests [list of PaymentRequest objects]: list of PaymentRequest objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * @return list of PaymentRequest objects with updated attributes
      * @throws Exception When list contains unknown objects
      */

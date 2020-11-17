@@ -37,6 +37,7 @@ public final class Invoice extends Resource {
      * discountAmount   [number, default null]: Invoice discount value calculated over nominalAmount. ex: 3000
      * id               [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
      * brcode           [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
+     * fee              [integer, default null]: fee charged buy this Invoice. ex: 65 (= R$ 0.65)
      * status           [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
      * created          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      * updated          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
@@ -59,6 +60,7 @@ public final class Invoice extends Resource {
     public Number interestAmount;
     public Number discountAmount;
     public String brcode;
+    public Integer fee;
     public String status;
     public String created;
     public String updated;
@@ -94,7 +96,7 @@ public final class Invoice extends Resource {
     public Invoice(Number amount, String due, String taxId, String name, Number expiration, Number fine,
                     Number interest, List<Invoice.Description> descriptions, List<Invoice.Discount> discounts,
                     String[] tags, Number nominalAmount, Number fineAmount, Number interestAmount, Number discountAmount,
-                    String id, String brcode, String status, String created, String updated
+                    String id, String brcode, Integer fee, String status, String created, String updated
     ) {
         super(id);
         this.amount = amount;
@@ -112,6 +114,7 @@ public final class Invoice extends Resource {
         this.discountAmount = discountAmount;
         this.descriptions = descriptions;
         this.brcode = brcode;
+        this.fee = fee;
         this.status = status;
         this.created = created;
         this.updated = updated;
@@ -139,6 +142,17 @@ public final class Invoice extends Resource {
      * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
      * discounts    [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
      * tags         [list of strings, default null]: list of strings for tagging
+     * <p>
+     * Attributes (return-only):
+     * nominalAmount  [number, default null]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
+     * fineAmount     [number, default null]: Invoice fine value calculated over nominalAmount. ex: 20000
+     * interestAmount [number, default null]: Invoice interest value calculated over nominalAmount. ex: 10000
+     * discountAmount [number, default null]: Invoice discount value calculated over nominalAmount. ex: 3000
+     * id             [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
+     * brcode         [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
+     * status         [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
+     * created        [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated        [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
@@ -241,7 +255,7 @@ public final class Invoice extends Resource {
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * Return:
      * @return Invoice object with updated attributes
      * @throws Exception error in the request
@@ -263,7 +277,7 @@ public final class Invoice extends Resource {
      *              status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
      *              tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      *              ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Invoice objects with updated attributes
@@ -301,7 +315,7 @@ public final class Invoice extends Resource {
      * Receive a generator of Invoice objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Invoice objects with updated attributes
@@ -330,7 +344,7 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param invoices  [list of Invoice objects or Maps]: list of Invoice objects to be created in the API
-     * @param user      [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user      [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of Invoice objects with updated attributes
@@ -402,7 +416,7 @@ public final class Invoice extends Resource {
      *                  amount [string]: If the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer
      *                  due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
      *                  expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Invoice object with updated attributes
@@ -435,7 +449,7 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Invoice pdf file
@@ -468,7 +482,7 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Invoice pdf file
@@ -586,7 +600,7 @@ public final class Invoice extends Resource {
          * <p>
          * Parameters:
          * @param id    [string]: object unique id. ex: "5656565656565656"
-         * @param user  [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * @param user  [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return Invoice Log object with updated attributes
@@ -623,7 +637,7 @@ public final class Invoice extends Resource {
          * Receive a generator of Invoice Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of Invoice Log objects with updated attributes
@@ -658,7 +672,7 @@ public final class Invoice extends Resource {
          *              before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          *              types [list of strings, default null]: filter for log event types. ex: "created", "paid", "canceled" or "overdue"
          *              invoiceIds [list of strings, default null]: list of Invoice ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-         * @param user  [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * @param user  [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of Invoice Log objects with updated attributes

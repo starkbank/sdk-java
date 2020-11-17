@@ -76,7 +76,7 @@ public final class Webhook extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Webhook object with updated attributes
@@ -109,7 +109,7 @@ public final class Webhook extends Resource {
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Webhook objects with updated attributes
@@ -140,7 +140,7 @@ public final class Webhook extends Resource {
      * Parameters:
      * @param params parameters of the query
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Webhook objects with updated attributes
@@ -177,7 +177,7 @@ public final class Webhook extends Resource {
      * @param webhookData parameters for the creation of the webhook
      * url [string]: Url that will be notified when an event occurs.
      * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Webhook object with updated attributes
@@ -212,7 +212,7 @@ public final class Webhook extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: Webhook unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return deleted Webhook object
