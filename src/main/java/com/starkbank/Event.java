@@ -188,7 +188,7 @@ public class Event extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Event object with updated attributes
@@ -224,7 +224,7 @@ public class Event extends Resource {
      * Receive a generator of notification Event objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Event objects with updated attributes
@@ -258,7 +258,7 @@ public class Event extends Resource {
      * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
      * isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Event objects with updated attributes
@@ -291,7 +291,7 @@ public class Event extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: Event unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return deleted Event object
@@ -330,7 +330,7 @@ public class Event extends Resource {
      * @param id [string]: Event unique ids. ex: "5656565656565656"
      * @param patchData map of properties to patch
      * isDelivered [bool]: If True and event hasn't been delivered already, event will be set as delivered. ex: true
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Event object with updated attributes
@@ -369,7 +369,7 @@ public class Event extends Resource {
      * Parameters:
      * @param content [string]: response content from request received at user endpoint (not parsed)
      * @param signature [string]: base-64 digital signature received at response header "Digital-Signature"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Event object with updated attributes

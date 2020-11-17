@@ -255,7 +255,7 @@ public final class Invoice extends Resource {
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * Return:
      * @return Invoice object with updated attributes
      * @throws Exception error in the request
@@ -277,7 +277,7 @@ public final class Invoice extends Resource {
      *              status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
      *              tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      *              ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Invoice objects with updated attributes
@@ -315,7 +315,7 @@ public final class Invoice extends Resource {
      * Receive a generator of Invoice objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Invoice objects with updated attributes
@@ -344,7 +344,7 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param invoices  [list of Invoice objects or Maps]: list of Invoice objects to be created in the API
-     * @param user      [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user      [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return list of Invoice objects with updated attributes
@@ -416,7 +416,7 @@ public final class Invoice extends Resource {
      *                  amount [string]: If the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer
      *                  due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
      *                  expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Invoice object with updated attributes
@@ -449,7 +449,7 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Invoice pdf file
@@ -482,7 +482,7 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Invoice pdf file
@@ -600,7 +600,7 @@ public final class Invoice extends Resource {
          * <p>
          * Parameters:
          * @param id    [string]: object unique id. ex: "5656565656565656"
-         * @param user  [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+         * @param user  [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return Invoice Log object with updated attributes
@@ -637,7 +637,7 @@ public final class Invoice extends Resource {
          * Receive a generator of Invoice Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return list of Invoice Log objects with updated attributes
@@ -672,7 +672,7 @@ public final class Invoice extends Resource {
          *              before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          *              types [list of strings, default null]: filter for log event types. ex: "created", "paid", "canceled" or "overdue"
          *              invoiceIds [list of strings, default null]: list of Invoice ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-         * @param user  [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+         * @param user  [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return list of Invoice Log objects with updated attributes

@@ -215,7 +215,7 @@ Balance balance = Balance.get();
 System.out.println(balance);
 ```
 
-### Get dict key
+### Get a DICT key
 
 You can get PIX key's parameters by its id.
 
@@ -225,6 +225,24 @@ import com.starkbank.*;
 DictKey dictKey = DictKey.get("tony@starkbank.com");
 
 System.out.println(dictKey);
+```
+
+### Query your DICT keys
+
+To take a look at the PIX keys linked to your workspace, just run the following:
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("status", "registered");
+params.put("limit", 1);
+params.put("type", "evp");
+
+Generator<DictKey> dictKeys = DictKey.query(params);
+for (DictKey dictKey : dictKeys) {
+    System.out.println(dictKey);
+}
 ```
 
 ### Create invoices

@@ -109,7 +109,7 @@ public final class Deposit extends Resource {
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * Return:
      * @return Deposit object with updated attributes
      * @throws Exception error in the request 
@@ -132,7 +132,7 @@ public final class Deposit extends Resource {
      * sort [string, default "-created"]: sort order considered in response. Valid options are "created" or "-created".
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Deposit objects with updated attributes
@@ -171,7 +171,7 @@ public final class Deposit extends Resource {
      * Receive a generator of Deposit objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Deposit objects with updated attributes
@@ -248,7 +248,7 @@ public final class Deposit extends Resource {
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"
-         * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+         * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return Deposit Log object with updated attributes
@@ -285,7 +285,7 @@ public final class Deposit extends Resource {
          * Receive a generator of Deposit Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return list of Deposit Log objects with updated attributes
@@ -320,7 +320,7 @@ public final class Deposit extends Resource {
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter for log event types. ex: "created" or "credited"
          * depositIds [list of strings, default null]: list of Deposit ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return list of Deposit Log objects with updated attributes

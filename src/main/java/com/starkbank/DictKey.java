@@ -1,7 +1,11 @@
 package com.starkbank;
 
+import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DictKey extends Resource {
     
@@ -100,7 +104,7 @@ public class DictKey extends Resource {
      * Parameters:
      * @param id [string]: DictKey object unique id and PIX key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * Return:
      * @return DictKey object with updated attributes
      * @throws Exception error in the request 
@@ -108,4 +112,78 @@ public class DictKey extends Resource {
     public static DictKey get(String id, Project user) throws Exception {
         return Rest.getId(data, id, user);
     }
+
+    /**
+     * Retrieve DictKeys
+     * <p>
+     * Receive a generator of DictKey objects associated with your Stark Bank Workspace
+     * <p>
+     * Parameters:
+     * @param params map of parameters
+     *              limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     *              type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
+     *              after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     *              before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     *              ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     *              status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * <p>
+     * Return:
+     * @return generator of DictKey objects with updated attributes
+     * @throws Exception error in the request
+     */
+    public static Generator<DictKey> query(Map<String, Object> params, Project user) throws Exception {
+        return Rest.getList(data, params, user);
+    }
+
+    /**
+     * Retrieve DictKeys
+     * <p>
+     * Receive a generator of DictKey objects associated with your Stark Bank Workspace
+     * <p>
+     * Parameters:
+     * @param params map of parameters
+     *              limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     *              type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
+     *              after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     *              before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     *              ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     *              status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * <p>
+     * Return:
+     * @return generator of DictKey objects with updated attributes
+     * @throws Exception error in the request
+     */
+    public static Generator<DictKey> query(Map<String, Object> params) throws Exception {
+        return Rest.getList(data, params, null);
+    }
+
+    /**
+     * Retrieve DictKeys
+     * <p>
+     * Receive a generator of DictKey objects associated with your Stark Bank Workspace
+     * <p>
+     * Parameters:
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * <p>
+     * Return:
+     * @return generator of DictKey objects with updated attributes
+     * @throws Exception error in the request
+     */
+    public static Generator<DictKey> query(Project user) throws Exception {
+        return Rest.getList(data, new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve DictKeys
+     * <p>
+     * Receive a generator of DictKey objects associated with your Stark Bank Workspace
+     * Return:
+     * @return generator of DictKey objects with updated attributes
+     * @throws Exception error in the request
+     */
+    public static Generator<DictKey> query() throws Exception {
+        return Rest.getList(data, new HashMap<>(), null);
+    }
+
 }

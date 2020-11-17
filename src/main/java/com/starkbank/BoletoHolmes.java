@@ -188,7 +188,7 @@ public final class BoletoHolmes extends Resource {
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * status [string, default null]: filter for status of retrieved objects. ex: "solving"
      * boletoId [string, default null]: filter for holmes that investigate a specific boleto by its ID. ex: "5656565656565656"
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of BoletoHolmes objects with updated attributes
@@ -227,7 +227,7 @@ public final class BoletoHolmes extends Resource {
      * Receive a generator of BoletoHolmes objects previously created in the Stark Bank API
      * <p>
      * Parameters (optional):
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of BoletoHolmes objects with updated attributes
@@ -372,7 +372,7 @@ public final class BoletoHolmes extends Resource {
          * before [datetime.date or string, default null] date filter for objects created only before specified date. ex: datetime.date(2020, 3, 10)
          * types [list of strings, default null]: filter retrieved objects by event type. ex: ["solving", "solved"]
          * holmesIds [list of strings, default null]: list of BoletoHolmes ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.User.defaultUser was set before function call
+         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return list of boletoholmes.Log objects with updated attributes
