@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.SubResource;
 import com.starkbank.utils.Rest;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -371,13 +372,12 @@ public final class Invoice extends Resource {
     /**
      * Update notification Invoice entity
      * <p>
-     * Update notification Invoice by passing id.
-     * If isDelivered is True, the event will no longer be returned on queries with isDelivered=False.
+     * Update the Invoice by passing id.
      * <p>
      * Parameters:
      * @param id        [string]: Invoice unique ids. ex: "5656565656565656"
      * @param patchData map of parameters to patch
-     *                  status [string]: If the Invoice hasn't been paid yet, you may cancel it by passing 'canceled' in the status
+     *                  status [string]: If the Invoice hasn't been paid yet, you may cancel it by passing "canceled" in the status
      *                  amount [string]: If the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer
      *                  due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
      *                  expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
@@ -394,12 +394,11 @@ public final class Invoice extends Resource {
      * Update notification Invoice entity
      * <p>
      * Update notification Invoice by passing id.
-     * If isDelivered is True, the event will no longer be returned on queries with isDelivered=false.
      * <p>
      * Parameters:
      * @param id        [string]: Invoice unique ids. ex: "5656565656565656"
      * @param patchData map of properties to patch
-     *                  status [string]: If the Invoice hasn't been paid yet, you may cancel it by passing 'canceled' in the status
+     *                  status [string]: If the Invoice hasn't been paid yet, you may cancel it by passing "canceled" in the status
      *                  amount [string]: If the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer
      *                  due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
      *                  expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
@@ -411,6 +410,72 @@ public final class Invoice extends Resource {
      */
     public static Invoice update(String id, Map<String, Object> patchData, Project user) throws Exception {
         return Rest.patch(data, id, patchData, user);
+    }
+
+    /**
+     * Retrieve a specific Invoice pdf file
+     * <p>
+     * Receive a single Invoice pdf file generated in the Stark Bank API by passing its id.
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * @return Invoice pdf file
+     * @throws Exception error in the request
+     */
+    public static InputStream pdf(String id) throws Exception {
+        return Invoice.pdf(id, null);
+    }
+
+    /**
+     * Retrieve a specific Invoice pdf file
+     * <p>
+     * Receive a single Invoice pdf file generated in the Stark Bank API by passing its id.
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Invoice pdf file
+     * @throws Exception error in the request
+     */
+    public static InputStream pdf(String id, Project user) throws Exception {
+        return Rest.getPdf(data, id, user, new HashMap<>());
+    }
+
+    /**
+     * Retrieve a specific Invoice QR Code file
+     * <p>
+     * Receive a single Invoice QR Code png file generated in the Stark Bank API by passing its id.
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * @return Invoice pdf file
+     * @throws Exception error in the request
+     */
+    public static InputStream qrcode(String id) throws Exception {
+        return Invoice.qrcode(id, null);
+    }
+
+    /**
+     * Retrieve a specific Invoice QR Code file
+     * <p>
+     * Receive a single Invoice QR Code png file generated in the Stark Bank API by passing its id.
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Invoice pdf file
+     * @throws Exception error in the request
+     */
+    public static InputStream qrcode(String id, Project user) throws Exception {
+        return Rest.getQrcode(data, id, user, new HashMap<>());
     }
 
     /**

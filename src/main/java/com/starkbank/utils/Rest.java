@@ -82,6 +82,10 @@ public final class Rest {
         return Response.fetch(Api.endpoint(resource, id) + "/pdf", "GET", null, options, user).stream;
     }
 
+    public static InputStream getQrcode(Resource.ClassData resource, String id, Project user, Map<String, Object> options) throws Exception {
+        return Response.fetch(Api.endpoint(resource, id) + "/qrcode", "GET", null, options, user).stream;
+    }
+
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, Project user) throws Exception {
         String content = Response.fetch(Api.endpoint(resource, id), "DELETE", null, null, user).content();
         Gson gson = GsonEvent.getInstance();

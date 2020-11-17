@@ -3,6 +3,9 @@ import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -58,6 +61,32 @@ public class TestInvoice {
             Assert.assertNotNull(invoice.id);
             System.out.println(invoice);
         }
+    }
+
+    @Test
+    public void testQueryGetAndQrcode() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 1);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        Generator<Invoice> invoices = Invoice.query(params);
+
+        int i = 0;
+        for (Invoice invoice : invoices) {
+            i += 1;
+            invoice = Invoice.get(invoice.id);
+            System.out.println(invoice);
+            InputStream png = Invoice.qrcode(invoice.id);
+            Assert.assertNotNull(png);
+            java.nio.file.Files.copy(
+                png,
+                new File("qrcode.png").toPath(),
+                StandardCopyOption.REPLACE_EXISTING
+            );
+        }
+        System.out.println(i);
     }
 
     @Test

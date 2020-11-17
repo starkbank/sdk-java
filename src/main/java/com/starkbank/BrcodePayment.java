@@ -4,6 +4,7 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -154,6 +155,77 @@ public final class BrcodePayment extends Resource {
      */
     public static BrcodePayment get(String id, Project user) throws Exception {
         return Rest.getId(data, id, user);
+    }
+
+    /**
+     * Update notification BrcodePayment entity
+     * <p>
+     * Update BrcodePayment by passing id.
+     * If isDelivered is True, the event will no longer be returned on queries with isDelivered=False.
+     * <p>
+     * Parameters:
+     * @param id        [string]: BrcodePayment unique ids. ex: "5656565656565656"
+     * @param patchData map of parameters to patch
+     *                  status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
+     * <p>
+     * Return:
+     * @return BrcodePayment object with updated attributes
+     * @throws Exception error in the request
+     */
+    public static BrcodePayment update(String id, Map<String, Object> patchData) throws Exception {
+        return BrcodePayment.update(id, patchData, null);
+    }
+
+    /**
+     * Update notification BrcodePayment entity
+     * <p>
+     * Update notification BrcodePayment by passing id.
+     * <p>
+     * Parameters:
+     * @param id        [string]: BrcodePayment unique ids. ex: "5656565656565656"
+     * @param patchData map of properties to patch
+     *                  status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return BrcodePayment object with updated attributes
+     * @throws Exception error in the request
+     */
+    public static BrcodePayment update(String id, Map<String, Object> patchData, Project user) throws Exception {
+        return Rest.patch(data, id, patchData, user);
+    }
+
+    /**
+     * Retrieve a specific BrcodePayment pdf file
+     * <p>
+     * Receive a single BrcodePayment pdf receipt file generated in the Stark Bank API by passing its id.
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * @return BrcodePayment pdf file
+     * @throws Exception error in the request
+     */
+    public static InputStream pdf(String id) throws Exception {
+        return BrcodePayment.pdf(id, null);
+    }
+
+    /**
+     * Retrieve a specific BrcodePayment pdf file
+     * <p>
+     * Receive a single BrcodePayment pdf receipt file generated in the Stark Bank API by passing its id.
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return BrcodePayment pdf file
+     * @throws Exception error in the request
+     */
+    public static InputStream pdf(String id, Project user) throws Exception {
+        return Rest.getPdf(data, id, user, new HashMap<>());
     }
 
     /**

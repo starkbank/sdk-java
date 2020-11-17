@@ -56,6 +56,24 @@ public class TestBrcodePayment {
     }
 
     @Test
+    public void testCancel() throws Exception {
+        Settings.user = utils.User.defaultProject();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("status", "created");
+        params.put("limit", 1);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        Generator<BrcodePayment> invoices = BrcodePayment.query(params);
+        for (BrcodePayment invoice : invoices) {
+            HashMap<String, Object> patchData = new HashMap<>();
+            patchData.put("status", "canceled");
+            BrcodePayment updatedBrcodePayment = BrcodePayment.update(invoice.id, patchData);
+            Assert.assertEquals(updatedBrcodePayment.status, "canceled");
+            System.out.println(updatedBrcodePayment);
+        }
+    }
+
+    @Test
     public void testLogQueryAndGet() throws Exception{
         Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();

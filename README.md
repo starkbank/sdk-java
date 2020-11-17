@@ -283,7 +283,27 @@ Invoice invoice = Invoice.get("5155165527080960")
 System.out.println(invoice);
 ```
 
-### Get an invoice PDF (COMING SOON)
+### Get an invoice QR Code
+
+After its creation, an invoice QR Code png file may be retrieved by its id. 
+
+```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
+HashMap<String, Object> options = new HashMap<>();
+InputStream png = Invoice.qrcode("5155165527080960");
+
+java.nio.file.Files.copy(
+    png,
+    new File("qrcode.png").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+### Get an invoice PDF
 
 After its creation, an invoice PDF may be retrieved by its id. 
 
@@ -298,9 +318,9 @@ options.put("layout", "booklet");
 InputStream pdf = Invoice.pdf("5155165527080960", options);
 
 java.nio.file.Files.copy(
-        pdf,
-        new File("invoice.pdf").toPath(),
-        StandardCopyOption.REPLACE_EXISTING
+    pdf,
+    new File("invoice.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
 );
 ```
 
@@ -802,7 +822,22 @@ BrcodePayment payment = BrcodePayment.get("6532638269505536");
 System.out.println(payment);
 ```
 
-### Get brcode payment PDF (COMMING SOON)
+### Cancel a BR Code payment
+
+You can cancel a BR Code payment by changing its status to "canceled".
+Note that this is not possible if it has been processed already.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> patchData = new HashMap<>();
+patchData.put("status", "canceled");
+BrcodePayment payment = BrcodePayment.update("5155165527080960", patchData);
+
+System.out.println(payment);
+```
+
+### Get BR Code payment PDF
 
 After its creation, a boleto payment PDF may be retrieved by its id. 
 
