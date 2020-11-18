@@ -32,7 +32,7 @@ public class Event extends Resource {
      * <p>
      * Attributes:
      * @param id [string]: unique id returned when the event is created. ex: "5656565656565656"
-     * @param created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000"
+     * @param created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000000+00:00"
      * @param isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
      * @param subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
      */
@@ -66,6 +66,15 @@ public class Event extends Resource {
                     case "boleto-holmes":
                         return context.deserialize(jsonObject,
                                 BoletoHolmesEvent.class);
+                    case "invoice":
+                        return context.deserialize(jsonObject,
+                                InvoiceEvent.class);
+                    case "deposit":
+                        return context.deserialize(jsonObject,
+                                DepositEvent.class);
+                    case "brcode-payment":
+                        return context.deserialize(jsonObject,
+                                BrcodePaymentEvent.class);
                     default:
                         return context.deserialize(jsonObject,
                                 UnknownEvent.class);
@@ -120,6 +129,33 @@ public class Event extends Resource {
         }
     }
 
+    public final static class InvoiceEvent extends Event {
+        public Invoice.Log log;
+
+        public InvoiceEvent(Invoice.Log log, String created, Boolean isDelivered, String subscription, String id) {
+            super(created, isDelivered, subscription, id);
+            this.log = log;
+        }
+    }
+
+    public final static class DepositEvent extends Event {
+        public Deposit.Log log;
+
+        public DepositEvent(Deposit.Log log, String created, Boolean isDelivered, String subscription, String id) {
+            super(created, isDelivered, subscription, id);
+            this.log = log;
+        }
+    }
+
+    public final static class BrcodePaymentEvent extends Event {
+        public BrcodePayment.Log log;
+
+        public BrcodePaymentEvent(BrcodePayment.Log log, String created, Boolean isDelivered, String subscription, String id) {
+            super(created, isDelivered, subscription, id);
+            this.log = log;
+        }
+    }
+    
     public final static class UnknownEvent extends Event {
         public JsonObject log;
 
@@ -152,7 +188,7 @@ public class Event extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Event object with updated attributes
@@ -188,7 +224,7 @@ public class Event extends Resource {
      * Receive a generator of notification Event objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Event objects with updated attributes
@@ -222,7 +258,7 @@ public class Event extends Resource {
      * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
      * isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Event objects with updated attributes
@@ -255,7 +291,7 @@ public class Event extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: Event unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return deleted Event object
@@ -294,7 +330,7 @@ public class Event extends Resource {
      * @param id [string]: Event unique ids. ex: "5656565656565656"
      * @param patchData map of properties to patch
      * isDelivered [bool]: If True and event hasn't been delivered already, event will be set as delivered. ex: true
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Event object with updated attributes
@@ -333,7 +369,7 @@ public class Event extends Resource {
      * Parameters:
      * @param content [string]: response content from request received at user endpoint (not parsed)
      * @param signature [string]: base-64 digital signature received at response header "Digital-Signature"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Event object with updated attributes

@@ -81,9 +81,9 @@ public class TestBoleto {
             InputStream pdf = Boleto.pdf(boleto.id, options);
             Assert.assertNotNull(pdf);
             java.nio.file.Files.copy(
-                    pdf,
-                    new File("boleto.pdf").toPath(),
-                    StandardCopyOption.REPLACE_EXISTING
+                pdf,
+                new File("boleto.pdf").toPath(),
+                StandardCopyOption.REPLACE_EXISTING
             );
         }
         System.out.println(i);

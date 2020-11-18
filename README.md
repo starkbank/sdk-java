@@ -215,6 +215,282 @@ Balance balance = Balance.get();
 System.out.println(balance);
 ```
 
+### Get a DICT key
+
+You can get PIX key's parameters by its id.
+
+```java
+import com.starkbank.*;
+
+DictKey dictKey = DictKey.get("tony@starkbank.com");
+
+System.out.println(dictKey);
+```
+
+### Query your DICT keys
+
+To take a look at the PIX keys linked to your workspace, just run the following:
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("status", "registered");
+params.put("limit", 1);
+params.put("type", "evp");
+
+Generator<DictKey> dictKeys = DictKey.query(params);
+for (DictKey dictKey : dictKeys) {
+    System.out.println(dictKey);
+}
+```
+
+### Create invoices
+
+You can create dynamic QR Code invoices to charge customers or to receive money from accounts
+you have in other banks.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+List<Invoice> invoices = new ArrayList<>();
+HashMap<String, Object> data = new HashMap<>();
+data.put("amount", 400000);
+data.put("due", "2020-11-28T17:59:26.249976+00:00");
+data.put("taxId", "20.018.183/0001-80");
+data.put("name", "Iron Bank S.A.");
+data.put("expiration", 123456789);
+data.put("fine", 2);
+data.put("interest", 1.3);
+
+List<HashMap<String, Object>> descriptions = new ArrayList<>();
+HashMap<String, Object> description = new HashMap<>();
+description.put("key", "Some supplies");
+description.put("value", "100000");
+descriptions.add(description);
+data.put("descriptions", descriptions);
+
+List<HashMap<String, Object>> discounts = new ArrayList<>();
+HashMap<String, Object> discount = new HashMap<>();
+discount.put("due", getDatetimeString(1));
+discount.put("percentage", 2.5);
+data.put("discounts", discounts);
+
+invoices.add(new Invoice(data));
+
+for (Invoice invoice : invoices) {
+    System.out.println(invoice);
+}
+```
+
+**Note**: Instead of using Invoice objects, you can also pass each invoice element in map format
+
+### Get an invoice
+
+After its creation, information on an invoice may be retrieved by its id. 
+Its status indicates whether it's been paid.
+
+```java
+import com.starkbank.*;
+
+Invoice invoice = Invoice.get("5155165527080960")
+
+System.out.println(invoice);
+```
+
+### Get an invoice QR Code
+
+After its creation, an invoice QR Code png file may be retrieved by its id. 
+
+```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
+HashMap<String, Object> options = new HashMap<>();
+InputStream png = Invoice.qrcode("5155165527080960");
+
+java.nio.file.Files.copy(
+    png,
+    new File("qrcode.png").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+### Get an invoice PDF
+
+After its creation, an invoice PDF may be retrieved by its id. 
+
+```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
+HashMap<String, Object> options = new HashMap<>();
+options.put("layout", "booklet");
+InputStream pdf = Invoice.pdf("5155165527080960", options);
+
+java.nio.file.Files.copy(
+    pdf,
+    new File("invoice.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Cancel an invoice
+
+You can also cancel an invoice by its id.
+Note that this is not possible if it has been paid already.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> patchData = new HashMap<>();
+patchData.put("status", "canceled");
+Invoice invoice = Invoice.update("5155165527080960", patchData);
+
+System.out.println(invoice);
+```
+
+### Update an invoice
+
+You can update an invoice's amount, due date and expiration by its id.
+Note that this is not possible if it has been paid already.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> patchData = new HashMap<>();
+patchData.put("status", "canceled");
+patchData.put("amount", 999999);
+patchData.put("due", "2020-11-02T23:06:42.924000+00:00");
+patchData.put("expiration", 123456789);
+Invoice invoice = Invoice.update("5155165527080960", patchData);
+
+System.out.println(invoice);
+```
+
+### Query invoices
+
+You can get a list of created invoices given some filters.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("status", "created");
+params.put("limit", 1);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+
+Generator<Invoice> invoices = Invoice.query(params);
+for (Invoice invoice : invoices) {
+    System.out.println(invoice);
+}
+```
+
+### Query invoice logs
+
+Logs are pretty important to understand the life cycle of an invoice.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 3);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+Generator<Invoice.Log> logs = Invoice.Log.query(params);
+
+for (Invoice.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+### Get an invoice log
+
+You can get a single log by its id.
+
+```java
+import com.starkbank.*;
+
+Invoice.Log log = Invoice.Log.get("5155165527080960");
+
+System.out.println(log);
+```
+
+### Query deposits
+
+You can get a list of created deposits given some filters.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<Deposit> deposits = Deposit.query(params);
+
+for (Deposit deposit : deposits){
+    System.out.println(deposit);
+}
+```
+
+### Get a deposit
+
+After its creation, information on a deposit may be retrieved by its id. 
+
+```java
+import com.starkbank.*;
+
+Deposit deposit = Deposit.get("5730174175805440");
+
+System.out.println(deposit);
+```
+
+### Query deposit logs
+
+Logs are pretty important to understand the life cycle of a deposit.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<Deposit.Log> logs = Deposit.Log.query(params);
+
+for (Deposit.Log log : logs){
+    System.out.println(log);
+}
+```
+
+### Get a deposit log
+
+You can get a single log by its id.
+
+```java
+import com.starkbank.*;
+
+Deposit.Log log = Deposit.Log.get("6532638269505536");
+
+System.out.println(log);
+```
+
+
 ### Create boletos
 
 You can create boletos to charge customers or to receive money from accounts
@@ -368,7 +644,7 @@ System.out.println(log);
 
 ### Create transfers
 
-You can also create transfers in the SDK (TED/DOC).
+You can also create transfers in the SDK (TED/PIX).
 
 ```java
 import com.starkbank.*;
@@ -377,16 +653,27 @@ import java.util.HashMap;
 import java.util.List;
 
 List<Transfer> transfers = new ArrayList<>();
-HashMap<String, Object> data = new HashMap<>();
-data.put("amount", 100000000);
-data.put("bankCode", "341");
-data.put("branchCode", "2201");
-data.put("accountNumber", "76543-8");
-data.put("taxId", "594.739.480-42");
-data.put("name", "Daenerys Targaryen Stormborn");
-data.put("scheduled", "2020-04-11");
-data.put("tags", new String[]{"daenerys", "invoice/1234"});
-transfers.add(new Transfer(data));
+HashMap<String, Object> data1 = new HashMap<>();
+data1.put("amount", 100000000);
+data1.put("bankCode", "341"); # TED
+data1.put("branchCode", "2201");
+data1.put("accountNumber", "76543-8");
+data1.put("taxId", "594.739.480-42");
+data1.put("name", "Daenerys Targaryen Stormborn");
+data1.put("scheduled", "2020-12-11");
+data1.put("tags", new String[]{"daenerys", "invoice/1234"});
+transfers.add(new Transfer(data1));
+
+HashMap<String, Object> data2 = new HashMap<>();
+data2.put("amount", 100000000);
+data2.put("bankCode", "20018183"); # PIX
+data2.put("branchCode", "2201");
+data2.put("accountNumber", "76543-8");
+data2.put("taxId", "594.739.480-42");
+data2.put("name", "Daenerys Targaryen Stormborn");
+data2.put("scheduled", "2020-11-11T15:01:39.903667+00:00");
+data2.put("tags", new String[]{"daenerys", "invoice/1234"});
+transfers.add(new Transfer(data2));
 
 transfers = Transfer.create(transfers);
 
@@ -493,6 +780,154 @@ Transfer.Log log = Transfer.Log.get("6532638269505536");
 
 System.out.println(log);
 ```
+
+### Pay a BR Code
+
+Paying a BR Code is also simple.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+List<BrcodePayment> payments = new ArrayList<>();
+HashMap<String, Object> data = new HashMap<>();
+data.put("line", "34191.09107 05447.947309 71444.640008 8 84660000011631");
+data.put("taxId", "38.435.677/0001-25");
+data.put("scheduled", "2020-04-11");
+data.put("description", "Payment for killing white walkers");
+data.put("tags", new String[]{"little girl", "no one"});
+payments.add(new BrcodePayment(data));
+
+payments = BrcodePayment.create(payments);
+
+for (BrcodePayment payment : payments){
+    System.out.println(payment);
+}
+```
+
+**Note**: Instead of using BrcodePayment objects, you can also pass each payment element in map format
+
+### Query brcode payments
+
+You can search for brcode payments using filters. 
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<BrcodePayment> payments = BrcodePayment.query(params);
+
+for (BrcodePayment payment : payments){
+    System.out.println(payment);
+}
+```
+
+### Get brcode payment
+
+To get a single BR Code payment by its id, run:
+
+```java
+import com.starkbank.*;
+
+BrcodePayment payment = BrcodePayment.get("6532638269505536");
+
+System.out.println(payment);
+```
+
+### Cancel a BR Code payment
+
+You can cancel a BR Code payment by changing its status to "canceled".
+Note that this is not possible if it has been processed already.
+
+```java
+import com.starkbank.*;
+
+HashMap<String, Object> patchData = new HashMap<>();
+patchData.put("status", "canceled");
+BrcodePayment payment = BrcodePayment.update("5155165527080960", patchData);
+
+System.out.println(payment);
+```
+
+### Get BR Code payment PDF
+
+After its creation, a boleto payment PDF may be retrieved by its id. 
+
+```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
+InputStream pdf = BrcodePayment.pdf("6311252829667328");
+
+java.nio.file.Files.copy(
+    pdf,
+    new File("brcode-payment.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+### Preview a BR Code payment
+
+You can confirm the information on the BR Code payment before creating it with this preview method:
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+String[] brcodes = { "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A" };
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("brcodes", brcodes);
+Generator<BrcodePreview> previews = BrcodePreview.query(params);
+
+for (BrcodePreview preview : previews){
+    System.out.println(preview);
+}
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Query BR Code payment logs
+
+Searches are also possible with BR Code payment logs:
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("paymentIds", "4785987200745472");
+Generator<BrcodePayment.Log> logs = BrcodePayment.Log.query(params);
+
+for (BrcodePayment.Log log : logs){
+    System.out.println(log);
+}
+```
+
+### Get BR Code payment log
+
+You can also get a BR Code payment log by specifying its id.
+
+```java
+import com.starkbank.*;
+
+BrcodePayment.Log log = BrcodePayment.Log.get("6532638269505536");
+
+System.out.println(log);
+```
+
 
 ### Pay a boleto
 
@@ -642,7 +1077,7 @@ for (BoletoHolmes sherlock : holmes){
 }
 ```
 
-**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in dictionary format
+**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in map format
 
 ### Get boleto holmes
 

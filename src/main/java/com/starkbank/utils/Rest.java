@@ -78,8 +78,34 @@ public final class Rest {
         };
     }
 
+    public static <T extends Resource> Generator<T> getSimpleList(Resource.ClassData resource, Map<String, Object> params, Project user) {
+        return new Generator<T>() {
+            public void run() throws Exception {
+                Map<String, Object> paramsCopy = new HashMap<>();
+                for (Map.Entry<String, Object> entry: params.entrySet()) {
+                    paramsCopy.put(entry.getKey(), entry.getValue());
+                }
+                String content = Response.fetch(Api.endpoint(resource), "GET", null, paramsCopy, user).content();
+                Gson gson = GsonEvent.getInstance();
+                JsonObject contentJson = gson.fromJson(content, JsonObject.class);
+                JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
+                for (JsonElement resourceElement : jsonArray) {
+                    JsonObject jsonObject = resourceElement.getAsJsonObject();
+                    T element = gson.fromJson(jsonObject, (Type) resource.cls);
+                    if(element == null)
+                        break;
+                    this.yield(element);
+                }
+            }
+        };
+    }
+
     public static InputStream getPdf(Resource.ClassData resource, String id, Project user, Map<String, Object> options) throws Exception {
         return Response.fetch(Api.endpoint(resource, id) + "/pdf", "GET", null, options, user).stream;
+    }
+
+    public static InputStream getQrcode(Resource.ClassData resource, String id, Project user, Map<String, Object> options) throws Exception {
+        return Response.fetch(Api.endpoint(resource, id) + "/qrcode", "GET", null, options, user).stream;
     }
 
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, Project user) throws Exception {

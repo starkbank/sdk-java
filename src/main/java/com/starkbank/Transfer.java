@@ -39,10 +39,10 @@ public final class Transfer extends Resource {
      * @param amount [long]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
      * @param name [string]: receiver full name. ex: "Anthony Edward Stark"
      * @param taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-     * @param bankCode [string]: 1 to 3 digits of the receiver bank institution in Brazil. ex: "200" or "341"
+     * @param bankCode [string]: code of the receiver bank institution in Brazil. If an ISPB (8 digits) is informed, a PIX transfer will be created, else a TED will be issued. ex: "20018183" or "341"
      * @param branchCode [string]: receiver bank account branch. Use "-" in case there is a verifier digit. ex: "1357-9"
      * @param accountNumber [string]: Receiver Bank Account number. Use "-" before the verifier digit. ex: "876543-2"
-     * @param scheduled [string]: datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
+     * @param scheduled [string]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
      * @param tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
      * <p>
      * Attributes (return-only):
@@ -50,8 +50,8 @@ public final class Transfer extends Resource {
      * @param fee [integer, default null]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
      * @param status [string, default null]: current transfer status. ex: "processing" or "success"
      * @param transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-     * @param created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000"
-     * @param updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
+     * @param created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Transfer(String id, long amount, String name, String taxId, String bankCode, String branchCode,
                     String accountNumber, String scheduled, String[] tags, Integer fee, String status, String created,
@@ -97,8 +97,8 @@ public final class Transfer extends Resource {
      * fee [integer, default null]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
      * status [string, default null]: current transfer status. ex: "processing" or "success"
      * transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-     * created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000"
-     * updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000"
+     * created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     public Transfer(Map<String, Object> data) throws Exception {
@@ -147,7 +147,7 @@ public final class Transfer extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Transfer object with updated attributes
@@ -180,7 +180,7 @@ public final class Transfer extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: Transfer unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return deleted Transfer object
@@ -221,7 +221,7 @@ public final class Transfer extends Resource {
      * Receive a generator of Transfer objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Transfer objects with updated attributes
@@ -259,7 +259,7 @@ public final class Transfer extends Resource {
      * sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Transfer objects with updated attributes
@@ -292,7 +292,7 @@ public final class Transfer extends Resource {
      * <p>
      * Parameters:
      * @param transfers [list of Transfer objects or HashMaps]: list of Transfer objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return list of Transfer objects with updated attributes
@@ -340,7 +340,7 @@ public final class Transfer extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Transfer pdf file
@@ -370,7 +370,7 @@ public final class Transfer extends Resource {
          * @param transfer [Transfer]: Transfer entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to the Transfer event.
          * @param type [string]: type of the Transfer event which triggered the log creation. ex: "processing" or "success"
-         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
          */
         public Log(String created, String type, String[] errors, Transfer transfer, String id) {
             super(id);
@@ -403,7 +403,7 @@ public final class Transfer extends Resource {
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"
-         * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return Transfer Log object with updated attributes
@@ -440,7 +440,7 @@ public final class Transfer extends Resource {
          * Receive a generator of Transfer Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return list of Transfer Log objects with updated attributes
@@ -475,7 +475,7 @@ public final class Transfer extends Resource {
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter retrieved objects by types. ex: "success" or "failed"
          * transferIds [list of strings, default null]: list of Transfer ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-         * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
          * <p>
          * Return:
          * @return list of Transfer Log objects with updated attributes

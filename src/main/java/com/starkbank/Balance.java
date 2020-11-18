@@ -28,7 +28,7 @@ public final class Balance extends Resource {
      * @param id [string, default null]: unique id returned when Balance is created. ex: "5656565656565656"
      * @param amount [long, default null]: current balance amount of the workspace in cents. ex: 200 (= R$ 2.00)
      * @param currency [string, default null]: currency of the current workspace. Expect others to be added eventually. ex: "BRL"
-     * @param updated [string, default null]: update datetime for the balance. ex: "2020-03-10 10:30:00.000"
+     * @param updated [string, default null]: update datetime for the balance. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Balance(long amount, String currency, String updated, String id) {
         super(id);
@@ -43,7 +43,7 @@ public final class Balance extends Resource {
      * Receive the Balance object linked to your workspace in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Balance object with updated attributes

@@ -47,7 +47,7 @@ public final class Transaction extends Resource {
      * @param id [string, default null]: unique id returned when the transaction is created. ex: "7656565656565656"
      * @param fee [integer, default null]: fee charged when the transaction is created. ex: 200 (= R$ 2.00)
      * @param balance [long, default null]: account balance after transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
-     * @param created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000"
+     * @param created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Transaction(long amount, String description, String externalId, String receiverId, String senderId,
                        String[] tags, int fee, String created, String source, Long balance, String id) {
@@ -90,7 +90,7 @@ public final class Transaction extends Resource {
      * id [string, default null]: unique id returned when transaction is created. ex: "7656565656565656"
      * fee [integer, default null]: fee charged when the transaction is created. ex: 200 (= R$ 2.00)
      * balance [long, default null]: account balance after the transaction was processed. ex: 100000000 (= R$ 1,000,000.00)
-     * created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000"
+     * created [string, default null]: creation datetime for the transaction. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     public Transaction(Map<String, Object> data) throws Exception {
@@ -136,7 +136,7 @@ public final class Transaction extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return Transaction object with updated attributes
@@ -174,7 +174,7 @@ public final class Transaction extends Resource {
      * Receive a generator of Transaction objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Transaction objects with updated attributes
@@ -209,7 +209,7 @@ public final class Transaction extends Resource {
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * externalIds [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * @param user [Project object, default null]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return generator of Transaction objects with updated attributes
@@ -242,7 +242,7 @@ public final class Transaction extends Resource {
      * <p>
      * Parameters:
      * @param transactions [list of Transaction objects or HashMaps]: list of Transaction objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
      * @return list of Transaction objects with updated attributes

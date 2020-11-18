@@ -14,6 +14,8 @@ final class Api {
         String lastName = getLastName(resource);
         if (lastName.endsWith("s"))
             return lastName;
+        if (lastName.endsWith("ey"))
+            return lastName + "s";
         if (lastName.endsWith("y"))
             return lastName.substring(0, lastName.length()-1) + "ies";
         return lastName + "s"; 
