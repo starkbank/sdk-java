@@ -92,6 +92,7 @@ public final class Invoice extends Resource {
      * @param discountAmount    [number, default null]: Invoice discount value calculated over nominalAmount. ex: 3000
      * @param id                [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
      * @param brcode            [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
+     * @param fee               [integer, default null]: fee charged buy this Invoice. ex: 65 (= R$ 0.65)
      * @param status            [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
      * @param created           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      * @param updated           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"

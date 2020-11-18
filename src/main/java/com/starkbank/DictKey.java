@@ -15,6 +15,7 @@ public class DictKey extends Resource {
      * DictKey represents a PIX key registered in Bacen's DICT system.
      * <p>
      * Parameters:
+     * id [string, default null]: DICT key identifier. ex: "tony@starkbank.com", "012.345.678-90"
      * type [string, default null]: DICT key type. ex: "email", "cpf", "cnpj", "phone" or "evp"
      * name [string, default null]: key owner full name. ex: "Tony Stark"
      * taxId [string, default null]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
@@ -49,6 +50,7 @@ public class DictKey extends Resource {
      * DictKey represents a PIX key registered in Bacen's DICT system.
      * <p>
      * Parameters:
+     * @param id [string, default null]: DICT key identifier. ex: "tony@starkbank.com", "012.345.678-90"
      * @param type [string, default null]: DICT key type. ex: "email", "cpf", "cnpj", "phone" or "evp"
      * @param name [string, default null]: key owner full name. ex: "Tony Stark"
      * @param taxId [string, default null]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
