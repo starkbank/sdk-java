@@ -1,13 +1,9 @@
 import com.starkbank.DictKey;
-import com.starkbank.DictKey;
 import com.starkbank.Settings;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
 
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 
 
