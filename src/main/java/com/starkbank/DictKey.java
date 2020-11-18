@@ -120,12 +120,12 @@ public class DictKey extends Resource {
      * <p>
      * Parameters:
      * @param params map of parameters
-     *              limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-     *              type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
-     *              after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-     *              before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
-     *              ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     *              status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     * type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
      * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
@@ -143,12 +143,12 @@ public class DictKey extends Resource {
      * <p>
      * Parameters:
      * @param params map of parameters
-     *              limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-     *              type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
-     *              after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-     *              before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
-     *              ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     *              status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     * type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
      * <p>
      * Return:
      * @return generator of DictKey objects with updated attributes

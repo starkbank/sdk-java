@@ -164,9 +164,9 @@ public final class BrcodePayment extends Resource {
      * If isDelivered is True, the event will no longer be returned on queries with isDelivered=False.
      * <p>
      * Parameters:
-     * @param id        [string]: BrcodePayment unique ids. ex: "5656565656565656"
+     * @param id [string]: BrcodePayment unique ids. ex: "5656565656565656"
      * @param patchData map of parameters to patch
-     *                  status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
+     * status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
      * <p>
      * Return:
      * @return BrcodePayment object with updated attributes
@@ -182,9 +182,9 @@ public final class BrcodePayment extends Resource {
      * Update notification BrcodePayment by passing id.
      * <p>
      * Parameters:
-     * @param id        [string]: BrcodePayment unique ids. ex: "5656565656565656"
+     * @param id [string]: BrcodePayment unique ids. ex: "5656565656565656"
      * @param patchData map of properties to patch
-     *                  status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
+     * status [string]: If the BrcodePayment hasn't been paid yet, you may cancel it by passing "canceled" in the status
      * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
