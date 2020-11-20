@@ -233,6 +233,8 @@ To take a look at the PIX keys linked to your workspace, just run the following:
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
+import com.starkbank.utils.Generator;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("status", "registered");
@@ -306,10 +308,11 @@ System.out.println(invoice);
 After its creation, an invoice QR Code png file may be retrieved by its id. 
 
 ```java
+import com.starkbank.*;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
-import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> options = new HashMap<>();
 InputStream png = Invoice.qrcode("5155165527080960");
@@ -326,10 +329,11 @@ java.nio.file.Files.copy(
 After its creation, an invoice PDF may be retrieved by its id. 
 
 ```java
+import com.starkbank.*;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
-import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> options = new HashMap<>();
 options.put("layout", "booklet");
@@ -353,6 +357,7 @@ Note that this is not possible if it has been paid already.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> patchData = new HashMap<>();
 patchData.put("status", "canceled");
@@ -368,6 +373,7 @@ Note that this is not possible if it has been paid already.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> patchData = new HashMap<>();
 patchData.put("status", "canceled");
@@ -385,6 +391,8 @@ You can get a list of created invoices given some filters.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
+import com.starkbank.utils.Generator;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("status", "created");
@@ -404,6 +412,8 @@ Logs are pretty important to understand the life cycle of an invoice.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
+import com.starkbank.utils.Generator;
 
 HashMap<String, Object> params = new HashMap<>();
 params.put("limit", 3);
@@ -847,6 +857,7 @@ Note that this is not possible if it has been processed already.
 
 ```java
 import com.starkbank.*;
+import java.util.HashMap;
 
 HashMap<String, Object> patchData = new HashMap<>();
 patchData.put("status", "canceled");
@@ -1065,6 +1076,10 @@ subscription, although polling is also possible.
 
 ```java
 import com.starkbank;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+
 List<BoletoHolmes> holmes = new ArrayList<>();
 HashMap<String, Object> dataHolmes = new HashMap<>(); 
 dataHolmes.put("boletoId", "5976467733217280");
@@ -1085,7 +1100,9 @@ To get a single Holmes by its id, run:
 
 ```java
 import com.starkbank.*;
+
 sherlock = BoletoHolmes.get("6093880533450752")
+
 System.out.println(sherlock)
 ```
 
@@ -1095,6 +1112,9 @@ You can search for boleto Holmes using filters.
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("limit", 3);
 params.put("after", "2019-04-01");
@@ -1112,6 +1132,9 @@ Searches are also possible with boleto holmes logs:
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
 HashMap<String, Object> params = new HashMap<>();
 params.put("limit", 3);
 params.put("after", "2019-04-01");
@@ -1130,7 +1153,9 @@ You can also get a boleto holmes log by specifying its id.
 
 ```java
 import com.starkbank.*;
+
 log = BoletoHolmes.Log.get("5350990148534272")
+
 System.out.println(log);
 ```
 
