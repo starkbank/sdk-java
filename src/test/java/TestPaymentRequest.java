@@ -65,7 +65,7 @@ public class TestPaymentRequest {
     }
 
     static Resource createPayment() throws Exception{
-        int random = ThreadLocalRandom.current().nextInt(0, 4);
+        int random = ThreadLocalRandom.current().nextInt(0, 5);
         switch (random) {
             case 0:
                 return TestTransfer.example(false);
@@ -75,6 +75,8 @@ public class TestPaymentRequest {
                 return TestBoletoPayment.example(false);
             case 3:
                 return TestUtilityPayment.example(false);
+            case 4:
+                return TestBrcodePayment.example(false);
             default:
                 throw new Exception("Bad random number");
         }

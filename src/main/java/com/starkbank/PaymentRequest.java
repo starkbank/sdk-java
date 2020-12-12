@@ -29,7 +29,7 @@ public final class PaymentRequest extends Resource {
      * Parameters:
      * id [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
      * centerId [string]: target cost center ID. ex: "5656565656565656"
-     * payment [Transfer, BoletoPayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
+     * payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
      * type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * due [string]: Payment target date in ISO format. ex: 2020-12-31
      * tags [list of strings]: list of strings for tagging
@@ -62,7 +62,7 @@ public final class PaymentRequest extends Resource {
      *
      * Parameters:
      * @param centerId [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
-     * @param payment [Transfer, BoletoPayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
+     * @param payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
      * @param type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * @param due [string]: Payment target date in ISO format.
      * @param tags [list of strings]: list of strings for tagging
@@ -106,7 +106,7 @@ public final class PaymentRequest extends Resource {
      * @param data map of parameters for the creation of the PaymentRequest
      * Parameters:
      * centerId [string]: target cost center ID. ex: "5656565656565656"
-     * payment [Transfer, BoletoPayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
+     * payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
      * <p>
      * Parameters (conditionally required):
      * type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
@@ -161,6 +161,9 @@ public final class PaymentRequest extends Resource {
                     break;
                 case "utility-payment":
                     resource = new Gson().fromJson(resourceElement, UtilityPayment.class);
+                    break;
+                case "brcode-payment":
+                    resource = new Gson().fromJson(resourceElement, BrcodePayment.class);
                     break;
                 default:
                     break;
@@ -323,8 +326,10 @@ public final class PaymentRequest extends Resource {
             return "boleto-payment";
         if(payment instanceof UtilityPayment)
             return "utility-payment";
+        if(payment instanceof BrcodePayment)
+            return "brcode-payment";
 
-        throw new Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment or a UtilityPayment.");
+        throw new Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment, a BrcodePayment or a UtilityPayment.");
     }
 
     /**
