@@ -97,9 +97,10 @@ public class TestBoletoPayment {
 
     static BoletoPayment example(boolean scheduled) throws Exception{
         HashMap<String, Object> data = new HashMap<>();
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 100000000);
-
-        data.put("line", "34191.09107 05447.947309 71444.640008 8 846600" + String.format("%08d", randomNum));
+        List<Boleto> boletos = new ArrayList<>();
+        boletos.add(TestBoleto.simpleExample());
+        boletos =  Boleto.create(boletos);
+        data.put("line", boletos.get(0).line);
         data.put("taxId", "38.435.677/0001-25");
         data.put("description", "Payment for killing white walkers");
         data.put("tags", new String[]{"little girl", "no one"});
