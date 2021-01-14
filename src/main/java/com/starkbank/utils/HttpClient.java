@@ -1,6 +1,6 @@
 package com.starkbank.utils;
 
-import com.starkbank.Project;
+import com.starkbank.User;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
@@ -14,7 +14,7 @@ final class HttpClient {
 
     private HttpClient() {}
 
-    public static synchronized ClientService getProjectInstance(Project user) throws Exception {
+    public static synchronized ClientService getProjectInstance(User user) throws Exception {
         switch (user.environment)
         {
             case "production":

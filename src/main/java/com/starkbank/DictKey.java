@@ -111,7 +111,7 @@ public class DictKey extends Resource {
      * @return DictKey object with updated attributes
      * @throws Exception error in the request 
      */
-    public static DictKey get(String id, Project user) throws Exception {
+    public static DictKey get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -134,7 +134,7 @@ public class DictKey extends Resource {
      * @return generator of DictKey objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<DictKey> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<DictKey> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -172,7 +172,7 @@ public class DictKey extends Resource {
      * @return generator of DictKey objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<DictKey> query(Project user) throws Exception {
+    public static Generator<DictKey> query(User user) throws Exception {
         return Rest.getList(data, new HashMap<>(), user);
     }
 

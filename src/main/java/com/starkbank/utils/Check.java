@@ -1,7 +1,7 @@
 package com.starkbank.utils;
 
 import com.starkbank.Settings;
-import com.starkbank.Project;
+import com.starkbank.User;
 import com.starkbank.ellipticcurve.PrivateKey;
 
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public final class Check {
         );
     }
 
-    static Project user(Project user) throws Error {
+    static User user(User user) throws Error {
         if (user == null) {
             user = Settings.user;
         }

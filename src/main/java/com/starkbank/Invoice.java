@@ -267,7 +267,7 @@ public final class Invoice extends Resource {
      * @return Invoice object with updated attributes
      * @throws Exception error in the request
      */
-    public static Invoice get(String id, Project user) throws Exception {
+    public static Invoice get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -290,7 +290,7 @@ public final class Invoice extends Resource {
      * @return generator of Invoice objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Invoice> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<Invoice> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -328,7 +328,7 @@ public final class Invoice extends Resource {
      * @return generator of Invoice objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Invoice> query(Project user) throws Exception {
+    public static Generator<Invoice> query(User user) throws Exception {
         return Rest.getList(data, new HashMap<>(), user);
     }
 
@@ -358,7 +358,7 @@ public final class Invoice extends Resource {
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<Invoice> create(List<?> invoices, Project user) throws Exception {
+    public static List<Invoice> create(List<?> invoices, User user) throws Exception {
         List<Invoice> invoiceList = new ArrayList<>();
         for (Object invoice : invoices){
             if (invoice instanceof Map){
@@ -429,7 +429,7 @@ public final class Invoice extends Resource {
      * @return Invoice object with updated attributes
      * @throws Exception error in the request
      */
-    public static Invoice update(String id, Map<String, Object> patchData, Project user) throws Exception {
+    public static Invoice update(String id, Map<String, Object> patchData, User user) throws Exception {
         return Rest.patch(data, id, patchData, user);
     }
 
@@ -462,7 +462,7 @@ public final class Invoice extends Resource {
      * @return Invoice pdf file
      * @throws Exception error in the request
      */
-    public static InputStream pdf(String id, Project user) throws Exception {
+    public static InputStream pdf(String id, User user) throws Exception {
         return Rest.getPdf(data, id, user, new HashMap<>());
     }
 
@@ -495,7 +495,7 @@ public final class Invoice extends Resource {
      * @return Invoice pdf file
      * @throws Exception error in the request
      */
-    public static InputStream qrcode(String id, Project user) throws Exception {
+    public static InputStream qrcode(String id, User user) throws Exception {
         return Rest.getQrcode(data, id, user, new HashMap<>());
     }
 
@@ -613,7 +613,7 @@ public final class Invoice extends Resource {
          * @return Invoice Log object with updated attributes
          * @throws Exception error in the request
          */
-        public static Log get(String id, Project user) throws Exception {
+        public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
@@ -650,7 +650,7 @@ public final class Invoice extends Resource {
          * @return list of Invoice Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Project user) throws Exception {
+        public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
         }
 
@@ -685,7 +685,7 @@ public final class Invoice extends Resource {
          * @return list of Invoice Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }

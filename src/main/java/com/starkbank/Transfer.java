@@ -153,7 +153,7 @@ public final class Transfer extends Resource {
      * @return Transfer object with updated attributes
      * @throws Exception error in the request
      */
-    public static Transfer get(String id, Project user) throws Exception {
+    public static Transfer get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -186,7 +186,7 @@ public final class Transfer extends Resource {
      * @return deleted Transfer object
      * @throws Exception error in the request
      */
-    public static Transfer delete(String id, Project user) throws Exception {
+    public static Transfer delete(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
     }
 
@@ -227,7 +227,7 @@ public final class Transfer extends Resource {
      * @return generator of Transfer objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Transfer> query(Project user) throws Exception {
+    public static Generator<Transfer> query(User user) throws Exception {
         return Transfer.query(new HashMap<>(), user);
     }
 
@@ -265,7 +265,7 @@ public final class Transfer extends Resource {
      * @return generator of Transfer objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Transfer> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<Transfer> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -299,7 +299,7 @@ public final class Transfer extends Resource {
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<Transfer> create(List<?> transfers, Project user) throws Exception {
+    public static List<Transfer> create(List<?> transfers, User user) throws Exception {
         List<Transfer> transferList = new ArrayList<>();
         for (Object transfer : transfers){
             if (transfer instanceof Map){
@@ -346,7 +346,7 @@ public final class Transfer extends Resource {
      * @return Transfer pdf file
      * @throws Exception error in the request
      */
-    public static InputStream pdf(String id, Project user) throws Exception {
+    public static InputStream pdf(String id, User user) throws Exception {
         return Rest.getPdf(data, id, user, null);
     }
 
@@ -409,7 +409,7 @@ public final class Transfer extends Resource {
          * @return Transfer Log object with updated attributes
          * @throws Exception error in the request
          */
-        public static Log get(String id, Project user) throws Exception {
+        public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
@@ -446,7 +446,7 @@ public final class Transfer extends Resource {
          * @return list of Transfer Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Project user) throws Exception {
+        public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
         }
 
@@ -481,7 +481,7 @@ public final class Transfer extends Resource {
          * @return list of Transfer Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }

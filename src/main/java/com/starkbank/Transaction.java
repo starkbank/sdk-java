@@ -142,7 +142,7 @@ public final class Transaction extends Resource {
      * @return Transaction object with updated attributes
      * @throws Exception error in the request
      */
-    public static Transaction get(String id, Project user) throws Exception {
+    public static Transaction get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -180,7 +180,7 @@ public final class Transaction extends Resource {
      * @return generator of Transaction objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Transaction> query(Project user) throws Exception {
+    public static Generator<Transaction> query(User user) throws Exception {
         return Transaction.query(new HashMap<>(), user);
     }
 
@@ -215,7 +215,7 @@ public final class Transaction extends Resource {
      * @return generator of Transaction objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Transaction> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<Transaction> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -249,7 +249,7 @@ public final class Transaction extends Resource {
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<Transaction> create(List<?> transactions, Project user) throws Exception {
+    public static List<Transaction> create(List<?> transactions, User user) throws Exception {
         List<Transaction> transactionList = new ArrayList<>();
         for (Object transaction : transactions){
             if (transaction instanceof Map){

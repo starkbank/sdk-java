@@ -115,7 +115,7 @@ You can interact directly with our API using two types of users: Projects and Or
 - **Projects** are workspace-specific users, that is, they are bound to the workspaces they are created in.
 One workspace can have multiple Projects.
 - **Organizations** are general users that control your entire organization.
-They can control all your Workspaces and even create new ones. The Organization is bound to your company's tax-ID only.
+They can control all your Workspaces and even create new ones. The Organization is bound to your company's tax ID only.
 Since this user is unique in your entire organization, only one credential can be linked to it.
 
 3.1 To create a Project in Sandbox:
@@ -144,7 +144,7 @@ Project project = new Project(
 );
 ```
 
-3.2 While this feature is in beta, to register your Organization's public key, a legal representative of your organization must send an e-mail with the desired public key to developers@starkbank.com. Don`t worry, this flow will soon be integrated with our website. Here is an example on how to handle your Organization in the SDK:
+3.2 To register your Organization's public key, a legal representative of your organization must send an e-mail with the desired public key to developers@starkbank.com. This flow will soon be integrated with our website, where you'll be able to do the entire process quicker and independently. Here is an example on how to handle your Organization in the SDK:
 
 ```java
 import com.starkbank.*;
@@ -170,8 +170,8 @@ Organization organization = new Organization(
 );
 
 // To dynamically use your organization credentials in a specific workspaceId,
-// you can use the Organization.withWorkspace() method:
-Balance balance = Balance.get(organization.withWorkspace("4848484848484848"));
+// you can use the Organization.replace() method:
+Balance balance = Balance.get(Organization.replace(organization, "4848484848484848"));
 System.out.println(balance);
 ```
 
@@ -184,10 +184,10 @@ NOTE 3: The credentials you registered in `sandbox` do not exist in `production`
 
 ### 4. Setting up the user
 
-There are two kinds of users that can access our API: **Project** and **Member**.
+There are three kinds of users that can access our API: **Organization**, **Project** and **Member**.
 
+- `Project` and `Organization` are designed for integrations and are the ones meant for our SDKs.
 - `Member` is the one you use when you log into our webpage with your e-mail.
-- `Project` is designed for integrations and is the one meant for our SDK.
 
 There are two ways to inform the user to the SDK:
  
@@ -196,7 +196,7 @@ There are two ways to inform the user to the SDK:
 ```java
 import com.starkbank.*;
 
-Balance balance = Balance.get(project);
+Balance balance = Balance.get(project); # or organization
 ```
 
 4.2 Set it as a default user in the SDK:
@@ -204,12 +204,12 @@ Balance balance = Balance.get(project);
 ```java
 import com.starkbank.*;
 
-Settings.user = project;
+Settings.user = project; # or organization
 
 Balance balance = Balance.get();
 ```
 
-Just select the way of passing the project user that is more convenient to you.
+Just select the way of passing the user that is more convenient to you.
 On all following examples we will assume a default user has been set.
 
 ### 5. Setting up the error language
@@ -228,13 +228,13 @@ Language options are "en-US" for english and "pt-BR" for brazilian portuguese. E
 ## Testing in Sandbox
 
 Your initial balance is zero. For many operations in Stark Bank, you'll need funds
-in your account, which can be added to your balance by creating a Boleto. 
+in your account, which can be added to your balance by creating an Invoice or a Boleto. 
 
-In the Sandbox environment, 90% of the created Boletos will be automatically paid,
+In the Sandbox environment, most of the created Invoices and Boletos will be automatically paid,
 so there's nothing else you need to do to add funds to your account. Just create
-a few and wait around a bit.
+a few Invoices and wait around a bit.
 
-In Production, you (or one of your clients) will need to actually pay this Boleto
+In Production, you (or one of your clients) will need to actually pay this Invoice or Boleto
 for the value to be credited to your account.
 
 
@@ -293,7 +293,7 @@ for (Transaction transaction : transactions){
 }
 ```
 
-### Get transaction
+### Get a transaction
 
 You can get a specific transaction by its id:
 
@@ -305,7 +305,7 @@ Transaction transaction = Transaction.get("5155966664310784");
 System.out.println(transaction);
 ```
 
-### Get balance
+### Get your balance
 
 To know how much money you have in your workspace, run:
 
@@ -378,7 +378,7 @@ for (Transfer transfer : transfers){
 }
 ```
 
-### Get transfer
+### Get a transfer
 
 To get a single transfer by its id, run:
 
@@ -402,7 +402,7 @@ Transfer transfer = Transfer.delete("6532638269505536");
 System.out.println(transfer);
 ```
 
-### Get transfer PDF
+### Get a transfer PDF
 
 After its creation, a transfer PDF may also be retrieved by passing its id. 
 
@@ -778,7 +778,7 @@ for (Boleto boleto : boletos){
 }
 ```
 
-### Get boleto
+### Get a boleto
 
 After its creation, information on a boleto may be retrieved by passing its id. 
 Its status indicates whether it's been paid.
@@ -791,7 +791,7 @@ Boleto boleto = Boleto.get("5730174175805440");
 System.out.println(boleto);
 ```
 
-### Get boleto PDF
+### Get a boleto PDF
 
 After its creation, a boleto PDF may be retrieved by passing its id. 
 
@@ -817,7 +817,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete boleto
+### Delete a boleto
 
 You can also cancel a boleto by its id.
 Note that this is not possible if it has been processed already.
@@ -889,7 +889,7 @@ for (BoletoHolmes sherlock : holmes){
 
 **Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in map format
 
-### Get boleto holmes
+### Get a boleto holmes
 
 To get a single Holmes by its id, run:
 
@@ -942,7 +942,7 @@ for (BoletoHolmes.Log log : logs){
 ```
 
 
-### Get boleto holmes log
+### Get a boleto holmes log
 
 You can also get a boleto holmes log by specifying its id.
 
@@ -1002,7 +1002,7 @@ for (BrcodePayment payment : payments){
 
 **Note**: Instead of using BrcodePayment objects, you can also pass each payment element in map format
 
-### Query brcode payments
+### Query BR Code payments
 
 You can search for brcode payments using filters. 
 
@@ -1021,7 +1021,7 @@ for (BrcodePayment payment : payments){
 }
 ```
 
-### Get brcode payment
+### Get a BR Code payment
 
 To get a single BR Code payment by its id, run:
 
@@ -1049,7 +1049,7 @@ BrcodePayment payment = BrcodePayment.update("5155165527080960", patchData);
 System.out.println(payment);
 ```
 
-### Get BR Code payment PDF
+### Get a BR Code payment PDF
 
 After its creation, a boleto payment PDF may be retrieved by its id. 
 
@@ -1090,7 +1090,7 @@ for (BrcodePayment.Log log : logs){
 }
 ```
 
-### Get BR Code payment log
+### Get a BR Code payment log
 
 You can also get a BR Code payment log by specifying its id.
 
@@ -1149,7 +1149,7 @@ for (BoletoPayment payment : payments){
 }
 ```
 
-### Get boleto payment
+### Get a boleto payment
 
 To get a single boleto payment by its id, run:
 
@@ -1161,7 +1161,7 @@ BoletoPayment payment = BoletoPayment.get("6532638269505536");
 System.out.println(payment);
 ```
 
-### Get boleto payment PDF
+### Get a boleto payment PDF
 
 After its creation, a boleto payment PDF may be retrieved by passing its id. 
 
@@ -1184,7 +1184,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete boleto payment
+### Delete a boleto payment
 
 You can also cancel a boleto payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1216,7 +1216,7 @@ for (BoletoPayment.Log log : logs){
 ```
 
 
-### Get boleto payment log
+### Get a boleto payment log
 
 You can also get a boleto payment log by specifying its id.
 
@@ -1272,7 +1272,7 @@ for (UtilityPayment payment : payments){
 }
 ```
 
-### Get utility payment
+### Get a utility payment
 
 You can get a specific bill by its id:
 
@@ -1284,7 +1284,7 @@ UtilityPayment payment = UtilityPayment.get("6532638269505536");
 System.out.println(payment);
 ```
 
-### Get utility payment PDF
+### Get a utility payment PDF
 
 After its creation, a utility payment PDF may also be retrieved by passing its id. 
 
@@ -1307,7 +1307,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete utility payment
+### Delete a utility payment
 
 You can also cancel a utility payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1339,7 +1339,7 @@ for (UtilityPayment.Log log : logs){
 }
 ```
 
-### Get utility payment log
+### Get a utility payment log
 
 If you want to get a specific payment log by its id, just run:
 
@@ -1459,7 +1459,7 @@ Webhook webhook = Webhook.get("5730174175805440");
 System.out.println(webhook);
 ```
 
-### Delete webhook
+### Delete a webhook
 
 You can also delete a specific webhook by its id.
 
@@ -1550,7 +1550,7 @@ for (Event event : events){
 }
 ```
 
-### Get webhook event
+### Get a webhook event
 
 You can get a specific webhook event by its id.
 
@@ -1562,7 +1562,7 @@ Event event = Event.get("5730174175805440");
 System.out.println(event);
 ```
 
-### Delete webhook event
+### Delete a webhook event
 
 You can also delete a specific webhook event by its id.
 

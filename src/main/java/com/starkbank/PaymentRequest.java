@@ -206,7 +206,7 @@ public final class PaymentRequest extends Resource {
      * @return generator of PaymentRequest objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<PaymentRequest> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<PaymentRequest> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -246,7 +246,7 @@ public final class PaymentRequest extends Resource {
      * @return generator of PaymentRequest objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<PaymentRequest> query(Project user) throws Exception {
+    public static Generator<PaymentRequest> query(User user) throws Exception {
         return Rest.getList(data, new HashMap<>(), user);
     }
 
@@ -273,7 +273,7 @@ public final class PaymentRequest extends Resource {
      * @throws Exception When list contains unknown objects
      */
     @SuppressWarnings("unchecked")
-    public static List<PaymentRequest> create(List<?> paymentRequests, Project user) throws Exception {
+    public static List<PaymentRequest> create(List<?> paymentRequests, User user) throws Exception {
         List<PaymentRequest> paymentRequestList = new ArrayList<>();
         for(Object paymentRequest : paymentRequests) {
             if(paymentRequest.getClass() == HashMap.class) {

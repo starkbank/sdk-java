@@ -137,7 +137,7 @@ public final class UtilityPayment extends Resource {
      * @return UtilityPayment object with updated attributes
      * @throws Exception error in the request
      */
-    public static UtilityPayment get(String id, Project user) throws Exception {
+    public static UtilityPayment get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -175,7 +175,7 @@ public final class UtilityPayment extends Resource {
      * @return generator of UtilityPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<UtilityPayment> query(Project user) throws Exception {
+    public static Generator<UtilityPayment> query(User user) throws Exception {
         return UtilityPayment.query(new HashMap<>(), user);
     }
 
@@ -211,7 +211,7 @@ public final class UtilityPayment extends Resource {
      * @return generator of UtilityPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<UtilityPayment> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<UtilityPayment> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -244,7 +244,7 @@ public final class UtilityPayment extends Resource {
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<UtilityPayment> create(List<?> payments, Project user) throws Exception {
+    public static List<UtilityPayment> create(List<?> payments, User user) throws Exception {
         List<UtilityPayment> paymentList = new ArrayList<>();
         for (Object payment : payments){
             if (payment instanceof Map){
@@ -291,7 +291,7 @@ public final class UtilityPayment extends Resource {
      * @return UtilityPayment pdf file
      * @throws Exception error in the request
      */
-    public static InputStream pdf(String id, Project user) throws Exception {
+    public static InputStream pdf(String id, User user) throws Exception {
         return Rest.getPdf(data, id, user, null);
     }
 
@@ -324,7 +324,7 @@ public final class UtilityPayment extends Resource {
      * @return deleted UtilityPayment object
      * @throws Exception error in the request
      */
-    public static UtilityPayment delete(String id, Project user) throws Exception {
+    public static UtilityPayment delete(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
     }
 
@@ -387,7 +387,7 @@ public final class UtilityPayment extends Resource {
          * @return UtilityPayment Log object with updated attributes
          * @throws Exception error in the request
          */
-        public static Log get(String id, Project user) throws Exception {
+        public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
@@ -424,7 +424,7 @@ public final class UtilityPayment extends Resource {
          * @return list of UtilityPayment Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Project user) throws Exception {
+        public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
         }
 
@@ -459,7 +459,7 @@ public final class UtilityPayment extends Resource {
          * @return list of UtilityPayment Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }

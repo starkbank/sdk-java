@@ -153,7 +153,7 @@ public final class BrcodePayment extends Resource {
      * @return BrcodePayment object with updated attributes
      * @throws Exception error in the request 
      */
-    public static BrcodePayment get(String id, Project user) throws Exception {
+    public static BrcodePayment get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -191,7 +191,7 @@ public final class BrcodePayment extends Resource {
      * @return BrcodePayment object with updated attributes
      * @throws Exception error in the request
      */
-    public static BrcodePayment update(String id, Map<String, Object> patchData, Project user) throws Exception {
+    public static BrcodePayment update(String id, Map<String, Object> patchData, User user) throws Exception {
         return Rest.patch(data, id, patchData, user);
     }
 
@@ -224,7 +224,7 @@ public final class BrcodePayment extends Resource {
      * @return BrcodePayment pdf file
      * @throws Exception error in the request
      */
-    public static InputStream pdf(String id, Project user) throws Exception {
+    public static InputStream pdf(String id, User user) throws Exception {
         return Rest.getPdf(data, id, user, new HashMap<>());
     }
 
@@ -247,7 +247,7 @@ public final class BrcodePayment extends Resource {
      * @return generator of BrcodePayment objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static Generator<BrcodePayment> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<BrcodePayment> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -285,7 +285,7 @@ public final class BrcodePayment extends Resource {
      * @return generator of BrcodePayment objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static Generator<BrcodePayment> query(Project user) throws Exception {
+    public static Generator<BrcodePayment> query(User user) throws Exception {
         return Rest.getList(data, new HashMap<>(), user);
     }
 
@@ -315,7 +315,7 @@ public final class BrcodePayment extends Resource {
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<BrcodePayment> create(List<?> payments, Project user) throws Exception {
+    public static List<BrcodePayment> create(List<?> payments, User user) throws Exception {
         List<BrcodePayment> paymentList = new ArrayList<>();
         for (Object payment : payments){
             if (payment instanceof Map){
@@ -406,7 +406,7 @@ public final class BrcodePayment extends Resource {
          * @return BrcodePayment Log object with updated attributes
          * @throws Exception error in the request 
          */
-        public static Log get(String id, Project user) throws Exception {
+        public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
@@ -443,7 +443,7 @@ public final class BrcodePayment extends Resource {
          * @return list of BrcodePayment Log objects with updated attributes
          * @throws Exception error in the request 
          */
-        public static Generator<Log> query(Project user) throws Exception {
+        public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
         }
 
@@ -478,7 +478,7 @@ public final class BrcodePayment extends Resource {
          * @return list of BrcodePayment Log objects with updated attributes
          * @throws Exception error in the request 
          */
-        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }

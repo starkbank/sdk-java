@@ -15,6 +15,8 @@ public abstract class User extends Resource{
         this.pem = Check.key(privateKey);
     }
 
+    public abstract String accessId();
+
     public PrivateKey privateKey(){
         return PrivateKey.fromPem(this.pem);
     }

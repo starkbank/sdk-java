@@ -1,6 +1,5 @@
 import com.starkbank.Settings;
 import com.starkbank.Webhook;
-import com.starkbank.error.ErrorElement;
 import com.starkbank.error.InputErrors;
 import com.starkbank.utils.Generator;
 import org.junit.AssumptionViolatedException;
@@ -39,10 +38,10 @@ public class TestWebhook {
             i += 1;
             try{
                 webhook = Webhook.get(webhook.id);
-            } catch (InputErrors e)
-            {
+            } catch (InputErrors e) {
                 if(e.errors.get(0).code.equals("invalidWebhookId"))
                     throw new AssumptionViolatedException("Inconclusive");
+                throw e;
             }
             Assert.assertNotNull(webhook.id);
             Assert.assertNotNull(webhook.url);

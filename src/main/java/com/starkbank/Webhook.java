@@ -82,7 +82,7 @@ public final class Webhook extends Resource {
      * @return Webhook object with updated attributes
      * @throws Exception error in the request
      */
-    public static Webhook get(String id, Project user) throws Exception {
+    public static Webhook get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -115,7 +115,7 @@ public final class Webhook extends Resource {
      * @return generator of Webhook objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Webhook> query(Project user) throws Exception {
+    public static Generator<Webhook> query(User user) throws Exception {
         return Webhook.query(new HashMap<>(), user);
     }
 
@@ -146,7 +146,7 @@ public final class Webhook extends Resource {
      * @return generator of Webhook objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Webhook> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<Webhook> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -183,7 +183,7 @@ public final class Webhook extends Resource {
      * @return Webhook object with updated attributes
      * @throws Exception error in the request
      */
-    public static Webhook create(Map<String, Object> webhookData, Project user) throws Exception {
+    public static Webhook create(Map<String, Object> webhookData, User user) throws Exception {
         String url = (String) webhookData.get("url");
         String[] subscriptions = (String[]) webhookData.get("subscriptions");
         return Rest.postSingle(data, new Webhook(url, subscriptions, null), user);
@@ -218,7 +218,7 @@ public final class Webhook extends Resource {
      * @return deleted Webhook object
      * @throws Exception error in the request
      */
-    public static Webhook delete(String id, Project user) throws Exception {
+    public static Webhook delete(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
     }
 }

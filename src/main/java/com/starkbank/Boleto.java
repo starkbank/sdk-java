@@ -284,7 +284,7 @@ public final class Boleto extends Resource {
      * @return Boleto object with updated attributes
      * @throws Exception error in the request 
      */
-    public static Boleto get(String id, Project user) throws Exception {
+    public static Boleto get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -307,7 +307,7 @@ public final class Boleto extends Resource {
      * @return generator of Boleto objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static Generator<Boleto> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<Boleto> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -345,7 +345,7 @@ public final class Boleto extends Resource {
      * @return generator of Boleto objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static Generator<Boleto> query(Project user) throws Exception {
+    public static Generator<Boleto> query(User user) throws Exception {
         return Rest.getList(data, new HashMap<>(), user);
     }
 
@@ -375,7 +375,7 @@ public final class Boleto extends Resource {
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<Boleto> create(List<?> boletos, Project user) throws Exception {
+    public static List<Boleto> create(List<?> boletos, User user) throws Exception {
         List<Boleto> boletoList = new ArrayList<>();
         for (Object boleto : boletos){
             if (boleto instanceof Map){
@@ -455,7 +455,7 @@ public final class Boleto extends Resource {
      * @return Boleto pdf file
      * @throws Exception error in the request 
      */
-    public static InputStream pdf(String id, Project user) throws Exception {
+    public static InputStream pdf(String id, User user) throws Exception {
         return Boleto.pdf(id, null, user);
     }
 
@@ -475,7 +475,7 @@ public final class Boleto extends Resource {
      * @return Boleto pdf file
      * @throws Exception error in the request
      */
-    public static InputStream pdf(String id, Map<String, Object> options, Project user) throws Exception {
+    public static InputStream pdf(String id, Map<String, Object> options, User user) throws Exception {
         return Rest.getPdf(data, id, user, options);
     }
 
@@ -508,7 +508,7 @@ public final class Boleto extends Resource {
      * @return deleted Boleto object
      * @throws Exception error in the request 
      */
-    public static Boleto delete(String id, Project user) throws Exception {
+    public static Boleto delete(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
     }
 
@@ -638,7 +638,7 @@ public final class Boleto extends Resource {
          * @return Boleto Log object with updated attributes
          * @throws Exception error in the request 
          */
-        public static Log get(String id, Project user) throws Exception {
+        public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
@@ -675,7 +675,7 @@ public final class Boleto extends Resource {
          * @return list of Boleto Log objects with updated attributes
          * @throws Exception error in the request 
          */
-        public static Generator<Log> query(Project user) throws Exception {
+        public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
         }
 
@@ -710,7 +710,7 @@ public final class Boleto extends Resource {
          * @return list of Boleto Log objects with updated attributes
          * @throws Exception error in the request 
          */
-        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }

@@ -69,7 +69,7 @@ public class TestBoleto {
 
         boletos.add(TestBoleto.example());
 
-        boletos.add(TestBoleto.simpleExample());
+        boletos.add(TestBoleto.example());
 
         boletos = Boleto.create(boletos);
 
@@ -128,21 +128,6 @@ public class TestBoleto {
         discounts.add(new Boleto.Discount(getDateString(1), 3));
         discounts.add(new Boleto.Discount(getDateString(2), 2.0));
         data.put("discounts", discounts);
-
-        return new Boleto(data);
-    }
-
-    static Boleto simpleExample() throws Exception{
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("amount", 1234);
-        data.put("name", "Iron Bank S.A.");
-        data.put("taxId", "20.018.183/0001-80");
-        data.put("streetLine1", "Av. Faria Lima, 1844");
-        data.put("streetLine2", "CJ 13");
-        data.put("district", "Itaim Bibi");
-        data.put("city", "São Paulo");
-        data.put("stateCode", "SP");
-        data.put("zipCode", "01500-000");
 
         return new Boleto(data);
     }
