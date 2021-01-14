@@ -1383,7 +1383,7 @@ import java.util.HashMap;
 
 HashMap<String, Object> data = new HashMap<>();
 data.put("url", "https://winterfell.westeros.gov/events-from-stark-bank");
-data.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment"});
+data.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment", "boleto-holmes", "brcode-payment", "deposit", "invoice"});
 Webhook webhook = Webhook.create(data);
 
 System.out.println(webhook);
@@ -1432,8 +1432,8 @@ System.out.println(webhook);
 
 ### Process webhook events
 
-Its easy to process events that arrived in your webhook. Remember to pass the
-signature header so the SDK can make sure its really StarkBank that sent you
+It's easy to process events that arrived in your webhook. Remember to pass the
+signature header so the SDK can make sure it's really StarkBank that sent you
 the event.
 
 ```java
@@ -1463,6 +1463,26 @@ switch (event.subscription) {
     }
     case "utility-payment": {
         UtilityPayment.Log log = ((Event.UtilityPaymentEvent) event).log;
+        System.out.println(log.payment);
+        break;
+    }
+    case "boleto-holmes": {
+        BoletoHolmes.Log log = ((Event.BoletoHolmesEvent) event).log;
+        System.out.println(log.payment);
+        break;
+    }
+    case "brcode-payment": {
+        BrcodePayment.Log log = ((Event.BrcodePaymentEvent) event).log;
+        System.out.println(log.payment);
+        break;
+    }
+    case "deposit": {
+        Deposit.Log log = ((Event.DepositEvent) event).log;
+        System.out.println(log.payment);
+        break;
+    }
+    case "invoice": {
+        Invoice.Log log = ((Event.InvoiceEvent) event).log;
         System.out.println(log.payment);
         break;
     }
