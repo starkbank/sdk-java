@@ -136,13 +136,13 @@ public final class Transaction extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Transaction object with updated attributes
      * @throws Exception error in the request
      */
-    public static Transaction get(String id, Project user) throws Exception {
+    public static Transaction get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -174,13 +174,13 @@ public final class Transaction extends Resource {
      * Receive a generator of Transaction objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Transaction objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Transaction> query(Project user) throws Exception {
+    public static Generator<Transaction> query(User user) throws Exception {
         return Transaction.query(new HashMap<>(), user);
     }
 
@@ -209,13 +209,13 @@ public final class Transaction extends Resource {
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
      * externalIds [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Transaction objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Transaction> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<Transaction> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -242,14 +242,14 @@ public final class Transaction extends Resource {
      * <p>
      * Parameters:
      * @param transactions [list of Transaction objects or HashMaps]: list of Transaction objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of Transaction objects with updated attributes
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<Transaction> create(List<?> transactions, Project user) throws Exception {
+    public static List<Transaction> create(List<?> transactions, User user) throws Exception {
         List<Transaction> transactionList = new ArrayList<>();
         for (Object transaction : transactions){
             if (transaction instanceof Map){

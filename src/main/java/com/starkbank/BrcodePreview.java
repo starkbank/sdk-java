@@ -124,7 +124,7 @@ public final class BrcodePreview extends Resource {
      * @return generator of BrcodePreview objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static Generator<BrcodePreview> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<BrcodePreview> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getSimpleList(data, params, user);
     }
 

@@ -98,7 +98,7 @@ public class TestBoletoPayment {
     static BoletoPayment example(boolean scheduled) throws Exception{
         HashMap<String, Object> data = new HashMap<>();
         List<Boleto> boletos = new ArrayList<>();
-        boletos.add(TestBoleto.simpleExample());
+        boletos.add(TestBoleto.example());
         boletos =  Boleto.create(boletos);
         data.put("line", boletos.get(0).line);
         data.put("taxId", "38.435.677/0001-25");

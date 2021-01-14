@@ -1,7 +1,7 @@
 package com.starkbank.utils;
 
 import com.google.gson.*;
-import com.starkbank.Project;
+import com.starkbank.User;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -14,7 +14,7 @@ import javax.swing.text.DefaultEditorKit.CopyAction;
 
 public final class Rest {
 
-    public static <T extends Resource> T getId(Resource.ClassData resource, String id, Project user) throws Exception {
+    public static <T extends Resource> T getId(Resource.ClassData resource, String id, User user) throws Exception {
         String content = Response.fetch(Api.endpoint(resource, id), "GET", null, null, user).content();
         Gson gson = GsonEvent.getInstance();
         JsonObject contentJson = gson.fromJson(content, JsonObject.class);
@@ -22,7 +22,7 @@ public final class Rest {
         return gson.fromJson(jsonObject, (Type) resource.cls);
     }
 
-    public static <T extends Resource> List<T> post(Resource.ClassData resource, List<T> entities, Project user) throws Exception {
+    public static <T extends Resource> List<T> post(Resource.ClassData resource, List<T> entities, User user) throws Exception {
         JsonObject payload = new JsonObject();
         payload.add(Api.getLastNamePlural(resource), new Gson().toJsonTree(entities).getAsJsonArray());
         String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content();
@@ -36,7 +36,7 @@ public final class Rest {
         return postEntities;
     }
 
-    public static <T extends Resource> T patch(Resource.ClassData resource, String id, Map<String, Object> data, Project user) throws Exception {
+    public static <T extends Resource> T patch(Resource.ClassData resource, String id, Map<String, Object> data, User user) throws Exception {
         JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
         String content = Response.fetch(Api.endpoint(resource, id), "PATCH", payload, null, user).content();
         Gson gson = GsonEvent.getInstance();
@@ -45,7 +45,7 @@ public final class Rest {
         return gson.fromJson(jsonObject, (Type) resource.cls);
     }
 
-    public static <T extends Resource> Generator<T> getList(Resource.ClassData resource, Map<String, Object> params, Project user) {
+    public static <T extends Resource> Generator<T> getList(Resource.ClassData resource, Map<String, Object> params, User user) {
         return new Generator<T>() {
             public void run() throws Exception {
                 Map<String, Object> paramsCopy = new HashMap<>();
@@ -78,7 +78,7 @@ public final class Rest {
         };
     }
 
-    public static <T extends Resource> Generator<T> getSimpleList(Resource.ClassData resource, Map<String, Object> params, Project user) {
+    public static <T extends Resource> Generator<T> getSimpleList(Resource.ClassData resource, Map<String, Object> params, User user) {
         return new Generator<T>() {
             public void run() throws Exception {
                 Map<String, Object> paramsCopy = new HashMap<>();
@@ -100,15 +100,15 @@ public final class Rest {
         };
     }
 
-    public static InputStream getPdf(Resource.ClassData resource, String id, Project user, Map<String, Object> options) throws Exception {
+    public static InputStream getPdf(Resource.ClassData resource, String id, User user, Map<String, Object> options) throws Exception {
         return Response.fetch(Api.endpoint(resource, id) + "/pdf", "GET", null, options, user).stream;
     }
 
-    public static InputStream getQrcode(Resource.ClassData resource, String id, Project user, Map<String, Object> options) throws Exception {
+    public static InputStream getQrcode(Resource.ClassData resource, String id, User user, Map<String, Object> options) throws Exception {
         return Response.fetch(Api.endpoint(resource, id) + "/qrcode", "GET", null, options, user).stream;
     }
 
-    public static <T extends Resource> T delete(Resource.ClassData resource, String id, Project user) throws Exception {
+    public static <T extends Resource> T delete(Resource.ClassData resource, String id, User user) throws Exception {
         String content = Response.fetch(Api.endpoint(resource, id), "DELETE", null, null, user).content();
         Gson gson = GsonEvent.getInstance();
         JsonObject contentJson = gson.fromJson(content, JsonObject.class);
@@ -116,7 +116,7 @@ public final class Rest {
         return gson.fromJson(jsonObject, (Type) resource.cls);
     }
 
-    public static <T extends Resource> T postSingle(Resource.ClassData resource, Resource entity, Project user) throws Exception {
+    public static <T extends Resource> T postSingle(Resource.ClassData resource, Resource entity, User user) throws Exception {
         JsonObject payload = (JsonObject) new Gson().toJsonTree((entity));
         String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content();
         Gson gson = GsonEvent.getInstance();

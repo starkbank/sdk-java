@@ -188,13 +188,13 @@ public class Event extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Event object with updated attributes
      * @throws Exception error in the request
      */
-    public static Event get(String id, Project user) throws Exception {
+    public static Event get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -224,13 +224,13 @@ public class Event extends Resource {
      * Receive a generator of notification Event objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Event objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Event> query(Project user) throws Exception {
+    public static Generator<Event> query(User user) throws Exception {
         return Event.query(new HashMap<>(), user);
     }
 
@@ -258,13 +258,13 @@ public class Event extends Resource {
      * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
      * isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Event objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Event> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<Event> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -291,13 +291,13 @@ public class Event extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: Event unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return deleted Event object
      * @throws Exception error in the request
      */
-    public static Event delete(String id, Project user) throws Exception {
+    public static Event delete(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
     }
 
@@ -330,13 +330,13 @@ public class Event extends Resource {
      * @param id [string]: Event unique ids. ex: "5656565656565656"
      * @param patchData map of properties to patch
      * isDelivered [bool]: If True and event hasn't been delivered already, event will be set as delivered. ex: true
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Event object with updated attributes
      * @throws Exception error in the request
      */
-    public static Event update(String id, Map<String, Object> patchData, Project user) throws Exception {
+    public static Event update(String id, Map<String, Object> patchData, User user) throws Exception {
         return Rest.patch(data, id, patchData, user);
     }
 
@@ -369,13 +369,13 @@ public class Event extends Resource {
      * Parameters:
      * @param content [string]: response content from request received at user endpoint (not parsed)
      * @param signature [string]: base-64 digital signature received at response header "Digital-Signature"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Event object with updated attributes
      * @throws Exception error in the request
      */
-    public static Event parse(String content, String signature, Project user) throws Exception {
+    public static Event parse(String content, String signature, User user) throws Exception {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new Event.Deserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
@@ -402,7 +402,7 @@ public class Event extends Resource {
         throw new InvalidSignatureError("The provided signature and content do not match the Stark Bank public key");
     }
 
-    private static boolean verifySignature(Project user, String content, Signature signature, boolean refresh) throws Exception {
+    private static boolean verifySignature(User user, String content, Signature signature, boolean refresh) throws Exception {
         PublicKey publicKey = Cache.starkBankPublicKey;
         if (publicKey == null || refresh) {
             publicKey = getStarkBankPublicKey(user);
@@ -411,7 +411,7 @@ public class Event extends Resource {
         return Ecdsa.verify(content, signature, publicKey);
     }
 
-    private static PublicKey getStarkBankPublicKey(Project user) throws Exception {
+    private static PublicKey getStarkBankPublicKey(User user) throws Exception {
         HashMap<String, Object> query = new HashMap<>();
         query.put("limit", "1");
         String content = Response.fetch(

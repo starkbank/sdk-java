@@ -43,13 +43,13 @@ public final class Balance extends Resource {
      * Receive the Balance object linked to your workspace in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call     *
      * <p>
      * Return:
      * @return Balance object with updated attributes
      * @throws Exception error in the request
      */
-    public static Balance get(Project user) throws Exception {
+    public static Balance get(User user) throws Exception {
         List<Balance> balanceList = new ArrayList<>();
         Generator<Balance> balances = Rest.getList(data, new HashMap<String, Object>(), user);
         for (Balance balance : balances) {

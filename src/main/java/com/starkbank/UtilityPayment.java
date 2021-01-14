@@ -131,13 +131,13 @@ public final class UtilityPayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return UtilityPayment object with updated attributes
      * @throws Exception error in the request
      */
-    public static UtilityPayment get(String id, Project user) throws Exception {
+    public static UtilityPayment get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -175,7 +175,7 @@ public final class UtilityPayment extends Resource {
      * @return generator of UtilityPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<UtilityPayment> query(Project user) throws Exception {
+    public static Generator<UtilityPayment> query(User user) throws Exception {
         return UtilityPayment.query(new HashMap<>(), user);
     }
 
@@ -205,13 +205,13 @@ public final class UtilityPayment extends Resource {
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * status [string, default null]: filter for status of retrieved objects. ex: "success"
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of UtilityPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<UtilityPayment> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<UtilityPayment> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -238,13 +238,13 @@ public final class UtilityPayment extends Resource {
      * <p>
      * Parameters:
      * @param payments [list of UtilityPayment objects or HashMaps]: list of UtilityPayment objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * @return list of UtilityPayment objects with updated attributes
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<UtilityPayment> create(List<?> payments, Project user) throws Exception {
+    public static List<UtilityPayment> create(List<?> payments, User user) throws Exception {
         List<UtilityPayment> paymentList = new ArrayList<>();
         for (Object payment : payments){
             if (payment instanceof Map){
@@ -285,13 +285,13 @@ public final class UtilityPayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return UtilityPayment pdf file
      * @throws Exception error in the request
      */
-    public static InputStream pdf(String id, Project user) throws Exception {
+    public static InputStream pdf(String id, User user) throws Exception {
         return Rest.getPdf(data, id, user, null);
     }
 
@@ -318,13 +318,13 @@ public final class UtilityPayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: UtilityPayment unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return deleted UtilityPayment object
      * @throws Exception error in the request
      */
-    public static UtilityPayment delete(String id, Project user) throws Exception {
+    public static UtilityPayment delete(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
     }
 
@@ -381,13 +381,13 @@ public final class UtilityPayment extends Resource {
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"
-         * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return UtilityPayment Log object with updated attributes
          * @throws Exception error in the request
          */
-        public static Log get(String id, Project user) throws Exception {
+        public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
@@ -418,13 +418,13 @@ public final class UtilityPayment extends Resource {
          * Receive a generator of UtilityPayment Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of UtilityPayment Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Project user) throws Exception {
+        public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
         }
 
@@ -453,13 +453,13 @@ public final class UtilityPayment extends Resource {
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter retrieved objects by event types. ex: "processing" or "success"
          * paymentIds [list of strings, default null]: list of UtilityPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of UtilityPayment Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }

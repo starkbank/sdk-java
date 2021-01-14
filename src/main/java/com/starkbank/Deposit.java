@@ -109,12 +109,12 @@ public final class Deposit extends Resource {
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
      * Parameters:
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * @return Deposit object with updated attributes
      * @throws Exception error in the request 
      */
-    public static Deposit get(String id, Project user) throws Exception {
+    public static Deposit get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -138,7 +138,7 @@ public final class Deposit extends Resource {
      * @return generator of Deposit objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static Generator<Deposit> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<Deposit> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -177,7 +177,7 @@ public final class Deposit extends Resource {
      * @return generator of Deposit objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static Generator<Deposit> query(Project user) throws Exception {
+    public static Generator<Deposit> query(User user) throws Exception {
         return Rest.getList(data, new HashMap<>(), user);
     }
 
@@ -248,13 +248,13 @@ public final class Deposit extends Resource {
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"
-         * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return Deposit Log object with updated attributes
          * @throws Exception error in the request 
          */
-        public static Log get(String id, Project user) throws Exception {
+        public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
@@ -291,7 +291,7 @@ public final class Deposit extends Resource {
          * @return list of Deposit Log objects with updated attributes
          * @throws Exception error in the request 
          */
-        public static Generator<Log> query(Project user) throws Exception {
+        public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
         }
 
@@ -326,7 +326,7 @@ public final class Deposit extends Resource {
          * @return list of Deposit Log objects with updated attributes
          * @throws Exception error in the request 
          */
-        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }    

@@ -121,7 +121,7 @@ public final class BoletoHolmes extends Resource {
      * @return BoletoHolmes object with updated attributes
      * @throws Exception error in the request 
      */
-    public static BoletoHolmes get(String id, Project user) throws Exception {
+    public static BoletoHolmes get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -141,7 +141,7 @@ public final class BoletoHolmes extends Resource {
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<BoletoHolmes> create(List<?> holmes, Project user) throws Exception {
+    public static List<BoletoHolmes> create(List<?> holmes, User user) throws Exception {
         List<BoletoHolmes> holmesList = new ArrayList<>();
         for (Object sherlock : holmes){
             if (sherlock instanceof Map){
@@ -193,7 +193,7 @@ public final class BoletoHolmes extends Resource {
      * @return generator of BoletoHolmes objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static Generator<BoletoHolmes> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<BoletoHolmes> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -232,7 +232,7 @@ public final class BoletoHolmes extends Resource {
      * @return generator of BoletoHolmes objects with updated attributes
      * @throws Exception error in the request 
      */
-    public static Generator<BoletoHolmes> query(Project user) throws Exception {
+    public static Generator<BoletoHolmes> query(User user) throws Exception {
         return Rest.getList(data, new HashMap<>(), user);
     }
 
@@ -305,7 +305,7 @@ public final class BoletoHolmes extends Resource {
          * @return boletoholmes.Log object with updated attributes
          * @throws Exception error in the request 
          */
-        public static Log get(String id, Project user) throws Exception {
+        public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
@@ -342,7 +342,7 @@ public final class BoletoHolmes extends Resource {
          * @return list of boletoholmes.Log objects with updated attributes
          * @throws Exception error in the request 
          */
-        public static Generator<Log> query(Project user) throws Exception {
+        public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
         }
 
@@ -377,7 +377,7 @@ public final class BoletoHolmes extends Resource {
          * @return list of boletoholmes.Log objects with updated attributes
          * @throws Exception error in the request 
          */
-        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }

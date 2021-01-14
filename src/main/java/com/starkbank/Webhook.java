@@ -76,13 +76,13 @@ public final class Webhook extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Webhook object with updated attributes
      * @throws Exception error in the request
      */
-    public static Webhook get(String id, Project user) throws Exception {
+    public static Webhook get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -109,13 +109,13 @@ public final class Webhook extends Resource {
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API
      * <p>
      * Parameters:
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Webhook objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Webhook> query(Project user) throws Exception {
+    public static Generator<Webhook> query(User user) throws Exception {
         return Webhook.query(new HashMap<>(), user);
     }
 
@@ -140,13 +140,13 @@ public final class Webhook extends Resource {
      * Parameters:
      * @param params parameters of the query
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return generator of Webhook objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<Webhook> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<Webhook> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -177,13 +177,13 @@ public final class Webhook extends Resource {
      * @param webhookData parameters for the creation of the webhook
      * url [string]: Url that will be notified when an event occurs.
      * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return Webhook object with updated attributes
      * @throws Exception error in the request
      */
-    public static Webhook create(Map<String, Object> webhookData, Project user) throws Exception {
+    public static Webhook create(Map<String, Object> webhookData, User user) throws Exception {
         String url = (String) webhookData.get("url");
         String[] subscriptions = (String[]) webhookData.get("subscriptions");
         return Rest.postSingle(data, new Webhook(url, subscriptions, null), user);
@@ -212,13 +212,13 @@ public final class Webhook extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: Webhook unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return deleted Webhook object
      * @throws Exception error in the request
      */
-    public static Webhook delete(String id, Project user) throws Exception {
+    public static Webhook delete(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
     }
 }

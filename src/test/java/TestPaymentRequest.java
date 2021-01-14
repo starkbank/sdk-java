@@ -1,9 +1,11 @@
 import com.starkbank.PaymentRequest;
 import com.starkbank.Settings;
 import com.starkbank.Transaction;
+import com.starkbank.error.InputErrors;
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import org.junit.Assert;
+import org.junit.AssumptionViolatedException;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -24,7 +26,14 @@ public class TestPaymentRequest {
         for(int i=0; i<10; i++) {
             requests.add(TestPaymentRequest.example());
         }
-        requests = PaymentRequest.create(requests);
+
+        try{
+            requests = PaymentRequest.create(requests);
+        } catch (InputErrors e) {
+            if(e.errors.get(0).code.equals("invalidDictKey"))
+                throw new AssumptionViolatedException("Inconclusive");
+            throw e;
+        }
 
         for(PaymentRequest request : requests) {
             Assert.assertNotNull(request.id);

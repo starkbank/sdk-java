@@ -1,7 +1,7 @@
 package com.starkbank.utils;
 
 import com.google.gson.JsonObject;
-import com.starkbank.Project;
+import com.starkbank.User;
 import com.starkbank.ellipticcurve.Ecdsa;
 import com.starkbank.error.InputErrors;
 import com.starkbank.error.InternalServerError;
@@ -46,7 +46,7 @@ public final class Response {
         return textBuilder.toString();
     }
 
-    public static Response fetch(String path, String method, JsonObject payload, Map<String, Object> query, Project user) throws Exception {
+    public static Response fetch(String path, String method, JsonObject payload, Map<String, Object> query, User user) throws Exception {
         user = Check.user(user);
         String language = Check.language();
 
@@ -86,7 +86,7 @@ public final class Response {
         return response;
     }
 
-    private static Response executeMethod(Project user, String path, String method, String body, Map<String, String> headers) throws Exception {
+    private static Response executeMethod(User user, String path, String method, String body, Map<String, String> headers) throws Exception {
         ClientService service = HttpClient.getProjectInstance(user);
         retrofit2.Response<ResponseBody> response;
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), body);

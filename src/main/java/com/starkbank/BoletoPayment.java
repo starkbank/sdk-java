@@ -144,13 +144,13 @@ public final class BoletoPayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return BoletoPayment object with updated attributes
      * @throws Exception error in the request
      */
-    public static BoletoPayment get(String id, Project user) throws Exception {
+    public static BoletoPayment get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
@@ -188,7 +188,7 @@ public final class BoletoPayment extends Resource {
      * @return generator of BoletoPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<BoletoPayment> query(Project user) throws Exception {
+    public static Generator<BoletoPayment> query(User user) throws Exception {
         return BoletoPayment.query(new HashMap<>(), user);
     }
 
@@ -224,7 +224,7 @@ public final class BoletoPayment extends Resource {
      * @return generator of BoletoPayment objects with updated attributes
      * @throws Exception error in the request
      */
-    public static Generator<BoletoPayment> query(Map<String, Object> params, Project user) throws Exception {
+    public static Generator<BoletoPayment> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getList(data, params, user);
     }
 
@@ -251,14 +251,14 @@ public final class BoletoPayment extends Resource {
      * <p>
      * Parameters:
      * @param payments [list of BoletoPayment objects or HashMaps]: list of BoletoPayment objects to be created in the API
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return list of BoletoPayment objects with updated attributes
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
-    public static List<BoletoPayment> create(List<?> payments, Project user) throws Exception {
+    public static List<BoletoPayment> create(List<?> payments, User user) throws Exception {
         List<BoletoPayment> paymentList = new ArrayList<>();
         for (Object payment : payments){
             if (payment instanceof Map){
@@ -299,13 +299,13 @@ public final class BoletoPayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return BoletoPayment pdf file
      * @throws Exception error in the request
      */
-    public static InputStream pdf(String id, Project user) throws Exception {
+    public static InputStream pdf(String id, User user) throws Exception {
         return Rest.getPdf(data, id, user, null);
     }
 
@@ -332,13 +332,13 @@ public final class BoletoPayment extends Resource {
      * <p>
      * Parameters:
      * @param id [string]: BoletoPayment unique id. ex: "5656565656565656"
-     * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * <p>
      * Return:
      * @return deleted BoletoPayment object
      * @throws Exception error in the request
      */
-    public static BoletoPayment delete(String id, Project user) throws Exception {
+    public static BoletoPayment delete(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
     }
 
@@ -396,13 +396,13 @@ public final class BoletoPayment extends Resource {
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"
-         * @param user [Project object]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return BoletoPayment Log object with updated attributes
          * @throws Exception error in the request
          */
-        public static Log get(String id, Project user) throws Exception {
+        public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
@@ -433,13 +433,13 @@ public final class BoletoPayment extends Resource {
          * Receive a generator of BoletoPayment Log objects previously created in the Stark Bank API
          * <p>
          * Parameters:
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of BoletoPayment Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Project user) throws Exception {
+        public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
         }
 
@@ -468,13 +468,13 @@ public final class BoletoPayment extends Resource {
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
          * types [list of strings, default null]: filter retrieved objects by event types. ex: "processing" or "success"
          * paymentIds [list of strings, default null]: list of BoletoPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
-         * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
          * Return:
          * @return list of BoletoPayment Log objects with updated attributes
          * @throws Exception error in the request
          */
-        public static Generator<Log> query(Map<String, Object> params, Project user) throws Exception {
+        public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getList(data, params, user);
         }
     }
