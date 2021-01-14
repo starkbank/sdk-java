@@ -16,15 +16,8 @@ public class TestBrcodePayment {
     public void testCreate() throws Exception {
         Settings.user = utils.User.defaultProject();
         List<BrcodePayment> payments = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("brcode", "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A");
-        data.put("taxId", "20.018.183/0001-80");
-        data.put("description", "Tony Stark's Suit");
-        data.put("amount", 7654321);
-        data.put("scheduled", getDateString(3));
-        data.put("tags", new String[]{"Stark", "Suit"});
 
-        payments.add(new BrcodePayment(data));
+        payments.add(TestBrcodePayment.example(true));
 
         payments = BrcodePayment.create(payments);
 
@@ -93,7 +86,21 @@ public class TestBrcodePayment {
         Assert.assertTrue(i > 0);
     }
 
-    public String getDateString(int delta) {
+    static BrcodePayment example(boolean scheduled) throws Exception{
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("brcode", "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A");
+        data.put("taxId", "20.018.183/0001-80");
+        data.put("description", "Tony Stark's Suit");
+        data.put("amount", 7654321);
+        
+        if (scheduled)
+            data.put("scheduled", getDateString(3));
+        data.put("tags", new String[]{"Stark", "Suit"});
+
+        return new BrcodePayment(data);
+    }
+
+    static String getDateString(int delta) {
         LocalDateTime datetime = LocalDateTime.now().plusDays(delta);
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
         return dateFormat.format(datetime);

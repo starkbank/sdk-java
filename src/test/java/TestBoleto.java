@@ -20,35 +20,8 @@ public class TestBoleto {
     public void testCreate() throws Exception {
         Settings.user = utils.User.defaultProject();
         List<Boleto> boletos = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("amount", 4000);
-        data.put("name", "Iron Bank S.A.");
-        data.put("taxId", "20.018.183/0001-80");
-        data.put("streetLine1", "Av. Faria Lima, 1844");
-        data.put("streetLine2", "CJ 13");
-        data.put("district", "Itaim Bibi");
-        data.put("city", "São Paulo");
-        data.put("stateCode", "SP");
-        data.put("zipCode", "01500-000");
-        data.put("due", getDateString(3));
-        data.put("fine", 2);
-        data.put("interest", 1.3);
-        data.put("overdueLimit", 5);
-        data.put("receiverName", "Iron Bank Receiver S.A.");
-        data.put("receiverTaxId", "123.456.789-09");
-        data.put("tags", new String[]{"War supply", "Invoice #1234"});
 
-        List<Boleto.Description> descriptions = new ArrayList<>();
-        descriptions.add(new Boleto.Description("first part of amount", 3000));
-        descriptions.add(new Boleto.Description("some other explanation"));
-        data.put("descriptions", descriptions);
-
-        List<Boleto.Discount> discounts = new ArrayList<>();
-        discounts.add(new Boleto.Discount(getDateString(1), 3));
-        discounts.add(new Boleto.Discount(getDateString(2), 2.0));
-        data.put("discounts", discounts);
-
-        boletos.add(new Boleto(data));
+        boletos.add(TestBoleto.example());
 
         boletos = Boleto.create(boletos);
 
@@ -93,47 +66,10 @@ public class TestBoleto {
     public void testCreateAndDelete() throws Exception {
         Settings.user = utils.User.defaultProject();
         List<Boleto> boletos = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("amount", 1234);
-        data.put("name", "Iron Bank S.A.");
-        data.put("taxId", "20.018.183/0001-80");
-        data.put("streetLine1", "Av. Faria Lima, 1844");
-        data.put("streetLine2", "CJ 13");
-        data.put("district", "Itaim Bibi");
-        data.put("city", "São Paulo");
-        data.put("stateCode", "SP");
-        data.put("zipCode", "01500-000");
-        data.put("fine", 2.5);
-        data.put("interest", 1.3);
-        data.put("overdueLimit", 5);
-        data.put("tags", new String[]{"War supply", "Invoice #1234"});
 
-        List<HashMap<String, Object>> descriptions = new ArrayList<>();
-        HashMap<String, Object> description = new HashMap<>();
-        description.put("text", "Some supplies");
-        description.put("amount", 100000);
-        descriptions.add(description);
-        data.put("descriptions", descriptions);
+        boletos.add(TestBoleto.example());
 
-        List<HashMap<String, Object>> discounts = new ArrayList<>();
-        HashMap<String, Object> discount = new HashMap<>();
-        discount.put("date", getDateString(1));
-        discount.put("percentage", 2.5);
-        data.put("discounts", discounts);
-
-        boletos.add(new Boleto(data));
-
-        HashMap<String, Object> simpleExample = new HashMap<>();
-        simpleExample.put("amount", 1234);
-        simpleExample.put("name", "Iron Bank S.A.");
-        simpleExample.put("taxId", "20.018.183/0001-80");
-        simpleExample.put("streetLine1", "Av. Faria Lima, 1844");
-        simpleExample.put("streetLine2", "CJ 13");
-        simpleExample.put("district", "Itaim Bibi");
-        simpleExample.put("city", "São Paulo");
-        simpleExample.put("stateCode", "SP");
-        simpleExample.put("zipCode", "01500-000");
-        boletos.add(new Boleto(simpleExample));
+        boletos.add(TestBoleto.simpleExample());
 
         boletos = Boleto.create(boletos);
 
@@ -164,7 +100,54 @@ public class TestBoleto {
         Assert.assertTrue(i > 0);
     }
 
-    public String getDateString(int delta) {
+    static Boleto example() throws Exception{
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("amount", 4000);
+        data.put("name", "Iron Bank S.A.");
+        data.put("taxId", "20.018.183/0001-80");
+        data.put("streetLine1", "Av. Faria Lima, 1844");
+        data.put("streetLine2", "CJ 13");
+        data.put("district", "Itaim Bibi");
+        data.put("city", "São Paulo");
+        data.put("stateCode", "SP");
+        data.put("zipCode", "01500-000");
+        data.put("due", getDateString(3));
+        data.put("fine", 2);
+        data.put("interest", 1.3);
+        data.put("overdueLimit", 5);
+        data.put("receiverName", "Iron Bank Receiver S.A.");
+        data.put("receiverTaxId", "123.456.789-09");
+        data.put("tags", new String[]{"War supply", "Invoice #1234"});
+
+        List<Boleto.Description> descriptions = new ArrayList<>();
+        descriptions.add(new Boleto.Description("first part of amount", 3000));
+        descriptions.add(new Boleto.Description("some other explanation"));
+        data.put("descriptions", descriptions);
+
+        List<Boleto.Discount> discounts = new ArrayList<>();
+        discounts.add(new Boleto.Discount(getDateString(1), 3));
+        discounts.add(new Boleto.Discount(getDateString(2), 2.0));
+        data.put("discounts", discounts);
+
+        return new Boleto(data);
+    }
+
+    static Boleto simpleExample() throws Exception{
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("amount", 1234);
+        data.put("name", "Iron Bank S.A.");
+        data.put("taxId", "20.018.183/0001-80");
+        data.put("streetLine1", "Av. Faria Lima, 1844");
+        data.put("streetLine2", "CJ 13");
+        data.put("district", "Itaim Bibi");
+        data.put("city", "São Paulo");
+        data.put("stateCode", "SP");
+        data.put("zipCode", "01500-000");
+
+        return new Boleto(data);
+    }
+
+    static String getDateString(int delta) {
         LocalDateTime datetime = LocalDateTime.now().plusDays(delta);
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
         return dateFormat.format(datetime);

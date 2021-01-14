@@ -110,6 +110,22 @@ public class TestEvent {
             case "boleto-holmes": {
                 BoletoHolmes.Log log = ((Event.BoletoHolmesEvent) event).log;
                 System.out.println(log.holmes);
+                break;
+            }
+            case "brcode-payment": {
+                BrcodePayment.Log log = ((Event.BrcodePaymentEvent) event).log;
+                System.out.println(log.payment);
+                break;
+            }
+            case "deposit": {
+                Deposit.Log log = ((Event.DepositEvent) event).log;
+                System.out.println(log.deposit);
+                break;
+            }
+            case "invoice": {
+                Invoice.Log log = ((Event.InvoiceEvent) event).log;
+                System.out.println(log.invoice);
+                break;
             }
         }
     }
