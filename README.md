@@ -203,6 +203,67 @@ Here are a few examples on how to use the SDK. If you have any doubts, use the b
 `help()` function to get more info on the desired functionality
 (for example: `help(starkbank.boleto.create)`)
 
+### Create transactions
+
+To send money between Stark Bank accounts, you can create transactions:
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+List<Transaction> transactions = new ArrayList<>();
+HashMap<String, Object> data = new HashMap<>();
+data.put("amount", 10000);
+data.put("receiverId", "5651751147405412");
+data.put("description", "A Lannister always pays his debts");
+data.put("externalId", "my_unique_id");
+data.put("tags", new String[]{"lannister", "debts"});
+transactions.add(new Transaction(data));
+
+transactions = Transaction.create(transactions);
+
+for (Transaction transaction : transactions){
+    System.out.println(transaction);
+}
+```
+
+**Note**: Instead of using UtilityPayment objects, you can also pass each payment element in HashMap format
+
+### Query transactions
+
+To understand your balance changes (bank statement), you can query
+transactions. Note that our system creates transactions for you when
+you receive boleto payments, pay a bill or make transfers, for example.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<Transaction> transactions = Transaction.query(params);
+
+for (Transaction transaction : transactions){
+    System.out.println(transaction);
+}
+```
+
+### Get transaction
+
+You can get a specific transaction by its id:
+
+```java
+import com.starkbank.*;
+
+Transaction transaction = Transaction.get("5155966664310784");
+
+System.out.println(transaction);
+```
+
 ### Get balance
 
 To know how much money you have in your workspace, run:
@@ -215,36 +276,143 @@ Balance balance = Balance.get();
 System.out.println(balance);
 ```
 
-### Get a DICT key
+### Create transfers
 
-You can get PIX key's parameters by its id.
+You can also create transfers in the SDK (TED/Pix).
 
 ```java
 import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-DictKey dictKey = DictKey.get("tony@starkbank.com");
+List<Transfer> transfers = new ArrayList<>();
+HashMap<String, Object> data1 = new HashMap<>();
+data1.put("amount", 100000000);
+data1.put("bankCode", "341"); # TED
+data1.put("branchCode", "2201");
+data1.put("accountNumber", "76543-8");
+data1.put("taxId", "594.739.480-42");
+data1.put("name", "Daenerys Targaryen Stormborn");
+data1.put("scheduled", "2020-12-11");
+data1.put("tags", new String[]{"daenerys", "invoice/1234"});
+transfers.add(new Transfer(data1));
 
-System.out.println(dictKey);
+HashMap<String, Object> data2 = new HashMap<>();
+data2.put("amount", 100000000);
+data2.put("bankCode", "20018183"); # Pix
+data2.put("branchCode", "2201");
+data2.put("accountNumber", "76543-8");
+data2.put("taxId", "594.739.480-42");
+data2.put("name", "Daenerys Targaryen Stormborn");
+data2.put("scheduled", "2020-11-11T15:01:39.903667+00:00");
+data2.put("tags", new String[]{"daenerys", "invoice/1234"});
+transfers.add(new Transfer(data2));
+
+transfers = Transfer.create(transfers);
+
+for (Transfer transfer : transfers){
+    System.out.println(transfer);
+}
 ```
 
-### Query your DICT keys
+**Note**: Instead of using Transfer objects, you can also pass each transfer element in HashMap format
 
-To take a look at the PIX keys linked to your workspace, just run the following:
+### Query transfers
+
+You can query multiple transfers according to filters.
 
 ```java
 import com.starkbank.*;
-import java.util.HashMap;
 import com.starkbank.utils.Generator;
+import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
-params.put("status", "registered");
-params.put("limit", 1);
-params.put("type", "evp");
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<Transfer> transfers = Transfer.query(params);
 
-Generator<DictKey> dictKeys = DictKey.query(params);
-for (DictKey dictKey : dictKeys) {
-    System.out.println(dictKey);
+for (Transfer transfer : transfers){
+    System.out.println(transfer);
 }
+```
+
+### Get transfer
+
+To get a single transfer by its id, run:
+
+```java
+import com.starkbank.*;
+
+Transfer transfer = Transfer.get("6532638269505536");
+
+System.out.println(transfer);
+```
+
+### Cancel a scheduled transfer
+
+To cancel a scheduled transfer by its id, run:
+
+```java
+import com.starkbank.*;
+
+Transfer transfer = Transfer.delete("6532638269505536");
+
+System.out.println(transfer);
+```
+
+### Get transfer PDF
+
+After its creation, a transfer PDF may also be retrieved by passing its id. 
+
+```java
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+import com.starkbank.*;
+
+InputStream pdf = Transfer.pdf("6266195376340992");
+
+java.nio.file.Files.copy(
+    pdf,
+    new File("transfer.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Query transfer logs
+
+You can query transfer logs to better understand transfer life cycles.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-04-01");
+params.put("before", "2020-04-30");
+Generator<Transfer.Log> logs = Transfer.Log.query(params);
+
+for (Transfer.Log log : logs){
+    System.out.println(log);
+}
+```
+
+### Get a transfer log
+
+You can also get a specific log by its id.
+
+```java
+import com.starkbank.*;
+
+Transfer.Log log = Transfer.Log.get("6532638269505536");
+
+System.out.println(log);
 ```
 
 ### Create invoices
@@ -277,7 +445,7 @@ data.put("descriptions", descriptions);
 
 List<HashMap<String, Object>> discounts = new ArrayList<>();
 HashMap<String, Object> discount = new HashMap<>();
-discount.put("due", getDatetimeString(1));
+discount.put("due", "2020-11-25T17:59:26.249976+00:00");
 discount.put("percentage", 2.5);
 data.put("discounts", discounts);
 
@@ -652,51 +820,49 @@ Boleto.Log log = Boleto.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
-### Create transfers
+### Investigate a boleto
 
-You can also create transfers in the SDK (TED/PIX).
+You can discover if a StarkBank boleto has been recently paid before we receive the response on the next day.
+This can be done by creating a BoletoHolmes object, which fetches the updated status of the corresponding
+Boleto object according to CIP to check, for example, whether it is still payable or not. The investigation
+happens asynchronously and the most common way to retrieve the results is to register a "boleto-holmes" webhook
+subscription, although polling is also possible. 
 
 ```java
-import com.starkbank.*;
-import java.util.ArrayList;
+import com.starkbank;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
-List<Transfer> transfers = new ArrayList<>();
-HashMap<String, Object> data1 = new HashMap<>();
-data1.put("amount", 100000000);
-data1.put("bankCode", "341"); # TED
-data1.put("branchCode", "2201");
-data1.put("accountNumber", "76543-8");
-data1.put("taxId", "594.739.480-42");
-data1.put("name", "Daenerys Targaryen Stormborn");
-data1.put("scheduled", "2020-12-11");
-data1.put("tags", new String[]{"daenerys", "invoice/1234"});
-transfers.add(new Transfer(data1));
+List<BoletoHolmes> holmes = new ArrayList<>();
+HashMap<String, Object> dataHolmes = new HashMap<>(); 
+dataHolmes.put("boletoId", "5976467733217280");
+holmes.add(new BoletoHolmes(dataHolmes));
 
-HashMap<String, Object> data2 = new HashMap<>();
-data2.put("amount", 100000000);
-data2.put("bankCode", "20018183"); # PIX
-data2.put("branchCode", "2201");
-data2.put("accountNumber", "76543-8");
-data2.put("taxId", "594.739.480-42");
-data2.put("name", "Daenerys Targaryen Stormborn");
-data2.put("scheduled", "2020-11-11T15:01:39.903667+00:00");
-data2.put("tags", new String[]{"daenerys", "invoice/1234"});
-transfers.add(new Transfer(data2));
+holmes = BoletoHolmes.create(holmes);
 
-transfers = Transfer.create(transfers);
-
-for (Transfer transfer : transfers){
-    System.out.println(transfer);
+for (BoletoHolmes sherlock : holmes){
+    System.out.println(sherlock);
 }
 ```
 
-**Note**: Instead of using Transfer objects, you can also pass each transfer element in HashMap format
+**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in map format
 
-### Query transfers
+### Get boleto holmes
 
-You can query multiple transfers according to filters.
+To get a single Holmes by its id, run:
+
+```java
+import com.starkbank.*;
+
+sherlock = BoletoHolmes.get("6093880533450752")
+
+System.out.println(sherlock)
+```
+
+### Query boleto holmes
+
+You can search for boleto Holmes using filters. 
 
 ```java
 import com.starkbank.*;
@@ -704,65 +870,19 @@ import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
-params.put("after", "2020-04-01");
-params.put("before", "2020-04-30");
-Generator<Transfer> transfers = Transfer.query(params);
+params.put("limit", 3);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+Generator<BoletoHolmes> holmes = BoletoHolmes.query(params);
 
-for (Transfer transfer : transfers){
-    System.out.println(transfer);
+for (BoletoHolmes sherlock : holmes){
+    System.out.println(sherlock);
 }
 ```
 
-### Get transfer
+### Query boleto holmes logs
 
-To get a single transfer by its id, run:
-
-```java
-import com.starkbank.*;
-
-Transfer transfer = Transfer.get("6532638269505536");
-
-System.out.println(transfer);
-```
-
-### Cancel a scheduled transfer
-
-To cancel a scheduled transfer by its id, run:
-
-```java
-import com.starkbank.*;
-
-Transfer transfer = Transfer.delete("6532638269505536");
-
-System.out.println(transfer);
-```
-
-### Get transfer PDF
-
-After its creation, a transfer PDF may also be retrieved by passing its id. 
-
-```java
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.StandardCopyOption;
-import com.starkbank.*;
-
-InputStream pdf = Transfer.pdf("6266195376340992");
-
-java.nio.file.Files.copy(
-    pdf,
-    new File("transfer.pdf").toPath(),
-    StandardCopyOption.REPLACE_EXISTING
-);
-```
-
-Be careful not to accidentally enforce any encoding on the raw pdf content,
-as it may yield abnormal results in the final file, such as missing images
-and strange characters.
-
-### Query transfer logs
-
-You can query transfer logs to better understand transfer life cycles.
+Searches are also possible with boleto holmes logs:
 
 ```java
 import com.starkbank.*;
@@ -770,25 +890,47 @@ import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
-params.put("after", "2020-04-01");
-params.put("before", "2020-04-30");
-Generator<Transfer.Log> logs = Transfer.Log.query(params);
+params.put("limit", 3);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+Generator<BoletoHolmes.Log> logs = BoletoHolmes.Log.query(params);
 
-for (Transfer.Log log : logs){
+for (BoletoHolmes.Log log : logs){
     System.out.println(log);
 }
 ```
 
-### Get a transfer log
 
-You can also get a specific log by its id.
+### Get boleto holmes log
+
+You can also get a boleto holmes log by specifying its id.
 
 ```java
 import com.starkbank.*;
 
-Transfer.Log log = Transfer.Log.get("6532638269505536");
+log = BoletoHolmes.Log.get("5350990148534272")
 
 System.out.println(log);
+```
+
+### Preview a BR Code payment
+
+You can confirm the information on the BR Code payment before creating it with this preview method:
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+String[] brcodes = { "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A" };
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("brcodes", brcodes);
+Generator<BrcodePreview> previews = BrcodePreview.query(params);
+
+for (BrcodePreview preview : previews){
+    System.out.println(preview);
+}
 ```
 
 ### Pay a BR Code
@@ -885,26 +1027,6 @@ java.nio.file.Files.copy(
 );
 ```
 
-### Preview a BR Code payment
-
-You can confirm the information on the BR Code payment before creating it with this preview method:
-
-```java
-import com.starkbank.*;
-import com.starkbank.utils.Generator;
-import java.util.HashMap;
-
-String[] brcodes = { "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A" };
-
-HashMap<String, Object> params = new HashMap<>();
-params.put("brcodes", brcodes);
-Generator<BrcodePreview> previews = BrcodePreview.query(params);
-
-for (BrcodePreview preview : previews){
-    System.out.println(preview);
-}
-```
-
 Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
@@ -938,7 +1060,6 @@ BrcodePayment.Log log = BrcodePayment.Log.get("6532638269505536");
 
 System.out.println(log);
 ```
-
 
 ### Pay a boleto
 
@@ -1066,100 +1187,6 @@ BoletoPayment.Log log = BoletoPayment.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
-### Investigate a boleto
-
-You can discover if a StarkBank boleto has been recently paid before we receive the response on the next day.
-This can be done by creating a BoletoHolmes object, which fetches the updated status of the corresponding
-Boleto object according to CIP to check, for example, whether it is still payable or not. The investigation
-happens asynchronously and the most common way to retrieve the results is to register a "boleto-holmes" webhook
-subscription, although polling is also possible. 
-
-```java
-import com.starkbank;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-
-List<BoletoHolmes> holmes = new ArrayList<>();
-HashMap<String, Object> dataHolmes = new HashMap<>(); 
-dataHolmes.put("boletoId", "5976467733217280");
-holmes.add(new BoletoHolmes(dataHolmes));
-
-holmes = BoletoHolmes.create(holmes);
-
-for (BoletoHolmes sherlock : holmes){
-    System.out.println(sherlock);
-}
-```
-
-**Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in map format
-
-### Get boleto holmes
-
-To get a single Holmes by its id, run:
-
-```java
-import com.starkbank.*;
-
-sherlock = BoletoHolmes.get("6093880533450752")
-
-System.out.println(sherlock)
-```
-
-### Query boleto holmes
-
-You can search for boleto Holmes using filters. 
-
-```java
-import com.starkbank.*;
-import com.starkbank.utils.Generator;
-import java.util.HashMap;
-
-HashMap<String, Object> params = new HashMap<>();
-params.put("limit", 3);
-params.put("after", "2019-04-01");
-params.put("before", "2030-04-30");
-Generator<BoletoHolmes> holmes = BoletoHolmes.query(params);
-
-for (BoletoHolmes sherlock : holmes){
-    System.out.println(sherlock);
-}
-```
-
-### Query boleto holmes logs
-
-Searches are also possible with boleto holmes logs:
-
-```java
-import com.starkbank.*;
-import com.starkbank.utils.Generator;
-import java.util.HashMap;
-
-HashMap<String, Object> params = new HashMap<>();
-params.put("limit", 3);
-params.put("after", "2019-04-01");
-params.put("before", "2030-04-30");
-Generator<BoletoHolmes.Log> logs = BoletoHolmes.Log.query(params);
-
-for (BoletoHolmes.Log log : logs){
-    System.out.println(log);
-}
-```
-
-
-### Get boleto holmes log
-
-You can also get a boleto holmes log by specifying its id.
-
-```java
-import com.starkbank.*;
-
-log = BoletoHolmes.Log.get("5350990148534272")
-
-System.out.println(log);
-```
-
-
 ### Pay utility bills
 
 Its also simple to pay utility bills (such electricity and water bills) in the SDK.
@@ -1252,7 +1279,7 @@ UtilityPayment payment = UtilityPayment.delete("5669456873259008");
 System.out.println(payment);
 ```
 
-### Query utility bill payment logs
+### Query utility payment logs
 
 You can search for payment logs by specifying filters. Use this to understand the
 bills life cycles.
@@ -1271,7 +1298,7 @@ for (UtilityPayment.Log log : logs){
 }
 ```
 
-### Get utility bill payment log
+### Get utility payment log
 
 If you want to get a specific payment log by its id, just run:
 
@@ -1281,67 +1308,6 @@ import com.starkbank.*;
 UtilityPayment.Log log = UtilityPayment.Log.get("6532638269505536");
 
 System.out.println(log);
-```
-
-### Create transactions
-
-To send money between Stark Bank accounts, you can create transactions:
-
-```java
-import com.starkbank.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-List<Transaction> transactions = new ArrayList<>();
-HashMap<String, Object> data = new HashMap<>();
-data.put("amount", 10000);
-data.put("receiverId", "5651751147405412");
-data.put("description", "A Lannister always pays his debts");
-data.put("externalId", "my_unique_id");
-data.put("tags", new String[]{"lannister", "debts"});
-transactions.add(new Transaction(data));
-
-transactions = Transaction.create(transactions);
-
-for (Transaction transaction : transactions){
-    System.out.println(transaction);
-}
-```
-
-**Note**: Instead of using UtilityPayment objects, you can also pass each payment element in HashMap format
-
-### Query transactions
-
-To understand your balance changes (bank statement), you can query
-transactions. Note that our system creates transactions for you when
-you receive boleto payments, pay a bill or make transfers, for example.
-
-```java
-import com.starkbank.*;
-import com.starkbank.utils.Generator;
-import java.util.HashMap;
-
-HashMap<String, Object> params = new HashMap<>();
-params.put("after", "2020-04-01");
-params.put("before", "2020-04-30");
-Generator<Transaction> transactions = Transaction.query(params);
-
-for (Transaction transaction : transactions){
-    System.out.println(transaction);
-}
-```
-
-### Get transaction
-
-You can get a specific transaction by its id:
-
-```java
-import com.starkbank.*;
-
-Transaction transaction = Transaction.get("5155966664310784");
-
-System.out.println(transaction);
 ```
 
 ### Create payment requests to be approved by authorized people in a cost center 
@@ -1562,6 +1528,38 @@ params.put("isDelivered", true);
 Event event = Event.update("5824181711142912", params);
 
 System.out.println(event);
+```
+
+### Get a DICT key
+
+You can get Pix key's parameters by its id.
+
+```java
+import com.starkbank.*;
+
+DictKey dictKey = DictKey.get("tony@starkbank.com");
+
+System.out.println(dictKey);
+```
+
+### Query your DICT keys
+
+To take a look at the Pix keys linked to your workspace, just run the following:
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+import com.starkbank.utils.Generator;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("status", "registered");
+params.put("limit", 1);
+params.put("type", "evp");
+
+Generator<DictKey> dictKeys = DictKey.query(params);
+for (DictKey dictKey : dictKeys) {
+    System.out.println(dictKey);
+}
 ```
 
 ## Handling errors

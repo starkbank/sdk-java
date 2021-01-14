@@ -20,7 +20,6 @@ public final class BoletoHolmes extends Resource {
     public final String created;
     public final String updated;
     
-    
     /**
      * BoletoHolmes object
      * <p>
