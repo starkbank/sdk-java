@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 
 public class TestTransfer {
@@ -130,6 +131,8 @@ public class TestTransfer {
         data.put("bankCode", "341");
         data.put("branchCode", "2201");
         data.put("accountNumber", "76543-8");
+        data.put("accountType", "checking");
+        data.put("externalId", "java-" + UUID.randomUUID().toString());
         data.put("taxId", "594.739.480-42");
         data.put("name", "Daenerys Targaryen Stormborn");
         data.put("tags", new String[]{"daenerys", "invoice/1234"});
@@ -143,5 +146,4 @@ public class TestTransfer {
 
         return new Transfer(data);
     }
-
 }

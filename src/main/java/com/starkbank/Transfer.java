@@ -20,6 +20,8 @@ public final class Transfer extends Resource {
     public String bankCode;
     public String branchCode;
     public String accountNumber;
+    public String accountType;
+    public String externalId;
     public String scheduled;
     public String[] tags;
     public Integer fee;
@@ -41,7 +43,9 @@ public final class Transfer extends Resource {
      * @param taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * @param bankCode [string]: code of the receiver bank institution in Brazil. If an ISPB (8 digits) is informed, a PIX transfer will be created, else a TED will be issued. ex: "20018183" or "341"
      * @param branchCode [string]: receiver bank account branch. Use "-" in case there is a verifier digit. ex: "1357-9"
-     * @param accountNumber [string]: Receiver Bank Account number. Use "-" before the verifier digit. ex: "876543-2"
+     * @param accountNumber [string]: Receiver bank account number. Use "-" before the verifier digit. ex: "876543-2"
+     * @param accountType [string]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings" or "salary"
+     * @param externalId [string]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
      * @param scheduled [string]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
      * @param tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
      * <p>
@@ -54,7 +58,7 @@ public final class Transfer extends Resource {
      * @param updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Transfer(String id, long amount, String name, String taxId, String bankCode, String branchCode,
-                    String accountNumber, String scheduled, String[] tags, Integer fee, String status, String created,
+                    String accountNumber, String accountType, String externalId, String scheduled, String[] tags, Integer fee, String status, String created,
                     String updated, String[] transactionIds) {
         super(id);
         this.amount = amount;
@@ -63,6 +67,8 @@ public final class Transfer extends Resource {
         this.bankCode = bankCode;
         this.branchCode = branchCode;
         this.accountNumber = accountNumber;
+        this.accountType = accountType;
+        this.externalId = externalId;
         this.scheduled = scheduled;
         this.tags = tags;
         this.fee = fee;
@@ -86,11 +92,13 @@ public final class Transfer extends Resource {
      * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * bankCode [string]: 1 to 3 digits of the receiver bank institution in Brazil. ex: "200" or "341"
      * branchCode [string]: receiver bank account branch. Use "-" in case there is a verifier digit. ex: "1357-9"
-     * accountNumber [string]: Receiver Bank Account number. Use "-" before the verifier digit. ex: "876543-2"
+     * accountNumber [string]: Receiver bank account number. Use "-" before the verifier digit. ex: "876543-2"
      * <p>
      * Parameters (optional):
-     * tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+     * accountType [string, default "checking"]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings" or "salary"
+     * externalId [string, default null]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
      * scheduled [string, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
+     * tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
      * <p>
      * Attributes (return-only):
      * id [string, default null]: unique id returned when transfer is created. ex: "5656565656565656"
@@ -111,6 +119,8 @@ public final class Transfer extends Resource {
         this.bankCode = (String) dataCopy.remove("bankCode");
         this.branchCode = (String) dataCopy.remove("branchCode");
         this.accountNumber = (String) dataCopy.remove("accountNumber");
+        this.accountType = (String) dataCopy.remove("accountType");
+        this.externalId = (String) dataCopy.remove("externalId");
         this.scheduled = (String) dataCopy.remove("scheduled");
         this.tags = (String[]) dataCopy.remove("tags");
         this.created = null;

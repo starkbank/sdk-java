@@ -344,6 +344,8 @@ data2.put("amount", 100000000);
 data2.put("bankCode", "20018183"); # Pix
 data2.put("branchCode", "2201");
 data2.put("accountNumber", "76543-8");
+data2.put("accountType", "checking");
+data2.put("externalId", "my-internal-id-12345");
 data2.put("taxId", "594.739.480-42");
 data2.put("name", "Daenerys Targaryen Stormborn");
 data2.put("scheduled", "2020-11-11T15:01:39.903667+00:00");
