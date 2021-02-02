@@ -100,12 +100,8 @@ public final class Rest {
         };
     }
 
-    public static InputStream getPdf(Resource.ClassData resource, String id, User user, Map<String, Object> options) throws Exception {
-        return Response.fetch(Api.endpoint(resource, id) + "/pdf", "GET", null, options, user).stream;
-    }
-
-    public static InputStream getQrcode(Resource.ClassData resource, String id, User user, Map<String, Object> options) throws Exception {
-        return Response.fetch(Api.endpoint(resource, id) + "/qrcode", "GET", null, options, user).stream;
+    public static InputStream getContent(Resource.ClassData resource, String id, String subResourceName ,User user, Map<String, Object> options) throws Exception {
+        return Response.fetch(Api.endpoint(resource, id) + "/" + subResourceName, "GET", null, options, user).stream;
     }
 
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, User user) throws Exception {

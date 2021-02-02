@@ -230,7 +230,7 @@ public final class BrcodePayment extends Resource {
      * @throws Exception error in the request
      */
     public static InputStream pdf(String id, User user) throws Exception {
-        return Rest.getPdf(data, id, user, new HashMap<>());
+        return Rest.getContent(data, id, "pdf", user, new HashMap<>());
     }
 
     /**

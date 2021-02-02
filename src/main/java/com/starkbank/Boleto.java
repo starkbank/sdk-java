@@ -476,7 +476,7 @@ public final class Boleto extends Resource {
      * @throws Exception error in the request
      */
     public static InputStream pdf(String id, Map<String, Object> options, User user) throws Exception {
-        return Rest.getPdf(data, id, user, options);
+        return Rest.getContent(data, id, "pdf", user, options);
     }
 
     /**

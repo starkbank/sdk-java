@@ -463,7 +463,7 @@ public final class Invoice extends Resource {
      * @throws Exception error in the request
      */
     public static InputStream pdf(String id, User user) throws Exception {
-        return Rest.getPdf(data, id, user, new HashMap<>());
+        return Rest.getContent(data, id, "pdf", user, new HashMap<>());
     }
 
     /**
@@ -496,7 +496,7 @@ public final class Invoice extends Resource {
      * @throws Exception error in the request
      */
     public static InputStream qrcode(String id, User user) throws Exception {
-        return Rest.getQrcode(data, id, user, new HashMap<>());
+        return Rest.getContent(data, id, "qrcode", user, new HashMap<>());
     }
 
     /**
