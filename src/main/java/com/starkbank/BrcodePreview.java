@@ -113,7 +113,7 @@ public final class BrcodePreview extends Resource {
     /**
      * Retrieve BrcodePreviews
      * <p>
-     * Receive a generator of BrcodePreview objects previously created in the Stark Bank API
+     * Process BR Codes before creating BrcodePayments
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -131,7 +131,7 @@ public final class BrcodePreview extends Resource {
     /**
      * Retrieve BrcodePreviews
      * <p>
-     * Receive a generator of BrcodePreview objects previously created in the Stark Bank API
+     * Process BR Codes before creating BrcodePayments
      * <p>
      * Parameters:
      * @param params map of parameters

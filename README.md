@@ -120,7 +120,7 @@ Since this user is unique in your entire organization, only one credential can b
 
 3.1 To create a Project in Sandbox:
 
-3.1.1. Log into [Starkbank Sandbox](https://sandbox.web.starkbank.com)
+3.1.1. Log into [Starkbank Sandbox](https://web.sandbox.starkbank.com)
 
 3.1.2. Go to Menu > Projects
 
