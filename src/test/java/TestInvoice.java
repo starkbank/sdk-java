@@ -64,7 +64,7 @@ public class TestInvoice {
     }
 
     @Test
-    public void testQueryGetAndQrcode() throws Exception {
+    public void testQueryGetPdfAndQrcode() throws Exception {
         Settings.user = utils.User.defaultProject();
 
         HashMap<String, Object> params = new HashMap<>();
@@ -83,6 +83,13 @@ public class TestInvoice {
             java.nio.file.Files.copy(
                 png,
                 new File("qrcode.png").toPath(),
+                StandardCopyOption.REPLACE_EXISTING
+            );
+            InputStream pdf = Invoice.pdf(invoice.id);
+            Assert.assertNotNull(pdf);
+            java.nio.file.Files.copy(
+                pdf,
+                new File("invoice.pdf").toPath(),
                 StandardCopyOption.REPLACE_EXISTING
             );
         }
@@ -179,6 +186,27 @@ public class TestInvoice {
             System.out.println(log);
         }
         Assert.assertTrue(i > 0);
+    }
+
+    @Test
+    public void testInvoicePayment() throws Exception{
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 1);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("status", "paid");
+        Generator<Invoice> invoices = Invoice.query(params);
+
+        int i = 0;
+        for (Invoice invoice : invoices) {
+            i += 1;
+            Invoice.Payment payment = Invoice.payment(invoice.id);
+            Assert.assertNotNull(payment.amount);
+            System.out.println(payment);
+        }
+        System.out.println(i);
     }
 
     public String getDatetimeString(int delta) {

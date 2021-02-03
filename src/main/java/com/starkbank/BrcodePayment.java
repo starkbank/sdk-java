@@ -28,6 +28,7 @@ public final class BrcodePayment extends Resource {
     * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
     * status [string, default null]: current payment status. ex: "success" or "failed"
     * type [string, default null]: brcode type. ex: "static" or "dynamic"
+    * transactionIds [list of strings, default null]: ledger transaction ids linked to this payment. ex: ["19827356981273"]
     * fee [integer, default null]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
     * updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
@@ -42,6 +43,7 @@ public final class BrcodePayment extends Resource {
     public String[] tags;
     public String status;
     public String type;
+    public String[] transactionIds;
     public Integer fee;
     public String updated;
     public String created;
@@ -63,13 +65,14 @@ public final class BrcodePayment extends Resource {
     * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
     * @param status [string, default null]: current payment status. ex: "success" or "failed"
     * @param type [string, default null]: brcode type. ex: "static" or "dynamic"
+    * @param transactionIds [list of strings, default null]: ledger transaction ids linked to this payment. ex: ["19827356981273"]
     * @param fee [integer, default null]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
     * @param updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     */
     public BrcodePayment(String brcode, String taxId, String description, Number amount, String scheduled,
-                        String[] tags, String id, String status, String type, Integer fee, String updated,
-                        String created  
+                        String[] tags, String id, String status, String type, String[] transactionIds, Integer fee,
+                        String updated, String created
     ) {
         super(id);
         this.brcode = brcode;
@@ -80,6 +83,7 @@ public final class BrcodePayment extends Resource {
         this.tags = tags;
         this.status = status;
         this.type = type;
+        this.transactionIds = transactionIds;
         this.fee = fee;
         this.updated = updated;
         this.created = created;
@@ -116,6 +120,7 @@ public final class BrcodePayment extends Resource {
         this.tags = (String[]) dataCopy.remove("tags");
         this.status = null;
         this.type = null;
+        this.transactionIds = null;
         this.fee = null;
         this.updated = null;
         this.created = null;
@@ -225,7 +230,7 @@ public final class BrcodePayment extends Resource {
      * @throws Exception error in the request
      */
     public static InputStream pdf(String id, User user) throws Exception {
-        return Rest.getPdf(data, id, user, new HashMap<>());
+        return Rest.getContent(data, id, "pdf", user, new HashMap<>());
     }
 
     /**

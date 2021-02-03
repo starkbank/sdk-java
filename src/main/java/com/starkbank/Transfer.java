@@ -357,7 +357,7 @@ public final class Transfer extends Resource {
      * @throws Exception error in the request
      */
     public static InputStream pdf(String id, User user) throws Exception {
-        return Rest.getPdf(data, id, user, null);
+        return Rest.getContent(data, id, "pdf", user, null);
     }
 
     public final static class Log extends Resource {

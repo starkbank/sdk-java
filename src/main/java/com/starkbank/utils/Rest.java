@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.text.DefaultEditorKit.CopyAction;
 
 public final class Rest {
 
@@ -100,12 +99,16 @@ public final class Rest {
         };
     }
 
-    public static InputStream getPdf(Resource.ClassData resource, String id, User user, Map<String, Object> options) throws Exception {
-        return Response.fetch(Api.endpoint(resource, id) + "/pdf", "GET", null, options, user).stream;
+    public static InputStream getContent(Resource.ClassData resource, String id, String subResourceName ,User user, Map<String, Object> options) throws Exception {
+        return Response.fetch(Api.endpoint(resource, id) + "/" + subResourceName, "GET", null, options, user).stream;
     }
 
-    public static InputStream getQrcode(Resource.ClassData resource, String id, User user, Map<String, Object> options) throws Exception {
-        return Response.fetch(Api.endpoint(resource, id) + "/qrcode", "GET", null, options, user).stream;
+    public static <T extends SubResource> T getSubResource(Resource.ClassData resource, String id, SubResource.ClassData subResource, User user, Map<String, Object> options) throws Exception {
+        String content = Response.fetch(Api.endpoint(resource, id) + "/" + Api.endpoint(subResource), "GET", null, options, user).content();
+        JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
+        JsonObject jsonObject = contentJson.get(Api.getLastName(subResource)).getAsJsonObject();
+        Gson gson = GsonEvent.getInstance();
+        return gson.fromJson(jsonObject, (Type) subResource.cls);
     }
 
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, User user) throws Exception {

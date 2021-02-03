@@ -120,7 +120,7 @@ Since this user is unique in your entire organization, only one credential can b
 
 3.1 To create a Project in Sandbox:
 
-3.1.1. Log into [Starkbank Sandbox](https://sandbox.web.starkbank.com)
+3.1.1. Log into [Starkbank Sandbox](https://web.sandbox.starkbank.com)
 
 3.1.2. Go to Menu > Projects
 
@@ -509,7 +509,7 @@ Its status indicates whether it's been paid.
 ```java
 import com.starkbank.*;
 
-Invoice invoice = Invoice.get("5155165527080960")
+Invoice invoice = Invoice.get("5155165527080960");
 
 System.out.println(invoice);
 ```
@@ -647,6 +647,18 @@ import com.starkbank.*;
 Invoice.Log log = Invoice.Log.get("5155165527080960");
 
 System.out.println(log);
+```
+
+### Get an invoice payment information
+
+Once an invoice has been paid, you can get the payment information using the Invoice.Payment sub-resource:
+
+```java
+import com.starkbank.*;
+
+Invoice.Payment payment = Invoice.payment("5155165527080960");
+
+System.out.println(payment);
 ```
 
 ### Query deposits
