@@ -5,10 +5,7 @@ import com.starkbank.User;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public final class Rest {
@@ -42,6 +39,23 @@ public final class Rest {
         JsonObject contentJson = gson.fromJson(content, JsonObject.class);
         JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
         return gson.fromJson(jsonObject, (Type) resource.cls);
+    }
+
+    public static Page getPage(Resource.ClassData resource, Map<String, Object> params, User user) throws Exception {
+        String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user).content();
+        Gson gson = GsonEvent.getInstance();
+        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
+        JsonElement cursorJson = contentJson.get("cursor");
+        String cursor = cursorJson.isJsonNull() ? null : cursorJson.getAsString();
+
+        List<Resource> entities = new ArrayList<>();
+        JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
+        for (JsonElement resourceElement : jsonArray) {
+            JsonObject jsonObject = resourceElement.getAsJsonObject();
+            entities.add(GsonEvent.getInstance().fromJson(jsonObject, (Type) resource.cls));
+        };
+
+        return new Page(entities, cursor);
     }
 
     public static <T extends Resource> Generator<T> getStream(Resource.ClassData resource, Map<String, Object> params, User user) {
