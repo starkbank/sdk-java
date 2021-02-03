@@ -291,7 +291,8 @@ public final class Boleto extends Resource {
     /**
      * Retrieve Boletos
      * <p>
-     * Receive a generator of Boleto objects previously created in the Stark Bank API
+     * Receive a generator of Boleto objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -314,7 +315,8 @@ public final class Boleto extends Resource {
     /**
      * Retrieve Boletos
      * <p>
-     * Receive a generator of Boleto objects previously created in the Stark Bank API
+     * Receive a generator of Boleto objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -336,7 +338,8 @@ public final class Boleto extends Resource {
     /**
      * Retrieve Boletos
      * <p>
-     * Receive a generator of Boleto objects previously created in the Stark Bank API
+     * Receive a generator of Boleto objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -352,7 +355,8 @@ public final class Boleto extends Resource {
     /**
      * Retrieve Boletos
      * <p>
-     * Receive a generator of Boleto objects previously created in the Stark Bank API
+     * Receive a generator of Boleto objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * Return:
      * @return generator of Boleto objects with updated attributes
      * @throws Exception error in the request 
@@ -645,7 +649,8 @@ public final class Boleto extends Resource {
         /**
          * Retrieve Boleto Logs
          * <p>
-         * Receive a generator of Boleto Log objects previously created in the Stark Bank API
+         * Receive a generator of Boleto Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params map of parameters
@@ -666,7 +671,8 @@ public final class Boleto extends Resource {
         /**
          * Retrieve Boleto Logs
          * <p>
-         * Receive a generator of Boleto Log objects previously created in the Stark Bank API
+         * Receive a generator of Boleto Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -682,7 +688,8 @@ public final class Boleto extends Resource {
         /**
          * Retrieve Boleto Logs
          * <p>
-         * Receive a generator of Boleto Log objects previously created in the Stark Bank API
+         * Receive a generator of Boleto Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Return:
          * @return list of Boleto Log objects with updated attributes
@@ -695,7 +702,8 @@ public final class Boleto extends Resource {
         /**
          * Retrieve Boleto Logs
          * <p>
-         * Receive a generator of Boleto Log objects previously created in the Stark Bank API
+         * Receive a generator of Boleto Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params map of parameters

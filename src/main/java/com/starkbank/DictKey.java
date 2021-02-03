@@ -118,7 +118,8 @@ public class DictKey extends Resource {
     /**
      * Retrieve DictKeys
      * <p>
-     * Receive a generator of DictKey objects associated with your Stark Bank Workspace
+     * Receive a generator of DictKey objects associated with your Stark Bank Workspace.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -141,7 +142,8 @@ public class DictKey extends Resource {
     /**
      * Retrieve DictKeys
      * <p>
-     * Receive a generator of DictKey objects associated with your Stark Bank Workspace
+     * Receive a generator of DictKey objects associated with your Stark Bank Workspace.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -163,7 +165,8 @@ public class DictKey extends Resource {
     /**
      * Retrieve DictKeys
      * <p>
-     * Receive a generator of DictKey objects associated with your Stark Bank Workspace
+     * Receive a generator of DictKey objects associated with your Stark Bank Workspace.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
@@ -179,7 +182,8 @@ public class DictKey extends Resource {
     /**
      * Retrieve DictKeys
      * <p>
-     * Receive a generator of DictKey objects associated with your Stark Bank Workspace
+     * Receive a generator of DictKey objects associated with your Stark Bank Workspace.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * Return:
      * @return generator of DictKey objects with updated attributes
      * @throws Exception error in the request

@@ -189,6 +189,7 @@ public final class PaymentRequest extends Resource {
      * Retrieve PaymentRequests
      * <p>
      * Receive a generator of PaymentRequest objects previously created in the Stark Bank API
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -214,6 +215,7 @@ public final class PaymentRequest extends Resource {
      * Retrieve PaymentRequests
      * <p>
      * Receive a generator of PaymentRequest objects previously created in the Stark Bank API
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -238,6 +240,7 @@ public final class PaymentRequest extends Resource {
      * Retrieve PaymentRequests
      * <p>
      * Receive a generator of PaymentRequest objects previously created in the Stark Bank API
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -254,6 +257,7 @@ public final class PaymentRequest extends Resource {
      * Retrieve PaymentRequests
      * <p>
      * Receive a generator of PaymentRequest objects previously created in the Stark Bank API
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * Return:
      * @return generator of PaymentRequest objects with updated attributes
      * @throws Exception error in the request

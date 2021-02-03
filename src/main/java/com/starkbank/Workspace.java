@@ -92,6 +92,7 @@ public final class Workspace extends Resource {
      * Receive a generator of Workspace objects previously created in the Stark Bank API.
      * If no filters are passed and the user is an Organization, all of the Organization Workspaces
      * will be retrieved.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params parameters of the query
@@ -113,6 +114,7 @@ public final class Workspace extends Resource {
      * Receive a generator of Workspace objects previously created in the Stark Bank API.
      * If no filters are passed and the user is an Organization, all of the Organization Workspaces
      * will be retrieved.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -131,6 +133,7 @@ public final class Workspace extends Resource {
      * Receive a generator of Workspace objects previously created in the Stark Bank API.
      * If no filters are passed and the user is an Organization, all of the Organization Workspaces
      * will be retrieved.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Return:
      * @return generator of Workspace objects with updated attributes
@@ -146,6 +149,7 @@ public final class Workspace extends Resource {
      * Receive a generator of Workspace objects previously created in the Stark Bank API.
      * If no filters are passed and the user is an Organization, all of the Organization Workspaces
      * will be retrieved.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params parameters of the query

@@ -274,7 +274,8 @@ public final class Invoice extends Resource {
     /**
      * Retrieve Invoices
      * <p>
-     * Receive a generator of Invoice objects previously created in the Stark Bank API
+     * Receive a generator of Invoice objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -297,7 +298,8 @@ public final class Invoice extends Resource {
     /**
      * Retrieve Invoices
      * <p>
-     * Receive a generator of Invoice objects previously created in the Stark Bank API
+     * Receive a generator of Invoice objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -319,7 +321,8 @@ public final class Invoice extends Resource {
     /**
      * Retrieve Invoices
      * <p>
-     * Receive a generator of Invoice objects previously created in the Stark Bank API
+     * Receive a generator of Invoice objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
@@ -335,7 +338,8 @@ public final class Invoice extends Resource {
     /**
      * Retrieve Invoices
      * <p>
-     * Receive a generator of Invoice objects previously created in the Stark Bank API
+     * Receive a generator of Invoice objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * Return:
      * @return generator of Invoice objects with updated attributes
      * @throws Exception error in the request
@@ -713,7 +717,8 @@ public final class Invoice extends Resource {
         /**
          * Retrieve Invoice Logs
          * <p>
-         * Receive a generator of Invoice Log objects previously created in the Stark Bank API
+         * Receive a generator of Invoice.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params map of parameters
@@ -734,7 +739,8 @@ public final class Invoice extends Resource {
         /**
          * Retrieve Invoice Logs
          * <p>
-         * Receive a generator of Invoice Log objects previously created in the Stark Bank API
+         * Receive a generator of Invoice.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
@@ -750,7 +756,8 @@ public final class Invoice extends Resource {
         /**
          * Retrieve Invoice Logs
          * <p>
-         * Receive a generator of Invoice Log objects previously created in the Stark Bank API
+         * Receive a generator of Invoice.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Return:
          * @return list of Invoice Log objects with updated attributes
@@ -763,7 +770,8 @@ public final class Invoice extends Resource {
         /**
          * Retrieve Invoice Logs
          * <p>
-         * Receive a generator of Invoice Log objects previously created in the Stark Bank API
+         * Receive a generator of Invoice.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params map of parameters

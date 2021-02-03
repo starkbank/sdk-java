@@ -236,7 +236,8 @@ public final class BrcodePayment extends Resource {
     /**
      * Retrieve BrcodePayments
      * <p>
-     * Receive a generator of BrcodePayment objects previously created in the Stark Bank API
+     * Receive a generator of BrcodePayment objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -259,7 +260,8 @@ public final class BrcodePayment extends Resource {
     /**
      * Retrieve BrcodePayments
      * <p>
-     * Receive a generator of BrcodePayment objects previously created in the Stark Bank API
+     * Receive a generator of BrcodePayment objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -281,7 +283,8 @@ public final class BrcodePayment extends Resource {
     /**
      * Retrieve BrcodePayments
      * <p>
-     * Receive a generator of BrcodePayment objects previously created in the Stark Bank API
+     * Receive a generator of BrcodePayment objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
@@ -297,7 +300,8 @@ public final class BrcodePayment extends Resource {
     /**
      * Retrieve BrcodePayments
      * <p>
-     * Receive a generator of BrcodePayment objects previously created in the Stark Bank API
+     * Receive a generator of BrcodePayment objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * Return:
      * @return generator of BrcodePayment objects with updated attributes
      * @throws Exception error in the request 
@@ -418,7 +422,8 @@ public final class BrcodePayment extends Resource {
         /**
          * Retrieve BrcodePayment Logs
          * <p>
-         * Receive a generator of BrcodePayment Log objects previously created in the Stark Bank API
+         * Receive a generator of BrcodePayment.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params map of parameters
@@ -439,7 +444,8 @@ public final class BrcodePayment extends Resource {
         /**
          * Retrieve BrcodePayment Logs
          * <p>
-         * Receive a generator of BrcodePayment Log objects previously created in the Stark Bank API
+         * Receive a generator of BrcodePayment.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
@@ -455,7 +461,8 @@ public final class BrcodePayment extends Resource {
         /**
          * Retrieve BrcodePayment Logs
          * <p>
-         * Receive a generator of BrcodePayment Log objects previously created in the Stark Bank API
+         * Receive a generator of BrcodePayment.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Return:
          * @return list of BrcodePayment Log objects with updated attributes
@@ -468,7 +475,8 @@ public final class BrcodePayment extends Resource {
         /**
          * Retrieve BrcodePayment Logs
          * <p>
-         * Receive a generator of BrcodePayment Log objects previously created in the Stark Bank API
+         * Receive a generator of BrcodePayment.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params map of parameters

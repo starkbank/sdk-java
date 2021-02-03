@@ -201,7 +201,8 @@ public class Event extends Resource {
     /**
      * Retrieve notification Events
      * <p>
-     * Receive a generator of notification Event objects previously created in the Stark Bank API
+     * Receive a generator of notification Event objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params parameters of the query
@@ -221,7 +222,8 @@ public class Event extends Resource {
     /**
      * Retrieve notification Events
      * <p>
-     * Receive a generator of notification Event objects previously created in the Stark Bank API
+     * Receive a generator of notification Event objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -237,7 +239,8 @@ public class Event extends Resource {
     /**
      * Retrieve notification Events
      * <p>
-     * Receive a generator of notification Event objects previously created in the Stark Bank API
+     * Receive a generator of notification Event objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Return:
      * @return generator of Event objects with updated attributes
@@ -250,7 +253,8 @@ public class Event extends Resource {
     /**
      * Retrieve notification Events
      * <p>
-     * Receive a generator of notification Event objects previously created in the Stark Bank API
+     * Receive a generator of notification Event objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params parameters of the query

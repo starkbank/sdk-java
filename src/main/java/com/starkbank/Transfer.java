@@ -203,7 +203,8 @@ public final class Transfer extends Resource {
     /**
      * Retrieve Transfers
      * <p>
-     * Receive a generator of Transfer objects previously created in the Stark Bank API
+     * Receive a generator of Transfer objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params parameters for the query
@@ -228,7 +229,8 @@ public final class Transfer extends Resource {
     /**
      * Retrieve Transfers
      * <p>
-     * Receive a generator of Transfer objects previously created in the Stark Bank API
+     * Receive a generator of Transfer objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -244,7 +246,8 @@ public final class Transfer extends Resource {
     /**
      * Retrieve Transfers
      * <p>
-     * Receive a generator of Transfer objects previously created in the Stark Bank API
+     * Receive a generator of Transfer objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Return:
      * @return generator of Transfer objects with updated attributes
@@ -257,7 +260,8 @@ public final class Transfer extends Resource {
     /**
      * Retrieve Transfers
      * <p>
-     * Receive a generator of Transfer objects previously created in the Stark Bank API
+     * Receive a generator of Transfer objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of properties for the creation of the Transfer
@@ -426,7 +430,8 @@ public final class Transfer extends Resource {
         /**
          * Retrieve Transfer Logs
          * <p>
-         * Receive a generator of Transfer Log objects previously created in the Stark Bank API
+         * Receive a generator of Transfer.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params parameters of the query
@@ -447,7 +452,8 @@ public final class Transfer extends Resource {
         /**
          * Retrieve Transfer Logs
          * <p>
-         * Receive a generator of Transfer Log objects previously created in the Stark Bank API
+         * Receive a generator of Transfer.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -463,7 +469,8 @@ public final class Transfer extends Resource {
         /**
          * Retrieve Transfer Logs
          * <p>
-         * Receive a generator of Transfer Log objects previously created in the Stark Bank API
+         * Receive a generator of Transfer.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Return:
          * @return list of Transfer Log objects with updated attributes
@@ -476,7 +483,8 @@ public final class Transfer extends Resource {
         /**
          * Retrieve Transfer Logs
          * <p>
-         * Receive a generator of Transfer Log objects previously created in the Stark Bank API
+         * Receive a generator of Transfer.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params parameters of the query

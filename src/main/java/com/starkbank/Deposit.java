@@ -121,7 +121,8 @@ public final class Deposit extends Resource {
     /**
      * Retrieve Deposits
      * <p>
-     * Receive a generator of Deposit objects previously created in the Stark Bank API
+     * Receive a generator of Deposit objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -145,7 +146,8 @@ public final class Deposit extends Resource {
     /**
      * Retrieve Deposits
      * <p>
-     * Receive a generator of Deposit objects previously created in the Stark Bank API
+     * Receive a generator of Deposit objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -168,7 +170,8 @@ public final class Deposit extends Resource {
     /**
      * Retrieve Deposits
      * <p>
-     * Receive a generator of Deposit objects previously created in the Stark Bank API
+     * Receive a generator of Deposit objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
@@ -184,7 +187,8 @@ public final class Deposit extends Resource {
     /**
      * Retrieve Deposits
      * <p>
-     * Receive a generator of Deposit objects previously created in the Stark Bank API
+     * Receive a generator of Deposit objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * Return:
      * @return generator of Deposit objects with updated attributes
      * @throws Exception error in the request 
@@ -261,7 +265,8 @@ public final class Deposit extends Resource {
         /**
          * Retrieve Deposit Logs
          * <p>
-         * Receive a generator of Deposit Log objects previously created in the Stark Bank API
+         * Receive a generator of Deposit.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params map of parameters
@@ -282,7 +287,8 @@ public final class Deposit extends Resource {
         /**
          * Retrieve Deposit Logs
          * <p>
-         * Receive a generator of Deposit Log objects previously created in the Stark Bank API
+         * Receive a generator of Deposit.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
@@ -298,7 +304,8 @@ public final class Deposit extends Resource {
         /**
          * Retrieve Deposit Logs
          * <p>
-         * Receive a generator of Deposit Log objects previously created in the Stark Bank API
+         * Receive a generator of Deposit.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Return:
          * @return list of Deposit Log objects with updated attributes
@@ -311,7 +318,8 @@ public final class Deposit extends Resource {
         /**
          * Retrieve Deposit Logs
          * <p>
-         * Receive a generator of Deposit Log objects previously created in the Stark Bank API
+         * Receive a generator of Deposit.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params map of parameters
