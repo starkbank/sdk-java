@@ -15,6 +15,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Added
 - Invoice.Payment sub-resource to allow retrieval of invoice payment information
+- page functions as a manual-pagination alternative to queries 
 
 ## [2.4.0] - 2021-01-21
 ### Added
