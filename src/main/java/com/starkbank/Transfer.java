@@ -502,5 +502,106 @@ public final class Transfer extends Resource {
         public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getStream(data, params, user);
         }
+
+        public final static class Page {
+            public List<Log> logs;
+            public String cursor;
+
+            public Page(List<Log> logs, String cursor) {
+                this.logs = logs;
+                this.cursor = cursor;
+            }
+        }
+
+        /**
+         * Retrieve paged Transfer.Logs
+         * <p>
+         * Receive a list of up to 100 Transfer.Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * cursor [string, default null]: cursor returned on the previous page function call
+         * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter retrieved objects by types. ex: "success" or "failed"
+         * transferIds [list of strings, default null]: list of Transfer ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+         * <p>
+         * Return:
+         * @return Transfer.Log.Page object:
+         * Transfer.Log.Page.logs: list of Transfer.Log objects with updated attributes
+         * Transfer.Log.Page.cursor: cursor to retrieve the next page of Transfer.Log objects
+         * @throws Exception error in the request
+         */
+        public static Log.Page page(Map<String, Object> params) throws Exception {
+            return Log.page(params, null);
+        }
+
+        /**
+         * Retrieve paged Transfer.Logs
+         * <p>
+         * Receive a list of up to 100 Transfer.Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return Transfer.Log.Page object:
+         * Transfer.Log.Page.logs: list of Transfer.Log objects with updated attributes
+         * Transfer.Log.Page.cursor: cursor to retrieve the next page of Transfer.Log objects
+         * @throws Exception error in the request
+         */
+        public static Log.Page page(User user) throws Exception {
+            return Log.page(new HashMap<>(), user);
+        }
+
+        /**
+         * Retrieve paged Transfer.Logs
+         * <p>
+         * Receive a list of up to 100 Transfer.Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Return:
+         * @return Transfer.Log.Page object:
+         * Transfer.Log.Page.logs: list of Transfer.Log objects with updated attributes
+         * Transfer.Log.Page.cursor: cursor to retrieve the next page of Transfer.Log objects
+         * @throws Exception error in the request
+         */
+        public static Log.Page page() throws Exception {
+            return Log.page(new HashMap<>(), null);
+        }
+
+        /**
+         * Retrieve paged Transfer.Logs
+         * <p>
+         * Receive a list of up to 100 Transfer.Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * cursor [string, default null]: cursor returned on the previous page function call
+         * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter retrieved objects by types. ex: "success" or "failed"
+         * transferIds [list of strings, default null]: list of Transfer ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return Transfer.Log.Page object:
+         * Transfer.Log.Page.logs: list of Transfer.Log objects with updated attributes
+         * Transfer.Log.Page.cursor: cursor to retrieve the next page of Transfer.Log objects
+         * @throws Exception error in the request
+         */
+        public static Log.Page page(Map<String, Object> params, User user) throws Exception {
+            com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+            List<Log> logs = new ArrayList<>();
+            for (Resource log: page.entities) {
+                logs.add((Log) log);
+            }
+            return new Log.Page(logs, page.cursor);
+        }
     }
 }
