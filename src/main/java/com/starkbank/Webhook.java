@@ -147,7 +147,7 @@ public final class Webhook extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<Webhook> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getList(data, params, user);
+        return Rest.getStream(data, params, user);
     }
 
     /**

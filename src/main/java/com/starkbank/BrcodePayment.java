@@ -253,7 +253,7 @@ public final class BrcodePayment extends Resource {
      * @throws Exception error in the request 
      */
     public static Generator<BrcodePayment> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getList(data, params, user);
+        return Rest.getStream(data, params, user);
     }
 
     /**
@@ -275,7 +275,7 @@ public final class BrcodePayment extends Resource {
      * @throws Exception error in the request 
      */
     public static Generator<BrcodePayment> query(Map<String, Object> params) throws Exception {
-        return Rest.getList(data, params, null);
+        return Rest.getStream(data, params, null);
     }
 
     /**
@@ -291,7 +291,7 @@ public final class BrcodePayment extends Resource {
      * @throws Exception error in the request 
      */
     public static Generator<BrcodePayment> query(User user) throws Exception {
-        return Rest.getList(data, new HashMap<>(), user);
+        return Rest.getStream(data, new HashMap<>(), user);
     }
 
     /**
@@ -303,7 +303,7 @@ public final class BrcodePayment extends Resource {
      * @throws Exception error in the request 
      */
     public static Generator<BrcodePayment> query() throws Exception {
-        return Rest.getList(data, new HashMap<>(), null);
+        return Rest.getStream(data, new HashMap<>(), null);
     }
 
     /**
@@ -484,7 +484,7 @@ public final class BrcodePayment extends Resource {
          * @throws Exception error in the request 
          */
         public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
-            return Rest.getList(data, params, user);
+            return Rest.getStream(data, params, user);
         }
     }
 }

@@ -212,7 +212,7 @@ public final class UtilityPayment extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<UtilityPayment> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getList(data, params, user);
+        return Rest.getStream(data, params, user);
     }
 
     /**
@@ -460,7 +460,7 @@ public final class UtilityPayment extends Resource {
          * @throws Exception error in the request
          */
         public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
-            return Rest.getList(data, params, user);
+            return Rest.getStream(data, params, user);
         }
     }
 }

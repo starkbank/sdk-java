@@ -135,7 +135,7 @@ public class DictKey extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<DictKey> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getList(data, params, user);
+        return Rest.getStream(data, params, user);
     }
 
     /**
@@ -157,7 +157,7 @@ public class DictKey extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<DictKey> query(Map<String, Object> params) throws Exception {
-        return Rest.getList(data, params, null);
+        return Rest.getStream(data, params, null);
     }
 
     /**
@@ -173,7 +173,7 @@ public class DictKey extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<DictKey> query(User user) throws Exception {
-        return Rest.getList(data, new HashMap<>(), user);
+        return Rest.getStream(data, new HashMap<>(), user);
     }
 
     /**
@@ -185,7 +185,7 @@ public class DictKey extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<DictKey> query() throws Exception {
-        return Rest.getList(data, new HashMap<>(), null);
+        return Rest.getStream(data, new HashMap<>(), null);
     }
 
 }

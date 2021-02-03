@@ -139,7 +139,7 @@ public final class Deposit extends Resource {
      * @throws Exception error in the request 
      */
     public static Generator<Deposit> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getList(data, params, user);
+        return Rest.getStream(data, params, user);
     }
 
     /**
@@ -162,7 +162,7 @@ public final class Deposit extends Resource {
      * @throws Exception error in the request 
      */
     public static Generator<Deposit> query(Map<String, Object> params) throws Exception {
-        return Rest.getList(data, params, null);
+        return Rest.getStream(data, params, null);
     }
 
     /**
@@ -178,7 +178,7 @@ public final class Deposit extends Resource {
      * @throws Exception error in the request 
      */
     public static Generator<Deposit> query(User user) throws Exception {
-        return Rest.getList(data, new HashMap<>(), user);
+        return Rest.getStream(data, new HashMap<>(), user);
     }
 
     /**
@@ -190,7 +190,7 @@ public final class Deposit extends Resource {
      * @throws Exception error in the request 
      */
     public static Generator<Deposit> query() throws Exception {
-        return Rest.getList(data, new HashMap<>(), null);
+        return Rest.getStream(data, new HashMap<>(), null);
     }
     
     
@@ -327,7 +327,7 @@ public final class Deposit extends Resource {
          * @throws Exception error in the request 
          */
         public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
-            return Rest.getList(data, params, user);
+            return Rest.getStream(data, params, user);
         }
     }    
 }

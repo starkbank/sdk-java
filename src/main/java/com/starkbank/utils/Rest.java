@@ -44,7 +44,7 @@ public final class Rest {
         return gson.fromJson(jsonObject, (Type) resource.cls);
     }
 
-    public static <T extends Resource> Generator<T> getList(Resource.ClassData resource, Map<String, Object> params, User user) {
+    public static <T extends Resource> Generator<T> getStream(Resource.ClassData resource, Map<String, Object> params, User user) {
         return new Generator<T>() {
             public void run() throws Exception {
                 Map<String, Object> paramsCopy = new HashMap<>();

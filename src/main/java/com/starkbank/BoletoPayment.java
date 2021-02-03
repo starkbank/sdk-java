@@ -225,7 +225,7 @@ public final class BoletoPayment extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<BoletoPayment> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getList(data, params, user);
+        return Rest.getStream(data, params, user);
     }
 
     /**
@@ -475,7 +475,7 @@ public final class BoletoPayment extends Resource {
          * @throws Exception error in the request
          */
         public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
-            return Rest.getList(data, params, user);
+            return Rest.getStream(data, params, user);
         }
     }
 }

@@ -159,7 +159,7 @@ public final class Workspace extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<Workspace> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getList(data, params, user);
+        return Rest.getStream(data, params, user);
     }
 
     /**
