@@ -500,6 +500,39 @@ public final class Invoice extends Resource {
     }
 
     /**
+     * Retrieve a specific Invoice payment information
+     * <p>
+     * Receive the Invoice.Payment sub-resource associated with a paid Invoice.
+     * <p>
+     * Parameters:
+     * @param id [string]: invoice unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * @return Invoice.Payment sub-resource
+     * @throws Exception error in the request
+     */
+    public static Payment payment(String id) throws Exception {
+        return payment(id, null);
+    }
+
+    /**
+     * Retrieve a specific Invoice payment information
+     * <p>
+     * Receive the Invoice.Payment sub-resource associated with a paid Invoice.
+     * <p>
+     * Parameters:
+     * @param id [string]: invoice unique id. ex: "5656565656565656"
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Invoice.Payment sub-resource
+     * @throws Exception error in the request
+     */
+    public static Payment payment(String id, User user) throws Exception {
+        return Rest.getSubResource(data, id, Payment.data, user, new HashMap<>());
+    }
+
+    /**
      * Invoice.Discount object
      * <p>
      * Used to define a discount in the invoice
@@ -550,6 +583,66 @@ public final class Invoice extends Resource {
         public Description(String key, String value){
             this.key = key;
             this.value = value;
+        }
+    }
+
+    /**
+     * Invoice.Payment object
+     * <p>
+     * When an Invoice is paid, its Payment sub-resource will become available.
+     * It carries all the available information about the invoice payment.
+     * <p>
+     * Parameters:
+     * - amount [integer]: amount in cents that was paid. ex: 1234 (= R$ 12.34)
+     * - name [string]: payer full name. ex: "Anthony Edward Stark"
+     * - taxId [string]: payer tax ID (CPF or CNPJ). ex: "20.018.183/0001-80"
+     * - bankCode [string]: code of the payer bank institution in Brazil. ex: "20018183"
+     * - branchCode [string]: payer bank account branch. ex: "1357-9"
+     * - accountNumber [string]: payer bank account number. ex: "876543-2"
+     * - accountType [string]: payer bank account type. ex: "checking", "savings" or "salary"
+     * - endToEndId [string]: central bank's unique transaction ID. ex: "E79457883202101262140HHX553UPqeq"
+     * - method [string]: payment method that was used. ex: "pix"
+     */
+    public final static class Payment extends SubResource {
+        public Integer amount;
+        public String name;
+        public String taxId;
+        public String bankCode;
+        public String branchCode;
+        public String accountNumber;
+        public String accountType;
+        public String endToEndId;
+        public String method;
+
+        static ClassData data = new ClassData(Payment.class, "Payment");
+
+        /**
+         * Invoice.Payment object
+         * <p>
+         * When an Invoice is paid, its Payment sub-resource will become available.
+         * It carries all the available information about the invoice payment.
+         * <p>
+         * Parameters:
+         * - amount [integer]: amount in cents that was paid. ex: 1234 (= R$ 12.34)
+         * - name [string]: payer full name. ex: "Anthony Edward Stark"
+         * - taxId [string]: payer tax ID (CPF or CNPJ). ex: "20.018.183/0001-80"
+         * - bankCode [string]: code of the payer bank institution in Brazil. ex: "20018183"
+         * - branchCode [string]: payer bank account branch. ex: "1357-9"
+         * - accountNumber [string]: payer bank account number. ex: "876543-2"
+         * - accountType [string]: payer bank account type. ex: "checking", "savings" or "salary"
+         * - endToEndId [string]: central bank's unique transaction ID. ex: "E79457883202101262140HHX553UPqeq"
+         * - method [string]: payment method that was used. ex: "pix"
+         */
+        public Payment(Integer amount, String name, String taxId, String bankCode, String branchCode, String accountNumber, String accountType, String endToEndId, String method) {
+            this.amount = amount;
+            this.name = name;
+            this.taxId = taxId;
+            this.bankCode = bankCode;
+            this.branchCode = branchCode;
+            this.accountNumber = accountNumber;
+            this.accountType = accountType;
+            this.endToEndId = endToEndId;
+            this.method = method;
         }
     }
 
