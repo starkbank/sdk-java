@@ -223,6 +223,108 @@ public final class Transaction extends Resource {
         return Rest.getStream(data, params, user);
     }
 
+    public final static class Page {
+        public List<Transaction> transactions;
+        public String cursor;
+
+        public Page(List<Transaction> transactions, String cursor) {
+            this.transactions = transactions;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged Transactions
+     * <p>
+     * Receive a list of up to 100 Transaction objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * externalIds [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * <p>
+     * Return:
+     * @return Transaction.Page object:
+     * Transaction.Page.transactions: list of Transaction objects with updated attributes
+     * Transaction.Page.cursor: cursor to retrieve the next page of Transaction objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return Transaction.page(params, null);
+    }
+
+    /**
+     * Retrieve paged Transactions
+     * <p>
+     * Receive a list of up to 100 Transaction objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Transaction.Page object:
+     * Transaction.Page.transactions: list of Transaction objects with updated attributes
+     * Transaction.Page.cursor: cursor to retrieve the next page of Transaction objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return Transaction.page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged Transactions
+     * <p>
+     * Receive a list of up to 100 Transaction objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return Transaction.Page object:
+     * Transaction.Page.transactions: list of Transaction objects with updated attributes
+     * Transaction.Page.cursor: cursor to retrieve the next page of Transaction objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return Transaction.page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged Transactions
+     * <p>
+     * Receive a list of up to 100 Transaction objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * externalIds [list of strings, default null]: list of external ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Transaction.Page object:
+     * Transaction.Page.transactions: list of Transaction objects with updated attributes
+     * Transaction.Page.cursor: cursor to retrieve the next page of Transaction objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<Transaction> transactions = new ArrayList<>();
+        for (Resource transaction: page.entities) {
+            transactions.add((Transaction) transaction);
+        }
+        return new Page(transactions, page.cursor);
+    }
+
     /**
      * Create Transactions
      * <p>

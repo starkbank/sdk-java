@@ -4,7 +4,9 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -152,6 +154,99 @@ public final class Webhook extends Resource {
      */
     public static Generator<Webhook> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getStream(data, params, user);
+    }
+
+    public final static class Page {
+        public List<Webhook> webhooks;
+        public String cursor;
+
+        public Page(List<Webhook> webhooks, String cursor) {
+            this.webhooks = webhooks;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged Webhook subscriptions
+     * <p>
+     * Receive a list of up to 100 Webhook objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * <p>
+     * Return:
+     * @return Webhook.Page object:
+     * Webhook.Page.webhooks: list of Webhook objects with updated attributes
+     * Webhook.Page.cursor: cursor to retrieve the next page of Webhook objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged Webhooks
+     * <p>
+     * Receive a list of up to 100 Webhook objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Webhook.Page object:
+     * Webhook.Page.webhooks: list of Webhook objects with updated attributes
+     * Webhook.Page.cursor: cursor to retrieve the next page of Webhook objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged Webhooks
+     * <p>
+     * Receive a list of up to 100 Webhook objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return Webhook.Page object:
+     * Webhook.Page.webhooks: list of Webhook objects with updated attributes
+     * Webhook.Page.cursor: cursor to retrieve the next page of Webhook objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged Webhooks
+     * <p>
+     * Receive a list of up to 100 Webhook objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Webhook.Page object:
+     * Webhook.Page.webhooks: list of Webhook objects with updated attributes
+     * Webhook.Page.cursor: cursor to retrieve the next page of Webhook objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<Webhook> webhooks = new ArrayList<>();
+        for (Resource webhook: page.entities) {
+            webhooks.add((Webhook) webhook);
+        }
+        return new Page(webhooks, page.cursor);
     }
 
     /**

@@ -279,12 +279,12 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param params map of parameters
-     *              limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-     *              after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-     *              before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
-     *              status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
-     *              tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-     *              ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
      * <p>
      * Return:
@@ -303,12 +303,12 @@ public final class Invoice extends Resource {
      * <p>
      * Parameters:
      * @param params map of parameters
-     *              limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
-     *              after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
-     *              before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
-     *              status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
-     *              tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
-     *              ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
      * <p>
      * Return:
      * @return generator of Invoice objects with updated attributes
@@ -346,6 +346,109 @@ public final class Invoice extends Resource {
      */
     public static Generator<Invoice> query() throws Exception {
         return Rest.getStream(data, new HashMap<>(), null);
+    }
+
+    public final static class Page {
+        public List<Invoice> invoices;
+        public String cursor;
+
+        public Page(List<Invoice> invoices, String cursor) {
+            this.invoices = invoices;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged Invoices
+     * <p>
+     * Receive a list of up to 100 Invoice objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * <p>
+     * Return:
+     * @return Invoice.Page object:
+     * Invoice.Page.invoices: list of Invoice objects with updated attributes
+     * Invoice.Page.cursor: cursor to retrieve the next page of Invoice objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged Invoices
+     * <p>
+     * Receive a list of up to 100 Invoice objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Invoice.Page object:
+     * Invoice.Page.invoices: list of Invoice objects with updated attributes
+     * Invoice.Page.cursor: cursor to retrieve the next page of Invoice objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged Invoices
+     * <p>
+     * Receive a list of up to 100 Invoice objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return Invoice.Page object:
+     * Invoice.Page.invoices: list of Invoice objects with updated attributes
+     * Invoice.Page.cursor: cursor to retrieve the next page of Invoice objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged Invoices
+     * <p>
+     * Receive a list of up to 100 Invoice objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Invoice.Page object:
+     * Invoice.Page.invoices: list of Invoice objects with updated attributes
+     * Invoice.Page.cursor: cursor to retrieve the next page of Invoice objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<Invoice> invoices = new ArrayList<>();
+        for (Resource invoice: page.entities) {
+            invoices.add((Invoice) invoice);
+        }
+        return new Page(invoices, page.cursor);
     }
 
     /**

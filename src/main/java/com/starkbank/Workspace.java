@@ -4,7 +4,9 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -164,6 +166,103 @@ public final class Workspace extends Resource {
      */
     public static Generator<Workspace> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getStream(data, params, user);
+    }
+
+    public final static class Page {
+        public List<Workspace> workspaces;
+        public String cursor;
+
+        public Page(List<Workspace> workspaces, String cursor) {
+            this.workspaces = workspaces;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged Workspaces
+     * <p>
+     * Receive a list of up to 100 Workspace objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * username [string, default null]: query by the simplified name that defines the workspace URL. This name is always unique across all Stark Bank Workspaces. Ex: "starkbankworkspace"
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * <p>
+     * Return:
+     * @return Workspace.Page object:
+     * Workspace.Page.workspaces: list of Workspace objects with updated attributes
+     * Workspace.Page.cursor: cursor to retrieve the next page of Workspace objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged Workspaces
+     * <p>
+     * Receive a list of up to 100 Workspace objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Workspace.Page object:
+     * Workspace.Page.workspaces: list of Workspace objects with updated attributes
+     * Workspace.Page.cursor: cursor to retrieve the next page of Workspace objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged Workspaces
+     * <p>
+     * Receive a list of up to 100 Workspace objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return Workspace.Page object:
+     * Workspace.Page.workspaces: list of Workspace objects with updated attributes
+     * Workspace.Page.cursor: cursor to retrieve the next page of Workspace objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged Workspaces
+     * <p>
+     * Receive a list of up to 100 Workspace objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * username [string, default null]: query by the simplified name that defines the workspace URL. This name is always unique across all Stark Bank Workspaces. Ex: "starkbankworkspace"
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Workspace.Page object:
+     * Workspace.Page.workspaces: list of Workspace objects with updated attributes
+     * Workspace.Page.cursor: cursor to retrieve the next page of Workspace objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<Workspace> workspaces = new ArrayList<>();
+        for (Resource workspace: page.entities) {
+            workspaces.add((Workspace) workspace);
+        }
+        return new Page(workspaces, page.cursor);
     }
 
     /**

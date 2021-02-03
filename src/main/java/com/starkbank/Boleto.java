@@ -365,6 +365,109 @@ public final class Boleto extends Resource {
         return Rest.getStream(data, new HashMap<>(), null);
     }
 
+    public final static class Page {
+        public List<Boleto> boletos;
+        public String cursor;
+
+        public Page(List<Boleto> boletos, String cursor) {
+            this.boletos = boletos;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged Boletos
+     * <p>
+     * Receive a list of up to 100 Boleto objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * <p>
+     * Return:
+     * @return Boleto.Page object:
+     * Boleto.Page.boletos: list of Boleto objects with updated attributes
+     * Boleto.Page.cursor: cursor to retrieve the next page of Boleto objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged Boletos
+     * <p>
+     * Receive a list of up to 100 Boleto objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Boleto.Page object:
+     * Boleto.Page.boletos: list of Boleto objects with updated attributes
+     * Boleto.Page.cursor: cursor to retrieve the next page of Boleto objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged Boletos
+     * <p>
+     * Receive a list of up to 100 Boleto objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return Boleto.Page object:
+     * Boleto.Page.boletos: list of Boleto objects with updated attributes
+     * Boleto.Page.cursor: cursor to retrieve the next page of Boleto objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged Boletos
+     * <p>
+     * Receive a list of up to 100 Boleto objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * status [string, default null]: filter for status of retrieved objects. ex: "paid" or "registered"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Boleto.Page object:
+     * Boleto.Page.boletos: list of Boleto objects with updated attributes
+     * Boleto.Page.cursor: cursor to retrieve the next page of Boleto objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<Boleto> boletos = new ArrayList<>();
+        for (Resource boleto: page.entities) {
+            boletos.add((Boleto) boleto);
+        }
+        return new Page(boletos, page.cursor);
+    }
+
     /**
      * Create Boletos
      * <p>
@@ -408,7 +511,7 @@ public final class Boleto extends Resource {
      * @throws Exception error in the request 
      */
     public static List<Boleto> create(List<?> boletos) throws Exception {
-        return Boleto.create(boletos, null);
+        return create(boletos, null);
     }
 
     /**

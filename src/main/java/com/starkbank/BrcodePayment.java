@@ -310,6 +310,109 @@ public final class BrcodePayment extends Resource {
         return Rest.getStream(data, new HashMap<>(), null);
     }
 
+    public final static class Page {
+        public List<BrcodePayment> payments;
+        public String cursor;
+
+        public Page(List<BrcodePayment> payments, String cursor) {
+            this.payments = payments;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged BrcodePayments
+     * <p>
+     * Receive a list of up to 100 BrcodePayment objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * status [string, default null]: filter for status of retrieved objects. ex: "success"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * <p>
+     * Return:
+     * @return BrcodePayment.Page object:
+     * BrcodePayment.Page.payments: list of BrcodePayment objects with updated attributes
+     * BrcodePayment.Page.cursor: cursor to retrieve the next page of BrcodePayment objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged BrcodePayments
+     * <p>
+     * Receive a list of up to 100 BrcodePayment objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return BrcodePayment.Page object:
+     * BrcodePayment.Page.payments: list of BrcodePayment objects with updated attributes
+     * BrcodePayment.Page.cursor: cursor to retrieve the next page of BrcodePayment objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged BrcodePayments
+     * <p>
+     * Receive a list of up to 100 BrcodePayment objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return BrcodePayment.Page object:
+     * BrcodePayment.Page.payments: list of BrcodePayment objects with updated attributes
+     * BrcodePayment.Page.cursor: cursor to retrieve the next page of BrcodePayment objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged BrcodePayments
+     * <p>
+     * Receive a list of up to 100 BrcodePayment objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * status [string, default null]: filter for status of retrieved objects. ex: "success"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return BrcodePayment.Page object:
+     * BrcodePayment.Page.payments: list of BrcodePayment objects with updated attributes
+     * BrcodePayment.Page.cursor: cursor to retrieve the next page of BrcodePayment objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<BrcodePayment> payments = new ArrayList<>();
+        for (Resource payment: page.entities) {
+            payments.add((BrcodePayment) payment);
+        }
+        return new Page(payments, page.cursor);
+    }
+
     /**
      * Create BrcodePayments
      * <p>

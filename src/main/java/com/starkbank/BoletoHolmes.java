@@ -252,6 +252,111 @@ public final class BoletoHolmes extends Resource {
         return Rest.getStream(data, new HashMap<>(), null);
     }
 
+    public final static class Page {
+        public List<BoletoHolmes> holmes;
+        public String cursor;
+
+        public Page(List<BoletoHolmes> holmes, String cursor) {
+            this.holmes = holmes;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged BoletoHolmess
+     * <p>
+     * Receive a list of up to 100 BoletoHolmes objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [datetime.date or string, default null] date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
+     * before [datetime.date or string, default null] date filter for objects created only before specified date. ex: datetime.date(2020, 3, 10)
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * status [string, default null]: filter for status of retrieved objects. ex: "solving"
+     * boletoId [string, default null]: filter for holmes that investigate a specific boleto by its ID. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * @return BoletoHolmes.Page object:
+     * BoletoHolmes.Page.holmes: list of BoletoHolmes objects with updated attributes
+     * BoletoHolmes.Page.cursor: cursor to retrieve the next page of BoletoHolmes objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged BoletoHolmess
+     * <p>
+     * Receive a list of up to 100 BoletoHolmes objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return BoletoHolmes.Page object:
+     * BoletoHolmes.Page.holmes: list of BoletoHolmes objects with updated attributes
+     * BoletoHolmes.Page.cursor: cursor to retrieve the next page of BoletoHolmes objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged BoletoHolmess
+     * <p>
+     * Receive a list of up to 100 BoletoHolmes objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return BoletoHolmes.Page object:
+     * BoletoHolmes.Page.holmes: list of BoletoHolmes objects with updated attributes
+     * BoletoHolmes.Page.cursor: cursor to retrieve the next page of BoletoHolmes objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged BoletoHolmess
+     * <p>
+     * Receive a list of up to 100 BoletoHolmes objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [datetime.date or string, default null] date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
+     * before [datetime.date or string, default null] date filter for objects created only before specified date. ex: datetime.date(2020, 3, 10)
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * status [string, default null]: filter for status of retrieved objects. ex: "solving"
+     * boletoId [string, default null]: filter for holmes that investigate a specific boleto by its ID. ex: "5656565656565656"
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return BoletoHolmes.Page object:
+     * BoletoHolmes.Page.holmes: list of BoletoHolmes objects with updated attributes
+     * BoletoHolmes.Page.cursor: cursor to retrieve the next page of BoletoHolmes objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<BoletoHolmes> holmes = new ArrayList<>();
+        for (Resource sherlock: page.entities) {
+            holmes.add((BoletoHolmes) sherlock);
+        }
+        return new Page(holmes, page.cursor);
+    }
+
     public final static class Log extends Resource {
         static ClassData data = new ClassData(Log.class, "BoletoHolmesLog");
 

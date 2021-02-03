@@ -4,7 +4,9 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DictKey extends Resource {
@@ -192,4 +194,106 @@ public class DictKey extends Resource {
         return Rest.getStream(data, new HashMap<>(), null);
     }
 
+    public final static class Page {
+        public List<DictKey> keys;
+        public String cursor;
+
+        public Page(List<DictKey> keys, String cursor) {
+            this.keys = keys;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged DictKeys
+     * <p>
+     * Receive a list of up to 100 DictKey objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * <p>
+     * Return:
+     * @return DictKey.Page object:
+     * DictKey.Page.keys: list of DictKey objects with updated attributes
+     * DictKey.Page.cursor: cursor to retrieve the next page of DictKey objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged DictKeys
+     * <p>
+     * Receive a list of up to 100 DictKey objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return DictKey.Page object:
+     * DictKey.Page.keys: list of DictKey objects with updated attributes
+     * DictKey.Page.cursor: cursor to retrieve the next page of DictKey objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged DictKeys
+     * <p>
+     * Receive a list of up to 100 DictKey objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return DictKey.Page object:
+     * DictKey.Page.keys: list of DictKey objects with updated attributes
+     * DictKey.Page.cursor: cursor to retrieve the next page of DictKey objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged DictKeys
+     * <p>
+     * Receive a list of up to 100 DictKey objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * type [string, default null]: DictKey type. ex: "cpf", "cnpj", "phone", "email" or "evp"
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * status [string, default null]: filter for status of retrieved objects. ex: "created", "paid", "canceled" or "overdue"
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return DictKey.Page object:
+     * DictKey.Page.keys: list of DictKey objects with updated attributes
+     * DictKey.Page.cursor: cursor to retrieve the next page of DictKey objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<DictKey> keys = new ArrayList<>();
+        for (Resource key: page.entities) {
+            keys.add((DictKey) key);
+        }
+        return new Page(keys, page.cursor);
+    }
 }

@@ -12,7 +12,9 @@ import com.starkbank.utils.Response;
 import com.starkbank.utils.Rest;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -270,6 +272,105 @@ public class Event extends Resource {
      */
     public static Generator<Event> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getStream(data, params, user);
+    }
+
+    public final static class Page {
+        public List<Event> events;
+        public String cursor;
+
+        public Page(List<Event> events, String cursor) {
+            this.events = events;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged Events
+     * <p>
+     * Receive a list of up to 100 Event objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
+     * isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
+     * <p>
+     * Return:
+     * @return Event.Page object:
+     * Event.Page.events: list of Event objects with updated attributes
+     * Event.Page.cursor: cursor to retrieve the next page of Event objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged Events
+     * <p>
+     * Receive a list of up to 100 Event objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Event.Page object:
+     * Event.Page.events: list of Event objects with updated attributes
+     * Event.Page.cursor: cursor to retrieve the next page of Event objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged Events
+     * <p>
+     * Receive a list of up to 100 Event objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return Event.Page object:
+     * Event.Page.events: list of Event objects with updated attributes
+     * Event.Page.cursor: cursor to retrieve the next page of Event objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged Events
+     * <p>
+     * Receive a list of up to 100 Event objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
+     * isDelivered [bool, default null]: bool to filter successfully delivered events. ex: true or false
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Event.Page object:
+     * Event.Page.events: list of Event objects with updated attributes
+     * Event.Page.cursor: cursor to retrieve the next page of Event objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<Event> events = new ArrayList<>();
+        for (Resource event: page.entities) {
+            events.add((Event) event);
+        }
+        return new Page(events, page.cursor);
     }
 
     /**
