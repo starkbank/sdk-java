@@ -1,4 +1,5 @@
-import com.starkbank.*;
+import com.starkbank.Boleto;
+import com.starkbank.Settings;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
@@ -98,6 +99,68 @@ public class TestBoleto {
             System.out.println(log);
         }
         Assert.assertTrue(i > 0);
+    }
+
+    @Test
+    public void testPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Boleto.Page page = Boleto.page(params);
+            for (Boleto boleto: page.boletos) {
+                System.out.println(boleto);
+                if (ids.contains(boleto.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(boleto.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
+    }
+
+    @Test
+    public void testLogPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Boleto.Log.Page page = Boleto.Log.page(params);
+            for (Boleto.Log log: page.logs) {
+                System.out.println(log);
+                if (ids.contains(log.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(log.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
     }
 
     static Boleto example() throws Exception{

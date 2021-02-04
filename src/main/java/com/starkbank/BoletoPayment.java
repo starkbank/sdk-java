@@ -157,7 +157,8 @@ public final class BoletoPayment extends Resource {
     /**
      * Retrieve BoletoPayments
      * <p>
-     * Receive a generator of BoletoPayment objects previously created in the Stark Bank API
+     * Receive a generator of BoletoPayment objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters for the query
@@ -179,7 +180,8 @@ public final class BoletoPayment extends Resource {
     /**
      * Retrieve BoletoPayments
      * <p>
-     * Receive a generator of BoletoPayment objects previously created in the Stark Bank API
+     * Receive a generator of BoletoPayment objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
@@ -195,7 +197,8 @@ public final class BoletoPayment extends Resource {
     /**
      * Retrieve BoletoPayments
      * <p>
-     * Receive a generator of BoletoPayment objects previously created in the Stark Bank API
+     * Receive a generator of BoletoPayment objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Return:
      * @return generator of BoletoPayment objects with updated attributes
@@ -208,7 +211,8 @@ public final class BoletoPayment extends Resource {
     /**
      * Retrieve BoletoPayments
      * <p>
-     * Receive a generator of BoletoPayment objects previously created in the Stark Bank API
+     * Receive a generator of BoletoPayment objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters for the query
@@ -225,7 +229,110 @@ public final class BoletoPayment extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<BoletoPayment> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getList(data, params, user);
+        return Rest.getStream(data, params, user);
+    }
+
+    public final static class Page {
+        public List<BoletoPayment> payments;
+        public String cursor;
+
+        public Page(List<BoletoPayment> payments, String cursor) {
+            this.payments = payments;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged BoletoPayments
+     * <p>
+     * Receive a list of up to 100 BoletoPayment objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * status [string, default null]: filter for status of retrieved objects. ex: "success"
+     * <p>
+     * Return:
+     * @return BoletoPayment.Page object:
+     * BoletoPayment.Page.payments: list of BoletoPayment objects with updated attributes
+     * BoletoPayment.Page.cursor: cursor to retrieve the next page of BoletoPayment objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged BoletoPayments
+     * <p>
+     * Receive a list of up to 100 BoletoPayment objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return BoletoPayment.Page object:
+     * BoletoPayment.Page.payments: list of BoletoPayment objects with updated attributes
+     * BoletoPayment.Page.cursor: cursor to retrieve the next page of BoletoPayment objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged BoletoPayments
+     * <p>
+     * Receive a list of up to 100 BoletoPayment objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return BoletoPayment.Page object:
+     * BoletoPayment.Page.payments: list of BoletoPayment objects with updated attributes
+     * BoletoPayment.Page.cursor: cursor to retrieve the next page of BoletoPayment objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged BoletoPayments
+     * <p>
+     * Receive a list of up to 100 BoletoPayment objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * status [string, default null]: filter for status of retrieved objects. ex: "success"
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return BoletoPayment.Page object:
+     * BoletoPayment.Page.payments: list of BoletoPayment objects with updated attributes
+     * BoletoPayment.Page.cursor: cursor to retrieve the next page of BoletoPayment objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<BoletoPayment> payments = new ArrayList<>();
+        for (Resource payment: page.entities) {
+            payments.add((BoletoPayment) payment);
+        }
+        return new Page(payments, page.cursor);
     }
 
     /**
@@ -409,7 +516,8 @@ public final class BoletoPayment extends Resource {
         /**
          * Retrieve BoletoPayment Logs
          * <p>
-         * Receive a generator of BoletoPayment Log objects previously created in the Stark Bank API
+         * Receive a generator of BoletoPayment.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params parameters of the query
@@ -430,7 +538,8 @@ public final class BoletoPayment extends Resource {
         /**
          * Retrieve BoletoPayment Logs
          * <p>
-         * Receive a generator of BoletoPayment Log objects previously created in the Stark Bank API
+         * Receive a generator of BoletoPayment.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -446,7 +555,8 @@ public final class BoletoPayment extends Resource {
         /**
          * Retrieve BoletoPayment Logs
          * <p>
-         * Receive a generator of BoletoPayment Log objects previously created in the Stark Bank API
+         * Receive a generator of BoletoPayment.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Return:
          * @return list of BoletoPayment Log objects with updated attributes
@@ -459,7 +569,8 @@ public final class BoletoPayment extends Resource {
         /**
          * Retrieve BoletoPayment Logs
          * <p>
-         * Receive a generator of BoletoPayment Log objects previously created in the Stark Bank API
+         * Receive a generator of BoletoPayment.Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
          * <p>
          * Parameters:
          * @param params parameters of the query
@@ -475,7 +586,108 @@ public final class BoletoPayment extends Resource {
          * @throws Exception error in the request
          */
         public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
-            return Rest.getList(data, params, user);
+            return Rest.getStream(data, params, user);
+        }
+
+        public final static class Page {
+            public List<Log> logs;
+            public String cursor;
+
+            public Page(List<Log> logs, String cursor) {
+                this.logs = logs;
+                this.cursor = cursor;
+            }
+        }
+
+        /**
+         * Retrieve paged BoletoPayment.Logs
+         * <p>
+         * Receive a list of up to 100 BoletoPayment.Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * cursor [string, default null]: cursor returned on the previous page function call
+         * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter retrieved objects by event types. ex: "processing" or "success"
+         * paymentIds [list of strings, default null]: list of BoletoPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+         * <p>
+         * Return:
+         * @return BoletoPayment.Log.Page object:
+         * BoletoPayment.Log.Page.logs: list of BoletoPayment.Log objects with updated attributes
+         * BoletoPayment.Log.Page.cursor: cursor to retrieve the next page of BoletoPayment.Log objects
+         * @throws Exception error in the request
+         */
+        public static Log.Page page(Map<String, Object> params) throws Exception {
+            return Log.page(params, null);
+        }
+
+        /**
+         * Retrieve paged BoletoPayment.Logs
+         * <p>
+         * Receive a list of up to 100 BoletoPayment.Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return BoletoPayment.Log.Page object:
+         * BoletoPayment.Log.Page.logs: list of BoletoPayment.Log objects with updated attributes
+         * BoletoPayment.Log.Page.cursor: cursor to retrieve the next page of BoletoPayment.Log objects
+         * @throws Exception error in the request
+         */
+        public static Log.Page page(User user) throws Exception {
+            return Log.page(new HashMap<>(), user);
+        }
+
+        /**
+         * Retrieve paged BoletoPayment.Logs
+         * <p>
+         * Receive a list of up to 100 BoletoPayment.Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Return:
+         * @return BoletoPayment.Log.Page object:
+         * BoletoPayment.Log.Page.logs: list of BoletoPayment.Log objects with updated attributes
+         * BoletoPayment.Log.Page.cursor: cursor to retrieve the next page of BoletoPayment.Log objects
+         * @throws Exception error in the request
+         */
+        public static Log.Page page() throws Exception {
+            return Log.page(new HashMap<>(), null);
+        }
+
+        /**
+         * Retrieve paged BoletoPayment.Logs
+         * <p>
+         * Receive a list of up to 100 BoletoPayment.Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * cursor [string, default null]: cursor returned on the previous page function call
+         * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter retrieved objects by event types. ex: "processing" or "success"
+         * paymentIds [list of strings, default null]: list of BoletoPayment ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return BoletoPayment.Log.Page object:
+         * BoletoPayment.Log.Page.logs: list of BoletoPayment.Log objects with updated attributes
+         * BoletoPayment.Log.Page.cursor: cursor to retrieve the next page of BoletoPayment.Log objects
+         * @throws Exception error in the request
+         */
+        public static Log.Page page(Map<String, Object> params, User user) throws Exception {
+            com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+            List<Log> logs = new ArrayList<>();
+            for (Resource log: page.entities) {
+                logs.add((Log) log);
+            }
+            return new Log.Page(logs, page.cursor);
         }
     }
 }

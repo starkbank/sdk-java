@@ -6,7 +6,9 @@ import org.junit.AssumptionViolatedException;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -49,5 +51,34 @@ public class TestWebhook {
             System.out.println(webhook);
         }
         System.out.println(i);
+    }
+
+    @Test
+    public void testPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Webhook.Page page = Webhook.page(params);
+            for (Webhook webhook: page.webhooks) {
+                System.out.println(webhook);
+                if (ids.contains(webhook.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(webhook.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() > 4) {
+            throw new Exception("ids.size() != 4");
+        }
     }
 }

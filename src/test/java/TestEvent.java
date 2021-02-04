@@ -5,8 +5,9 @@ import org.junit.Assert;
 import org.junit.AssumptionViolatedException;
 import org.junit.Test;
 
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class TestEvent {
@@ -74,6 +75,37 @@ public class TestEvent {
             }
             event = Event.delete(event.id);
             System.out.println(event);
+        }
+    }
+
+    @Test
+    public void testPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Event.Page page = Event.page(params);
+            for (Event event: page.events) {
+                System.out.println(event);
+                if (ids.contains(event.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(event.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
         }
     }
 

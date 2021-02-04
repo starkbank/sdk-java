@@ -189,6 +189,7 @@ public final class PaymentRequest extends Resource {
      * Retrieve PaymentRequests
      * <p>
      * Receive a generator of PaymentRequest objects previously created in the Stark Bank API
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -207,13 +208,14 @@ public final class PaymentRequest extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<PaymentRequest> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getList(data, params, user);
+        return Rest.getStream(data, params, user);
     }
 
     /**
      * Retrieve PaymentRequests
      * <p>
      * Receive a generator of PaymentRequest objects previously created in the Stark Bank API
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param params map of parameters
@@ -231,13 +233,14 @@ public final class PaymentRequest extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<PaymentRequest> query(Map<String, Object> params) throws Exception {
-        return Rest.getList(data, params, null);
+        return Rest.getStream(data, params, null);
     }
 
     /**
      * Retrieve PaymentRequests
      * <p>
      * Receive a generator of PaymentRequest objects previously created in the Stark Bank API
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -247,19 +250,127 @@ public final class PaymentRequest extends Resource {
      * @throws Exception error in the request
      */
     public static Generator<PaymentRequest> query(User user) throws Exception {
-        return Rest.getList(data, new HashMap<>(), user);
+        return Rest.getStream(data, new HashMap<>(), user);
     }
 
     /**
      * Retrieve PaymentRequests
      * <p>
      * Receive a generator of PaymentRequest objects previously created in the Stark Bank API
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * Return:
      * @return generator of PaymentRequest objects with updated attributes
      * @throws Exception error in the request
      */
     public static Generator<PaymentRequest> query() throws Exception {
-        return Rest.getList(data, new HashMap<>(), null);
+        return Rest.getStream(data, new HashMap<>(), null);
+    }
+
+    public final static class Page {
+        public List<PaymentRequest> requests;
+        public String cursor;
+
+        public Page(List<PaymentRequest> requests, String cursor) {
+            this.requests = requests;
+            this.cursor = cursor;
+        }
+    }
+
+    /**
+     * Retrieve paged PaymentRequests
+     * <p>
+     * Receive a list of up to 100 PaymentRequest objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * sort [string, default "-created"]: sort order considered in response. Valid options are "-created" or "-due".
+     * status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
+     * type [string, default null]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * <p>
+     * Return:
+     * @return PaymentRequest.Page object:
+     * PaymentRequest.Page.requests: list of PaymentRequest objects with updated attributes
+     * PaymentRequest.Page.cursor: cursor to retrieve the next page of PaymentRequest objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params) throws Exception {
+        return page(params, null);
+    }
+
+    /**
+     * Retrieve paged PaymentRequests
+     * <p>
+     * Receive a list of up to 100 PaymentRequest objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return PaymentRequest.Page object:
+     * PaymentRequest.Page.requests: list of PaymentRequest objects with updated attributes
+     * PaymentRequest.Page.cursor: cursor to retrieve the next page of PaymentRequest objects
+     * @throws Exception error in the request
+     */
+    public static Page page(User user) throws Exception {
+        return page(new HashMap<>(), user);
+    }
+
+    /**
+     * Retrieve paged PaymentRequests
+     * <p>
+     * Receive a list of up to 100 PaymentRequest objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return PaymentRequest.Page object:
+     * PaymentRequest.Page.requests: list of PaymentRequest objects with updated attributes
+     * PaymentRequest.Page.cursor: cursor to retrieve the next page of PaymentRequest objects
+     * @throws Exception error in the request
+     */
+    public static Page page() throws Exception {
+        return page(new HashMap<>(), null);
+    }
+
+    /**
+     * Retrieve paged PaymentRequests
+     * <p>
+     * Receive a list of up to 100 PaymentRequest objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+     * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+     * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+     * sort [string, default "-created"]: sort order considered in response. Valid options are "-created" or "-due".
+     * status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
+     * type [string, default null]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
+     * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
+     * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return PaymentRequest.Page object:
+     * PaymentRequest.Page.requests: list of PaymentRequest objects with updated attributes
+     * PaymentRequest.Page.cursor: cursor to retrieve the next page of PaymentRequest objects
+     * @throws Exception error in the request
+     */
+    public static Page page(Map<String, Object> params, User user) throws Exception {
+        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        List<PaymentRequest> requests = new ArrayList<>();
+        for (Resource request: page.entities) {
+            requests.add((PaymentRequest) request);
+        }
+        return new Page(requests, page.cursor);
     }
 
     /**

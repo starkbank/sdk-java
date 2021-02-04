@@ -224,6 +224,54 @@ Settings.language = "en-US";
 
 Language options are "en-US" for english and "pt-BR" for brazilian portuguese. English is default.
 
+### 6. Resource listing and manual pagination
+
+Almost all SDK resources provide a `query` and a `page` function.
+
+- The `query` function provides a straight forward way to efficiently iterate through all results that match the filters you inform,
+seamlessly retrieving the next batch of elements from the API only when you reach the end of the current batch.
+If you are not worried about data volume or processing time, this is the way to go.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 200);
+Generator<Transaction> transactions = Transaction.query(params);
+
+for (Transaction transaction : transactions){
+    System.out.println(transaction);
+}
+```
+
+- The `page` function gives you full control over the API pagination. With each function call, you receive up to
+100 results and the cursor to retrieve the next batch of elements. This allows you to stop your queries and
+pick up from where you left off whenever it is convenient. When there are no more elements to be retrieved, the returned cursor will be `None`.
+
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 50);
+params.put("cursor", null);
+
+while (true) {
+    Transaction.Page page = Transaction.page(params);
+    for (Transaction transaction: page.transactions) {
+        System.out.println(transaction);
+    }
+    if (page.cursor == null) {
+        break;
+    }
+    params.put("cursor", page.cursor);
+}
+```
+
+To simplify the following SDK examples, we will only use the `query` function, but feel free to use `page` instead.
 
 ## Testing in Sandbox
 
