@@ -730,15 +730,15 @@ public final class Invoice extends Resource {
          * It carries all the available information about the invoice payment.
          * <p>
          * Parameters:
-         * - amount [integer]: amount in cents that was paid. ex: 1234 (= R$ 12.34)
-         * - name [string]: payer full name. ex: "Anthony Edward Stark"
-         * - taxId [string]: payer tax ID (CPF or CNPJ). ex: "20.018.183/0001-80"
-         * - bankCode [string]: code of the payer bank institution in Brazil. ex: "20018183"
-         * - branchCode [string]: payer bank account branch. ex: "1357-9"
-         * - accountNumber [string]: payer bank account number. ex: "876543-2"
-         * - accountType [string]: payer bank account type. ex: "checking", "savings" or "salary"
-         * - endToEndId [string]: central bank's unique transaction ID. ex: "E79457883202101262140HHX553UPqeq"
-         * - method [string]: payment method that was used. ex: "pix"
+         * @param amount [integer]: amount in cents that was paid. ex: 1234 (= R$ 12.34)
+         * @param name [string]: payer full name. ex: "Anthony Edward Stark"
+         * @param taxId [string]: payer tax ID (CPF or CNPJ). ex: "20.018.183/0001-80"
+         * @param bankCode [string]: code of the payer bank institution in Brazil. ex: "20018183"
+         * @param branchCode [string]: payer bank account branch. ex: "1357-9"
+         * @param accountNumber [string]: payer bank account number. ex: "876543-2"
+         * @param accountType [string]: payer bank account type. ex: "checking", "savings" or "salary"
+         * @param endToEndId [string]: central bank's unique transaction ID. ex: "E79457883202101262140HHX553UPqeq"
+         * @param method [string]: payment method that was used. ex: "pix"
          */
         public Payment(Integer amount, String name, String taxId, String bankCode, String branchCode, String accountNumber, String accountType, String endToEndId, String method) {
             this.amount = amount;
