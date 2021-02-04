@@ -1,4 +1,5 @@
-import com.starkbank.*;
+import com.starkbank.BrcodePayment;
+import com.starkbank.Settings;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
@@ -84,6 +85,68 @@ public class TestBrcodePayment {
             System.out.println(log);
         }
         Assert.assertTrue(i > 0);
+    }
+
+    @Test
+    public void testPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            BrcodePayment.Page page = BrcodePayment.page(params);
+            for (BrcodePayment payment: page.payments) {
+                System.out.println(payment);
+                if (ids.contains(payment.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(payment.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
+    }
+
+    @Test
+    public void testLogPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            BrcodePayment.Log.Page page = BrcodePayment.Log.page(params);
+            for (BrcodePayment.Log log: page.logs) {
+                System.out.println(log);
+                if (ids.contains(log.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(log.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
     }
 
     static BrcodePayment example(boolean scheduled) throws Exception{

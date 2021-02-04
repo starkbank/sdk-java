@@ -1,12 +1,12 @@
-import com.starkbank.*;
+import com.starkbank.Deposit;
+import com.starkbank.Settings;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
+import java.util.List;
 
 
 public class TestDeposit {
@@ -53,9 +53,65 @@ public class TestDeposit {
         Assert.assertTrue(i > 0);
     }
 
-    public String getDateString(int delta) {
-        LocalDateTime datetime = LocalDateTime.now().plusDays(delta);
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        return dateFormat.format(datetime);
+    @Test
+    public void testPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Deposit.Page page = Deposit.page(params);
+            for (Deposit deposit: page.deposits) {
+                System.out.println(deposit);
+                if (ids.contains(deposit.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(deposit.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
+    }
+
+    @Test
+    public void testLogPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Deposit.Log.Page page = Deposit.Log.page(params);
+            for (Deposit.Log log: page.logs) {
+                System.out.println(log);
+                if (ids.contains(log.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(log.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
     }
 }

@@ -96,6 +96,68 @@ public class TestUtilityPayment {
         Assert.assertTrue(i > 0);
     }
 
+    @Test
+    public void testPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            UtilityPayment.Page page = UtilityPayment.page(params);
+            for (UtilityPayment payment: page.payments) {
+                System.out.println(payment);
+                if (ids.contains(payment.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(payment.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
+    }
+
+    @Test
+    public void testLogPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            UtilityPayment.Log.Page page = UtilityPayment.Log.page(params);
+            for (UtilityPayment.Log log: page.logs) {
+                System.out.println(log);
+                if (ids.contains(log.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(log.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
+    }
+
     static UtilityPayment example(boolean scheduled) throws Exception{
         HashMap<String, Object> data = new HashMap<>();
         int randomNum = ThreadLocalRandom.current().nextInt(1, 100000000);

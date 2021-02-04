@@ -264,7 +264,7 @@ while (true) {
     for (Transaction transaction: page.transactions) {
         System.out.println(transaction);
     }
-    if (page.cursor.isEmpty()) {
+    if (page.cursor == null) {
         break;
     }
     params.put("cursor", page.cursor);

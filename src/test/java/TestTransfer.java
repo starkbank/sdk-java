@@ -1,4 +1,5 @@
-import com.starkbank.*;
+import com.starkbank.Transfer;
+import com.starkbank.Settings;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
@@ -105,7 +106,7 @@ public class TestTransfer {
         params.put("limit", 10);
         Generator<Transfer> transfers = Transfer.query(params);
 
-        ArrayList<String> transfersIdsExpected = new ArrayList<String>();
+        ArrayList<String> transfersIdsExpected = new ArrayList<>();
         for (Transfer transfer : transfers) {
             Assert.assertNotNull(transfer.id);
             transfersIdsExpected.add(transfer.id);
@@ -114,7 +115,7 @@ public class TestTransfer {
         params.put("ids", transfersIdsExpected.toArray(new String[0]));
         Generator<Transfer> transfersResult = Transfer.query(params);
     
-        ArrayList<String> transfersIdsResult = new ArrayList<String>();
+        ArrayList<String> transfersIdsResult = new ArrayList<>();
         for (Transfer transfer : transfersResult){
             Assert.assertNotNull(transfer.id);
             transfersIdsResult.add(transfer.id);
@@ -123,6 +124,68 @@ public class TestTransfer {
         Collections.sort(transfersIdsExpected);
         Collections.sort(transfersIdsResult);
         Assert.assertEquals(transfersIdsExpected, transfersIdsResult);
+    }
+
+    @Test
+    public void testPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Transfer.Page page = Transfer.page(params);
+            for (Transfer transfer: page.transfers) {
+                System.out.println(transfer);
+                if (ids.contains(transfer.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(transfer.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
+    }
+
+    @Test
+    public void testLogPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Transfer.Log.Page page = Transfer.Log.page(params);
+            for (Transfer.Log log: page.logs) {
+                System.out.println(log);
+                if (ids.contains(log.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(log.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
     }
 
     static Transfer example(boolean scheduled) throws Exception{

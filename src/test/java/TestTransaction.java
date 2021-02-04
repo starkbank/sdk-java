@@ -1,4 +1,5 @@
-import com.starkbank.*;
+import com.starkbank.Transaction;
+import com.starkbank.Settings;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
@@ -47,6 +48,37 @@ public class TestTransaction {
     }
 
     @Test
+    public void testPage() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+        params.put("after", "2019-04-01");
+        params.put("before", "2030-04-30");
+        params.put("cursor", null);
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Transaction.Page page = Transaction.page(params);
+            for (Transaction transaction: page.transactions) {
+                System.out.println(transaction);
+                if (ids.contains(transaction.id)) {
+                    throw new Exception("repeated id");
+                }
+                ids.add(transaction.id);
+            }
+            if (page.cursor == null) {
+                break;
+            }
+            params.put("cursor", page.cursor);
+        }
+
+        if (ids.size() != 4) {
+            throw new Exception("ids.size() != 4");
+        }
+    }
+
+    @Test
     public void testQueryIds() throws Exception {
         Settings.user = utils.User.defaultProject();
 
@@ -54,7 +86,7 @@ public class TestTransaction {
         params.put("limit", 10);
         Generator<Transaction> transactions = Transaction.query(params);
 
-        ArrayList<String> transactionsIdsExpected = new ArrayList<String>();
+        ArrayList<String> transactionsIdsExpected = new ArrayList<>();
         for (Transaction transaction : transactions) {
             Assert.assertNotNull(transaction.id);
             transactionsIdsExpected.add(transaction.id);
@@ -63,7 +95,7 @@ public class TestTransaction {
         params.put("ids", transactionsIdsExpected.toArray(new String[0]));
         Generator<Transaction> transactionsResult = Transaction.query(params);
     
-        ArrayList<String> transactionsIdsResult = new ArrayList<String>();
+        ArrayList<String> transactionsIdsResult = new ArrayList<>();
         for (Transaction transaction : transactionsResult){
             Assert.assertNotNull(transaction.id);
             transactionsIdsResult.add(transaction.id);
