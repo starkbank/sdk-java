@@ -129,6 +129,6 @@ public final class Response {
     }
 
     private static String getUserAgent() {
-        return (userAgentOverride == null) ? "Java-" + System.getProperty("java.version") + "-SDK-2.5.0" : userAgentOverride;
+        return (userAgentOverride == null) ? "Java-" + System.getProperty("java.version") + "-SDK-2.5.1" : userAgentOverride;
     }
 }
