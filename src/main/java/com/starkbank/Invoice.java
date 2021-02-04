@@ -39,6 +39,7 @@ public final class Invoice extends Resource {
      * id               [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
      * brcode           [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
      * fee              [integer, default null]: fee charged buy this Invoice. ex: 65 (= R$ 0.65)
+     * transactionIds   [list of strings]: ledger transaction ids linked to this Invoice (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
      * status           [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
      * created          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      * updated          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
@@ -63,6 +64,7 @@ public final class Invoice extends Resource {
     public Number discountAmount;
     public String brcode;
     public Integer fee;
+    public String[] transactionIds;
     public String status;
     public String created;
     public String updated;
@@ -93,6 +95,7 @@ public final class Invoice extends Resource {
      * @param id                [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
      * @param brcode            [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
      * @param fee               [integer, default null]: fee charged buy this Invoice. ex: 65 (= R$ 0.65)
+     * @param transactionIds    [list of strings]: ledger transaction ids linked to this Invoice (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
      * @param status            [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
      * @param created           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      * @param updated           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
@@ -100,7 +103,7 @@ public final class Invoice extends Resource {
     public Invoice(Number amount, String due, String taxId, String name, Number expiration, Number fine,
                     Number interest, List<Invoice.Description> descriptions, List<Invoice.Discount> discounts, String pdf,
                     String[] tags, Number nominalAmount, Number fineAmount, Number interestAmount, Number discountAmount,
-                    String id, String brcode, Integer fee, String status, String created, String updated
+                    String id, String brcode, Integer fee, String[] transactionIds, String status, String created, String updated
     ) {
         super(id);
         this.amount = amount;
@@ -120,6 +123,7 @@ public final class Invoice extends Resource {
         this.descriptions = descriptions;
         this.brcode = brcode;
         this.fee = fee;
+        this.transactionIds = transactionIds;
         this.status = status;
         this.created = created;
         this.updated = updated;
