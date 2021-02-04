@@ -275,6 +275,6 @@ public class TestInvoice {
     public String getDatetimeString(int delta) {
         ZonedDateTime datetime = ZonedDateTime.now().plusDays(delta);
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        return dateFormat.format(datetime).toString().concat("+00:00");
+        return dateFormat.format(datetime).concat("+00:00");
     }
 }

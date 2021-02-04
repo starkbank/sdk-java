@@ -27,7 +27,7 @@ public final class Deposit extends Resource {
      * status [string]: current Deposit status. ex: "created"
      * tags [list of strings]: list of strings that are tagging the deposit. ex: ["reconciliationId", "txId"]
      * fee [integer]: fee charged when a deposit is created. ex: 50 (= R$ 0.50)
-     * transactionIds [list of strings]: ledger transaction ids linked to this deposit (if there are more than one, all but first are reversals). ex: ["19827356981273"]
+     * transactionIds [list of strings]: ledger transaction ids linked to this deposit (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
      * created [string]: creation datetime for the Deposit. ex: "2020-03-10 10:30:00.000000+00:00"
      * updated [string]: latest update datetime for the Deposit. ex: "2020-03-10 10:30:00.000000+00:00"
      */
@@ -64,7 +64,7 @@ public final class Deposit extends Resource {
      * @param status [string]: current Deposit status. ex: "created"
      * @param tags [list of strings]: list of strings that are tagging the deposit. ex: ["reconciliationId", "taxId"]
      * @param fee [integer]: fee charged when a deposit is created. ex: 50 (= R$ 0.50)
-     * @param transactionIds [list of strings]: ledger transaction ids linked to this deposit (if there are more than one, all but first are reversals). ex: ["19827356981273"]
+     * @param transactionIds [list of strings]: ledger transaction ids linked to this deposit (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
      * @param created [string]: creation datetime for the Deposit. ex: "2020-03-10 10:30:00.000000+00:00"
      * @param updated [string]: latest update datetime for the Deposit. ex: "2020-03-10 10:30:00.000000+00:00"
      */
