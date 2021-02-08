@@ -174,7 +174,7 @@ public class TestBoleto {
         data.put("city", "São Paulo");
         data.put("stateCode", "SP");
         data.put("zipCode", "01500-000");
-        data.put("due", getDateString(3));
+        data.put("due", getDateString(14));
         data.put("fine", 2);
         data.put("interest", 1.3);
         data.put("overdueLimit", 5);
