@@ -32,6 +32,7 @@ public final class Invoice extends Resource {
      * discounts        [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
      * tags             [list of strings, default null]: list of strings for tagging
      * pdf              [string, default null]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
+     * link             [string, default null]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
      * nominalAmount    [number, default null]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
      * fineAmount       [number, default null]: Invoice fine value calculated over nominalAmount. ex: 20000
      * interestAmount   [number, default null]: Invoice interest value calculated over nominalAmount. ex: 10000
@@ -58,6 +59,7 @@ public final class Invoice extends Resource {
     public List<Invoice.Discount> discounts;
     public String[] tags;
     public String pdf;
+    public String link;
     public Number nominalAmount;
     public Number fineAmount;
     public Number interestAmount;
@@ -88,6 +90,7 @@ public final class Invoice extends Resource {
      * @param discounts         [list of maps, default null]: list of maps with "percentage":number and "due":datetime.datetime or string pairs
      * @param tags              [list of strings, default null]: list of strings for tagging
      * @param pdf               [string, default null]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
+     * @param link              [string, default null]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
      * @param nominalAmount     [number, default null]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
      * @param fineAmount        [number, default null]: Invoice fine value calculated over nominalAmount. ex: 20000
      * @param interestAmount    [number, default null]: Invoice interest value calculated over nominalAmount. ex: 10000
@@ -102,8 +105,9 @@ public final class Invoice extends Resource {
      */
     public Invoice(Number amount, String due, String taxId, String name, Number expiration, Number fine,
                     Number interest, List<Invoice.Description> descriptions, List<Invoice.Discount> discounts, String pdf,
-                    String[] tags, Number nominalAmount, Number fineAmount, Number interestAmount, Number discountAmount,
-                    String id, String brcode, Integer fee, String[] transactionIds, String status, String created, String updated
+                    String link, String[] tags, Number nominalAmount, Number fineAmount, Number interestAmount,
+                    Number discountAmount, String id, String brcode, Integer fee, String[] transactionIds, String status,
+                   String created, String updated
     ) {
         super(id);
         this.amount = amount;
@@ -116,6 +120,7 @@ public final class Invoice extends Resource {
         this.discounts = discounts;
         this.tags = tags;
         this.pdf = pdf;
+        this.link = link;
         this.nominalAmount = nominalAmount;
         this.fineAmount = fineAmount;
         this.interestAmount = interestAmount;
@@ -154,6 +159,7 @@ public final class Invoice extends Resource {
      * <p>
      * Attributes (return-only):
      * pdf            [string, default null]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
+     * link           [string, default null]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
      * nominalAmount  [number, default null]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
      * fineAmount     [number, default null]: Invoice fine value calculated over nominalAmount. ex: 20000
      * interestAmount [number, default null]: Invoice interest value calculated over nominalAmount. ex: 10000
@@ -181,6 +187,7 @@ public final class Invoice extends Resource {
         this.discounts = parseDiscounts((List<Object>) dataCopy.remove("discounts"));
         this.tags = (String[]) dataCopy.remove("tags");
         this.pdf = null;
+        this.link = null;
         this.nominalAmount = null;
         this.fineAmount = null;
         this.interestAmount = null;

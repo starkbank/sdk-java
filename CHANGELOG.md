@@ -13,6 +13,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- Invoice.link property to allow easy access to invoice webpage
+
 ## [2.5.1] - 2021-02-04
 ### Fixed
 - missing Invoice.transactionIds property
