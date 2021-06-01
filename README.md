@@ -1062,11 +1062,11 @@ import java.util.List;
 
 List<BrcodePayment> payments = new ArrayList<>();
 HashMap<String, Object> data = new HashMap<>();
-data.put("line", "34191.09107 05447.947309 71444.640008 8 84660000011631");
-data.put("taxId", "38.435.677/0001-25");
-data.put("scheduled", "2020-04-11");
-data.put("description", "Payment for killing white walkers");
-data.put("tags", new String[]{"little girl", "no one"});
+data.put("brcode", "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A");
+data.put("taxId", "012.345.678-90");
+data.put("scheduled", "2020-03-13");
+data.put("description", "This will be fast");
+data.put("tags", new String[]{"pix", "qrcode"});
 payments.add(new BrcodePayment(data));
 
 payments = BrcodePayment.create(payments);
