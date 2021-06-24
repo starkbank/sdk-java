@@ -14,7 +14,7 @@ public class TestDictKey {
     @Test
     public void testGet() throws Exception {
         Settings.user = utils.User.defaultProject();
-        String pixKey = "tony@starkbank.com";
+        String pixKey = "valid@sandbox.com";
         DictKey dictKey = DictKey.get(pixKey);
         System.out.println(dictKey);
         Assert.assertNotNull(dictKey.id);
