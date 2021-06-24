@@ -24,6 +24,7 @@ public class Event extends Resource {
     public String created;
     public Boolean isDelivered;
     public String subscription;
+    public String workspaceId;
 
     /**
      * Webhook Event object
@@ -37,12 +38,14 @@ public class Event extends Resource {
      * @param created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000000+00:00"
      * @param isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
      * @param subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
+     * @param workspaceId [string]: ID of the Workspace that generated this event. Mostly used when multiple Workspaces have Webhooks registered to the same endpoint. ex: "4545454545454545"
      */
-    public Event(String created, Boolean isDelivered, String subscription, String id) {
+    public Event(String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
         super(id);
         this.created = created;
         this.isDelivered = isDelivered;
         this.subscription = subscription;
+        this.workspaceId = workspaceId;
     }
 
     public static class Deserializer implements JsonDeserializer<Event> {
@@ -89,8 +92,8 @@ public class Event extends Resource {
     public final static class TransferEvent extends Event {
         public Transfer.Log log;
 
-        public TransferEvent(Transfer.Log log, String created, Boolean isDelivered, String subscription, String id) {
-            super(created, isDelivered, subscription, id);
+        public TransferEvent(Transfer.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
     }
@@ -98,8 +101,8 @@ public class Event extends Resource {
     public final static class BoletoEvent extends Event {
         public Boleto.Log log;
 
-        public BoletoEvent(Boleto.Log log, String created, Boolean isDelivered, String subscription, String id) {
-            super(created, isDelivered, subscription, id);
+        public BoletoEvent(Boleto.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
     }
@@ -107,8 +110,8 @@ public class Event extends Resource {
     public final static class BoletoPaymentEvent extends Event {
         public BoletoPayment.Log log;
 
-        public BoletoPaymentEvent(BoletoPayment.Log log, String created, Boolean isDelivered, String subscription, String id) {
-            super(created, isDelivered, subscription, id);
+        public BoletoPaymentEvent(BoletoPayment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
     }
@@ -116,8 +119,8 @@ public class Event extends Resource {
     public final static class UtilityPaymentEvent extends Event {
         public UtilityPayment.Log log;
 
-        public UtilityPaymentEvent(UtilityPayment.Log log, String created, Boolean isDelivered, String subscription, String id) {
-            super(created, isDelivered, subscription, id);
+        public UtilityPaymentEvent(UtilityPayment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
     }
@@ -125,8 +128,8 @@ public class Event extends Resource {
     public final static class BoletoHolmesEvent extends Event {
         public BoletoHolmes.Log log;
 
-        public BoletoHolmesEvent(BoletoHolmes.Log log, String created, Boolean isDelivered, String subscription, String id) {
-            super(created, isDelivered, subscription, id);
+        public BoletoHolmesEvent(BoletoHolmes.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
     }
@@ -134,8 +137,8 @@ public class Event extends Resource {
     public final static class InvoiceEvent extends Event {
         public Invoice.Log log;
 
-        public InvoiceEvent(Invoice.Log log, String created, Boolean isDelivered, String subscription, String id) {
-            super(created, isDelivered, subscription, id);
+        public InvoiceEvent(Invoice.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
     }
@@ -143,8 +146,8 @@ public class Event extends Resource {
     public final static class DepositEvent extends Event {
         public Deposit.Log log;
 
-        public DepositEvent(Deposit.Log log, String created, Boolean isDelivered, String subscription, String id) {
-            super(created, isDelivered, subscription, id);
+        public DepositEvent(Deposit.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
     }
@@ -152,17 +155,17 @@ public class Event extends Resource {
     public final static class BrcodePaymentEvent extends Event {
         public BrcodePayment.Log log;
 
-        public BrcodePaymentEvent(BrcodePayment.Log log, String created, Boolean isDelivered, String subscription, String id) {
-            super(created, isDelivered, subscription, id);
+        public BrcodePaymentEvent(BrcodePayment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
     }
-    
+
     public final static class UnknownEvent extends Event {
         public JsonObject log;
 
-        public UnknownEvent(JsonObject log, String created, Boolean isDelivered, String subscription, String id) {
-            super(created, isDelivered, subscription, id);
+        public UnknownEvent(JsonObject log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
     }
