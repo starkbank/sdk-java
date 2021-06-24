@@ -30,6 +30,7 @@ public class TestEvent {
         for (Event event : events) {
             i += 1;
             Assert.assertNotNull(event.id);
+            Assert.assertNotNull(event.workspaceId);
             System.out.println(event);
         }
         assertFalseForInconclusive(i > 0);
