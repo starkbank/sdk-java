@@ -13,6 +13,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Fixed
+- special characters in brcodePreview query
+
 ## [2.6.0] - 2021-03-04
 ### Added
 - Invoice.link property to allow easy access to invoice webpage
