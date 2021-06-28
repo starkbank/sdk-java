@@ -15,6 +15,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Added
 - Event.workspaceId property to multiple Workspace Webhook identification
+- Workspace.update() to allow parameter updates
 
 ### Fixed
 - special characters in brcodePreview query
