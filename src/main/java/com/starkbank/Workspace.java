@@ -4,10 +4,9 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public final class Workspace extends Resource {
@@ -15,6 +14,7 @@ public final class Workspace extends Resource {
 
     public String username;
     public String name;
+    public List<String> allowedTaxIds;
 
     /**
      * Workspace object
@@ -29,10 +29,11 @@ public final class Workspace extends Resource {
      * Attributes:
      * @param id [string, default null]: unique id returned when the workspace is created. ex: "5656565656565656"
      */
-    public Workspace(String username, String name, String id) {
+    public Workspace(String username, String name, List<String> allowedTaxIds, String id) {
         super(id);
         this.username = username;
         this.name = name;
+        this.allowedTaxIds = allowedTaxIds;
     }
 
     /**
@@ -298,9 +299,42 @@ public final class Workspace extends Resource {
      * @return Workspace object with updated attributes
      * @throws Exception error in the request
      */
+    @SuppressWarnings("unchecked")
     public static Workspace create(Map<String, Object> workspaceData, Organization user) throws Exception {
         String username = (String) workspaceData.get("username");
         String name = (String) workspaceData.get("name");
-        return Rest.postSingle(data, new Workspace(username, name, null), user);
+        List<String> allowedTaxIds = (List<String>) workspaceData.get("allowedTaxIds");
+        return Rest.postSingle(data, new Workspace(username, name, allowedTaxIds, null), user);
+    }
+
+    /**
+     * Update Workspace
+     * <p>
+     * Update a Workspace by passing its ID.
+     * </p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * @param patchData [Map<String, Object>]: Allowed parameters: "name", "username and "allowedTaxIds"
+     * @return target Workspace with updated attributes
+     * @throws Exception
+     */
+    public static Workspace update(String id, Map<String, Object> patchData) throws Exception {
+        return update(id, patchData, null);
+    }
+
+    /**
+     * Update Workspace
+     * <p>
+     * Update a Workspace by passing its ID.
+     * </p>
+     * Parameters:
+     * @param id [string]: object unique id. ex: "5656565656565656"
+     * @param patchData [Map<String, Object>]: Allowed parameters: "name", "username and "allowedTaxIds"
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if User was set before function call
+     * @return target Workspace with updated attributes
+     * @throws Exception
+     */
+    public static Workspace update(String id, Map<String, Object> patchData, User user) throws Exception {
+        return Rest.patch(data, id, patchData, user);
     }
 }

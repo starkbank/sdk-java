@@ -1749,6 +1749,22 @@ Workspace workspace = Workspace.get("10827361982368179")
 System.out.println(workspace)
 ```
 
+### Update a Workspace
+
+You can update a specific Workspace by its id.
+
+```java
+import com.starkbank.*;
+
+Map<String, Object> patchData = new HashMap<>();
+patchData.put("name", "Updated workspace test");
+patchData.put("username", "new-username-test");
+patchData.put("allowedTaxIds", new String[]{"35953668082", "88889288043"});
+
+Workspace workspace = Workspace.update(workspace.id, patchData);
+System.out.println(workspace);
+```
+
 ## Handling errors
 
 The SDK may raise one of four types of errors: __InputErrors__, __InternalServerError__, __UnknownException__, __InvalidSignatureException__
