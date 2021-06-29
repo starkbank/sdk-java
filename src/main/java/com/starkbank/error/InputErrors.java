@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class InputErrors extends RuntimeException {
+public final class InputErrors extends StarkBankError {
 
 	public List<ErrorElement> errors;
 
