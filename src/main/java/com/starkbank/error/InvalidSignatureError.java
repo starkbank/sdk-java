@@ -1,8 +1,8 @@
 package com.starkbank.error;
 
-public final class InvalidSignatureError extends RuntimeException{
+public final class InvalidSignatureError extends StarkBankError {
 
-    public InvalidSignatureError(String message){
+    public InvalidSignatureError(String message) {
         super(message);
     }
 }

@@ -1,8 +1,8 @@
 package com.starkbank.error;
 
-public final class InternalServerError extends RuntimeException{
+public final class InternalServerError extends StarkBankError {
 
-    public InternalServerError(String message){
+    public InternalServerError(String message) {
         super(message);
     }
 }

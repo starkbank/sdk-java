@@ -17,6 +17,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - Event.workspaceId property to multiple Workspace Webhook identification
 - Workspace.update() to allow parameter updates
 - Transfer.description property to allow control over corresponding Transaction descriptions
+- Base exception class
 
 ### Fixed
 - special characters in brcodePreview query
