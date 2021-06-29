@@ -71,6 +71,7 @@ public final class Boleto extends Resource {
     public String line;
     public String barCode;
     public String status;
+    public String[] transactionIds;
     public String ourNumber;
     public String created;
 
@@ -100,20 +101,20 @@ public final class Boleto extends Resource {
      * @param descriptions [list of Boleto.Description or Hashmaps, default null]: list of Boleto.Descriptions or hashmaps with "text":string and (optional) "amount":int pairs
      * @param discounts [list of Boleto.Discounts or Hashmaps, default null]: list of Boleto.Discounts or hashmaps with "percentage": Number and "date": string pairs
      * @param tags [list of strings]: list of strings for tagging
-     * @param id id of the object
-     * @param fee fee to be charged in the Boleto
-     * @param line numeric line of the boleto
-     * @param barCode numeric barcode of the boleto
-     * @param status status of the boleto
-     * @param created date the boleto was created
+     * @param id [string]: id of the object
+     * @param fee [integer]: fee to be charged in the Boleto
+     * @param line [string]: numeric line of the boleto
+     * @param barCode [string]: numeric barcode of the boleto
+     * @param status [string]: status of the boleto
+     * @param transactionIds [list of strings]: ledger transaction ids linked to this boleto. ex: ["19827356981273"]
+     * @param created [string]: date the boleto was created
      * @param ourNumber [string, default null]: Reference number registered at the settlement bank. ex:“10131474”
      */
-    public Boleto(long amount, String name, String taxId, String streetLine1, String streetLine2,
-                  String district, String city, String stateCode, String zipCode, String due, Number fine,
-                  Number interest, Integer overdueLimit, String receiverName, String receiverTaxId, String[] tags, List<Boleto.Description> descriptions,
-                  List<Boleto.Discount> discounts, String id, Integer fee, String line, String barCode,
-                  String status, String created, String ourNumber
-    ) {
+    public Boleto(long amount, String name, String taxId, String streetLine1, String streetLine2,String district,
+                  String city, String stateCode, String zipCode, String due, Number fine, Number interest,
+                  Integer overdueLimit, String receiverName, String receiverTaxId, String[] tags,
+                  List<Boleto.Description> descriptions,List<Boleto.Discount> discounts, String id, Integer fee,
+                  String line, String barCode, String status, String[] transactionIds, String created, String ourNumber) {
         super(id);
         this.amount = amount;
         this.name = name;
@@ -137,6 +138,7 @@ public final class Boleto extends Resource {
         this.line = line;
         this.barCode = barCode;
         this.status = status;
+        this.transactionIds = transactionIds;
         this.created = created;
         this.ourNumber = ourNumber;
     }
@@ -171,6 +173,7 @@ public final class Boleto extends Resource {
      * descriptions [list of Boleto.Description or HashMap, default null]: list of Boleto.Descriptions or HashMaps with "text":string and "amount":int pairs
      * discounts [list of Boleto.Discount or Hashmap, default null]: list of Boleto.Discounts or HashMaps with "percentage": Number and "date": string pairs
      * tags [list of strings]: list of strings for tagging
+     * transactionIds [list of strings]: ledger transaction ids linked to this boleto. ex: ["19827356981273"]
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
@@ -200,6 +203,7 @@ public final class Boleto extends Resource {
         this.created = null;
         this.fee = null;
         this.line = null;
+        this.transactionIds = (String[]) dataCopy.remove("transactionIds");
         this.status = null;
         this.ourNumber = null;
 
@@ -212,7 +216,7 @@ public final class Boleto extends Resource {
     private List<Boleto.Description> parseDescriptions(List<Object> descriptions){
         if (descriptions == null)
             return null;
-            
+
         List<Boleto.Description> parsed = new ArrayList<>();
         if (descriptions.size() == 0 || descriptions.get(0) instanceof Boleto.Description) {
             for (Object description : descriptions) {
@@ -252,7 +256,7 @@ public final class Boleto extends Resource {
             );
             parsed.add(discountObject);
         }
-        
+
         return parsed;
     }
 
@@ -265,7 +269,7 @@ public final class Boleto extends Resource {
      * @param id [string]: object unique id. ex: "5656565656565656"
      * Return:
      * @return Boleto object with updated attributes
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static Boleto get(String id) throws Exception {
         return Boleto.get(id, null);
@@ -282,7 +286,7 @@ public final class Boleto extends Resource {
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
      * @return Boleto object with updated attributes
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static Boleto get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
@@ -306,7 +310,7 @@ public final class Boleto extends Resource {
      * <p>
      * Return:
      * @return generator of Boleto objects with updated attributes
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static Generator<Boleto> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getStream(data, params, user);
@@ -329,7 +333,7 @@ public final class Boleto extends Resource {
      * <p>
      * Return:
      * @return generator of Boleto objects with updated attributes
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static Generator<Boleto> query(Map<String, Object> params) throws Exception {
         return Rest.getStream(data, params, null);
@@ -346,7 +350,7 @@ public final class Boleto extends Resource {
      * <p>
      * Return:
      * @return generator of Boleto objects with updated attributes
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static Generator<Boleto> query(User user) throws Exception {
         return Rest.getStream(data, new HashMap<>(), user);
@@ -359,7 +363,7 @@ public final class Boleto extends Resource {
      * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * Return:
      * @return generator of Boleto objects with updated attributes
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static Generator<Boleto> query() throws Exception {
         return Rest.getStream(data, new HashMap<>(), null);
@@ -508,7 +512,7 @@ public final class Boleto extends Resource {
      * <p>
      * Return:
      * @return list of Boleto objects with updated attributes
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static List<Boleto> create(List<?> boletos) throws Exception {
         return create(boletos, null);
@@ -524,7 +528,7 @@ public final class Boleto extends Resource {
      * <p>
      * Return:
      * @return Boleto pdf file
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static InputStream pdf(String id) throws Exception {
         return Boleto.pdf(id, null, null);
@@ -560,7 +564,7 @@ public final class Boleto extends Resource {
      * <p>
      * Return:
      * @return Boleto pdf file
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static InputStream pdf(String id, User user) throws Exception {
         return Boleto.pdf(id, null, user);
@@ -596,7 +600,7 @@ public final class Boleto extends Resource {
      * <p>
      * Return:
      * @return deleted Boleto object
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static Boleto delete(String id) throws Exception {
         return Boleto.delete(id, null);
@@ -613,7 +617,7 @@ public final class Boleto extends Resource {
      * <p>
      * Return:
      * @return deleted Boleto object
-     * @throws Exception error in the request 
+     * @throws Exception error in the request
      */
     public static Boleto delete(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
@@ -726,7 +730,7 @@ public final class Boleto extends Resource {
          * <p>
          * Return:
          * @return Boleto Log object with updated attributes
-         * @throws Exception error in the request 
+         * @throws Exception error in the request
          */
         public static Log get(String id) throws Exception {
             return Log.get(id, null);
@@ -743,7 +747,7 @@ public final class Boleto extends Resource {
          * <p>
          * Return:
          * @return Boleto Log object with updated attributes
-         * @throws Exception error in the request 
+         * @throws Exception error in the request
          */
         public static Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
@@ -765,7 +769,7 @@ public final class Boleto extends Resource {
          * <p>
          * Return:
          * @return list of Boleto Log objects with updated attributes
-         * @throws Exception error in the request 
+         * @throws Exception error in the request
          */
         public static Generator<Log> query(Map<String, Object> params) throws Exception {
             return Log.query(params, null);
@@ -782,7 +786,7 @@ public final class Boleto extends Resource {
          * <p>
          * Return:
          * @return list of Boleto Log objects with updated attributes
-         * @throws Exception error in the request 
+         * @throws Exception error in the request
          */
         public static Generator<Log> query(User user) throws Exception {
             return Log.query(new HashMap<>(), user);
@@ -796,7 +800,7 @@ public final class Boleto extends Resource {
          * <p>
          * Return:
          * @return list of Boleto Log objects with updated attributes
-         * @throws Exception error in the request 
+         * @throws Exception error in the request
          */
         public static Generator<Log> query() throws Exception {
             return Log.query(new HashMap<>(), null);
@@ -819,7 +823,7 @@ public final class Boleto extends Resource {
          * <p>
          * Return:
          * @return list of Boleto Log objects with updated attributes
-         * @throws Exception error in the request 
+         * @throws Exception error in the request
          */
         public static Generator<Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getStream(data, params, user);

@@ -22,6 +22,7 @@ public final class Deposit extends Resource {
      * bankCode [string]: payer bank code in Brazil. ex: "20018183" or "341"
      * branchCode [string]: payer bank account branch. ex: "1357-9"
      * accountNumber [string]: payer bank account number. ex: "876543-2"
+     * accountType [string]: payer bank account type. ex: "checking"
      * amount [long]: Deposit value in cents. ex: 1234 (= R$ 12.34)
      * type [string]: type of settlement that originated the deposit. ex: "pix" or "ted"
      * status [string]: current Deposit status. ex: "created"
@@ -38,6 +39,7 @@ public final class Deposit extends Resource {
     public String bankCode;
     public String branchCode;
     public String accountNumber;
+    public String accountType;
     public long amount;
     public String type;
     public String status;
@@ -59,6 +61,7 @@ public final class Deposit extends Resource {
      * @param bankCode [string]: payer bank code in Brazil. ex: "20018183" or "341"
      * @param branchCode [string]: payer bank account branch. ex: "1357-9"
      * @param accountNumber [string]: payer bank account number. ex: "876543-2"
+     * @param accountType [string]: payer bank account type. ex: "checking"
      * @param amount [long]: Deposit value in cents. ex: 1234 (= R$ 12.34)
      * @param type [string]: type of settlement that originated the deposit. ex: "pix" or "ted"
      * @param status [string]: current Deposit status. ex: "created"
@@ -69,15 +72,15 @@ public final class Deposit extends Resource {
      * @param updated [string]: latest update datetime for the Deposit. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Deposit(String id, String name, String taxId, String bankCode, String branchCode, String accountNumber,
-                    long amount, String type, String status, String[] tags, Integer fee, String[] transactionIds,
-                    String created, String updated
-    ) {
+                   String accountType, long amount, String type, String status, String[] tags, Integer fee, String[] transactionIds,
+                   String created, String updated) {
         super(id);
         this.name = name;
         this.taxId = taxId;
         this.bankCode = bankCode;
         this.branchCode = branchCode;
         this.accountNumber = accountNumber;
+        this.accountType = accountType;
         this.amount = amount;
         this.type = type;
         this.status = status;
