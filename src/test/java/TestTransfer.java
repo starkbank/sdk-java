@@ -198,6 +198,7 @@ public class TestTransfer {
         data.put("externalId", "java-" + UUID.randomUUID().toString());
         data.put("taxId", "594.739.480-42");
         data.put("name", "Daenerys Targaryen Stormborn");
+        data.put("description", "Test description");
         data.put("tags", new String[]{"daenerys", "invoice/1234"});
 
         if(scheduled) {

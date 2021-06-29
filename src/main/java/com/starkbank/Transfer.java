@@ -23,6 +23,7 @@ public final class Transfer extends Resource {
     public String accountType;
     public String externalId;
     public String scheduled;
+    public String description;
     public String[] tags;
     public Integer fee;
     public String status;
@@ -47,6 +48,7 @@ public final class Transfer extends Resource {
      * @param accountType [string]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings" or "salary"
      * @param externalId [string]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
      * @param scheduled [string]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
+     * @param description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
      * @param tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
      * <p>
      * Attributes (return-only):
@@ -58,8 +60,8 @@ public final class Transfer extends Resource {
      * @param updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Transfer(String id, long amount, String name, String taxId, String bankCode, String branchCode,
-                    String accountNumber, String accountType, String externalId, String scheduled, String[] tags, Integer fee, String status, String created,
-                    String updated, String[] transactionIds) {
+                    String accountNumber, String accountType, String externalId, String scheduled, String description,
+                    String[] tags, Integer fee, String status, String created,  String updated, String[] transactionIds) {
         super(id);
         this.amount = amount;
         this.name = name;
@@ -70,6 +72,7 @@ public final class Transfer extends Resource {
         this.accountType = accountType;
         this.externalId = externalId;
         this.scheduled = scheduled;
+        this.description = description;
         this.tags = tags;
         this.fee = fee;
         this.status = status;
@@ -98,6 +101,7 @@ public final class Transfer extends Resource {
      * accountType [string, default "checking"]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings" or "salary"
      * externalId [string, default null]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
      * scheduled [string, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
+     * description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
      * tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
      * <p>
      * Attributes (return-only):
@@ -122,6 +126,7 @@ public final class Transfer extends Resource {
         this.accountType = (String) dataCopy.remove("accountType");
         this.externalId = (String) dataCopy.remove("externalId");
         this.scheduled = (String) dataCopy.remove("scheduled");
+        this.description = (String) dataCopy.remove("description");
         this.tags = (String[]) dataCopy.remove("tags");
         this.created = null;
         this.fee = null;
