@@ -24,6 +24,7 @@ public final class BrcodePayment extends Resource {
     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
     * amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
     * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
+    * name [string]: receiver name. ex: "Jon Snow"
     * tags [list of strings, default null]: list of strings for tagging
     * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
     * status [string, default null]: current payment status. ex: "success" or "failed"
@@ -40,6 +41,7 @@ public final class BrcodePayment extends Resource {
     public String description;
     public Number amount;
     public String scheduled;
+    public String name;
     public String[] tags;
     public String status;
     public String type;
@@ -61,6 +63,7 @@ public final class BrcodePayment extends Resource {
     * @param description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
     * @param amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
     * @param scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
+    * @param name [string]: receiver name. ex: "Jon Snow"
     * @param tags [list of strings, default null]: list of strings for tagging
     * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
     * @param status [string, default null]: current payment status. ex: "success" or "failed"
@@ -70,16 +73,16 @@ public final class BrcodePayment extends Resource {
     * @param updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     */
-    public BrcodePayment(String brcode, String taxId, String description, Number amount, String scheduled,
+    public BrcodePayment(String brcode, String taxId, String description, Number amount, String scheduled, String name,
                         String[] tags, String id, String status, String type, String[] transactionIds, Integer fee,
-                        String updated, String created
-    ) {
+                        String updated, String created) {
         super(id);
         this.brcode = brcode;
         this.taxId = taxId;
         this.description = description;
         this.amount = amount;
         this.scheduled = scheduled;
+        this.name = name;
         this.tags = tags;
         this.status = status;
         this.type = type;
@@ -105,6 +108,7 @@ public final class BrcodePayment extends Resource {
     * Parameters (optional):
     * amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
     * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
+    * name [string]: receiver name. ex: "Jon Snow"
     * tags [list of strings, default null]: list of strings for tagging. ex: ["Stark", "Suit"]
     * @throws Exception error in the request
     */
@@ -117,6 +121,7 @@ public final class BrcodePayment extends Resource {
         this.description = (String) dataCopy.remove("description");
         this.amount = (Number) dataCopy.remove("amount");
         this.scheduled = (String) dataCopy.remove("scheduled");
+        this.name = (String) dataCopy.remove("name");
         this.tags = (String[]) dataCopy.remove("tags");
         this.status = null;
         this.type = null;
