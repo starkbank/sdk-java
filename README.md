@@ -398,6 +398,7 @@ data1.put("accountNumber", "76543-8");
 data1.put("taxId", "594.739.480-42");
 data1.put("name", "Daenerys Targaryen Stormborn");
 data1.put("scheduled", "2020-12-11");
+data1.put("description", "Transaction to dear provider");
 data1.put("tags", new String[]{"daenerys", "invoice/1234"});
 transfers.add(new Transfer(data1));
 
