@@ -32,6 +32,16 @@ public class TestEvent {
             Assert.assertNotNull(event.id);
             Assert.assertNotNull(event.workspaceId);
             System.out.println(event);
+
+            HashMap<String, Object> attemptParams = new HashMap<>();
+            attemptParams.put("limit", 1);
+            attemptParams.put("eventIds", event.id);
+            Generator<Event.Attempt> attempts = Event.Attempt.query(attemptParams);
+            for (Event.Attempt attempt : attempts) {
+                Event.Attempt a = Event.Attempt.get(attempt.id);
+                Assert.assertNotNull(a);
+                System.out.println(a);
+            }
         }
         assertFalseForInconclusive(i > 0);
     }

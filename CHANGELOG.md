@@ -19,6 +19,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - Transfer.description property to allow control over corresponding Transaction descriptions
 - Base exception class
 - Missing parameters to Boleto, BrcodePayment and Deposit resources 
+- Event.Attempt sub-resource to allow retrieval of information on failed webhook event delivery attempts
 
 ### Fixed
 - special characters in brcodePreview query

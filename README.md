@@ -1668,6 +1668,35 @@ Event event = Event.update("5824181711142912", params);
 System.out.println(event);
 ```
 
+### Query failed webhook event delivery attempts information
+
+You can also get information on failed webhook event delivery attempts.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("after", "2020-03-20");
+Generator<Event.Attempt> attempts = Event.Attempt.query(params);
+
+for (Event.Attempt attempt: attempts) {
+    System.out.println(attempt);
+}
+```
+
+### Get a failed webhook event delivery attempt information
+
+To retrieve information on a single attempt, use the following function:
+
+```java
+import com.starkbank.*;
+
+Event.Attempt attempt = Event.Attempt.get("1616161616161616");
+
+System.out.println(attempt);
+```
+
 ### Get a DICT key
 
 You can get Pix key's parameters by its id.
