@@ -3,6 +3,7 @@ import com.starkbank.Settings;
 import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
+import utils.User;
 
 import java.io.File;
 import java.io.InputStream;
@@ -270,6 +271,27 @@ public class TestInvoice {
             System.out.println(payment);
         }
         System.out.println(i);
+    }
+
+    @Test
+    public void testInvoiceLogPdfGet() throws Exception {
+        Settings.user = User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("types", "reversed");
+        params.put("limit", 1);
+        Generator<Invoice.Log> queries = Invoice.Log.query(params);
+        for (Invoice.Log log : queries) {
+            String logId = log.id;
+            InputStream pdf = Invoice.Log.pdf(logId);
+            Assert.assertNotNull(pdf);
+            java.nio.file.Files.copy(
+                    pdf,
+                    new File("invoice.pdf").toPath(),
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+            System.out.println(log);
+        }
     }
 
     public String getDatetimeString(int delta) {

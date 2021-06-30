@@ -712,6 +712,26 @@ Invoice.Log log = Invoice.Log.get("5155165527080960");
 System.out.println(log);
 ```
 
+### Get a reversed invoice log PDF
+
+Whenever an Invoice is successfully reversed, a reversed log will be created.
+To retrieve a specific reversal receipt, you can request the corresponding log PDF:
+
+ ```java
+import com.starkbank.*;
+
+InputStream pdf = Invoice.Log.pdf("5155165527080960");
+java.nio.file.Files.copy(
+    pdf,
+    new File("invoice.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+ ```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
 ### Get an invoice payment information
 
 Once an invoice has been paid, you can get the payment information using the Invoice.Payment sub-resource:
