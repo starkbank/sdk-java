@@ -535,4 +535,242 @@ public class Event extends Resource {
                 publicKeys.get(0).getAsJsonObject().get("content").getAsString()
         );
     }
+
+    public final static class Attempt extends Resource {
+
+        static ClassData data = new ClassData(Attempt.class, "EventAttempt");
+
+        public String code;
+        public String message;
+        public String eventId;
+        public String webhookId;
+        public String created;
+
+        /**
+         * Event.Attempt object
+         * <p>
+         * When an Event delivery fails, an event attempt will be registered.
+         * It carries information meant to help you debug event reception issues.
+         * <p>
+         * Attributes:
+         * @param id [string]: unique id that identifies the delivery attempt. ex: "5656565656565656"
+         * @param code [string]: delivery error code. ex: badHttpStatus, badConnection, timeout
+         * @param message [string]: delivery error full description. ex: "HTTP POST request returned status 404"
+         * @param eventId [string]: ID of the Event whose delivery failed. ex: "4848484848484848"
+         * @param webhookId [string]: ID of the Webhook that triggered this event. ex: "5656565656565656"
+         * @param created [string]: datetime representing the moment when the attempt was made. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+         */
+        public Attempt(String id, String code, String message, String eventId, String webhookId, String created) {
+            super(id);
+            this.code = code;
+            this.message = message;
+            this.eventId = eventId;
+            this.webhookId = webhookId;
+            this.created = created;
+        }
+
+        /**
+         * Retrieve a specific Event.Attempt
+         * <p>
+         * Receive a single Event.Attempt object previously created by the Stark Bank API by its id
+         * <p>
+         * @param id [string]: object unique id. ex: "5656565656565656"
+         * <p>
+         * Return:
+         * @return Event.Attempt object with updated attributes
+         * @throws Exception error in the request
+         */
+        public static Attempt get(String id) throws Exception {
+            return Attempt.get(id, null);
+        }
+
+        /**
+         * Retrieve a specific Event.Attempt
+         * <p>
+         * Receive a single Event.Attempt object previously created by the Stark Bank API by its id
+         * <p>
+         * @param id [string]: object unique id. ex: "5656565656565656"
+         * @param user [Organization/Project object, default None]: Organization or Project object. Not necessary if starkbank.user was set before function call
+         * <p>
+         * Return:
+         * @return Event.Attempt object with updated attributes
+         * @throws Exception error in the request
+         */
+        public static Attempt get(String id, User user) throws Exception {
+            return Rest.getId(data, id, user);
+        }
+
+        /**
+         * Retrieve Attempts
+         * <p>
+         * Receive a generator of Event.Attempt objects previously created in the Stark Bank API
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
+         * eventIds [list of strings, default null]: list of Event ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
+         * webhookIds [list of strings, default null]: list of Webhook ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
+         * <p>
+         * Return:
+         * @return generator of Event.Attempt objects with updated attributes
+         * @throws Exception error in the request
+         */
+        public static Generator<Attempt> query(Map<String, Object> params) throws Exception {
+            return Attempt.query(params, null);
+        }
+
+        /**
+         * Retrieve Attempts
+         * <p>
+         * Receive a generator of Event.Attempt objects previously created in the Stark Bank API
+         * <p>
+         * Parameters:
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return generator of Event.Attempt objects with updated attributes
+         * @throws Exception error in the request
+         */
+        public static Generator<Attempt> query(User user) throws Exception {
+            return Attempt.query(new HashMap<>(), user);
+        }
+
+        /**
+         * Retrieve Attempts
+         * <p>
+         * Receive a generator of Event.Attempt objects previously created in the Stark Bank API
+         * <p>
+         * Return:
+         * @return generator of Event.Attempt objects with updated attributes
+         * @throws Exception error in the request
+         */
+        public static Generator<Attempt> query() throws Exception {
+            return Attempt.query(new HashMap<>(), null);
+        }
+
+        /**
+         * Retrieve Attempts
+         * <p>
+         * Receive a generator of Event.Attempt objects previously created in the Stark Bank API
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * after [string, default null]: date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null]: date filter for objects created only before specified date. ex: "2020-03-10"
+         * eventIds [list of strings, default null]: list of Event ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
+         * webhookIds [list of strings, default null]: list of Webhook ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return generator of Event.Attempt objects with updated attributes
+         * @throws Exception error in the request
+         */
+        public static Generator<Attempt> query(Map<String, Object> params, User user) throws Exception {
+            return Rest.getStream(data, params, user);
+        }
+
+        public final static class Page {
+            public List<Attempt> attempts;
+            public String cursor;
+
+            public Page(List<Attempt> attempts, String cursor) {
+                this.attempts = attempts;
+                this.cursor = cursor;
+            }
+        }
+
+        /**
+         * Retrieve paged Attempts
+         * <p>
+         * Receive a list of up to 100 Event.Attempt objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * cursor [string, default null]: cursor returned on the previous page function call
+         * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+         * after [string, default null] date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
+         * before [string, default null] date filter for objects created only before specified date. ex: datetime.date(2020, 3, 10)
+         * eventIds [list of strings, default null]: list of Event ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
+         * webhookIds [list of strings, default null]: list of Webhook ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
+         * <p>
+         * Return:
+         * @return Event.Attempt.Page object:
+         * Event.Attempt.Page.attempts: list of Event.Attempt objects with updated attributes
+         * Event.Attempt.Page.cursor: cursor to retrieve the next page of Attempt objects
+         * @throws Exception error in the request
+         */
+        public static Attempt.Page page(Map<String, Object> params) throws Exception {
+            return page(params, null);
+        }
+
+        /**
+         * Retrieve paged Attempts
+         * <p>
+         * Receive a list of up to 100 event.Attempt objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return Event.Attempt.Page object:
+         * Event.Attempt.Page.attempts: list of Event.Attempt objects with updated attributes
+         * Event.Attempt.Page.cursor: cursor to retrieve the next page of Attempt objects
+         * @throws Exception error in the request
+         */
+        public static Attempt.Page page(User user) throws Exception {
+            return page(new HashMap<>(), user);
+        }
+
+        /**
+         * Retrieve paged Attempts
+         * <p>
+         * Receive a list of up to 100 event.Attempt objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Return:
+         * @return Event.Attempt.Page object:
+         * Event.Attempt.Page.attempts: list of Event.Attempt objects with updated attributes
+         * Event.Attempt.Page.cursor: cursor to retrieve the next page of Attempt objects
+         * @throws Exception error in the request
+         */
+        public static Attempt.Page page() throws Exception {
+            return page(new HashMap<>(), null);
+        }
+
+        /**
+         * Retrieve paged Attempts
+         * <p>
+         * Receive a list of up to 100 event.Attempt objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * cursor [string, default null]: cursor returned on the previous page function call
+         * limit [integer, default 100]: maximum number of objects to be retrieved. It must be an integer between 1 and 100. ex: 50
+         * after [string, default null] date filter for objects created only after specified date. ex: datetime.date(2020, 3, 10)
+         * before [string, default null] date filter for objects created only before specified date. ex: datetime.date(2020, 3, 10)
+         * eventIds [list of strings, default null]: list of Event ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
+         * webhookIds [list of strings, default null]: list of Webhook ids to filter attempts. ex: ["5656565656565656", "4545454545454545"]
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return Event.Attempt.Page object:
+         * Event.Attempt.Page.attempts: list of Event.Attempt objects with updated attributes
+         * Event.Attempt.Page.cursor: cursor to retrieve the next page of Attempt objects
+         * @throws Exception error in the request
+         */
+        public static Attempt.Page page(Map<String, Object> params, User user) throws Exception {
+            com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+            List<Attempt> attempts = new ArrayList<>();
+            for (Resource attempt: page.entities) {
+                attempts.add((Attempt) attempt);
+            }
+            return new Attempt.Page(attempts, page.cursor);
+        }
+    }
 }

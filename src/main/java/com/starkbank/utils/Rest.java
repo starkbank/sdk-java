@@ -125,6 +125,18 @@ public final class Rest {
         return gson.fromJson(jsonObject, (Type) subResource.cls);
     }
 
+    public static <T extends SubResource> List<T> getSubResources(Resource.ClassData resource, String id, SubResource.ClassData subResource, User user, Map<String, Object> options) throws Exception {
+        String content = Response.fetch(Api.endpoint(resource, id) + "/" + Api.endpoint(subResource), "GET", null, options, user).content();
+        JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
+        JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(subResource)).getAsJsonArray();
+        List<T> entities = new ArrayList<>();
+        for (JsonElement resourceElement : jsonArray) {
+            JsonObject jsonObject = resourceElement.getAsJsonObject();
+            entities.add(GsonEvent.getInstance().fromJson(jsonObject, (Type) subResource.cls));
+        }
+        return entities;
+    }
+
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, User user) throws Exception {
         String content = Response.fetch(Api.endpoint(resource, id), "DELETE", null, null, user).content();
         Gson gson = GsonEvent.getInstance();
