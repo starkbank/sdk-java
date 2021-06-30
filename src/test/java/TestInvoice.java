@@ -286,9 +286,9 @@ public class TestInvoice {
             InputStream pdf = Invoice.Log.pdf(logId);
             Assert.assertNotNull(pdf);
             java.nio.file.Files.copy(
-                    pdf,
-                    new File("invoice.pdf").toPath(),
-                    StandardCopyOption.REPLACE_EXISTING
+                pdf,
+                new File("invoice.pdf").toPath(),
+                StandardCopyOption.REPLACE_EXISTING
             );
             System.out.println(log);
         }

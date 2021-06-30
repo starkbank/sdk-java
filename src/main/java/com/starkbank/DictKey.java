@@ -22,6 +22,7 @@ public class DictKey extends Resource {
      * name [string, default null]: key owner full name. ex: "Tony Stark"
      * taxId [string, default null]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
      * ownerType [string, default null]: DICT key owner type. ex "naturalPerson" or "legalPerson"
+     * bankName [string, default null]: bank name associated with the DICT key. ex: "Stark Bank"
      * ispb [string, default null]: bank ISPB associated with the DICT key. ex: "20018183"
      * branchCode [string, default null]: bank account branch code associated with the DICT key. ex: "9585"
      * accountNumber [string, default null]: bank account number associated with the DICT key. ex: "9828282578010513"
@@ -39,6 +40,7 @@ public class DictKey extends Resource {
     public String name;
     public String taxId;
     public String ownerType;
+    public String bankName;
     public String ispb;
     public String branchCode;
     public String accountNumber;
@@ -66,10 +68,9 @@ public class DictKey extends Resource {
      * @param owned [datetime.datetime, default null]: datetime since when the current owner holds this DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
      * @param created [datetime.datetime, default null]: creation datetime for the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
      */
-    public DictKey(String id, String type, String accountCreated, String accountType, String name,
-                    String taxId, String ownerType, String ispb, String branchCode, String accountNumber,
-                    String status, String owned, String created
-    ) {
+    public DictKey(String id, String type, String accountCreated, String accountType, String name, String taxId,
+                   String ownerType, String bankName, String ispb, String branchCode, String accountNumber,
+                   String status, String owned, String created) {
         super(id);
         this.type = type;
         this.accountCreated = accountCreated;
@@ -77,6 +78,7 @@ public class DictKey extends Resource {
         this.name = name;
         this.taxId = taxId;
         this.ownerType = ownerType;
+        this.bankName = bankName;
         this.ispb = ispb;
         this.branchCode = branchCode;
         this.accountNumber = accountNumber;
