@@ -21,6 +21,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - Missing parameters to Boleto, BrcodePayment and Deposit resources 
 - Event.Attempt sub-resource to allow retrieval of information on failed webhook event delivery attempts
 - pdf method for retrieving PDF receipts from reversed invoice logs
+- DictKey.bankName parameter
 
 ### Fixed
 - special characters in brcodePreview query
