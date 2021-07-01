@@ -3,6 +3,7 @@ package com.starkbank;
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
+import com.starkbank.utils.SubResource;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -316,7 +317,7 @@ public final class UtilityPayment extends Resource {
     public static Page page(Map<String, Object> params, User user) throws Exception {
         com.starkbank.utils.Page page = Rest.getPage(data, params, user);
         List<UtilityPayment> payments = new ArrayList<>();
-        for (Resource payment: page.entities) {
+        for (SubResource payment: page.entities) {
             payments.add((UtilityPayment) payment);
         }
         return new Page(payments, page.cursor);
@@ -669,7 +670,7 @@ public final class UtilityPayment extends Resource {
         public static Log.Page page(Map<String, Object> params, User user) throws Exception {
             com.starkbank.utils.Page page = Rest.getPage(data, params, user);
             List<Log> logs = new ArrayList<>();
-            for (Resource log: page.entities) {
+            for (SubResource log: page.entities) {
                 logs.add((Log) log);
             }
             return new Log.Page(logs, page.cursor);

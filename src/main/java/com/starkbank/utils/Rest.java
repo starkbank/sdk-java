@@ -48,7 +48,7 @@ public final class Rest {
         JsonElement cursorJson = contentJson.get("cursor");
         String cursor = cursorJson.isJsonNull() ? null : cursorJson.getAsString();
 
-        List<Resource> entities = new ArrayList<>();
+        List<SubResource> entities = new ArrayList<>();
         JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
         for (JsonElement resourceElement : jsonArray) {
             JsonObject jsonObject = resourceElement.getAsJsonObject();
@@ -58,7 +58,7 @@ public final class Rest {
         return new Page(entities, cursor);
     }
 
-    public static <T extends Resource> Generator<T> getStream(Resource.ClassData resource, Map<String, Object> params, User user) {
+    public static <T extends SubResource> Generator<T> getStream(Resource.ClassData resource, Map<String, Object> params, User user) {
         return new Generator<T>() {
             public void run() throws Exception {
                 Map<String, Object> paramsCopy = new HashMap<>();
@@ -66,7 +66,7 @@ public final class Rest {
                     paramsCopy.put(entry.getKey(), entry.getValue());
                 }
                 Integer limit = (Integer) paramsCopy.get("limit");
-                String cursor = "";
+                String cursor = null;
                 do {
                     paramsCopy.put("cursor", cursor);
                     if (limit != null) {

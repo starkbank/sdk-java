@@ -466,7 +466,7 @@ public final class Boleto extends Resource {
     public static Page page(Map<String, Object> params, User user) throws Exception {
         com.starkbank.utils.Page page = Rest.getPage(data, params, user);
         List<Boleto> boletos = new ArrayList<>();
-        for (Resource boleto: page.entities) {
+        for (SubResource boleto: page.entities) {
             boletos.add((Boleto) boleto);
         }
         return new Page(boletos, page.cursor);
@@ -924,7 +924,7 @@ public final class Boleto extends Resource {
         public static Log.Page page(Map<String, Object> params, User user) throws Exception {
             com.starkbank.utils.Page page = Rest.getPage(data, params, user);
             List<Log> logs = new ArrayList<>();
-            for (Resource log: page.entities) {
+            for (SubResource log: page.entities) {
                 logs.add((Log) log);
             }
             return new Log.Page(logs, page.cursor);

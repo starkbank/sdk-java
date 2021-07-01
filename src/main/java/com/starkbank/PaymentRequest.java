@@ -367,7 +367,7 @@ public final class PaymentRequest extends Resource {
     public static Page page(Map<String, Object> params, User user) throws Exception {
         com.starkbank.utils.Page page = Rest.getPage(data, params, user);
         List<PaymentRequest> requests = new ArrayList<>();
-        for (Resource request: page.entities) {
+        for (SubResource request: page.entities) {
             requests.add((PaymentRequest) request);
         }
         return new Page(requests, page.cursor);

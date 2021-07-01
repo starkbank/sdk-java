@@ -456,7 +456,7 @@ public final class Invoice extends Resource {
     public static Page page(Map<String, Object> params, User user) throws Exception {
         com.starkbank.utils.Page page = Rest.getPage(data, params, user);
         List<Invoice> invoices = new ArrayList<>();
-        for (Resource invoice: page.entities) {
+        for (SubResource invoice: page.entities) {
             invoices.add((Invoice) invoice);
         }
         return new Page(invoices, page.cursor);
@@ -999,7 +999,7 @@ public final class Invoice extends Resource {
         public static Log.Page page(Map<String, Object> params, User user) throws Exception {
             com.starkbank.utils.Page page = Rest.getPage(data, params, user);
             List<Log> logs = new ArrayList<>();
-            for (Resource log: page.entities) {
+            for (SubResource log: page.entities) {
                 logs.add((Log) log);
             }
             return new Log.Page(logs, page.cursor);

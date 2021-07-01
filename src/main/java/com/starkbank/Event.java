@@ -6,10 +6,7 @@ import com.starkbank.ellipticcurve.PublicKey;
 import com.starkbank.ellipticcurve.Signature;
 import com.starkbank.ellipticcurve.utils.ByteString;
 import com.starkbank.error.InvalidSignatureError;
-import com.starkbank.utils.Generator;
-import com.starkbank.utils.Resource;
-import com.starkbank.utils.Response;
-import com.starkbank.utils.Rest;
+import com.starkbank.utils.*;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -370,7 +367,7 @@ public class Event extends Resource {
     public static Page page(Map<String, Object> params, User user) throws Exception {
         com.starkbank.utils.Page page = Rest.getPage(data, params, user);
         List<Event> events = new ArrayList<>();
-        for (Resource event: page.entities) {
+        for (SubResource event: page.entities) {
             events.add((Event) event);
         }
         return new Page(events, page.cursor);
@@ -767,7 +764,7 @@ public class Event extends Resource {
         public static Attempt.Page page(Map<String, Object> params, User user) throws Exception {
             com.starkbank.utils.Page page = Rest.getPage(data, params, user);
             List<Attempt> attempts = new ArrayList<>();
-            for (Resource attempt: page.entities) {
+            for (SubResource attempt: page.entities) {
                 attempts.add((Attempt) attempt);
             }
             return new Attempt.Page(attempts, page.cursor);

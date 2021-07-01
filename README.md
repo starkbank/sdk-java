@@ -521,6 +521,24 @@ Transfer.Log log = Transfer.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
+### Query Bacen institutions
+
+You can query institutions registered by the Brazilian Central Bank for Pix and TED transactions.
+
+ ```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("search", "stark");
+
+Generator<Institution> institutions = Institution.query(params);
+
+for (Institution institution : institutions) {
+    System.out.println(institution);
+}
+ ```
+
 ### Create invoices
 
 You can create dynamic QR Code invoices to charge customers or to receive money from accounts
