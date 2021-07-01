@@ -3,8 +3,7 @@ package com.starkbank.utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 final class Url {
@@ -24,13 +23,14 @@ final class Url {
     }
 
     private static Object encode(Object entryValue) throws UnsupportedEncodingException {
-        if (entryValue.getClass() != String[].class) {
+        if (!(entryValue.getClass().isArray()) && !(entryValue instanceof Collection)) {
             return encode(entryValue.toString());
         }
         StringBuilder value = new StringBuilder();
         String listSeparator = "";
-        for (String string : (String[]) entryValue) {
-            value.append(listSeparator).append(encode(string));
+        List<?> values = convertObjectToList(entryValue);
+        for (Object object : values) {
+            value.append(listSeparator).append(encode(object));
             listSeparator = ",";
         }
         return value;
@@ -40,5 +40,10 @@ final class Url {
         return URLEncoder.encode(string, StandardCharsets.UTF_8.toString());
     }
 
-
+    private static List<?> convertObjectToList(Object obj) {
+        if (obj.getClass().isArray()) {
+            return Arrays.asList((Object[])obj);
+        }
+        return new ArrayList<>((Collection<?>)obj);
+    }
 }
