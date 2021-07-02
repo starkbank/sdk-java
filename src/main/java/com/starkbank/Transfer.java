@@ -46,7 +46,7 @@ public final class Transfer extends Resource {
      * @param bankCode [string]: code of the receiver bank institution in Brazil. If an ISPB (8 digits) is informed, a PIX transfer will be created, else a TED will be issued. ex: "20018183" or "341"
      * @param branchCode [string]: receiver bank account branch. Use "-" in case there is a verifier digit. ex: "1357-9"
      * @param accountNumber [string]: Receiver bank account number. Use "-" before the verifier digit. ex: "876543-2"
-     * @param accountType [string]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings" or "salary"
+     * @param accountType [string]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
      * @param externalId [string]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
      * @param scheduled [string]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
      * @param description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
@@ -99,7 +99,7 @@ public final class Transfer extends Resource {
      * accountNumber [string]: Receiver bank account number. Use "-" before the verifier digit. ex: "876543-2"
      * <p>
      * Parameters (optional):
-     * accountType [string, default "checking"]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings" or "salary"
+     * accountType [string, default "checking"]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
      * externalId [string, default null]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
      * scheduled [string, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
      * description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"

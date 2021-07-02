@@ -717,7 +717,7 @@ public final class Invoice extends Resource {
      * - bankCode [string]: code of the payer bank institution in Brazil. ex: "20018183"
      * - branchCode [string]: payer bank account branch. ex: "1357-9"
      * - accountNumber [string]: payer bank account number. ex: "876543-2"
-     * - accountType [string]: payer bank account type. ex: "checking", "savings" or "salary"
+     * - accountType [string]: payer bank account type. ex: "checking", "savings", "salary" or "payment"
      * - endToEndId [string]: central bank's unique transaction ID. ex: "E79457883202101262140HHX553UPqeq"
      * - method [string]: payment method that was used. ex: "pix"
      */
@@ -747,7 +747,7 @@ public final class Invoice extends Resource {
          * @param bankCode [string]: code of the payer bank institution in Brazil. ex: "20018183"
          * @param branchCode [string]: payer bank account branch. ex: "1357-9"
          * @param accountNumber [string]: payer bank account number. ex: "876543-2"
-         * @param accountType [string]: payer bank account type. ex: "checking", "savings" or "salary"
+         * @param accountType [string]: payer bank account type. ex: "checking", "savings", "salary" or "payment"
          * @param endToEndId [string]: central bank's unique transaction ID. ex: "E79457883202101262140HHX553UPqeq"
          * @param method [string]: payment method that was used. ex: "pix"
          */
