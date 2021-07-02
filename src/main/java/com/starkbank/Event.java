@@ -80,6 +80,9 @@ public class Event extends Resource {
                     case "tax-payment":
                         return context.deserialize(jsonObject,
                                 TaxPaymentEvent.class);
+                    case "darf-payment":
+                        return context.deserialize(jsonObject,
+                                DarfPaymentEvent.class);
                     default:
                         return context.deserialize(jsonObject,
                                 UnknownEvent.class);
@@ -129,6 +132,15 @@ public class Event extends Resource {
         public TaxPayment.Log log;
 
         public TaxPaymentEvent(TaxPayment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
+            this.log = log;
+        }
+    }
+
+    public final static class DarfPaymentEvent extends Event {
+        public DarfPayment.Log log;
+
+        public DarfPaymentEvent(DarfPayment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }

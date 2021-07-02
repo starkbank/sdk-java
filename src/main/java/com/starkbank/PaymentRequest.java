@@ -162,6 +162,12 @@ public final class PaymentRequest extends Resource {
                 case "utility-payment":
                     resource = new Gson().fromJson(resourceElement, UtilityPayment.class);
                     break;
+                case "tax-payment":
+                    resource = new Gson().fromJson(resourceElement, TaxPayment.class);
+                    break;
+                case "darf-payment":
+                    resource = new Gson().fromJson(resourceElement, DarfPayment.class);
+                    break;
                 case "brcode-payment":
                     resource = new Gson().fromJson(resourceElement, BrcodePayment.class);
                     break;
@@ -439,11 +445,13 @@ public final class PaymentRequest extends Resource {
             return "utility-payment";
         if(payment instanceof TaxPayment)
             return "tax-payment";
+        if(payment instanceof DarfPayment)
+            return "darf-payment";
         if(payment instanceof BrcodePayment)
             return "brcode-payment";
 
         throw new Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment, a BrcodePayment, " +
-                "a UtilityPayment or a TaxPayment.");
+                "a UtilityPayment, a TaxPayment or a DarfPayment.");
     }
 
     /**
