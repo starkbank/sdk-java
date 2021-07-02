@@ -437,10 +437,13 @@ public final class PaymentRequest extends Resource {
             return "boleto-payment";
         if(payment instanceof UtilityPayment)
             return "utility-payment";
+        if(payment instanceof TaxPayment)
+            return "tax-payment";
         if(payment instanceof BrcodePayment)
             return "brcode-payment";
 
-        throw new Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment, a BrcodePayment or a UtilityPayment.");
+        throw new Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment, a BrcodePayment, " +
+                "a UtilityPayment or a TaxPayment.");
     }
 
     /**
