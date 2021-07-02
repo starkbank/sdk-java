@@ -25,6 +25,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - Institution resource to allow query of institutions recognized by the Brazilian Central Bank for Pix and TED transactions
 - TaxPayment resource
 - DarfPayment resource
+- "payment" account type for Pix related resources
 
 ### Fixed
 - special characters in brcodePreview query
