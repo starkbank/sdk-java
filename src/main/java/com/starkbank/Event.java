@@ -77,6 +77,9 @@ public class Event extends Resource {
                     case "brcode-payment":
                         return context.deserialize(jsonObject,
                                 BrcodePaymentEvent.class);
+                    case "tax-payment":
+                        return context.deserialize(jsonObject,
+                                TaxPaymentEvent.class);
                     default:
                         return context.deserialize(jsonObject,
                                 UnknownEvent.class);
@@ -117,6 +120,15 @@ public class Event extends Resource {
         public UtilityPayment.Log log;
 
         public UtilityPaymentEvent(UtilityPayment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
+            this.log = log;
+        }
+    }
+
+    public final static class TaxPaymentEvent extends Event {
+        public TaxPayment.Log log;
+
+        public TaxPaymentEvent(TaxPayment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }

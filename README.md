@@ -1466,6 +1466,137 @@ UtilityPayment.Log log = UtilityPayment.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
+### Create tax payment
+
+It is also simple to pay taxes (such as ISS and DAS) using this SDK.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+List<TaxPayment> payments = new ArrayList<>();
+
+HashMap<String, Object> data = new HashMap<>();
+data.put("barCode", "83660000001084301380074119002551100010601813");
+data.put("description", "fix the road");
+data.put("tags", new String[]{"take", "my", "money"});
+
+payments.add(new TaxPayment(data));
+
+payments = TaxPayment.create(payments);
+
+for (TaxPayment payment : payments) {
+    System.out.println(payment);
+}
+```
+
+**Note**: Instead of using TaxPayment objects, you can also pass each payment element in dictionary format
+
+### Query tax payments
+
+To search for tax payments using filters, run:
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 3);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+params.put("status", "success");
+
+Generator<TaxPayment> payments = TaxPayment.query(params);
+
+for (TaxPayment payment : payments) {
+    System.out.println(payment);
+}
+```
+
+### Get tax payment
+
+You can get a specific tax payment by its id:
+
+```java
+import com.starkbank.*;
+
+TaxPayment payment = TaxPayment.get("5155165527080960");
+System.out.println(payment);
+```
+
+### Get tax payment PDF
+
+After its creation, a tax payment PDF may also be retrieved by its id.
+
+```java
+import com.starkbank.*;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+
+
+InputStream pdf = TaxPayment.pdf("5155165527080960");
+java.nio.file.Files.copy(
+    pdf,
+    new File("tax-payment.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+### Delete tax payment
+
+You can also cancel a tax payment by its id.
+Note that this is not possible if it has been processed already.
+
+```java
+import com.starkbank.*;
+
+TaxPayment payment = TaxPayment.delete("5155165527080960");
+System.out.println(payment);
+```
+
+### Query tax payment logs
+
+You can search for payment logs by specifying filters. Use this to understand each payment life cycle.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 3);
+params.put("after", "2019-04-01");
+params.put("before", "2030-04-30");
+
+Generator<TaxPayment.Log> logs = TaxPayment.Log.query(params);
+
+for (TaxPayment.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+### Get tax payment log
+
+If you want to get a specific payment log by its id, just run:
+
+```java
+import com.starkbank.*;
+
+TaxPayment.Log log = TaxPayment.Log.get("1902837198237992");
+System.out.println(log);
+```
+
+**Note**: Some taxes can't be payed with bar codes. Since they have specific parameters, each one of them has its own
+resource and routes, which are all analogous to the TaxPayment resource. The ones we currently support are:
+- DarfPayment, for DARFs
+
+
 ### Create payment requests to be approved by authorized people in a cost center 
 
 You can also request payments that must pass through a specific cost center approval flow to be executed.
@@ -1539,7 +1670,7 @@ import java.util.HashMap;
 
 HashMap<String, Object> data = new HashMap<>();
 data.put("url", "https://winterfell.westeros.gov/events-from-stark-bank");
-data.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment", "boleto-holmes", "brcode-payment", "deposit", "invoice"});
+data.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment", "tax-payment", "boleto-holmes", "brcode-payment", "deposit", "invoice"});
 Webhook webhook = Webhook.create(data);
 
 System.out.println(webhook);
@@ -1619,6 +1750,11 @@ switch (event.subscription) {
     }
     case "utility-payment": {
         UtilityPayment.Log log = ((Event.UtilityPaymentEvent) event).log;
+        System.out.println(log.payment);
+        break;
+    }
+    case "tax-payment": {
+        TaxPayment.Log log = ((Event.TaxPaymentEvent) event).log;
         System.out.println(log.payment);
         break;
     }

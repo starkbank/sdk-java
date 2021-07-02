@@ -23,6 +23,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - pdf method for retrieving PDF receipts from reversed invoice logs
 - DictKey.bankName parameter
 - Institution resource to allow query of institutions recognized by the Brazilian Central Bank for Pix and TED transactions
+- TaxPayment resource
 
 ### Fixed
 - special characters in brcodePreview query
