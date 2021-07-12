@@ -27,6 +27,7 @@ public final class Workspace extends Resource {
      * Parameters:
      * @param username [string]: Simplified name to define the workspace URL. This name must be unique across all Stark Bank Workspaces. Ex: "starkbankworkspace"
      * @param name [string]: Full name that identifies the Workspace. This name will appear when people access the Workspace on our platform, for example. Ex: "Stark Bank Workspace"
+     * @param allowedTaxIds [list of strings]: list of tax IDs that will be allowed to send Deposits to this Workspace. ex: ["012.345.678-90", "20.018.183/0001-80"]
      * Attributes:
      * @param id [string, default null]: unique id returned when the workspace is created. ex: "5656565656565656"
      */
@@ -315,9 +316,9 @@ public final class Workspace extends Resource {
      * </p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param patchData [Map<String, Object>]: Allowed parameters: "name", "username and "allowedTaxIds"
+     * @param patchData [map of parameters to patch]: Allowed parameters: "name", "username and "allowedTaxIds"
      * @return target Workspace with updated attributes
-     * @throws Exception
+     * @throws Exception error in the request
      */
     public static Workspace update(String id, Map<String, Object> patchData) throws Exception {
         return update(id, patchData, null);
@@ -330,10 +331,10 @@ public final class Workspace extends Resource {
      * </p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param patchData [Map<String, Object>]: Allowed parameters: "name", "username and "allowedTaxIds"
+     * @param patchData [map of parameters to patch]: Allowed parameters: "name", "username and "allowedTaxIds"
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if User was set before function call
      * @return target Workspace with updated attributes
-     * @throws Exception
+     * @throws Exception error in the request
      */
     public static Workspace update(String id, Map<String, Object> patchData, User user) throws Exception {
         return Rest.patch(data, id, patchData, user);
