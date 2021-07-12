@@ -537,7 +537,19 @@ public class Event extends Resource {
             publicKey = getStarkBankPublicKey(user);
             Cache.starkBankPublicKey = publicKey;
         }
-        return Ecdsa.verify(content, signature, publicKey);
+        if (Ecdsa.verify(content, signature, publicKey)) {
+            return true;
+        }
+
+        String normalized = normalize(content);
+        return Ecdsa.verify(normalized, signature, publicKey);
+    }
+
+    private static String normalize(String content) {
+        return new Gson().fromJson(content, JsonObject.class).toString()
+                .replaceAll("(,)?\"([a-zA-Z0-9-\\.]*)\":", "$1 \"$2\": ")
+                .replaceAll("\\{\\s", "{")
+                .replaceAll("\\s}", "}");
     }
 
     private static PublicKey getStarkBankPublicKey(User user) throws Exception {
