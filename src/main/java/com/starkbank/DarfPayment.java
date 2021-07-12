@@ -54,6 +54,7 @@ public final class DarfPayment extends Resource {
      * @param scheduled [string, default today]: payment scheduled date. ex: "2021-05-10"
      * @param tags [list of strings]: list of strings for tagging
      * Attributes (return-only):
+     * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
      * @param status [string, default null]: current payment status. ex: "success" or "failed"
      * @param amount [int, default null]: Total amount due calculated from other amounts. ex: 24146 (= R$ 241.46)
      * @param fee [integer, default null]: fee charged when the DarfPayment is processed. ex: 0 (= R$ 0.00)
@@ -84,9 +85,12 @@ public final class DarfPayment extends Resource {
 
     /**
      * DarfPayment object
+     * <p>
      * When you initialize a DarfPayment, the entity will not be automatically
      * created in the Stark Bank API. The 'create' function sends the objects
      * to the Stark Bank API and returns the list of created objects.
+     * <p>
+     * @param data map of parameters for the creation of the DarfPayment
      * Parameters (required):
      * - description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * - revenueCode [string]: 4-digit tax code assigned by Federal Revenue. ex: "5948"
@@ -96,17 +100,19 @@ public final class DarfPayment extends Resource {
      * - fineAmount [int]: fixed amount due in cents for fines. ex: 234 (= R$ 2.34)
      * - interestAmount [int]: amount due in cents for interest. ex: 456 (= R$ 4.56)
      * - due [string]: due date for payment. ex: "2021-05-17"
+     * <p>
      * ## Parameters (optional):
      * - referenceNumber [string]: number assigned to the region of the tax. ex: "08.1.17.00-4"
      * - scheduled [string, default today]: payment scheduled date. ex: "2021-05-10"
      * - tags [list of strings]: list of strings for tagging
+     * <p>
      * ## Attributes (return-only):
      * - status [string, default null]: current payment status. ex: "success" or "failed"
      * - amount [int, default null]: Total amount due calculated from other amounts. ex: 24146 (= R$ 241.46)
      * - fee [integer, default null]: fee charged when the DarfPayment is processed. ex: 0 (= R$ 0.00)
      * - updated [string, default null]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
      * - created [string, default null]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
-     * @throws Exception
+     * @throws Exception error in the request
      */
     public DarfPayment(Map<String, Object> data) throws Exception {
         super(null);

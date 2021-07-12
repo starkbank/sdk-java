@@ -46,6 +46,7 @@ public final class TaxPayment extends Resource {
      * <p>
      * Attributes (return-only):
      * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
+     * @param type [string, default null]: tax type. ex: "das"
      * @param status [string, default null]: current payment status. ex: "processing" or "success"
      * @param amount [long, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
      * @param fee [Integer, default null]: fee charged when the tax payment is created. ex: 200 (= R$ 2.00)

@@ -60,6 +60,7 @@ public class DictKey extends Resource {
      * @param name [string, default null]: key owner full name. ex: "Tony Stark"
      * @param taxId [string, default null]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
      * @param ownerType [string, default null]: DICT key owner type. ex "naturalPerson" or "legalPerson"
+     * @param bankName [string, default null]: bank name associated with the DICT key. ex: "Stark Bank"
      * @param ispb [string, default null]: bank ISPB associated with the DICT key. ex: "20018183"
      * @param branchCode [string, default null]: bank account branch code associated with the DICT key. ex: "9585"
      * @param accountNumber [string, default null]: bank account number associated with the DICT key. ex: "9828282578010513"
