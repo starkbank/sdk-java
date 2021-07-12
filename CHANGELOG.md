@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.7.0] - 2021-07-12
 ### Added
 - Event.workspaceId property to multiple Workspace Webhook identification
 - Workspace.update() to allow parameter updates
@@ -26,9 +28,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - TaxPayment resource
 - DarfPayment resource
 - "payment" account type for Pix related resources
-
 ### Fixed
-- special characters in brcodePreview query
+- special characters in BrcodePreview query
 
 ## [2.6.0] - 2021-03-04
 ### Added
