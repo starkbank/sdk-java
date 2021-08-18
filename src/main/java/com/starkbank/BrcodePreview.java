@@ -1,13 +1,13 @@
 package com.starkbank;
 
 import com.starkbank.utils.Generator;
-import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
+import com.starkbank.utils.SubResource;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public final class BrcodePreview extends Resource {
+public final class BrcodePreview extends SubResource {
     /**
     * BrcodePreview object
     * <p>
@@ -58,7 +58,6 @@ public final class BrcodePreview extends Resource {
     public BrcodePreview(String status, String name, String taxId, String bankCode, String branchCode,
         String accountNumber, String accountType, boolean allowChange, long amount, String reconciliationId
     ) {
-        super(null);
         this.status = status;
         this.name = name;
         this.taxId = taxId;
@@ -91,7 +90,6 @@ public final class BrcodePreview extends Resource {
     * @throws Exception error in the request
     */
     public BrcodePreview(Map<String, Object> data) throws Exception {
-        super(null);
         HashMap<String, Object> dataCopy = new HashMap<>(data);
 
         this.status = (String) dataCopy.remove("status");
@@ -124,6 +122,7 @@ public final class BrcodePreview extends Resource {
      * @return generator of BrcodePreview objects with updated attributes
      * @throws Exception error in the request 
      */
+    @Deprecated
     public static Generator<BrcodePreview> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getSimpleList(data, params, user);
     }
@@ -141,6 +140,7 @@ public final class BrcodePreview extends Resource {
      * @return generator of BrcodePreview objects with updated attributes
      * @throws Exception error in the request 
      */
+    @Deprecated
     public static Generator<BrcodePreview> query(Map<String, Object> params) throws Exception {
         return Rest.getSimpleList(data, params, null);
     }
