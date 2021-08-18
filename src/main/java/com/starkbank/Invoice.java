@@ -76,6 +76,8 @@ public final class Invoice extends Resource {
      * When you initialize an Invoice, the entity will not be automatically
      * sent to the Stark Bank API. The "create" function sends the objects
      * to the Stark Bank API and returns the list of created objects.
+     * To create scheduled Invoices, which will display the discount, interest, etc. on the final users banking interface,
+     * use dates instead of datetimes on the "due" and "discounts" fields.
      * All parameters are passed in a Map of String and Object object.
 
      * Parameters:

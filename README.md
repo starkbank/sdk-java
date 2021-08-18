@@ -541,8 +541,13 @@ for (Institution institution : institutions) {
 
 ### Create invoices
 
-You can create dynamic QR Code invoices to charge customers or to receive money from accounts
-you have in other banks.
+You can create dynamic QR Code invoices to charge customers or to receive money from accounts you have in other banks.
+
+Since the banking system only understands value modifiers (discounts, fines and interest) when dealing with **dates** (instead of **datetimes**), these values will only show up in the end user banking interface if you use **dates** in the "due" and "discounts" fields.
+
+If you use **datetimes** instead, our system will apply the value modifiers in the same manner, but the end user will only see the final value to be paid on his interface.
+
+Also, other banks will most likely only allow payment scheduling on invoices defined with **dates** instead of **datetimes**.
 
 ```java
 import com.starkbank.*;
@@ -551,29 +556,46 @@ import java.util.HashMap;
 import java.util.List;
 
 List<Invoice> invoices = new ArrayList<>();
-HashMap<String, Object> data = new HashMap<>();
-data.put("amount", 400000);
-data.put("due", "2020-11-28T17:59:26.249976+00:00");
-data.put("taxId", "20.018.183/0001-80");
-data.put("name", "Iron Bank S.A.");
-data.put("expiration", 123456789);
-data.put("fine", 2);
-data.put("interest", 1.3);
 
 List<HashMap<String, Object>> descriptions = new ArrayList<>();
-HashMap<String, Object> description = new HashMap<>();
-description.put("key", "Some supplies");
-description.put("value", "100000");
+HashMap<String, Object> description = new HashMap<String, Object>(){{
+    put("key", "Some supplies");
+    put("value", "100000");
+}};
 descriptions.add(description);
-data.put("descriptions", descriptions);
+
+invoices.add(new Invoice(new HashMap<String, Object>(){{
+    put("tags", new String[]{"immediate"});
+    put("amount", 23571);
+    put("due", "2021-11-28T17:59:26.249976+00:00");
+    put("taxId", "012.345.678-90");
+    put("name", "Buzz Aldrin");
+    put("expiration", 123456789);
+    put("fine", 5);
+    put("interest", 2.5);
+    put("descriptions", descriptions);
+}}));
 
 List<HashMap<String, Object>> discounts = new ArrayList<>();
-HashMap<String, Object> discount = new HashMap<>();
-discount.put("due", "2020-11-25T17:59:26.249976+00:00");
-discount.put("percentage", 2.5);
-data.put("discounts", discounts);
+HashMap<String, Object> discount = new HashMap<String, Object>(){{
+    put("due", "2021-11-27");
+    put("percentage", 2.5);
+}};
+discounts.add(discount);
 
-invoices.add(new Invoice(data));
+invoices.add(new Invoice(new HashMap<String, Object>(){{
+    put("tags", new String[]{"scheduled"});
+    put("amount", 23571);
+    put("due", "2021-11-28");
+    put("taxId", "012.345.678-90");
+    put("name", "Buzz Aldrin");
+    put("expiration", 123456789);
+    put("fine", 5);
+    put("interest", 2.5);
+    put("discounts", discounts);
+}}));
+
+invoices = Invoice.create(invoices);
 
 for (Invoice invoice : invoices) {
     System.out.println(invoice);
