@@ -91,7 +91,7 @@ public final class Rest {
         };
     }
 
-    public static <T extends Resource> Generator<T> getSimpleList(Resource.ClassData resource, Map<String, Object> params, User user) {
+    public static <T extends SubResource> Generator<T> getSimpleList(Resource.ClassData resource, Map<String, Object> params, User user) {
         return new Generator<T>() {
             public void run() throws Exception {
                 Map<String, Object> paramsCopy = new HashMap<>();
