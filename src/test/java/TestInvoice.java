@@ -1,16 +1,18 @@
 import com.starkbank.Invoice;
 import com.starkbank.Settings;
 import com.starkbank.utils.Generator;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 import utils.User;
 
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,13 +39,6 @@ public class TestInvoice {
         descriptions.add(description);
         data.put("descriptions", descriptions);
 
-        List<HashMap<String, Object>> discounts = new ArrayList<>();
-        HashMap<String, Object> discount = new HashMap<>();
-        discount.put("due", getDatetimeString(1));
-        discount.put("percentage", 2.5);
-        discounts.add(discount);
-        data.put("discounts", discounts);
-
         invoices.add(new Invoice(data));
 
         HashMap<String, Object> simpleExample = new HashMap<>();
@@ -55,6 +50,22 @@ public class TestInvoice {
         simpleExample.put("fine", 2);
         simpleExample.put("interest", 1.3);
         invoices.add(new Invoice(simpleExample));
+
+        List<HashMap<String, Object>> discounts = new ArrayList<>();
+        HashMap<String, Object> discount = new HashMap<>();
+        discount.put("due", getDateString(2));
+        discount.put("percentage", 2.5);
+        discounts.add(discount);
+        invoices.add(new Invoice(new HashMap<String, Object>(){{
+            put("amount", 400000);
+            put("taxId", "012.345.678-90");
+            put("name", "Iron Bank S.A.");
+            put("expiration", 123456789);
+            put("fine", 2);
+            put("interest", 1.3);
+            put("discounts", discounts);
+            put("due", getDateString(2));
+        }}));
 
         invoices = Invoice.create(invoices);
 
@@ -298,5 +309,9 @@ public class TestInvoice {
         ZonedDateTime datetime = ZonedDateTime.now().plusDays(delta);
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
         return dateFormat.format(datetime).concat("+00:00");
+    }
+
+    public String getDateString(int delta) {
+        return LocalDate.now().plusDays(delta).toString();
     }
 }
