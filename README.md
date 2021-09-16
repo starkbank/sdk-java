@@ -1091,26 +1091,6 @@ log = BoletoHolmes.Log.get("5350990148534272")
 System.out.println(log);
 ```
 
-### Preview a BR Code payment
-
-You can confirm the information on the BR Code payment before creating it with this preview method:
-
-```java
-import com.starkbank.*;
-import com.starkbank.utils.Generator;
-import java.util.HashMap;
-
-String[] brcodes = { "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A" };
-
-HashMap<String, Object> params = new HashMap<>();
-params.put("brcodes", brcodes);
-Generator<BrcodePreview> previews = BrcodePreview.query(params);
-
-for (BrcodePreview preview : previews){
-    System.out.println(preview);
-}
-```
-
 ### Pay a BR Code
 
 Paying a BR Code is also simple.
