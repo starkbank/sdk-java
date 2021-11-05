@@ -23,6 +23,11 @@ public final class BrcodePreview extends SubResource {
     * accountType [string]: Payment receiver account type. ex: "checking"
     * allowChange [bool]: If True, the payment is able to receive amounts that are different from the nominal one. ex: True or False
     * amount [integer]: Value in cents that this payment is expecting to receive. If 0, any value is accepted. ex: 123 (= R$1,23)
+    * nominalAmount [integer]: Original value in cents that this payment was expecting to receive without the discounts, fines, etc.. If 0, any value is accepted. ex: 123 (= R$1,23)
+    * interestAmount [integer]: Current interest value in cents that this payment is charging. If 0, any value is accepted. ex: 123 (= R$1,23)
+    * fineAmount [integer]: Current fine value in cents that this payment is charging. ex: 123 (= R$1,23)
+    * reductionAmount [integer]: Current value reduction value in cents that this payment is expecting. ex: 123 (= R$1,23)
+    * discountAmount [integer]: Current discount value in cents that this payment is expecting. ex: 123 (= R$1,23)
     * reconciliationId [string]: Reconciliation ID linked to this payment. ex: "txId", "payment-123"
     */
     static ClassData data = new ClassData(BrcodePreview.class, "BrcodePreview");
@@ -36,6 +41,11 @@ public final class BrcodePreview extends SubResource {
     public String accountType;
     public Boolean allowChange;
     public long amount;
+    public long nominalAmount;
+    public long interestAmount;
+    public long fineAmount;
+    public long reductionAmount;
+    public long discountAmount;
     public String reconciliationId;
 
     /**
@@ -53,10 +63,16 @@ public final class BrcodePreview extends SubResource {
     * @param accountType [string]: Payment receiver account type. ex: "checking"
     * @param allowChange [bool]: If True, the payment is able to receive amounts that are different from the nominal one. ex: True or False
     * @param amount [integer]: Value in cents that this payment is expecting to receive. If 0, any value is accepted. ex: 123 (= R$1,23)
+    * @param nominalAmount [integer]: Original value in cents that this payment was expecting to receive without the discounts, fines, etc.. If 0, any value is accepted. ex: 123 (= R$1,23)
+    * @param interestAmount [integer]: Current interest value in cents that this payment is charging. If 0, any value is accepted. ex: 123 (= R$1,23)
+    * @param fineAmount [integer]: Current fine value in cents that this payment is charging. ex: 123 (= R$1,23)
+    * @param reductionAmount [integer]: Current value reduction value in cents that this payment is expecting. ex: 123 (= R$1,23)
+    * @param discountAmount [integer]: Current discount value in cents that this payment is expecting. ex: 123 (= R$1,23)
     * @param reconciliationId [string]: Reconciliation ID linked to this payment. ex: "txId", "payment-123"
     */
-    public BrcodePreview(String status, String name, String taxId, String bankCode, String branchCode,
-        String accountNumber, String accountType, boolean allowChange, long amount, String reconciliationId
+    public BrcodePreview(String status, String name, String taxId, String bankCode, String branchCode, String accountNumber,
+                         String accountType, boolean allowChange, long amount, long nominalAmount, long interestAmount,
+                         long fineAmount, long reductionAmount, long discountAmount, String reconciliationId
     ) {
         this.status = status;
         this.name = name;
@@ -67,6 +83,11 @@ public final class BrcodePreview extends SubResource {
         this.accountType = accountType;
         this.allowChange = allowChange;
         this.amount = amount;
+        this.nominalAmount = nominalAmount;
+        this.interestAmount = interestAmount;
+        this.fineAmount = fineAmount;
+        this.reductionAmount = reductionAmount;
+        this.discountAmount = discountAmount;
         this.reconciliationId = reconciliationId;
     }
 
@@ -86,6 +107,11 @@ public final class BrcodePreview extends SubResource {
     * accountType [string]: Payment receiver account type. ex: "checking"
     * allowChange [bool]: If True, the payment is able to receive amounts that are different from the nominal one. ex: True or False
     * amount [integer]: Value in cents that this payment is expecting to receive. If 0, any value is accepted. ex: 123 (= R$1,23)
+    * nominalAmount [integer]: Original value in cents that this payment was expecting to receive without the discounts, fines, etc.. If 0, any value is accepted. ex: 123 (= R$1,23)
+    * interestAmount [integer]: Current interest value in cents that this payment is charging. If 0, any value is accepted. ex: 123 (= R$1,23)
+    * fineAmount [integer]: Current fine value in cents that this payment is charging. ex: 123 (= R$1,23)
+    * reductionAmount [integer]: Current value reduction value in cents that this payment is expecting. ex: 123 (= R$1,23)
+    * discountAmount [integer]: Current discount value in cents that this payment is expecting. ex: 123 (= R$1,23)
     * reconciliationId [string]: Reconciliation ID linked to this payment. ex: "txId", "payment-123"
     * @throws Exception error in the request
     */
@@ -101,6 +127,11 @@ public final class BrcodePreview extends SubResource {
         this.accountType = (String) dataCopy.remove("accountType");
         this.allowChange = (boolean) dataCopy.remove("allowChange");
         this.amount = (long) dataCopy.remove("amount");
+        this.nominalAmount = (long) dataCopy.remove("nominalAmount");
+        this.interestAmount = (long) dataCopy.remove("interestAmount");
+        this.fineAmount = (long) dataCopy.remove("fineAmount");
+        this.reductionAmount = (long) dataCopy.remove("reductionAmount");
+        this.discountAmount = (long) dataCopy.remove("discountAmount");
         this.reconciliationId = (String) dataCopy.remove("reconciliationId");
         
         if (!dataCopy.isEmpty()) {
