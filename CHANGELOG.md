@@ -14,7 +14,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 ## [Unreleased]
 ### Added
-- Missing parameters to BrcodePreview resource 
+- Missing parameters to BrcodePreview resource
+### Changed
+- starkbank-ecdsa library version to 1.0.1
 
 ## [2.8.0] - 2021-08-18
 ### Added
