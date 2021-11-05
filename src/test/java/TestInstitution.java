@@ -17,7 +17,7 @@ public class TestInstitution {
 
         params.put("search", "stark");
         List<Institution> institutions = Institution.query(params);
-        Assert.assertEquals(1, institutions.size());
+        Assert.assertEquals(2, institutions.size());
 
         params.remove("search");
         params.put("spiCodes", Collections.singletonList("20018183"));
