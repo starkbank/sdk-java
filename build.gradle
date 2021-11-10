@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile('com.starkbank.ellipticcurve:starkbank-ecdsa:1.0.1')
+    compile('com.starkbank.ellipticcurve:starkbank-ecdsa:1.0.2')
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:retrofit:2.7.2'
     testCompile group: 'junit', name: 'junit', version: '4.12'
