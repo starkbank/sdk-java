@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.starkbank'
-version '2.8.1'
+version '2.8.2'
 
 sourceCompatibility = 1.8
 
