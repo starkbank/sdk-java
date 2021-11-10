@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Changed
+- starkbank-ecdsa library version to 1.0.2
 
 ## [2.8.1] - 2021-11-04
 ### Added
