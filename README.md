@@ -16,6 +16,43 @@ We also love feedback, so don't be shy about sharing your thoughts with us.
 
 Email: developers@starkbank.com
 
+# Introduction
+
+## Index
+
+- [Introduction](#introduction)
+    - [Supported Java Versions](#supported-java-versions)
+    - [API documentation](#stark-bank-api-documentation)
+    - [Versioning](#versioning)
+- [Setup](#setup)
+    - [Install our SDK](#1-install-our-sdk)
+    - [Create your Private and Public Keys](#2-create-your-private-and-public-keys)
+    - [Register your user credentials](#3-register-your-user-credentials)
+    - [Setting up the user](#4-setting-up-the-user)
+    - [Setting up the error language](#5-setting-up-the-error-language)
+    - [Resource listing and manual pagination](#6-resource-listing-and-manual-pagination)
+- [Testing in Sandbox](#testing-in-sandbox) 
+- [Usage](#usage)
+    - [Transactions](#create-transactions): Account statement entries
+    - [Balance](#get-balance): Account balance
+    - [Transfers](#create-transfers): Wire transfers (TED and manual Pix)
+    - [DictKeys](#get-dict-key): Pix Key queries to use with Transfers
+    - [Institutions](#query-bacen-institutions): Instutitions recognized by the Central Bank
+    - [Invoices](#create-invoices): Reconciled receivables (dynamic PIX QR Codes)
+    - [Deposits](#query-deposits): Other cash-ins (static PIX QR Codes, manual PIX, etc)
+    - [Boletos](#create-boletos): Boleto receivables
+    - [BoletoHolmes](#investigate-a-boleto): Boleto receivables investigator
+    - [BrcodePayments](#pay-a-br-code): Pay Pix QR Codes
+    - [BoletoPayments](#pay-a-boleto): Pay Boletos
+    - [UtilityPayments](#create-utility-payments): Pay Utility bills (water, light, etc.)
+    - [TaxPayments](#create-tax-payment): Pay taxes
+    - [PaymentPreviews](#preview-payment-information-before-executing-the-payment): Preview all sorts of payments
+    - [Webhooks](#create-a-webhook-subscription): Configure your webhook endpoints and subscriptions
+    - [WebhookEvents](#process-webhook-events): Manage webhook events
+    - [WebhookEventAttempts](#query-failed-webhook-event-delivery-attempts-information): Query failed webhook event deliveries
+    - [Workspaces](#create-a-new-workspace): Manage your accounts
+- [Handling errors](#handling-errors)
+
 ## Supported Java Versions
 
 This library supports the following Java versions:
@@ -24,7 +61,7 @@ This library supports the following Java versions:
 
 If you have specific version demands for your projects, feel free to contact us.
 
-## Stark Bank API Reference
+## Stark Bank API documentation
 
 If you want to take a look at our API, follow [this link](https://starkbank.com/docs/api).
 
@@ -300,13 +337,13 @@ In Production, you (or one of your clients) will need to actually pay this Invoi
 for the value to be credited to your account.
 
 
-## Usage
+# Usage
 
 Here are a few examples on how to use the SDK. If you have any doubts, use the built-in
 `help()` function to get more info on the desired functionality
 (for example: `help(starkbank.boleto.create)`)
 
-### Create transactions
+## Create transactions
 
 To send money between Stark Bank accounts, you can create transactions:
 
@@ -334,7 +371,7 @@ for (Transaction transaction : transactions){
 
 **Note**: Instead of using UtilityPayment objects, you can also pass each payment element in HashMap format
 
-### Query transactions
+## Query transactions
 
 To understand your balance changes (bank statement), you can query
 transactions. Note that our system creates transactions for you when
@@ -355,7 +392,7 @@ for (Transaction transaction : transactions){
 }
 ```
 
-### Get a transaction
+## Get a transaction
 
 You can get a specific transaction by its id:
 
@@ -367,7 +404,7 @@ Transaction transaction = Transaction.get("5155966664310784");
 System.out.println(transaction);
 ```
 
-### Get your balance
+## Get balance
 
 To know how much money you have in your workspace, run:
 
@@ -379,7 +416,7 @@ Balance balance = Balance.get();
 System.out.println(balance);
 ```
 
-### Create transfers
+## Create transfers
 
 You can also create transfers in the SDK (TED/Pix).
 
@@ -424,7 +461,7 @@ for (Transfer transfer : transfers){
 
 **Note**: Instead of using Transfer objects, you can also pass each transfer element in HashMap format
 
-### Query transfers
+## Query transfers
 
 You can query multiple transfers according to filters.
 
@@ -443,7 +480,7 @@ for (Transfer transfer : transfers){
 }
 ```
 
-### Get a transfer
+## Get a transfer
 
 To get a single transfer by its id, run:
 
@@ -455,7 +492,7 @@ Transfer transfer = Transfer.get("6532638269505536");
 System.out.println(transfer);
 ```
 
-### Cancel a scheduled transfer
+## Cancel a scheduled transfer
 
 To cancel a scheduled transfer by its id, run:
 
@@ -467,7 +504,7 @@ Transfer transfer = Transfer.delete("6532638269505536");
 System.out.println(transfer);
 ```
 
-### Get a transfer PDF
+## Get a transfer PDF
 
 After its creation, a transfer PDF may also be retrieved by passing its id. 
 
@@ -490,7 +527,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Query transfer logs
+## Query transfer logs
 
 You can query transfer logs to better understand transfer life cycles.
 
@@ -509,7 +546,7 @@ for (Transfer.Log log : logs){
 }
 ```
 
-### Get a transfer log
+## Get a transfer log
 
 You can also get a specific log by its id.
 
@@ -521,7 +558,39 @@ Transfer.Log log = Transfer.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
-### Query Bacen institutions
+## Get DICT key
+
+You can get Pix key's parameters by its id.
+
+```java
+import com.starkbank.*;
+
+DictKey dictKey = DictKey.get("tony@starkbank.com");
+
+System.out.println(dictKey);
+```
+
+## Query your DICT keys
+
+To take a look at the Pix keys linked to your workspace, just run the following:
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+import com.starkbank.utils.Generator;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("status", "registered");
+params.put("limit", 1);
+params.put("type", "evp");
+
+Generator<DictKey> dictKeys = DictKey.query(params);
+for (DictKey dictKey : dictKeys) {
+    System.out.println(dictKey);
+}
+```
+
+## Query Bacen institutions
 
 You can query institutions registered by the Brazilian Central Bank for Pix and TED transactions.
 
@@ -539,7 +608,7 @@ for (Institution institution : institutions) {
 }
  ```
 
-### Create invoices
+## Create invoices
 
 You can create dynamic QR Code invoices to charge customers or to receive money from accounts you have in other banks.
 
@@ -604,7 +673,7 @@ for (Invoice invoice : invoices) {
 
 **Note**: Instead of using Invoice objects, you can also pass each invoice element in map format
 
-### Get an invoice
+## Get an invoice
 
 After its creation, information on an invoice may be retrieved by its id. 
 Its status indicates whether it's been paid.
@@ -617,7 +686,7 @@ Invoice invoice = Invoice.get("5155165527080960");
 System.out.println(invoice);
 ```
 
-### Get an invoice QR Code
+## Get an invoice QR Code
 
 After its creation, an invoice QR Code png file may be retrieved by its id. 
 
@@ -638,7 +707,7 @@ java.nio.file.Files.copy(
 );
 ```
 
-### Get an invoice PDF
+## Get an invoice PDF
 
 After its creation, an invoice PDF may be retrieved by its id. 
 
@@ -664,7 +733,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Cancel an invoice
+## Cancel an invoice
 
 You can also cancel an invoice by its id.
 Note that this is not possible if it has been paid already.
@@ -680,7 +749,7 @@ Invoice invoice = Invoice.update("5155165527080960", patchData);
 System.out.println(invoice);
 ```
 
-### Update an invoice
+## Update an invoice
 
 You can update an invoice's amount, due date and expiration by its id.
 Note that this is not possible if it has been paid already.
@@ -699,7 +768,7 @@ Invoice invoice = Invoice.update("5155165527080960", patchData);
 System.out.println(invoice);
 ```
 
-### Query invoices
+## Query invoices
 
 You can get a list of created invoices given some filters.
 
@@ -720,7 +789,7 @@ for (Invoice invoice : invoices) {
 }
 ```
 
-### Query invoice logs
+## Query invoice logs
 
 Logs are pretty important to understand the life cycle of an invoice.
 
@@ -740,7 +809,7 @@ for (Invoice.Log log : logs) {
 }
 ```
 
-### Get an invoice log
+## Get an invoice log
 
 You can get a single log by its id.
 
@@ -752,7 +821,7 @@ Invoice.Log log = Invoice.Log.get("5155165527080960");
 System.out.println(log);
 ```
 
-### Get a reversed invoice log PDF
+## Get a reversed invoice log PDF
 
 Whenever an Invoice is successfully reversed, a reversed log will be created.
 To retrieve a specific reversal receipt, you can request the corresponding log PDF:
@@ -772,7 +841,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Get an invoice payment information
+## Get an invoice payment information
 
 Once an invoice has been paid, you can get the payment information using the Invoice.Payment sub-resource:
 
@@ -784,7 +853,7 @@ Invoice.Payment payment = Invoice.payment("5155165527080960");
 System.out.println(payment);
 ```
 
-### Query deposits
+## Query deposits
 
 You can get a list of created deposits given some filters.
 
@@ -803,7 +872,7 @@ for (Deposit deposit : deposits){
 }
 ```
 
-### Get a deposit
+## Get a deposit
 
 After its creation, information on a deposit may be retrieved by its id. 
 
@@ -815,7 +884,7 @@ Deposit deposit = Deposit.get("5730174175805440");
 System.out.println(deposit);
 ```
 
-### Query deposit logs
+## Query deposit logs
 
 Logs are pretty important to understand the life cycle of a deposit.
 
@@ -834,7 +903,7 @@ for (Deposit.Log log : logs){
 }
 ```
 
-### Get a deposit log
+## Get a deposit log
 
 You can get a single log by its id.
 
@@ -847,7 +916,7 @@ System.out.println(log);
 ```
 
 
-### Create boletos
+## Create boletos
 
 You can create boletos to charge customers or to receive money from accounts
 you have in other banks.
@@ -896,7 +965,7 @@ for (Boleto boleto : boletos){
 
 **Note**: Instead of using Boleto objects, you can also pass each boleto element in HashMap format
 
-### Query boletos
+## Query boletos
 
 You can get a list of created boletos given some filters.
 
@@ -915,7 +984,7 @@ for (Boleto boleto : boletos){
 }
 ```
 
-### Get a boleto
+## Get a boleto
 
 After its creation, information on a boleto may be retrieved by passing its id. 
 Its status indicates whether it's been paid.
@@ -928,7 +997,7 @@ Boleto boleto = Boleto.get("5730174175805440");
 System.out.println(boleto);
 ```
 
-### Get a boleto PDF
+## Get a boleto PDF
 
 After its creation, a boleto PDF may be retrieved by passing its id. 
 
@@ -954,7 +1023,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete a boleto
+## Delete a boleto
 
 You can also cancel a boleto by its id.
 Note that this is not possible if it has been processed already.
@@ -967,7 +1036,7 @@ Boleto boleto = Boleto.delete("5669456873259008");
 System.out.println(boleto);
 ```
 
-### Query boleto logs
+## Query boleto logs
 
 Logs are pretty important to understand the life cycle of a boleto.
 
@@ -986,7 +1055,7 @@ for (Boleto.Log log : logs){
 }
 ```
 
-### Get a boleto log
+## Get a boleto log
 
 You can get a single log by its id.
 
@@ -998,7 +1067,7 @@ Boleto.Log log = Boleto.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
-### Investigate a boleto
+## Investigate a boleto
 
 You can discover if a StarkBank boleto has been recently paid before we receive the response on the next day.
 This can be done by creating a BoletoHolmes object, which fetches the updated status of the corresponding
@@ -1026,7 +1095,7 @@ for (BoletoHolmes sherlock : holmes){
 
 **Note**: Instead of using BoletoHolmes objects, you can also pass each payment element in map format
 
-### Get a boleto holmes
+## Get a boleto holmes
 
 To get a single Holmes by its id, run:
 
@@ -1038,7 +1107,7 @@ sherlock = BoletoHolmes.get("6093880533450752")
 System.out.println(sherlock)
 ```
 
-### Query boleto holmes
+## Query boleto holmes
 
 You can search for boleto Holmes using filters. 
 
@@ -1058,7 +1127,7 @@ for (BoletoHolmes sherlock : holmes){
 }
 ```
 
-### Query boleto holmes logs
+## Query boleto holmes logs
 
 Searches are also possible with boleto holmes logs:
 
@@ -1079,7 +1148,7 @@ for (BoletoHolmes.Log log : logs){
 ```
 
 
-### Get a boleto holmes log
+## Get a boleto holmes log
 
 You can also get a boleto holmes log by specifying its id.
 
@@ -1091,7 +1160,7 @@ log = BoletoHolmes.Log.get("5350990148534272")
 System.out.println(log);
 ```
 
-### Pay a BR Code
+## Pay a BR Code
 
 Paying a BR Code is also simple.
 
@@ -1119,7 +1188,7 @@ for (BrcodePayment payment : payments){
 
 **Note**: Instead of using BrcodePayment objects, you can also pass each payment element in map format
 
-### Query BR Code payments
+## Query BR Code payments
 
 You can search for brcode payments using filters. 
 
@@ -1138,7 +1207,7 @@ for (BrcodePayment payment : payments){
 }
 ```
 
-### Get a BR Code payment
+## Get a BR Code payment
 
 To get a single BR Code payment by its id, run:
 
@@ -1150,7 +1219,7 @@ BrcodePayment payment = BrcodePayment.get("6532638269505536");
 System.out.println(payment);
 ```
 
-### Cancel a BR Code payment
+## Cancel a BR Code payment
 
 You can cancel a BR Code payment by changing its status to "canceled".
 Note that this is not possible if it has been processed already.
@@ -1166,7 +1235,7 @@ BrcodePayment payment = BrcodePayment.update("5155165527080960", patchData);
 System.out.println(payment);
 ```
 
-### Get a BR Code payment PDF
+## Get a BR Code payment PDF
 
 After its creation, a boleto payment PDF may be retrieved by its id. 
 
@@ -1189,7 +1258,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Query BR Code payment logs
+## Query BR Code payment logs
 
 Searches are also possible with BR Code payment logs:
 
@@ -1207,7 +1276,7 @@ for (BrcodePayment.Log log : logs){
 }
 ```
 
-### Get a BR Code payment log
+## Get a BR Code payment log
 
 You can also get a BR Code payment log by specifying its id.
 
@@ -1219,7 +1288,7 @@ BrcodePayment.Log log = BrcodePayment.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
-### Pay a boleto
+## Pay a boleto
 
 Paying boletos is also simple.
 
@@ -1247,7 +1316,7 @@ for (BoletoPayment payment : payments){
 
 **Note**: Instead of using BoletoPayment objects, you can also pass each payment element in HashMap format
 
-### Query boleto payments
+## Query boleto payments
 
 You can search for boleto payments using filters. 
 
@@ -1266,7 +1335,7 @@ for (BoletoPayment payment : payments){
 }
 ```
 
-### Get a boleto payment
+## Get a boleto payment
 
 To get a single boleto payment by its id, run:
 
@@ -1278,7 +1347,7 @@ BoletoPayment payment = BoletoPayment.get("6532638269505536");
 System.out.println(payment);
 ```
 
-### Get a boleto payment PDF
+## Get a boleto payment PDF
 
 After its creation, a boleto payment PDF may be retrieved by passing its id. 
 
@@ -1301,7 +1370,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete a boleto payment
+## Delete a boleto payment
 
 You can also cancel a boleto payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1314,7 +1383,7 @@ BoletoPayment payment = BoletoPayment.delete("5669456873259008");
 System.out.println(payment);
 ```
 
-### Query boleto payment logs
+## Query boleto payment logs
 
 Searches are also possible with boleto payment logs:
 
@@ -1333,7 +1402,7 @@ for (BoletoPayment.Log log : logs){
 ```
 
 
-### Get a boleto payment log
+## Get a boleto payment log
 
 You can also get a boleto payment log by specifying its id.
 
@@ -1345,7 +1414,7 @@ BoletoPayment.Log log = BoletoPayment.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
-### Pay utility bills
+## Create utility payments
 
 Its also simple to pay utility bills (such electricity and water bills) in the SDK.
 
@@ -1370,7 +1439,7 @@ for (UtilityPayment payment : payments){
 }
 ```
 
-### Query utility payments
+## Query utility payments
 
 To search for utility payments using filters, run:
 
@@ -1389,7 +1458,7 @@ for (UtilityPayment payment : payments){
 }
 ```
 
-### Get a utility payment
+## Get a utility payment
 
 You can get a specific bill by its id:
 
@@ -1401,7 +1470,7 @@ UtilityPayment payment = UtilityPayment.get("6532638269505536");
 System.out.println(payment);
 ```
 
-### Get a utility payment PDF
+## Get a utility payment PDF
 
 After its creation, a utility payment PDF may also be retrieved by passing its id. 
 
@@ -1424,7 +1493,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete a utility payment
+## Delete a utility payment
 
 You can also cancel a utility payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1437,7 +1506,7 @@ UtilityPayment payment = UtilityPayment.delete("5669456873259008");
 System.out.println(payment);
 ```
 
-### Query utility payment logs
+## Query utility payment logs
 
 You can search for payment logs by specifying filters. Use this to understand the
 bills life cycles.
@@ -1456,7 +1525,7 @@ for (UtilityPayment.Log log : logs){
 }
 ```
 
-### Get a utility payment log
+## Get a utility payment log
 
 If you want to get a specific payment log by its id, just run:
 
@@ -1468,7 +1537,7 @@ UtilityPayment.Log log = UtilityPayment.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
-### Create tax payment
+## Create tax payment
 
 It is also simple to pay taxes (such as ISS and DAS) using this SDK.
 
@@ -1496,7 +1565,7 @@ for (TaxPayment payment : payments) {
 
 **Note**: Instead of using TaxPayment objects, you can also pass each payment element in dictionary format
 
-### Query tax payments
+## Query tax payments
 
 To search for tax payments using filters, run:
 
@@ -1517,7 +1586,7 @@ for (TaxPayment payment : payments) {
 }
 ```
 
-### Get tax payment
+## Get tax payment
 
 You can get a specific tax payment by its id:
 
@@ -1528,7 +1597,7 @@ TaxPayment payment = TaxPayment.get("5155165527080960");
 System.out.println(payment);
 ```
 
-### Get tax payment PDF
+## Get tax payment PDF
 
 After its creation, a tax payment PDF may also be retrieved by its id.
 
@@ -1551,7 +1620,7 @@ Be careful not to accidentally enforce any encoding on the raw pdf content,
 as it may yield abnormal results in the final file, such as missing images
 and strange characters.
 
-### Delete tax payment
+## Delete tax payment
 
 You can also cancel a tax payment by its id.
 Note that this is not possible if it has been processed already.
@@ -1563,7 +1632,7 @@ TaxPayment payment = TaxPayment.delete("5155165527080960");
 System.out.println(payment);
 ```
 
-### Query tax payment logs
+## Query tax payment logs
 
 You can search for payment logs by specifying filters. Use this to understand each payment life cycle.
 
@@ -1583,7 +1652,7 @@ for (TaxPayment.Log log : logs) {
 }
 ```
 
-### Get tax payment log
+## Get tax payment log
 
 If you want to get a specific payment log by its id, just run:
 
@@ -1598,7 +1667,7 @@ System.out.println(log);
 resource and routes, which are all analogous to the TaxPayment resource. The ones we currently support are:
 - DarfPayment, for DARFs
 
-### Preview payment information before executing the payment
+## Preview payment information before executing the payment
 
 You can preview multiple types of payment to confirm any information before actually paying.
 If the "scheduled" parameter is not informed, today will be assumed as the intended payment date.
@@ -1628,7 +1697,7 @@ for (PaymentPreview preview : previews) {
 **Note**: Instead of using PaymentPreview objects, you can also pass each request element in dictionary format
 
 
-### Create payment requests to be approved by authorized people in a cost center 
+## Create payment requests to be approved by authorized people in a cost center 
 
 You can also request payments that must pass through a specific cost center approval flow to be executed.
 In certain structures, this allows double checks for cash-outs and gives time to load your account
@@ -1671,7 +1740,7 @@ for (PaymentRequest request : requests){
 
 **Note**: Instead of using PaymentRequest objects, you can also pass each request element in HashMap format
 
-### Query payment requests
+## Query payment requests
 
 To search for payment requests, run:
 
@@ -1691,7 +1760,7 @@ for (PaymentRequest request : requests){
 }
 ```
 
-### Create a webhook subscription
+## Create a webhook subscription
 
 To create a webhook subscription and be notified whenever an event occurs, run:
 
@@ -1709,7 +1778,7 @@ System.out.println(webhook);
 
 **Note**: Instead of using Transaction objects, you can also pass each transaction element in HashMap format
 
-### Query webhooks
+## Query webhooks
 
 To search for registered webhooks, run:
 
@@ -1724,7 +1793,7 @@ for (Webhook webhook : webhooks){
 }
 ```
 
-### Get a webhook
+## Get a webhook
 
 You can get a specific webhook by its id.
 
@@ -1736,7 +1805,7 @@ Webhook webhook = Webhook.get("5730174175805440");
 System.out.println(webhook);
 ```
 
-### Delete a webhook
+## Delete a webhook
 
 You can also delete a specific webhook by its id.
 
@@ -1748,7 +1817,7 @@ Webhook webhook = Webhook.delete("6699417864241152");
 System.out.println(webhook);
 ```
 
-### Process webhook events
+## Process webhook events
 
 It's easy to process events that arrived in your webhook. Remember to pass the
 signature header so the SDK can make sure it's really StarkBank that sent you
@@ -1812,7 +1881,7 @@ switch (event.subscription) {
 }
 ```
 
-### Query webhook events
+## Query webhook events
 
 To search for webhooks events, run:
 
@@ -1832,7 +1901,7 @@ for (Event event : events){
 }
 ```
 
-### Get a webhook event
+## Get a webhook event
 
 You can get a specific webhook event by its id.
 
@@ -1844,7 +1913,7 @@ Event event = Event.get("5730174175805440");
 System.out.println(event);
 ```
 
-### Delete a webhook event
+## Delete a webhook event
 
 You can also delete a specific webhook event by its id.
 
@@ -1856,7 +1925,7 @@ Event event = Event.delete("6312789471657984");
 System.out.println(event);
 ```
 
-### Set webhook events as delivered
+## Set webhook events as delivered
 
 This can be used in case you've lost events.
 With this function, you can manually set events retrieved from the API as
@@ -1873,7 +1942,7 @@ Event event = Event.update("5824181711142912", params);
 System.out.println(event);
 ```
 
-### Query failed webhook event delivery attempts information
+## Query failed webhook event delivery attempts information
 
 You can also get information on failed webhook event delivery attempts.
 
@@ -1890,7 +1959,7 @@ for (Event.Attempt attempt: attempts) {
 }
 ```
 
-### Get a failed webhook event delivery attempt information
+## Get a failed webhook event delivery attempt information
 
 To retrieve information on a single attempt, use the following function:
 
@@ -1902,39 +1971,7 @@ Event.Attempt attempt = Event.Attempt.get("1616161616161616");
 System.out.println(attempt);
 ```
 
-### Get a DICT key
-
-You can get Pix key's parameters by its id.
-
-```java
-import com.starkbank.*;
-
-DictKey dictKey = DictKey.get("tony@starkbank.com");
-
-System.out.println(dictKey);
-```
-
-### Query your DICT keys
-
-To take a look at the Pix keys linked to your workspace, just run the following:
-
-```java
-import com.starkbank.*;
-import java.util.HashMap;
-import com.starkbank.utils.Generator;
-
-HashMap<String, Object> params = new HashMap<>();
-params.put("status", "registered");
-params.put("limit", 1);
-params.put("type", "evp");
-
-Generator<DictKey> dictKeys = DictKey.query(params);
-for (DictKey dictKey : dictKeys) {
-    System.out.println(dictKey);
-}
-```
-
-### Create a Workspace
+## Create a new Workspace
 
 The Organization user allows you to create new Workspaces (bank accounts) under your organization.
 Workspaces have independent balances, statements, operations and users.
@@ -1955,7 +1992,7 @@ Workspace workspace = Workspace.create(
 System.out.println(workspace);
 ```
 
-### List your Workspaces
+## List your Workspaces
 
 This route lists Workspaces. If no parameter is passed, all the workspaces the user has access to will be listed, but
 you can also find other Workspaces by searching for their usernames or IDs directly.
@@ -1972,7 +2009,7 @@ for (Workspace workspace : workspaces) {
 }
 ```
 
-### Get a Workspace
+## Get a Workspace
 
 You can get a specific Workspace by its id.
 
@@ -1984,7 +2021,7 @@ Workspace workspace = Workspace.get("10827361982368179")
 System.out.println(workspace)
 ```
 
-### Update a Workspace
+## Update a Workspace
 
 You can update a specific Workspace by its id.
 
