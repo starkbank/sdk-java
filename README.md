@@ -8,14 +8,6 @@ If you have no idea what Stark Bank is, check out our [website](https://starkban
 and discover a world where receiving or making payments 
 is as easy as sending a text message to your client!
 
-## Help and Feedback
-
-If you have any questions about our SDK, just email us your questions. 
-We will respond you quickly, pinky promise. We are here to help you integrate with us ASAP. 
-We also love feedback, so don't be shy about sharing your thoughts with us.
-
-Email: developers@starkbank.com
-
 # Introduction
 
 ## Index
@@ -52,6 +44,7 @@ Email: developers@starkbank.com
     - [WebhookEventAttempts](#query-failed-webhook-event-delivery-attempts-information): Query failed webhook event deliveries
     - [Workspaces](#create-a-new-workspace): Manage your accounts
 - [Handling errors](#handling-errors)
+- [Help and Feedback](#help-and-feedback)
 
 ## Supported Java Versions
 
@@ -2037,7 +2030,7 @@ Workspace workspace = Workspace.update(workspace.id, patchData);
 System.out.println(workspace);
 ```
 
-## Handling errors
+# Handling errors
 
 The SDK may raise one of four types of errors: __InputErrors__, __InternalServerError__, __UnknownException__, __InvalidSignatureException__
 
@@ -2084,3 +2077,11 @@ neither __InputErrors__ nor an __InternalServerError__, such as connectivity pro
 __InvalidSignatureException__ will be raised specifically by starkbank.event.parse()
 when the provided content and signature do not check out with the Stark Bank public
 key.
+
+# Help and Feedback
+
+If you have any questions about our SDK, just send us an email. 
+We will respond you quickly, pinky promise. We are here to help you integrate with us ASAP. 
+We also love feedback, so don't be shy about sharing your thoughts with us.
+
+Email: developers@starkbank.com
