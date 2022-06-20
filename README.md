@@ -207,8 +207,8 @@ IF16ZoTVt1FzZ8WkYQ3XomRD4HS13A==
 """;
 
 Organization organization = new Organization(
-    "5656565656565656",
     "sandbox",
+    "5656565656565656",
     privateKeyContent,
     null, // You only need to set the workspaceId when you are operating a specific workspaceId
 );
@@ -745,7 +745,9 @@ System.out.println(invoice);
 ## Update an invoice
 
 You can update an invoice's amount, due date and expiration by its id.
-Note that this is not possible if it has been paid already.
+If the invoice has already been paid, only the amount can be
+decreased, which will result in a payment reversal. To fully reverse 
+the invoice, pass amount with a value of 0.
 
 ```java
 import com.starkbank.*;
