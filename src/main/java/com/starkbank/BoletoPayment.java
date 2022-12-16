@@ -24,6 +24,7 @@ public final class BoletoPayment extends Resource {
     public String[] tags;
     public String status;
     public Integer fee;
+    public String[] transactionIds;
     public String created;
 
     /**
@@ -37,29 +38,25 @@ public final class BoletoPayment extends Resource {
      * line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
      * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * <p>
-     * Parameters:
+     * Parameters (required):
      * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * <p>
-     * Parameters:
+     * Parameters (optional):
      * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * tags [list of strings]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging
+     * amount [Long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
      * <p>
      * Attributes (return-only):
-     * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-     * @param status [string, default null]: current payment status. ex: "processing" or "success"
-     * @param amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-     * @param fee [integer, default null]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
-     * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
-     * @param taxId identification for tax purposes (CPF)
-     * @param tags list of tags
-     * @param description description of the BoletoPayment
-     * @param scheduled the time of scheduled payment
-     * @param line numeric code of the BoletoPayment
-     * @param barCode bar code of the Boleto
+     * @param id [string]: unique id returned when payment is created. ex: "5656565656565656"
+     * @param status [string]: current payment status. ex: "processing" or "success"
+     * @param fee [integer]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
+     * @param transactionIds [list of strings]: ledger transaction ids linked to this BoletoPayment. ex: ["19827356981273"]
+     * @param created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public BoletoPayment(Long amount, String taxId, String[] tags, String description, String scheduled,
-                         String line, String barCode, String id, Integer fee, String status, String created
+                         String line, String barCode, String id, Integer fee, String[] transactionIds,
+                         String status, String created
     ) {
         super(id);
         this.taxId = taxId;
@@ -71,6 +68,7 @@ public final class BoletoPayment extends Resource {
         this.amount = amount;
         this.status = status;
         this.fee = fee;
+        this.transactionIds = transactionIds;
         this.created = created;
     }
 
@@ -86,20 +84,21 @@ public final class BoletoPayment extends Resource {
      * line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
      * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * <p>
-     * Parameters:
+     * Parameters (required):
      * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * <p>
      * Parameters (optional):
      * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * tags [list of strings]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging
+     * amount [Long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
      * <p>
      * Attributes (return-only):
-     * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-     * status [string, default null]: current payment status. ex: "processing" or "success"
-     * amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-     * fee [integer, default null]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
-     * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+     * id [string]: unique id returned when payment is created. ex: "5656565656565656"
+     * status [string]: current payment status. ex: "processing" or "success"
+     * fee [integer]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
+     * transactionIds [list of strings]: ledger transaction ids linked to this BoletoPayment. ex: ["19827356981273"]
+     * created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     public BoletoPayment(Map<String, Object> data) throws Exception {
@@ -112,10 +111,11 @@ public final class BoletoPayment extends Resource {
         this.barCode = (String) dataCopy.remove("barCode");
         this.scheduled = (String) dataCopy.remove("scheduled");
         this.tags = (String[]) dataCopy.remove("tags");
-        this.amount = null;
-        this.created = null;
-        this.fee = null;
+        this.amount = (Long) dataCopy.remove("amount");
         this.status = null;
+        this.fee = null;
+        this.transactionIds = null;
+        this.created = null;
 
         if (!dataCopy.isEmpty()) {
             throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");

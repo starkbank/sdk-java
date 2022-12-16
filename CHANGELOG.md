@@ -13,6 +13,10 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- transactionId attribute to BoletoPayment resource
+### Changed
+- amount attribute to optional parameters in BoletoPayment resource
 
 ## [2.8.2] - 2021-11-10
 ### Changed

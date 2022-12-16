@@ -165,6 +165,7 @@ public class TestBoletoPayment {
         boletos =  Boleto.create(boletos);
         data.put("line", boletos.get(0).line);
         data.put("taxId", "38.435.677/0001-25");
+        data.put("amount", boletos.get(0).amount);
         data.put("description", "Payment for killing white walkers");
         data.put("tags", new String[]{"little girl", "no one"});
 
