@@ -80,7 +80,7 @@ and add it to your project.
 
 ```sh
 dependencies {
-  implementation 'com.starkbank:sdk:2.8.2'
+  implementation 'com.starkbank:sdk:2.9.0'
 }
 ```
 
@@ -90,7 +90,7 @@ dependencies {
 <dependency>
   <groupId>com.starkbank</groupId>
   <artifactId>sdk</artifactId>
-  <version>2.8.2</version>
+  <version>2.9.0</version>
 </dependency>
 ```
 
