@@ -31,6 +31,9 @@ public class TestTransfer {
         for (Transfer transfer : transfers) {
             Assert.assertNotNull(transfer.id);
             System.out.println(transfer);
+            for (Transfer.Rule rule : transfer.rules) {
+                Assert.assertNotNull(rule.value);
+            }
         }
     }
 
@@ -189,6 +192,10 @@ public class TestTransfer {
     }
 
     static Transfer example(boolean scheduled) throws Exception{
+
+        List<Transfer.Rule> rules = new ArrayList<>();
+        rules.add(new Transfer.Rule("resendingLimit", 5));
+
         HashMap<String, Object> data = new HashMap<>();
         data.put("amount", 100000000);
         data.put("bankCode", "341");
@@ -200,6 +207,7 @@ public class TestTransfer {
         data.put("name", "Daenerys Targaryen Stormborn");
         data.put("description", "Test description");
         data.put("tags", new String[]{"daenerys", "invoice/1234"});
+        data.put("rules", rules);
 
         if(scheduled) {
             LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
