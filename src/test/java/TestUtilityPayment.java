@@ -1,6 +1,6 @@
 import com.starkbank.Settings;
 import com.starkbank.UtilityPayment;
-import com.starkbank.utils.Generator;
+import com.starkcore.utils.Generator;
 import org.junit.Assert;
 import org.junit.Test;
 

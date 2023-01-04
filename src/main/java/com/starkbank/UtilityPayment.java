@@ -1,9 +1,10 @@
 package com.starkbank;
 
-import com.starkbank.utils.Generator;
-import com.starkbank.utils.Resource;
+import com.starkcore.user.User;
+import com.starkcore.utils.Generator;
+import com.starkcore.utils.Resource;
 import com.starkbank.utils.Rest;
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -203,7 +204,7 @@ public final class UtilityPayment extends Resource {
      * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
      * <p>
      * Parameters:
-     * @param params paremeters of the query
+     * @param params parameters of the query
      * limit [Integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
      * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
      * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
@@ -315,7 +316,7 @@ public final class UtilityPayment extends Resource {
      * @throws Exception error in the request
      */
     public static Page page(Map<String, Object> params, User user) throws Exception {
-        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        com.starkcore.utils.Page page = Rest.getPage(data, params, user);
         List<UtilityPayment> payments = new ArrayList<>();
         for (SubResource payment: page.entities) {
             payments.add((UtilityPayment) payment);
@@ -668,7 +669,7 @@ public final class UtilityPayment extends Resource {
          * @throws Exception error in the request
          */
         public static Log.Page page(Map<String, Object> params, User user) throws Exception {
-            com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+            com.starkcore.utils.Page page = Rest.getPage(data, params, user);
             List<Log> logs = new ArrayList<>();
             for (SubResource log: page.entities) {
                 logs.add((Log) log);

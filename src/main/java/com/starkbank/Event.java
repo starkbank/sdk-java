@@ -1,12 +1,12 @@
 package com.starkbank;
 
 import com.google.gson.*;
-import com.starkbank.ellipticcurve.Ecdsa;
-import com.starkbank.ellipticcurve.PublicKey;
-import com.starkbank.ellipticcurve.Signature;
-import com.starkbank.ellipticcurve.utils.ByteString;
-import com.starkbank.error.InvalidSignatureError;
-import com.starkbank.utils.*;
+import com.starkcore.user.User;
+import com.starkcore.utils.Generator;
+import com.starkcore.utils.Resource;
+import com.starkcore.utils.SubResource;
+import com.starkbank.utils.Parse;
+import com.starkbank.utils.Rest;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -389,7 +389,7 @@ public class Event extends Resource {
      * @throws Exception error in the request
      */
     public static Page page(Map<String, Object> params, User user) throws Exception {
-        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        com.starkcore.utils.Page page = Rest.getPage(data, params, user);
         List<Event> events = new ArrayList<>();
         for (SubResource event: page.entities) {
             events.add((Event) event);
@@ -485,7 +485,7 @@ public class Event extends Resource {
      * @throws Exception error in the request
      */
     public static Event parse(String content, String signature) throws Exception {
-        return Event.parse(content, signature, Settings.user);
+        return Event.parse(content, signature, null);
     }
 
     /**
@@ -505,56 +505,7 @@ public class Event extends Resource {
      * @throws Exception error in the request
      */
     public static Event parse(String content, String signature, User user) throws Exception {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Event.class, new Event.Deserializer())
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")
-                .create();
-        Event parsedEvent = gson.fromJson(
-                new Gson().fromJson(content, JsonObject.class).get("event").getAsJsonObject(),
-                Event.class
-        );
-
-        Signature signatureObject;
-        try {
-            signatureObject = Signature.fromBase64(new ByteString(signature.getBytes()));
-        } catch (Error | RuntimeException e) {
-            throw new InvalidSignatureError("The provided signature is not valid");
-        }
-
-        if (verifySignature(user, content, signatureObject, false)) {
-            return parsedEvent;
-        }
-        if (verifySignature(user, content, signatureObject, true)) {
-            return parsedEvent;
-        }
-
-        throw new InvalidSignatureError("The provided signature and content do not match the Stark Bank public key");
-    }
-
-    private static boolean verifySignature(User user, String content, Signature signature, boolean refresh) throws Exception {
-        PublicKey publicKey = Cache.starkBankPublicKey;
-        if (publicKey == null || refresh) {
-            publicKey = getStarkBankPublicKey(user);
-            Cache.starkBankPublicKey = publicKey;
-        }
-        return Ecdsa.verify(content, signature, publicKey);
-    }
-
-    private static PublicKey getStarkBankPublicKey(User user) throws Exception {
-        HashMap<String, Object> query = new HashMap<>();
-        query.put("limit", "1");
-        String content = Response.fetch(
-                "/public-key",
-                "GET",
-                null,
-                query,
-                user
-        ).content();
-        JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
-        JsonArray publicKeys = contentJson.get("publicKeys").getAsJsonArray();
-        return PublicKey.fromPem(
-                publicKeys.get(0).getAsJsonObject().get("content").getAsString()
-        );
+        return Parse.parseAndVerify(content, signature, data, user);
     }
 
     public final static class Attempt extends Resource {
@@ -786,7 +737,7 @@ public class Event extends Resource {
          * @throws Exception error in the request
          */
         public static Attempt.Page page(Map<String, Object> params, User user) throws Exception {
-            com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+            com.starkcore.utils.Page page = Rest.getPage(data, params, user);
             List<Attempt> attempts = new ArrayList<>();
             for (SubResource attempt: page.entities) {
                 attempts.add((Attempt) attempt);

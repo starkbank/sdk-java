@@ -1,6 +1,7 @@
 package com.starkbank;
 
-import com.starkbank.utils.Resource;
+import com.starkcore.user.User;
+import com.starkcore.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.util.ArrayList;

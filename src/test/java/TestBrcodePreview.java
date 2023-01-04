@@ -1,6 +1,6 @@
 import com.starkbank.BrcodePreview;
 import com.starkbank.Settings;
-import com.starkbank.utils.Generator;
+import com.starkcore.utils.Generator;
 import org.junit.Test;
 
 import java.util.HashMap;

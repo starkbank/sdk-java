@@ -1,7 +1,7 @@
 import com.starkbank.Settings;
 import com.starkbank.Webhook;
 import com.starkbank.error.InputErrors;
-import com.starkbank.utils.Generator;
+import com.starkcore.utils.Generator;
 import org.junit.AssumptionViolatedException;
 import org.junit.Test;
 import org.junit.Assert;

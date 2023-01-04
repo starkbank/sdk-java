@@ -1,6 +1,6 @@
 import com.starkbank.*;
 import com.starkbank.error.InvalidSignatureError;
-import com.starkbank.utils.Generator;
+import com.starkcore.utils.Generator;
 import org.junit.Assert;
 import org.junit.AssumptionViolatedException;
 import org.junit.Test;

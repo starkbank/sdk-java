@@ -1,7 +1,8 @@
 package com.starkbank;
 
-import com.starkbank.utils.Generator;
-import com.starkbank.utils.Resource;
+import com.starkcore.user.User;
+import com.starkcore.utils.Generator;
+import com.starkcore.utils.Resource;
 import com.starkbank.utils.Rest;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public final class Balance extends Resource {
         return balanceList.get(0);
     }
 
-     /**
+    /**
      * Retrieve the Balance object
      * <p>
      * Receive the Balance object linked to your workspace in the Stark Bank API

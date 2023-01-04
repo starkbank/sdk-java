@@ -1,7 +1,6 @@
-import com.starkbank.Settings;
 import com.starkbank.Workspace;
 import com.starkbank.Organization;
-import com.starkbank.utils.Generator;
+import com.starkcore.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
 
