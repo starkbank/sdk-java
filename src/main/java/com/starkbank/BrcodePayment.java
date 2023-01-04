@@ -27,6 +27,7 @@ public final class BrcodePayment extends Resource {
     * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
     * name [string]: receiver name. ex: "Jon Snow"
     * tags [list of strings, default null]: list of strings for tagging
+    * rules [list of BrcodePayment.Rules]: list of BrcodePayment.Rule objects for modifying payment behavior. ex: [BrcodePayment.Rule(key="resendingLimit", value=5)]
     * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
     * status [string, default null]: current payment status. ex: "success" or "failed"
     * type [string, default null]: brcode type. ex: "static" or "dynamic"
@@ -44,6 +45,7 @@ public final class BrcodePayment extends Resource {
     public String scheduled;
     public String name;
     public String[] tags;
+    public List<BrcodePayment.Rule> rules;
     public String status;
     public String type;
     public String[] transactionIds;
@@ -66,6 +68,7 @@ public final class BrcodePayment extends Resource {
     * @param scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
     * @param name [string]: receiver name. ex: "Jon Snow"
     * @param tags [list of strings, default null]: list of strings for tagging
+    * @param rules [list of BrcodePayment.Rules]: list of BrcodePayment.Rule objects for modifying payment behavior. ex: [BrcodePayment.Rule(key="resendingLimit", value=5)]
     * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
     * @param status [string, default null]: current payment status. ex: "success" or "failed"
     * @param type [string, default null]: brcode type. ex: "static" or "dynamic"
@@ -75,8 +78,8 @@ public final class BrcodePayment extends Resource {
     * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     */
     public BrcodePayment(String brcode, String taxId, String description, Number amount, String scheduled, String name,
-                        String[] tags, String id, String status, String type, String[] transactionIds, Integer fee,
-                        String updated, String created) {
+                        String[] tags, List<BrcodePayment.Rule> rules, String id, String status, String type, 
+                        String[] transactionIds, Integer fee, String updated, String created) {
         super(id);
         this.brcode = brcode;
         this.taxId = taxId;
@@ -85,6 +88,7 @@ public final class BrcodePayment extends Resource {
         this.scheduled = scheduled;
         this.name = name;
         this.tags = tags;
+        this.rules = rules;
         this.status = status;
         this.type = type;
         this.transactionIds = transactionIds;
@@ -111,6 +115,15 @@ public final class BrcodePayment extends Resource {
     * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
     * name [string]: receiver name. ex: "Jon Snow"
     * tags [list of strings, default null]: list of strings for tagging. ex: ["Stark", "Suit"]
+    * rules [list of BrcodePayment.Rules]: list of BrcodePayment.Rule objects for modifying payment behavior. ex: [BrcodePayment.Rule(key="resendingLimit", value=5)]
+    * Attributes (return-only):
+    * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
+    * status [string, default null]: current payment status. ex: "success" or "failed"
+    * type [string, default null]: brcode type. ex: "static" or "dynamic"
+    * transactionIds [list of strings, default null]: ledger transaction ids linked to this payment. ex: ["19827356981273"]
+    * fee [integer, default null]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
+    * updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+    * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     * @throws Exception error in the request
     */
     public BrcodePayment(Map<String, Object> data) throws Exception {
@@ -124,6 +137,7 @@ public final class BrcodePayment extends Resource {
         this.scheduled = (String) dataCopy.remove("scheduled");
         this.name = (String) dataCopy.remove("name");
         this.tags = (String[]) dataCopy.remove("tags");
+        this.rules = parseRules((List<Object>) dataCopy.remove("rules"));
         this.status = null;
         this.type = null;
         this.transactionIds = null;
@@ -703,6 +717,76 @@ public final class BrcodePayment extends Resource {
                 logs.add((Log) log);
             }
             return new Log.Page(logs, page.cursor);
+        }
+    }
+
+    private List<BrcodePayment.Rule> parseRules(List<Object> rules) throws Exception {
+        if (rules == null)
+            return null;
+
+        List<BrcodePayment.Rule> parsed = new ArrayList<>();
+        if (rules.size() == 0 || rules.get(0) instanceof BrcodePayment.Rule) {
+            for (Object rule : rules) {
+                parsed.add((BrcodePayment.Rule) rule);
+            }
+            return parsed;
+        }
+
+        for (Object rule : rules) {
+            BrcodePayment.Rule ruleObject = new BrcodePayment.Rule((Map<String, Object>) rule);
+            parsed.add(ruleObject);
+        }
+        return parsed;
+    }
+
+    /**
+     * BrcodePayment.Rule object
+     * <p>
+     * The BrcodePayment.Rule object modifies the behavior of BrcodePayment objects when passed as an argument upon their creation.
+     * <p>
+     * Parameters:
+     * key [string]: Rule to be customized, describes what BrcodePayment behavior will be altered. ex: "resendingLimit"
+     * value [integer]: Value of the rule. ex: 5
+     *
+     */
+    public final static class Rule extends SubResource{
+        public String key;
+        public Number value;
+
+
+        /**
+         * BrcodePayment.Rule object
+         * <p>
+         * The BrcodePayment.Rule object modifies the behavior of BrcodePayment objects when passed as an argument upon their creation.
+         * <p>
+         * Parameters:
+         * @param key [string]: Rule to be customized, describes what BrcodePayment behavior will be altered. ex: "resendingLimit"
+         * @param value [integer]: Value of the rule. ex: 5
+         */
+        public Rule(String key, Number value){
+            this.key = key;
+            this.value = value;
+        }
+
+        /**
+         * BrcodePayment.Rule object
+         * <p>
+         * The BrcodePayment.Rule object modifies the behavior of BrcodePayment objects when passed as an argument upon their creation.
+         * <p>
+         * Parameters:
+         * @param data map of properties for the creation of the BrcodePayment.Rule
+         * key [string]: Rule to be customized, describes what BrcodePayment behavior will be altered. ex: "resendingLimit"
+         * value [integer]: Value of the rule. ex: 5
+         */
+        public Rule(Map<String, Object> data) throws Exception {
+            HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+            this.key = (String) dataCopy.remove("key");
+            this.value = (Number) dataCopy.remove("value");
+
+            if (!dataCopy.isEmpty()) {
+                throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+            }
         }
     }
 }

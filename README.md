@@ -411,7 +411,7 @@ System.out.println(balance);
 
 ## Create transfers
 
-You can also create transfers in the SDK (TED/Pix).
+You can also create transfers in the SDK (TED/Pix) and configure transfer behavior according to its rules.
 
 ```java
 import com.starkbank.*;
@@ -432,6 +432,14 @@ data1.put("description", "Transaction to dear provider");
 data1.put("tags", new String[]{"daenerys", "invoice/1234"});
 transfers.add(new Transfer(data1));
 
+List<Transfer.Rule> rules = new ArrayList<>();
+rules.add(
+    new Transfer.Rule(
+        "resendingLimit",   // Set maximum number of retries if Payment fails due to systemic issues at the receiver bank
+        5                   // Our resending limit is 10 by default
+    )
+);
+
 HashMap<String, Object> data2 = new HashMap<>();
 data2.put("amount", 100000000);
 data2.put("bankCode", "20018183"); # Pix
@@ -443,6 +451,7 @@ data2.put("taxId", "594.739.480-42");
 data2.put("name", "Daenerys Targaryen Stormborn");
 data2.put("scheduled", "2020-11-11T15:01:39.903667+00:00");
 data2.put("tags", new String[]{"daenerys", "invoice/1234"});
+data2.put("rules", rules);
 transfers.add(new Transfer(data2));
 
 transfers = Transfer.create(transfers);
@@ -1166,12 +1175,22 @@ import java.util.HashMap;
 import java.util.List;
 
 List<BrcodePayment> payments = new ArrayList<>();
+
+List<BrcodePayment.Rule> rules = new ArrayList<>();
+rules.add(
+    new BrcodePayment.Rule(
+        "resendingLimit",   // Set maximum number of retries if Payment fails due to systemic issues at the receiver bank
+        5                   // Our resending limit is 10 by default
+    )
+);
+
 HashMap<String, Object> data = new HashMap<>();
 data.put("brcode", "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A");
 data.put("taxId", "012.345.678-90");
 data.put("scheduled", "2020-03-13");
 data.put("description", "This will be fast");
 data.put("tags", new String[]{"pix", "qrcode"});
+data.put("rules", rules);
 payments.add(new BrcodePayment(data));
 
 payments = BrcodePayment.create(payments);
@@ -1180,7 +1199,7 @@ for (BrcodePayment payment : payments){
     System.out.println(payment);
 }
 ```
-
+**Note**: You can also configure payment behavior according to its rules
 **Note**: Instead of using BrcodePayment objects, you can also pass each payment element in map format
 
 ## Query BR Code payments
@@ -2086,4 +2105,4 @@ If you have any questions about our SDK, just send us an email.
 We will respond you quickly, pinky promise. We are here to help you integrate with us ASAP. 
 We also love feedback, so don't be shy about sharing your thoughts with us.
 
-Email: developers@starkbank.com
+Email: help@starkbank.com

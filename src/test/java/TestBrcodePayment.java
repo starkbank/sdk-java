@@ -25,6 +25,9 @@ public class TestBrcodePayment {
         for (BrcodePayment payment : payments) {
             Assert.assertNotNull(payment.id);
             System.out.println(payment);
+            for (BrcodePayment.Rule rule : payment.rules) {
+                Assert.assertNotNull(rule.value);
+            }
         }
     }
 
@@ -150,11 +153,16 @@ public class TestBrcodePayment {
     }
 
     static BrcodePayment example(boolean scheduled) throws Exception{
+
+        List<BrcodePayment.Rule> rules = new ArrayList<>();
+        rules.add(new BrcodePayment.Rule("resendingLimit", 5));
+
         HashMap<String, Object> data = new HashMap<>();
         data.put("brcode", "00020126580014br.gov.bcb.pix013635719950-ac93-4bab-8ad6-56d7fb63afd252040000530398654040.005802BR5915Stark Bank S.A.6009Sao Paulo62070503***6304AA26");
         data.put("taxId", "20.018.183/0001-80");
         data.put("description", "Tony Stark's Suit");
         data.put("amount", 7654321);
+        data.put("rules", rules);
         
         if (scheduled)
             data.put("scheduled", getDateString(3));

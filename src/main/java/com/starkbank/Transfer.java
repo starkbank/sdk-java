@@ -26,11 +26,12 @@ public final class Transfer extends Resource {
     public String scheduled;
     public String description;
     public String[] tags;
+    public List<Rule> rules;
     public Integer fee;
     public String status;
+    public String[] transactionIds;
     public String created;
     public String updated;
-    public String[] transactionIds;
 
     /**
      * Transfer object
@@ -51,6 +52,7 @@ public final class Transfer extends Resource {
      * @param scheduled [string]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
      * @param description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
      * @param tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+     * @param rules [list of Transfer.Rules]: list of Transfer.Rule objects for modifying transfer behavior. ex: [Transfer.Rule(key="resendingLimit", value=5)]
      * <p>
      * Attributes (return-only):
      * @param id [string, default null]: unique id returned when transfer is created. ex: "5656565656565656"
@@ -62,7 +64,7 @@ public final class Transfer extends Resource {
      */
     public Transfer(String id, long amount, String name, String taxId, String bankCode, String branchCode,
                     String accountNumber, String accountType, String externalId, String scheduled, String description,
-                    String[] tags, Integer fee, String status, String created,  String updated, String[] transactionIds) {
+                    String[] tags, List<Rule> rules, Integer fee, String status, String created,  String updated, String[] transactionIds) {
         super(id);
         this.amount = amount;
         this.name = name;
@@ -75,11 +77,12 @@ public final class Transfer extends Resource {
         this.scheduled = scheduled;
         this.description = description;
         this.tags = tags;
+        this.rules = rules;
         this.fee = fee;
         this.status = status;
+        this.transactionIds = transactionIds;
         this.created = created;
         this.updated = updated;
-        this.transactionIds = transactionIds;
     }
 
     /**
@@ -104,6 +107,7 @@ public final class Transfer extends Resource {
      * scheduled [string, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
      * description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
      * tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+     * rules [list of Transfer.Rules, default []]: list of Transfer.Rule objects for modifying transfer behavior. ex: [Transfer.Rule(key="resendingLimit", value=5)]
      * <p>
      * Attributes (return-only):
      * id [string, default null]: unique id returned when transfer is created. ex: "5656565656565656"
@@ -129,10 +133,11 @@ public final class Transfer extends Resource {
         this.scheduled = (String) dataCopy.remove("scheduled");
         this.description = (String) dataCopy.remove("description");
         this.tags = (String[]) dataCopy.remove("tags");
-        this.created = null;
+        this.rules = parseRules((List<Object>) dataCopy.remove("rules"));
         this.fee = null;
         this.status = null;
         this.transactionIds = null;
+        this.created = null;
         this.updated = null;
 
         if (!dataCopy.isEmpty()) {
@@ -715,6 +720,77 @@ public final class Transfer extends Resource {
                 logs.add((Log) log);
             }
             return new Log.Page(logs, page.cursor);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Rule> parseRules(List<Object> rules) throws Exception {
+        if (rules == null)
+            return null;
+
+        List<Rule> parsed = new ArrayList<>();
+        if (rules.size() == 0 || rules.get(0) instanceof Rule) {
+            for (Object rule : rules) {
+                parsed.add((Rule) rule);
+            }
+            return parsed;
+        }
+
+        for (Object rule : rules) {
+            Rule ruleObject = new Rule((Map<String, Object>) rule);
+            parsed.add(ruleObject);
+        }
+        return parsed;
+    }
+
+    /**
+     * Transfer.Rule object
+     * <p>
+     * The Transfer.Rule object modifies the behavior of Transfer objects when passed as an argument upon their creation.
+     * <p>
+     * Parameters:
+     * key [string]: Rule to be customized, describes what Transfer behavior will be altered. ex: "resendingLimit"
+     * value [integer]: Value of the rule. ex: 5
+     *
+     */
+    public final static class Rule extends SubResource{
+        public String key;
+        public Number value;
+
+
+        /**
+         * Transfer.Rule object
+         * <p>
+         * The Transfer.Rule object modifies the behavior of Transfer objects when passed as an argument upon their creation.
+         * <p>
+         * Parameters:
+         * @param key [string]: Rule to be customized, describes what Transfer behavior will be altered. ex: "resendingLimit"
+         * @param value [integer]: Value of the rule. ex: 5
+         */
+        public Rule(String key, Number value){
+            this.key = key;
+            this.value = value;
+        }
+
+        /**
+         * Transfer.Rule object
+         * <p>
+         * The Transfer.Rule object modifies the behavior of Transfer objects when passed as an argument upon their creation.
+         * <p>
+         * Parameters:
+         * @param data map of properties for the creation of the Transfer.Rule
+         * key [string]: Rule to be customized, describes what Transfer behavior will be altered. ex: "resendingLimit"
+         * value [integer]: Value of the rule. ex: 5
+         */
+        public Rule(Map<String, Object> data) throws Exception {
+            HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+            this.key = (String) dataCopy.remove("key");
+            this.value = (Number) dataCopy.remove("value");
+
+            if (!dataCopy.isEmpty()) {
+                throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+            }
         }
     }
 }
