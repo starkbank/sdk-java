@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Added
+- DynamicBrcode resource
 
 ## [2.10.0] - 2023-01-04
 ### Added
@@ -85,10 +87,10 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [2.2.0] - 2020-11-18
 ### Added
 - Invoice resource to load your account with dynamic QR Codes
-- DictKey resource to get DICT (PIX) key parameters
+- DictKey resource to get DICT (Pix) key parameters
 - Deposit resource to receive transfers passively
-- PIX support in Transfer resource
-- BrcodePayment support to pay static and dynamic PIX QR Codes
+- Pix support in Transfer resource
+- BrcodePayment support to pay static and dynamic Pix QR Codes
 
 ## [2.1.0] - 2020-10-28
 ### Added

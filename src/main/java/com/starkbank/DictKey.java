@@ -15,7 +15,7 @@ public class DictKey extends Resource {
     /**
      * DictKey object
      * <p>
-     * DictKey represents a PIX key registered in Bacen's DICT system.
+     * DictKey represents a Pix key registered in Bacen's DICT system.
      * <p>
      * Parameters:
      * id [string, default null]: DICT key identifier. ex: "tony@starkbank.com", "012.345.678-90"
@@ -52,7 +52,7 @@ public class DictKey extends Resource {
     /**
      * DictKey object
      * <p>
-     * DictKey represents a PIX key registered in Bacen's DICT system.
+     * DictKey represents a Pix key registered in Bacen's DICT system.
      * <p>
      * Parameters:
      * @param id [string, default null]: DICT key identifier. ex: "tony@starkbank.com", "012.345.678-90"
@@ -95,7 +95,7 @@ public class DictKey extends Resource {
      * Receive a single DictKey object by passing its id
      * <p>
      * Parameters:
-     * @param id [string]: DictKey object unique id and PIX key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
+     * @param id [string]: DictKey object unique id and Pix key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
      * Return:
      * @return DictKey object with updated attributes
      * @throws Exception error in the request 
@@ -110,7 +110,7 @@ public class DictKey extends Resource {
      * Receive a single DictKey object by passing its id
      * <p>
      * Parameters:
-     * @param id [string]: DictKey object unique id and PIX key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
+     * @param id [string]: DictKey object unique id and Pix key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
      * Parameters:
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
      * Return:
