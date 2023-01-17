@@ -3,7 +3,6 @@ import com.starkbank.Settings;
 import com.starkbank.utils.Generator;
 import org.junit.Assert;
 import org.junit.Test;
-import utils.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
