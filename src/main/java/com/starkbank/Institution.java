@@ -20,12 +20,11 @@ public class Institution extends SubResource {
      * that Central Bank service.
      * <p>
      * Parameters:
-     * displayName      [string]: short version of the institution name that should be displayed to end users. ex: "Stark Bank"
-     * name             [string]: full version of the institution name. ex: "Stark Bank S.A."
-     * spiCode          [string]: SPI code used to identify the institution on Pix transactions. ex: "20018183"
-     * strCode          [string]: STR code used to identify the institution on TED transactions. ex: "123"
+     * displayName [string]: short version of the institution name that should be displayed to end users. ex: "Stark Bank"
+     * name [string]: full version of the institution name. ex: "Stark Bank S.A."
+     * spiCode [string]: SPI code used to identify the institution on Pix transactions. ex: "20018183"
+     * strCode [string]: STR code used to identify the institution on TED transactions. ex: "123"
      */
-
     static ClassData data = new ClassData(Institution.class, "Institution");
 
     public String displayName;
@@ -39,7 +38,7 @@ public class Institution extends SubResource {
      * Besides the display name and full name, they also include the STR code (used for TEDs) and the SPI Code
      * (used for Pix) for the institutions. Either of these codes may be empty if the institution is not registered on
      * that Central Bank service.
-     *
+     * <p>
      * Parameters:
      * @param displayName [string]: short version of the institution name that should be displayed to end users. ex: "Stark Bank"
      * @param name [string]: full version of the institution name. ex: "Stark Bank S.A."

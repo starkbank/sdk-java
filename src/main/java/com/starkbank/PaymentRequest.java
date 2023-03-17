@@ -18,26 +18,26 @@ public final class PaymentRequest extends Resource {
     static ClassData data = new ClassData(PaymentRequest.class, "PaymentRequest");
     /**
      * PaymentRequest object
+     *  <p>
+     * A PaymentRequest is an indirect request to access a specific cash-out service
+     * (such as Transfer, BoletoPayments, etc.) which goes through the cost center
+     * approval flow on our website. To emit a PaymentRequest, you must direct it to
+     * a specific cost center by its ID, which can be retrieved on our website at the
+     * cost center page.
      * <p>
-     *     A PaymentRequest is an indirect request to access a specific cash-out service
-     *     (such as Transfer, BoletoPayments, etc.) which goes through the cost center
-     *     approval flow on our website. To emit a PaymentRequest, you must direct it to
-     *     a specific cost center by its ID, which can be retrieved on our website at the
-     *     cost center page.
-     * </p>
-     *
      * Parameters:
-     * id [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
      * centerId [string]: target cost center ID. ex: "5656565656565656"
      * payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
      * type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * due [string]: Payment target date in ISO format. ex: 2020-12-31
      * tags [list of strings]: list of strings for tagging
-     * amount [long integer]: PaymentRequest amount. ex: 100000 = R$1.000,00
+     * id [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
+     * amount [long]: PaymentRequest amount. ex: 100000 = R$1.000,00
+     * description [string]: payment request description. ex: "Tony Stark's Suit"
      * status [string]: current PaymentRequest status.ex: "pending" or "approved"
      * actions [list of maps]: list of actions that are affecting this PaymentRequest.ex: [{"type": "member", "id": "56565656565656, "action": "requested"}]
-     * updated [String]: latest update datetime for the PaymentRequest. ex: 2020-12-31
-     * created [String]: creation datetime for the PaymentRequest. ex: 2020-12-31
+     * updated [String]: latest update datetime for the PaymentRequest. ex: "2020-03-10 10:30:00.000000+00:00"
+     * created [String]: creation datetime for the PaymentRequest. ex: "2020-03-10 10:30:00.000000+00:00"
      */
 
     public String centerId;
@@ -46,6 +46,7 @@ public final class PaymentRequest extends Resource {
     public String due;
     public String[] tags;
     public Long amount;
+    public String description;
     public String status;
     public List<PaymentRequest.Action> actions;
     public String updated;
@@ -59,24 +60,28 @@ public final class PaymentRequest extends Resource {
      * to the Stark Bank API and returns the list of created objects.
      * All parameters are passed in a Map of String and Object object.
      * <p>
-     *
-     * Parameters:
+     * Parameters (required):
      * @param centerId [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
      * @param payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
+     * <p>
+     * Parameters (conditionally required):
      * @param type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
+     * <p>
+     * Parameters (optional):
      * @param due [string]: Payment target date in ISO format.
      * @param tags [list of strings]: list of strings for tagging
-     * 
+     * <p>
      * Attributes (return-only):
      * @param id [string]: id of the object
      * @param amount [long]: PaymentRequest amount. ex: 100000 = R$1.000,00
+     * @param description [string]: payment request description. ex: "Tony Stark's Suit"
      * @param status [string]: current PaymentRequest status.ex: "pending" or "approved"
      * @param actions [list of PaymentRequest.Action, default null]: list of actions that are affecting this PaymentRequest.ex: [{"type": "member", "id": "56565656565656, "action": "requested"}]
      * @param updated [string]: latest update datetime for the PaymentRequest. ex: 2020-12-31
      * @param created [string]: creation datetime for the PaymentRequest. ex: 2020-12-31
      * @throws Exception error in the request
      */
-    public PaymentRequest(String id, String centerId, Resource payment, String type, String due, String[] tags, Long amount,
+    public PaymentRequest(String id, String centerId, Resource payment, String type, String due, String[] tags, Long amount, String description,
                           String status, List<PaymentRequest.Action> actions, String updated, String created) throws Exception{
         super(id);
         this.centerId = centerId;
@@ -84,6 +89,7 @@ public final class PaymentRequest extends Resource {
         this.due = due;
         this.tags = tags;
         this.amount = amount;
+        this.description = description;
         this.status = status;
         this.actions = actions;
         this.updated = updated;
@@ -104,7 +110,7 @@ public final class PaymentRequest extends Resource {
      * All parameters are passed in a Map of String and Object object.
      * <p>
      * @param data map of parameters for the creation of the PaymentRequest
-     * Parameters:
+     * Parameters (required):
      * centerId [string]: target cost center ID. ex: "5656565656565656"
      * payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
      * <p>
@@ -114,6 +120,15 @@ public final class PaymentRequest extends Resource {
      * Parameters (optional):
      * due [string]: Payment target date in ISO format. ex: 2020-12-31
      * tags [list of strings]: list of strings for tagging
+     * <p>
+     * Attributes (return-only):
+     * id [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
+     * amount [long]: PaymentRequest amount. ex: 100000 = R$1.000,00
+     * description [string]: payment request description. ex: "Tony Stark's Suit"
+     * status [string]: current PaymentRequest status.ex: "pending" or "approved"
+     * actions [list of maps]: list of actions that are affecting this PaymentRequest.ex: [{"type": "member", "id": "56565656565656, "action": "requested"}]
+     * updated [String]: latest update datetime for the PaymentRequest. ex: "2020-03-10 10:30:00.000000+00:00"
+     * created [String]: creation datetime for the PaymentRequest. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
@@ -125,11 +140,12 @@ public final class PaymentRequest extends Resource {
         this.payment = (Resource) dataCopy.remove("payment");
         this.due = (String) dataCopy.remove("due");
         this.tags = (String[]) dataCopy.remove("tags");
-        this.amount = (Long) dataCopy.remove("amount");
-        this.status = (String) dataCopy.remove("status");
-        this.actions = (List<PaymentRequest.Action>) dataCopy.remove("actions");
-        this.updated = (String) dataCopy.remove("updated");
-        this.created = (String) dataCopy.remove("created");
+        this.amount = null;
+        this.description = null;
+        this.status = null;
+        this.actions = null;
+        this.updated = null;
+        this.created = null;
 
         this.type = (String) dataCopy.remove("type");
         if(this.type == null) {

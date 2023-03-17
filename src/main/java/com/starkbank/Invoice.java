@@ -21,29 +21,29 @@ public final class Invoice extends Resource {
      * to the Stark Bank API and returns the list of created objects.
      * <p>
      * Parameters:
-     * amount           [number]: Invoice value in cents. Minimum = 0 (any value will be accepted). ex: 1234 (= R$ 12.34)
-     * due              [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
-     * taxId            [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-     * name             [string]: payer name. ex: "Iron Bank S.A."
-     * expiration       [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
-     * fine             [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
-     * interest         [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
-     * descriptions     [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
-     * discounts        [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
-     * tags             [list of strings, default null]: list of strings for tagging
-     * pdf              [string, default null]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
-     * link             [string, default null]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
-     * nominalAmount    [number, default null]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
-     * fineAmount       [number, default null]: Invoice fine value calculated over nominalAmount. ex: 20000
-     * interestAmount   [number, default null]: Invoice interest value calculated over nominalAmount. ex: 10000
-     * discountAmount   [number, default null]: Invoice discount value calculated over nominalAmount. ex: 3000
-     * id               [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
-     * brcode           [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
-     * fee              [integer, default null]: fee charged buy this Invoice. ex: 65 (= R$ 0.65)
-     * transactionIds   [list of strings]: ledger transaction ids linked to this Invoice (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
-     * status           [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
-     * created          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
-     * updated          [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
+     * amount [number]: Invoice value in cents. Minimum = 0 (any value will be accepted). ex: 1234 (= R$ 12.34)
+     * taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * name [string]: payer name. ex: "Iron Bank S.A."
+     * due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
+     * expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
+     * fine [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
+     * interest [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
+     * discounts [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
+     * tags [list of strings, default null]: list of strings for tagging
+     * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
+     * pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
+     * link [string]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
+     * nominalAmount [number]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
+     * fineAmount [number]: Invoice fine value calculated over nominalAmount. ex: 20000
+     * interestAmount [number]: Invoice interest value calculated over nominalAmount. ex: 10000
+     * discountAmount [number]: Invoice discount value calculated over nominalAmount. ex: 3000
+     * id [string]: unique id returned when Invoice is created. ex: "5656565656565656"
+     * brcode [string]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
+     * status [string]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
+     * fee [integer]: fee charged buy this Invoice. ex: 65 (= R$ 0.65)
+     * transactionIds [list of strings]: ledger transaction ids linked to this Invoice (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
+     * created [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      *
      */
     static ClassData data = new ClassData(Invoice.class, "Invoice");
@@ -79,31 +79,31 @@ public final class Invoice extends Resource {
      * To create scheduled Invoices, which will display the discount, interest, etc. on the final users banking interface,
      * use dates instead of datetimes on the "due" and "discounts" fields.
      * All parameters are passed in a Map of String and Object object.
-
+     * <p>
      * Parameters:
-     * @param amount            [number]: Invoice value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
-     * @param due               [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
-     * @param taxId             [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-     * @param name              [string]: payer name. ex: "Iron Bank S.A."
-     * @param expiration        [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
-     * @param fine              [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
-     * @param interest          [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
-     * @param descriptions      [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
-     * @param discounts         [list of maps, default null]: list of maps with "percentage":number and "due":datetime.datetime or string pairs
-     * @param tags              [list of strings, default null]: list of strings for tagging
-     * @param pdf               [string, default null]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
-     * @param link              [string, default null]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
-     * @param nominalAmount     [number, default null]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
-     * @param fineAmount        [number, default null]: Invoice fine value calculated over nominalAmount. ex: 20000
-     * @param interestAmount    [number, default null]: Invoice interest value calculated over nominalAmount. ex: 10000
-     * @param discountAmount    [number, default null]: Invoice discount value calculated over nominalAmount. ex: 3000
-     * @param id                [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
-     * @param brcode            [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
-     * @param fee               [integer, default null]: fee charged buy this Invoice. ex: 65 (= R$ 0.65)
-     * @param transactionIds    [list of strings]: ledger transaction ids linked to this Invoice (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
-     * @param status            [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
-     * @param created           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
-     * @param updated           [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param amount [number]: Invoice value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
+     * @param taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * @param name [string]: payer name. ex: "Iron Bank S.A."
+     * @param due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
+     * @param expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
+     * @param fine [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
+     * @param interest [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
+     * @param discounts [list of maps, default null]: list of maps with "percentage":number and "due":string or string pairs
+     * @param tags [list of strings, default null]: list of strings for tagging
+     * @param descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
+     * @param pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
+     * @param link [string]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
+     * @param nominalAmount [number]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
+     * @param fineAmount [number]: Invoice fine value calculated over nominalAmount. ex: 20000
+     * @param interestAmount [number]: Invoice interest value calculated over nominalAmount. ex: 10000
+     * @param discountAmount [number]: Invoice discount value calculated over nominalAmount. ex: 3000
+     * @param id [string]: unique id returned when Invoice is created. ex: "5656565656565656"
+     * @param brcode [string]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
+     * @param status [string]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
+     * @param fee [integer]: fee charged buy this Invoice. ex: 65 (= R$ 0.65)
+     * @param transactionIds [list of strings]: ledger transaction ids linked to this Invoice (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
+     * @param created [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param updated [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Invoice(Number amount, String due, String taxId, String name, Number expiration, Number fine,
                     Number interest, List<Invoice.Description> descriptions, List<Invoice.Discount> discounts, String pdf,
@@ -113,21 +113,21 @@ public final class Invoice extends Resource {
     ) {
         super(id);
         this.amount = amount;
-        this.due = due;
         this.taxId = taxId;
         this.name = name;
+        this.due = due;
         this.expiration = expiration;
         this.fine = fine;
         this.interest = interest;
         this.discounts = discounts;
         this.tags = tags;
+        this.descriptions = descriptions;
         this.pdf = pdf;
         this.link = link;
         this.nominalAmount = nominalAmount;
         this.fineAmount = fineAmount;
         this.interestAmount = interestAmount;
         this.discountAmount = discountAmount;
-        this.descriptions = descriptions;
         this.brcode = brcode;
         this.fee = fee;
         this.transactionIds = transactionIds;
@@ -146,31 +146,31 @@ public final class Invoice extends Resource {
      * <p>
      * @param data map of parameters for the creation of the Invoice
      * Parameters:
-     * amount       [number]: Invoice value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
-     * taxId        [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-     * name         [string]: payer name. ex: "Iron Bank S.A."
+     * amount [number]: Invoice value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
+     * taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * name [string]: payer name. ex: "Iron Bank S.A."
      * <p>
      * Parameters (optional):
-     * due          [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
-     * expiration   [number, default 59 days]: time interval in seconds between due date and expiration date. ex 123456789
-     * fine         [number, default 2.0]: Invoice fine for overdue payment in %. ex: 2.5
-     * interest     [number, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
+     * due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
+     * expiration [number, default 59 days]: time interval in seconds between due date and expiration date. ex 123456789
+     * fine [number, default 2.0]: Invoice fine for overdue payment in %. ex: 2.5
+     * interest [number, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
      * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
-     * discounts    [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
-     * tags         [list of strings, default null]: list of strings for tagging
+     * discounts [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
+     * tags [list of strings, default null]: list of strings for tagging
      * <p>
      * Attributes (return-only):
-     * pdf            [string, default null]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
-     * link           [string, default null]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
-     * nominalAmount  [number, default null]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
-     * fineAmount     [number, default null]: Invoice fine value calculated over nominalAmount. ex: 20000
-     * interestAmount [number, default null]: Invoice interest value calculated over nominalAmount. ex: 10000
-     * discountAmount [number, default null]: Invoice discount value calculated over nominalAmount. ex: 3000
-     * id             [string, default null]: unique id returned when Invoice is created. ex: "5656565656565656"
-     * brcode         [string, default null]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
-     * status         [string, default null]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
-     * created        [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
-     * updated        [string, default null]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
+     * pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
+     * link [string]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
+     * nominalAmount [number]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
+     * fineAmount [number]: Invoice fine value calculated over nominalAmount. ex: 20000
+     * interestAmount [number]: Invoice interest value calculated over nominalAmount. ex: 10000
+     * discountAmount [number]: Invoice discount value calculated over nominalAmount. ex: 3000
+     * id [string]: unique id returned when Invoice is created. ex: "5656565656565656"
+     * brcode [string]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
+     * status [string]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
+     * created [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
@@ -179,15 +179,15 @@ public final class Invoice extends Resource {
         HashMap<String, Object> dataCopy = new HashMap<>(data);
 
         this.amount = (Number) dataCopy.remove("amount");
-        this.due = (String) dataCopy.remove("due");
         this.taxId = (String) dataCopy.remove("taxId");
         this.name = (String) dataCopy.remove("name");
+        this.due = (String) dataCopy.remove("due");
         this.expiration = (Number) dataCopy.remove("expiration");
         this.fine = (Number) dataCopy.remove("fine");
         this.interest = (Number) dataCopy.remove("interest");
-        this.descriptions = parseDescriptions((List<Object>) dataCopy.remove("descriptions"));
         this.discounts = parseDiscounts((List<Object>) dataCopy.remove("discounts"));
         this.tags = (String[]) dataCopy.remove("tags");
+        this.descriptions = parseDescriptions((List<Object>) dataCopy.remove("descriptions"));
         this.pdf = null;
         this.link = null;
         this.nominalAmount = null;
@@ -782,12 +782,12 @@ public final class Invoice extends Resource {
          * user, but it can be retrieved to check additional information
          * on the Invoice.
          * <p>
-         * Attributes:
-         * @param id        [string]: unique id returned when the log is created. ex: "5656565656565656"
-         * @param invoice   [Invoice]: Invoice entity to which the log refers to.
-         * @param errors    [list of strings]: list of errors linked to this Invoice event
-         * @param type      [string]: type of the Invoice event which triggered the log creation. ex: "registered" or "paid"
-         * @param created   [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
+         * Attributes (return-only):
+         * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
+         * @param invoice [Invoice]: Invoice entity to which the log refers to.
+         * @param errors [list of strings]: list of errors linked to this Invoice event
+         * @param type [string]: type of the Invoice event which triggered the log creation. ex: "registered" or "paid"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
          */
         public Log(String created, String type, String[] errors, Invoice invoice, String id) {
             super(id);

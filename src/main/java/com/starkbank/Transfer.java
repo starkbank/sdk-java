@@ -13,6 +13,34 @@ import java.util.Map;
 
 
 public final class Transfer extends Resource {
+    /**
+     * Transfer object
+     * <p>
+     * When you initialize a Transfer, the entity will not be automatically
+     * created in the Stark Bank API. The "create" function sends the objects
+     * to the Stark Bank API and returns the list of created objects.
+     * <p>
+     * Parameters:
+     * amount [long]: amount in cents to be transferred. ex: 1234 (= R$ 12.34)
+     * name [string]: receiver full name. ex: "Anthony Edward Stark"
+     * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * bankCode [string]: code of the receiver bank institution in Brazil. If an ISPB (8 digits) is informed, a Pix transfer will be created, else a TED will be issued. ex: "20018183" or "341"
+     * branchCode [string]: receiver bank account branch. Use "-" in case there is a verifier digit. ex: "1357-9"
+     * accountNumber [string]: Receiver bank account number. Use "-" before the verifier digit. ex: "876543-2"
+     * accountType [string]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
+     * externalId [string]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
+     * scheduled [string]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
+     * description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
+     * tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+     * rules [list of Transfer.Rules]: list of Transfer.Rule objects for modifying transfer behavior. ex: [Transfer.Rule(key="resendingLimit", value=5)]
+     * id [string]: unique id returned when transfer is created. ex: "5656565656565656"
+     * fee [integer]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
+     * status [string]: current transfer status. ex: "processing" or "success"
+     * transactionIds [list of strings]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
+     * metadata [Transfer.Metadata object]: object used to store additional information about the Transfer object.
+     * created [string]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated [string]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     */
     static ClassData data = new ClassData(Transfer.class, "Transfer");
 
     public long amount;
@@ -30,6 +58,7 @@ public final class Transfer extends Resource {
     public Integer fee;
     public String status;
     public String[] transactionIds;
+    public Metadata metadata;
     public String created;
     public String updated;
 
@@ -53,18 +82,17 @@ public final class Transfer extends Resource {
      * @param description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
      * @param tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
      * @param rules [list of Transfer.Rules]: list of Transfer.Rule objects for modifying transfer behavior. ex: [Transfer.Rule(key="resendingLimit", value=5)]
-     * <p>
-     * Attributes (return-only):
-     * @param id [string, default null]: unique id returned when transfer is created. ex: "5656565656565656"
-     * @param fee [integer, default null]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
-     * @param status [string, default null]: current transfer status. ex: "processing" or "success"
-     * @param transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-     * @param created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
-     * @param updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param id [string]: unique id returned when transfer is created. ex: "5656565656565656"
+     * @param fee [integer]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
+     * @param status [string]: current transfer status. ex: "processing" or "success"
+     * @param transactionIds [list of strings]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
+     * @param metadata [Transfer.Metadata object]: object used to store additional information about the Transfer object.
+     * @param created [string]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param updated [string]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Transfer(String id, long amount, String name, String taxId, String bankCode, String branchCode,
                     String accountNumber, String accountType, String externalId, String scheduled, String description,
-                    String[] tags, List<Rule> rules, Integer fee, String status, String created,  String updated, String[] transactionIds) {
+                    String[] tags, List<Rule> rules, Integer fee, String status, String[] transactionIds, Metadata metadata, String created, String updated) {
         super(id);
         this.amount = amount;
         this.name = name;
@@ -81,6 +109,7 @@ public final class Transfer extends Resource {
         this.fee = fee;
         this.status = status;
         this.transactionIds = transactionIds;
+        this.metadata = metadata;
         this.created = created;
         this.updated = updated;
     }
@@ -105,17 +134,18 @@ public final class Transfer extends Resource {
      * accountType [string, default "checking"]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
      * externalId [string, default null]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
      * scheduled [string, default now]: datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
-     * description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
-     * tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+     * description [string, default null]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
+     * tags [list of strings, default null]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
      * rules [list of Transfer.Rules, default []]: list of Transfer.Rule objects for modifying transfer behavior. ex: [Transfer.Rule(key="resendingLimit", value=5)]
      * <p>
      * Attributes (return-only):
-     * id [string, default null]: unique id returned when transfer is created. ex: "5656565656565656"
-     * fee [integer, default null]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
-     * status [string, default null]: current transfer status. ex: "processing" or "success"
-     * transactionIds [list of strings, default null]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-     * created [string, default null]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
-     * updated [string, default null]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     * id [string]: unique id returned when transfer is created. ex: "5656565656565656"
+     * fee [integer]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
+     * status [string]: current transfer status. ex: "processing" or "success"
+     * transactionIds [list of strings]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
+     * metadata [Transfer.Metadata object]: object used to store additional information about the Transfer object.
+     * created [string]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated [string]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     public Transfer(Map<String, Object> data) throws Exception {
@@ -137,6 +167,7 @@ public final class Transfer extends Resource {
         this.fee = null;
         this.status = null;
         this.transactionIds = null;
+        this.metadata = null;
         this.created = null;
         this.updated = null;
 
@@ -497,7 +528,7 @@ public final class Transfer extends Resource {
          * is generated for the entity. This log is never generated by the
          * user.
          * <p>
-         * Attributes:
+         * Attributes (return-only):
          * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * @param transfer [Transfer]: Transfer entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to the Transfer event.
@@ -787,6 +818,50 @@ public final class Transfer extends Resource {
 
             this.key = (String) dataCopy.remove("key");
             this.value = (Number) dataCopy.remove("value");
+
+            if (!dataCopy.isEmpty()) {
+                throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+            }
+        }
+    }
+
+    /**
+     * Transfer.Metadata object
+     * <p>
+     * The Transfer.Metadata object contains additional information about the Transfer object.
+     * <p>
+     * Parameters:
+     * Authentication [string]: Central Bank's unique ID for Pix transactions (EndToEndID). ex: "E200181832023031715008Scr7tD63TS"
+     *
+     */
+    public final static class Metadata extends SubResource{
+        public String authentication;
+
+        /**
+         * Transfer.Metadata object
+         * <p>
+         * The Transfer.Metadata object contains additional information about the Transfer object.
+         * <p>
+         * Parameters:
+         * @param authentication [string]: Central Bank's unique ID for Pix transactions (EndToEndID). ex: "E200181832023031715008Scr7tD63TS"
+         */
+        public Metadata(String authentication){
+            this.authentication = authentication;
+        }
+
+        /**
+         * Transfer.Metadata object
+         * <p>
+         * The Transfer.Metadata object contains additional information about the Transfer object.
+         * <p>
+         * Parameters:
+         * @param data map of properties for the creation of the Transfer.Rule
+         * authentication [string]: Central Bank's unique ID for Pix transactions (EndToEndID). ex: "E200181832023031715008Scr7tD63TS"
+         */
+        public Metadata(Map<String, Object> data) throws Exception {
+            HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+            this.authentication = (String) dataCopy.remove("authentication");
 
             if (!dataCopy.isEmpty()) {
                 throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");

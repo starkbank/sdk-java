@@ -13,6 +13,27 @@ import java.util.Map;
 
 
 public final class BoletoPayment extends Resource {
+    /**
+     * BoletoPayment object
+     * <p>
+     * When you initialize a BoletoPayment, the entity will not be automatically
+     * created in the Stark Bank API. The "create" function sends the objects
+     * to the Stark Bank API and returns the list of created objects.
+     * <p>
+     * Parameters:
+     * line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
+     * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
+     * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
+     * amount [Long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
+     * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
+     * tags [list of strings, default null]: list of strings for tagging
+     * id [string]: unique id returned when payment is created. ex: "5656565656565656"
+     * status [string]: current payment status. ex: "processing" or "success"
+     * fee [integer]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
+     * transactionIds [list of strings]: ledger transaction ids linked to this BoletoPayment. ex: ["19827356981273"]
+     * created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+     */
     static ClassData data = new ClassData(BoletoPayment.class, "BoletoPayment");
 
     public Long amount;
@@ -34,20 +55,14 @@ public final class BoletoPayment extends Resource {
      * created in the Stark Bank API. The "create" function sends the objects
      * to the Stark Bank API and returns the list of created objects.
      * <p>
-     * Parameters (conditionally required):
-     * line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
-     * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
-     * <p>
-     * Parameters (required):
-     * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
-     * <p>
-     * Parameters (optional):
-     * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * tags [list of strings, default null]: list of strings for tagging
-     * amount [Long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
-     * <p>
-     * Attributes (return-only):
+     * Parameters:
+     * @param line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
+     * @param barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
+     * @param taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * @param description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
+     * @param amount [Long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
+     * @param scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
+     * @param tags [list of strings, default null]: list of strings for tagging
      * @param id [string]: unique id returned when payment is created. ex: "5656565656565656"
      * @param status [string]: current payment status. ex: "processing" or "success"
      * @param fee [integer]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
@@ -466,7 +481,7 @@ public final class BoletoPayment extends Resource {
          * user, but it can be retrieved to check additional information
          * on the BoletoPayment.
          * <p>
-         * Attributes:
+         * Attributes (return-only):
          * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * @param payment [BoletoPayment]: BoletoPayment entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this BoletoPayment event.
