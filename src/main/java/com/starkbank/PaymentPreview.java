@@ -2,7 +2,13 @@ package com.starkbank;
 
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
+import com.starkbank.utils.SubResource;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,19 +46,44 @@ public class PaymentPreview extends Resource {
      */
     public PaymentPreview(String id, String scheduled, String type, String payment) {
         super(id);
-        this.scheduled = scheduled;
+        this.scheduled = formatDate(scheduled);
         this.type = type;
         this.payment = payment;
 
-        Map<String, ClassData> subResourceByType = new HashMap<String, ClassData>() {{
+        Map<String, SubResource.ClassData> subResourceByType = new HashMap<String, SubResource.ClassData>() {{
             put("brcode-payment", BrcodePreview.data);
             put("boleto-payment", BoletoPreview.data);
             put("utility-payment", UtilityPreview.data);
             put("tax-payment", TaxPreview.data);
         }};
 
-        if (subResourceByType.containsKey(payment)) {
-            this.payment = subResourceByType.get(payment);
+        if (subResourceByType.containsKey(type)) {
+            try {
+                SubResource.ClassData classData = subResourceByType.get(type);
+                Class<?> clazz = classData.cls;
+                Constructor<?> ctor = clazz.getDeclaredConstructor(Map.class);
+                this.payment = ctor.newInstance(new HashMap<String, Object>() {{
+                    put("id", payment);
+                    put("scheduled", scheduled);
+                }});
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String formatDate(String dateStr) {
+        if (dateStr == null) {
+            return null;
+        }
+
+        try {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(dateStr, inputFormatter);
+            return date.format(inputFormatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date format: " + dateStr);
+            return null;
         }
     }
 
