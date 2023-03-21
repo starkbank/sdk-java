@@ -1,10 +1,9 @@
-import com.starkbank.Settings;
 import com.starkbank.Workspace;
 import com.starkbank.Organization;
 import com.starkbank.utils.Generator;
+import utils.FilesReader;
 import org.junit.Test;
 import org.junit.Assert;
-
 import java.util.*;
 
 
@@ -94,5 +93,57 @@ public class TestWorkspace {
         if (ids.size() != 4) {
             throw new Exception("ids.size() != 4");
         }
+    }
+
+    @Test
+    public void testUpdatePicture() throws Exception {
+        Organization organization = utils.User.defaultOrganization();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 1);
+
+        Generator<Workspace> workspaces = Workspace.query(params, organization);
+
+        String workspaceId = "";
+
+        for(Workspace workspace : workspaces) {
+            workspaceId = workspace.id;
+        }
+
+        byte[] image = new FilesReader().reader("./src/test/java/utils/logo.png");
+        
+        HashMap<String, Object> patchData = new HashMap<>();
+        patchData.put("picture", image);
+        patchData.put("pictureType", "image/png");
+
+        Workspace updatedWorkspace = Workspace.update(workspaceId, patchData, Organization.replace(organization, workspaceId));
+
+        Assert.assertNotNull(updatedWorkspace.id);
+        System.out.println(updatedWorkspace);
+    }
+
+    @Test
+    public void testUpdateStatus() throws Exception {
+        Organization organization = utils.User.defaultOrganization();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 1);
+
+        Generator<Workspace> workspaces = Workspace.query(params, organization);
+
+        String workspaceId = "";
+
+        for(Workspace workspace : workspaces) {
+            workspaceId = workspace.id;
+        }
+
+        HashMap<String, Object> patchData = new HashMap<>();
+        patchData.put("status", "blocked");
+
+        Workspace updatedWorkspace = Workspace.update(workspaceId, patchData, Organization.replace(organization, workspaceId));
+
+        Assert.assertNotNull(updatedWorkspace.id);
+        Assert.assertEquals(updatedWorkspace.status, "blocked");
+        System.out.println(updatedWorkspace);
     }
 }

@@ -324,7 +324,7 @@ public final class Deposit extends Resource {
          * user, but it can be retrieved to check additional information
          * on the Deposit.
          * <p>
-         * Attributes:
+         * Attributes (return-only):
          * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * @param deposit [Deposit]: Deposit entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this Deposit event

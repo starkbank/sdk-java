@@ -25,16 +25,16 @@ public final class BrcodePayment extends Resource {
     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
     * amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
     * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
-    * name [string]: receiver name. ex: "Jon Snow"
     * tags [list of strings, default null]: list of strings for tagging
     * rules [list of BrcodePayment.Rules]: list of BrcodePayment.Rule objects for modifying payment behavior. ex: [BrcodePayment.Rule(key="resendingLimit", value=5)]
-    * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-    * status [string, default null]: current payment status. ex: "success" or "failed"
-    * type [string, default null]: brcode type. ex: "static" or "dynamic"
-    * transactionIds [list of strings, default null]: ledger transaction ids linked to this payment. ex: ["19827356981273"]
-    * fee [integer, default null]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
-    * updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
-    * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+    * id [string]: unique id returned when payment is created. ex: "5656565656565656"
+    * name [string]: receiver name. ex: "Jon Snow"
+    * status [string]: current payment status. ex: "success" or "failed"
+    * type [string]: brcode type. ex: "static" or "dynamic"
+    * transactionIds [list of strings]: ledger transaction ids linked to this payment. ex: ["19827356981273"]
+    * fee [integer]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
+    * updated [string]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+    * created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     */
     static ClassData data = new ClassData(BrcodePayment.class, "BrcodePayment");
     
@@ -43,9 +43,9 @@ public final class BrcodePayment extends Resource {
     public String description;
     public Number amount;
     public String scheduled;
-    public String name;
     public String[] tags;
     public List<BrcodePayment.Rule> rules;
+    public String name;
     public String status;
     public String type;
     public String[] transactionIds;
@@ -66,16 +66,16 @@ public final class BrcodePayment extends Resource {
     * @param description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
     * @param amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
     * @param scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
-    * @param name [string]: receiver name. ex: "Jon Snow"
     * @param tags [list of strings, default null]: list of strings for tagging
     * @param rules [list of BrcodePayment.Rules]: list of BrcodePayment.Rule objects for modifying payment behavior. ex: [BrcodePayment.Rule(key="resendingLimit", value=5)]
-    * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-    * @param status [string, default null]: current payment status. ex: "success" or "failed"
-    * @param type [string, default null]: brcode type. ex: "static" or "dynamic"
-    * @param transactionIds [list of strings, default null]: ledger transaction ids linked to this payment. ex: ["19827356981273"]
-    * @param fee [integer, default null]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
-    * @param updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
-    * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+    * @param id [string]: unique id returned when payment is created. ex: "5656565656565656"
+    * @param name [string]: receiver name. ex: "Jon Snow"
+    * @param status [string]: current payment status. ex: "success" or "failed"
+    * @param type [string]: brcode type. ex: "static" or "dynamic"
+    * @param transactionIds [list of strings]: ledger transaction ids linked to this payment. ex: ["19827356981273"]
+    * @param fee [integer]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
+    * @param updated [string]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+    * @param created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     */
     public BrcodePayment(String brcode, String taxId, String description, Number amount, String scheduled, String name,
                         String[] tags, List<BrcodePayment.Rule> rules, String id, String status, String type, 
@@ -86,9 +86,9 @@ public final class BrcodePayment extends Resource {
         this.description = description;
         this.amount = amount;
         this.scheduled = scheduled;
-        this.name = name;
         this.tags = tags;
         this.rules = rules;
+        this.name = name;
         this.status = status;
         this.type = type;
         this.transactionIds = transactionIds;
@@ -113,17 +113,18 @@ public final class BrcodePayment extends Resource {
     * Parameters (optional):
     * amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
     * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
-    * name [string]: receiver name. ex: "Jon Snow"
     * tags [list of strings, default null]: list of strings for tagging. ex: ["Stark", "Suit"]
     * rules [list of BrcodePayment.Rules]: list of BrcodePayment.Rule objects for modifying payment behavior. ex: [BrcodePayment.Rule(key="resendingLimit", value=5)]
+    * <p>
     * Attributes (return-only):
-    * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-    * status [string, default null]: current payment status. ex: "success" or "failed"
-    * type [string, default null]: brcode type. ex: "static" or "dynamic"
-    * transactionIds [list of strings, default null]: ledger transaction ids linked to this payment. ex: ["19827356981273"]
-    * fee [integer, default null]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
-    * updated [string, default null]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
-    * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+    * id [string]: unique id returned when payment is created. ex: "5656565656565656"
+    * name [string]: receiver name. ex: "Jon Snow"
+    * status [string]: current payment status. ex: "success" or "failed"
+    * type [string]: brcode type. ex: "static" or "dynamic"
+    * transactionIds [list of strings]: ledger transaction ids linked to this payment. ex: ["19827356981273"]
+    * fee [integer]: fee charged when the brcode payment is created. ex: 200 (= R$ 2.00)
+    * updated [string]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+    * created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
     * @throws Exception error in the request
     */
     public BrcodePayment(Map<String, Object> data) throws Exception {
@@ -494,7 +495,7 @@ public final class BrcodePayment extends Resource {
          * user, but it can be retrieved to check additional information
          * on the BrcodePayment.
          * <p>
-         * Attributes:
+         * Attributes (return-only):
          * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * @param payment [BrcodePayment]: BrcodePayment entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this BrcodePayment event

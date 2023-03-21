@@ -10,7 +10,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +21,7 @@ public class TestDarfPayment {
     @Test
     public void testCreate() throws Exception {
         Settings.user = utils.User.defaultProject();
+        
         List<DarfPayment> payments = new ArrayList<>();
 
         payments.add(TestDarfPayment.example(true));

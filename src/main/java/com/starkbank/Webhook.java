@@ -12,13 +12,25 @@ import java.util.Map;
 
 
 public final class Webhook extends Resource {
+    /**
+     * Webhook object
+     * <p>
+     * A Webhook is used to subscribe to notification events on a user-selected endpoint.
+     * Currently available services for subscription are transfer, boleto, boleto-payment,
+     * utility-payment, invoice, deposit, e brcode-payment.
+     * <p>
+     * Parameters:
+     * url [string]: Url that will be notified when an event occurs.
+     * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
+     * id [string]: unique id returned when the webhook is created. ex: "5656565656565656"
+     */
     static ClassData data = new ClassData(Webhook.class, "Webhook");
 
     public String url;
     public String[] subscriptions;
 
     /**
-     * Webhook subscription object
+     * Webhook object
      * <p>
      * A Webhook is used to subscribe to notification events on a user-selected endpoint.
      * Currently available services for subscription are transfer, boleto, boleto-payment,
@@ -27,8 +39,7 @@ public final class Webhook extends Resource {
      * Parameters:
      * @param url [string]: Url that will be notified when an event occurs.
      * @param subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
-     * Attributes:
-     * @param id [string, default null]: unique id returned when the webhook is created. ex: "5656565656565656"
+     * @param id [string]: unique id returned when the webhook is created. ex: "5656565656565656"
      */
     public Webhook(String url, String[] subscriptions, String id) {
         super(id);
@@ -37,7 +48,7 @@ public final class Webhook extends Resource {
     }
 
     /**
-     * Webhook subscription object
+     * Webhook  object
      * <p>
      * A Webhook is used to subscribe to notification events on a user-selected endpoint.
      * Currently available services for subscription are transfer, boleto, boleto-payment,
@@ -47,8 +58,9 @@ public final class Webhook extends Resource {
      * @param data map of properties for the creation of the WebHook
      * url [string]: Url that will be notified when an event occurs.
      * subscriptions [list of strings]: list of any non-empty combination of the available services. ex: ["transfer", "boleto-payment"]
-     * Attributes:
-     * id [string, default null]: unique id returned when the webhook is created. ex: "5656565656565656"
+     * <p>
+     * Attributes (return-only):
+     * id [string]: unique id returned when the webhook is created. ex: "5656565656565656"
      */
     public Webhook(Map<String, Object> data) {
         super(null);
@@ -90,7 +102,7 @@ public final class Webhook extends Resource {
     }
 
     /**
-     * Retrieve Webhook subcriptions
+     * Retrieve Webhooks
      * <p>
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API.
      * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
@@ -108,7 +120,7 @@ public final class Webhook extends Resource {
     }
 
     /**
-     * Retrieve Webhook subcriptions
+     * Retrieve Webhooks
      * <p>
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API.
      * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
@@ -125,7 +137,7 @@ public final class Webhook extends Resource {
     }
 
     /**
-     * Retrieve Webhook subcriptions
+     * Retrieve Webhooks
      * <p>
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API.
      * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
@@ -139,7 +151,7 @@ public final class Webhook extends Resource {
     }
 
     /**
-     * Retrieve Webhook subcriptions
+     * Retrieve Webhooks
      * <p>
      * Receive a generator of Webhook subcription objects previously created in the Stark Bank API.
      * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
@@ -168,7 +180,7 @@ public final class Webhook extends Resource {
     }
 
     /**
-     * Retrieve paged Webhook subscriptions
+     * Retrieve paged Webhooks
      * <p>
      * Receive a list of up to 100 Webhook objects previously created in the Stark Bank API and the cursor to the next page.
      * Use this function instead of query if you want to manually page your requests.
@@ -251,7 +263,7 @@ public final class Webhook extends Resource {
     }
 
     /**
-     * Create Webhook subscription
+     * Create Webhook
      * <p>
      * Send a single Webhook subscription for creation in the Stark Bank API
      * <p>

@@ -13,6 +13,28 @@ import java.util.Map;
 
 
 public final class UtilityPayment extends Resource {
+    /**
+     * UtilityPayment object
+     * <p>
+     * When you initialize a UtilityPayment, the entity will not be automatically
+     * created in the Stark Bank API. The "create" function sends the objects
+     * to the Stark Bank API and returns the list of created objects.
+     * <p>
+     * Parameters:
+     * line [string]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
+     * barCode [string]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
+     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
+     * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
+     * tags [list of strings, default null]: list of strings for tagging
+     * id [string]: unique id returned when payment is created. ex: "5656565656565656"
+     * status [string]: current payment status. ex: "processing" or "success"
+     * amount [long]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
+     * fee [Integer]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
+     * type [string]: payment type. ex: "utility"
+     * transactionIds [list of strings]: ledger transaction ids linked to this UtilityPayment. ex: ["19827356981273"]
+     * created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated [string]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+     */
     static ClassData data = new ClassData(UtilityPayment.class, "UtilityPayment");
 
     public String description;
@@ -23,7 +45,10 @@ public final class UtilityPayment extends Resource {
     public String status;
     public Long amount;
     public Integer fee;
+    public String type;
+    public String[] transactionIds;
     public String created;
+    public String updated;
 
     /**
      * UtilityPayment object
@@ -32,24 +57,24 @@ public final class UtilityPayment extends Resource {
      * created in the Stark Bank API. The "create" function sends the objects
      * to the Stark Bank API and returns the list of created objects.
      * <p>
-     * Parameters (conditionally required):
-     * @param line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
-     * @param barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
-     * <p>
      * Parameters:
+     * @param line [string]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
+     * @param barCode [string]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * @param description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * @param scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * @param tags [list of strings]: list of strings for tagging
-     * <p>
-     * Attributes (return-only):
-     * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-     * @param status [string, default null]: current payment status. ex: "processing" or "success"
-     * @param amount [long, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-     * @param fee [Integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
-     * @param created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param tags [list of strings, default null]: list of strings for tagging
+     * @param id [string]: unique id returned when payment is created. ex: "5656565656565656"
+     * @param status [string]: current payment status. ex: "processing" or "success"
+     * @param amount [long]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
+     * @param fee [Integer]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
+     * @param type [string]: payment type. ex: "utility"
+     * @param transactionIds [list of strings]: ledger transaction ids linked to this UtilityPayment. ex: ["19827356981273"]
+     * @param created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+     * @param updated [string]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public UtilityPayment(Long amount, String[] tags, String description, String scheduled,
-                          String line, String barCode, String id, Integer fee, String status, String created
+                          String line, String barCode, String id, Integer fee, String type, String[] transactionIds,
+                          String status, String created, String updated
     ) {
         super(id);
         this.description = description;
@@ -60,6 +85,9 @@ public final class UtilityPayment extends Resource {
         this.status = status;
         this.amount = amount;
         this.fee = fee;
+        this.type = type;
+        this.transactionIds = transactionIds;
+        this.updated = updated;
         this.created = created;
     }
 
@@ -72,22 +100,25 @@ public final class UtilityPayment extends Resource {
      * <p>
      * @param data map of properties for the creation of the UtilityPayment
      * Parameters (conditionally required):
-     * line [string, default null]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
-     * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
+     * line [string]: Number sequence that describes the payment. Either "line" or "bar_code" parameters are required. If both are sent, they must match. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
+     * barCode [string]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * <p>
-     * Parameters:
+     * Parameters (required):
      * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * <p>
      * Parameters (optional):
      * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * tags [list of strings]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging
      * <p>
      * Attributes (return-only):
-     * id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-     * status [string, default null]: current payment status. ex: "processing" or "success"
-     * amount [int, default null]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
-     * fee [Integer, default null]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
-     * created [string, default null]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+     * id [string]: unique id returned when payment is created. ex: "5656565656565656"
+     * status [string]: current payment status. ex: "processing" or "success"
+     * amount [int]: amount automatically calculated from line or bar_code. ex: 23456 (= R$ 234.56)
+     * fee [Integer]: fee charged when the utility payment is created. ex: 200 (= R$ 2.00)
+     * type [string]: payment type. ex: "utility"
+     * transactionIds [list of strings]: ledger transaction ids linked to this UtilityPayment. ex: ["19827356981273"]
+     * created [string]: creation datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
+     * updated [string]: latest update datetime for the payment. ex: "2020-03-10 10:30:00.000000+00:00"
      * @throws Exception error in the request
      */
     public UtilityPayment(Map<String, Object> data) throws Exception {
@@ -101,7 +132,10 @@ public final class UtilityPayment extends Resource {
         this.tags = (String[]) dataCopy.remove("tags");
         this.amount = null;
         this.created = null;
+        this.updated = null;
         this.fee = null;
+        this.type = null;
+        this.transactionIds = null;
         this.status = null;
 
         if (!dataCopy.isEmpty()) {
@@ -451,7 +485,7 @@ public final class UtilityPayment extends Resource {
          * is generated for the entity. This log is never generated by the user, but it can
          * be retrieved to check additional information on the UtilityPayment.
          * <p>
-         * Attributes:
+         * Attributes (return-only):
          * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * @param payment [UtilityPayment]: UtilityPayment entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this UtilityPayment event.

@@ -16,6 +16,20 @@ import java.util.Map;
 
 
 public class Event extends Resource {
+    /**
+     * Webhook Event object
+     * <p>
+     * An Event is the notification received from the subscription to the Webhook.
+     * Events cannot be created, but may be retrieved from the Stark Bank API to
+     * list all generated updates on entities.
+     * <p>
+     * Parameters:
+     * id [string]: unique id returned when the event is created. ex: "5656565656565656"
+     * created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000000+00:00"
+     * isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
+     * subscription [string]: service that triggered this event. ex: "transfer", "utility-payment"
+     * workspaceId [string]: ID of the Workspace that generated this event. Mostly used when multiple Workspaces have Webhooks registered to the same endpoint. ex: "4545454545454545"
+     */
     static ClassData data = new ClassData(Event.class, "Event");
 
     public String created;
@@ -30,7 +44,7 @@ public class Event extends Resource {
      * Events cannot be created, but may be retrieved from the Stark Bank API to
      * list all generated updates on entities.
      * <p>
-     * Attributes:
+     * Parameters:
      * @param id [string]: unique id returned when the event is created. ex: "5656565656565656"
      * @param created [string]: creation datetime for the notification event. ex: "2020-03-10 10:30:00.000000+00:00"
      * @param isDelivered [bool]: true if the event has been successfully delivered to the user url. ex: false
@@ -573,13 +587,13 @@ public class Event extends Resource {
          * When an Event delivery fails, an event attempt will be registered.
          * It carries information meant to help you debug event reception issues.
          * <p>
-         * Attributes:
+         * Attributes (return-only):
          * @param id [string]: unique id that identifies the delivery attempt. ex: "5656565656565656"
          * @param code [string]: delivery error code. ex: badHttpStatus, badConnection, timeout
          * @param message [string]: delivery error full description. ex: "HTTP POST request returned status 404"
          * @param eventId [string]: ID of the Event whose delivery failed. ex: "4848484848484848"
          * @param webhookId [string]: ID of the Webhook that triggered this event. ex: "5656565656565656"
-         * @param created [string]: datetime representing the moment when the attempt was made. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+         * @param created [string]: datetime representing the moment when the attempt was made. ex: "2021-07-02T14:39:22.166351+00:00"
          */
         public Attempt(String id, String code, String message, String eventId, String webhookId, String created) {
             super(id);

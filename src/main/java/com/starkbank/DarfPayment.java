@@ -13,6 +13,33 @@ import java.util.Map;
 
 
 public final class DarfPayment extends Resource {
+    /**
+     * DarfPayment object
+     * <p>
+     * When you initialize a DarfPayment, the entity will not be automatically
+     * created in the Stark Bank API. The 'create' function sends the objects
+     * to the Stark Bank API and returns the list of created objects.
+     * <p>
+     * Parameters:
+     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
+     * revenueCode [string]: 4-digit tax code assigned by Federal Revenue. ex: "5948"
+     * taxId [string]: tax id (formatted or unformatted) of the payer. ex: "12.345.678/0001-95"
+     * competence [string]: competence month of the service. ex: "2021-04-30"
+     * nominalAmount [int]: amount due in cents without fee or interest. ex: 23456 (= R$ 234.56)
+     * fineAmount [int]: fixed amount due in cents for fines. ex: 234 (= R$ 2.34)
+     * interestAmount [int]: amount due in cents for interest. ex: 456 (= R$ 4.56)
+     * due [string]: due date for payment. ex: "2021-05-17"
+     * referenceNumber [string, default null]: number assigned to the region of the tax. ex: "08.1.17.00-4"
+     * scheduled [string, default today]: payment scheduled date. ex: "2021-05-10"
+     * tags [list of strings, default null]: list of strings for tagging
+     * id [string]: unique id returned when payment is created. ex: "5656565656565656"
+     * status [string]: current payment status. ex: "success" or "failed"
+     * amount [int]: Total amount due calculated from other amounts. ex: 24146 (= R$ 241.46)
+     * fee [integer]: fee charged when the DarfPayment is processed. ex: 0 (= R$ 0.00)
+     * transactionIds [list of strings]: ledger transaction ids linked to this DarfPayment. ex: ["19827356981273"]
+     * updated [string]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
+     * created [string]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
+     */
     static ClassData data = new ClassData(DarfPayment.class, "DarfPayment");
 
     public String description;
@@ -29,6 +56,7 @@ public final class DarfPayment extends Resource {
     public String status;
     public String amount;
     public String fee;
+    public String[] transactionIds;
     public String updated;
     public String created;
 
@@ -40,7 +68,7 @@ public final class DarfPayment extends Resource {
      * created in the Stark Bank API. The 'create' function sends the objects
      * to the Stark Bank API and returns the list of created objects.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * @param description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * @param revenueCode [string]: 4-digit tax code assigned by Federal Revenue. ex: "5948"
      * @param taxId [string]: tax id (formatted or unformatted) of the payer. ex: "12.345.678/0001-95"
@@ -49,21 +77,21 @@ public final class DarfPayment extends Resource {
      * @param fineAmount [int]: fixed amount due in cents for fines. ex: 234 (= R$ 2.34)
      * @param interestAmount [int]: amount due in cents for interest. ex: 456 (= R$ 4.56)
      * @param due [string]: due date for payment. ex: "2021-05-17"
-     * Parameters (optional):
-     * @param referenceNumber [string]: number assigned to the region of the tax. ex: "08.1.17.00-4"
+     * @param referenceNumber [string, default null]: number assigned to the region of the tax. ex: "08.1.17.00-4"
      * @param scheduled [string, default today]: payment scheduled date. ex: "2021-05-10"
-     * @param tags [list of strings]: list of strings for tagging
-     * Attributes (return-only):
-     * @param id [string, default null]: unique id returned when payment is created. ex: "5656565656565656"
-     * @param status [string, default null]: current payment status. ex: "success" or "failed"
-     * @param amount [int, default null]: Total amount due calculated from other amounts. ex: 24146 (= R$ 241.46)
-     * @param fee [integer, default null]: fee charged when the DarfPayment is processed. ex: 0 (= R$ 0.00)
-     * @param updated [string, default null]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
-     * @param created [string, default null]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
+     * @param tags [list of strings, default null]: list of strings for tagging
+     * @param id [string]: unique id returned when payment is created. ex: "5656565656565656"
+     * @param status [string]: current payment status. ex: "success" or "failed"
+     * @param amount [int]: Total amount due calculated from other amounts. ex: 24146 (= R$ 241.46)
+     * @param fee [integer]: fee charged when the DarfPayment is processed. ex: 0 (= R$ 0.00)
+     * @param transactionIds [list of strings]: ledger transaction ids linked to this DarfPayment. ex: ["19827356981273"]
+     * @param updated [string]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
+     * @param created [string]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
      */
     public DarfPayment(String id, String description, String revenueCode, String taxId, String competence,
                        long nominalAmount, long fineAmount, long interestAmount, String due, String referenceNumber,
-                       String scheduled, String[] tags, String status, String amount, String fee, String updated, String created) {
+                       String scheduled, String[] tags, String status, String amount, String fee, String[] transactionIds,
+                       String updated, String created) {
         super(id);
         this.description = description;
         this.revenueCode = revenueCode;
@@ -79,6 +107,7 @@ public final class DarfPayment extends Resource {
         this.status = status;
         this.amount = amount;
         this.fee = fee;
+        this.transactionIds = transactionIds;
         this.updated = updated;
         this.created = created;
     }
@@ -92,26 +121,27 @@ public final class DarfPayment extends Resource {
      * <p>
      * @param data map of parameters for the creation of the DarfPayment
      * Parameters (required):
-     * - description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
-     * - revenueCode [string]: 4-digit tax code assigned by Federal Revenue. ex: "5948"
-     * - taxId [string]: tax id (formatted or unformatted) of the payer. ex: "12.345.678/0001-95"
-     * - competence [string]: competence month of the service. ex: "2021-04-30"
-     * - nominalAmount [int]: amount due in cents without fee or interest. ex: 23456 (= R$ 234.56)
-     * - fineAmount [int]: fixed amount due in cents for fines. ex: 234 (= R$ 2.34)
-     * - interestAmount [int]: amount due in cents for interest. ex: 456 (= R$ 4.56)
-     * - due [string]: due date for payment. ex: "2021-05-17"
+     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
+     * revenueCode [string]: 4-digit tax code assigned by Federal Revenue. ex: "5948"
+     * taxId [string]: tax id (formatted or unformatted) of the payer. ex: "12.345.678/0001-95"
+     * competence [string]: competence month of the service. ex: "2021-04-30"
+     * nominalAmount [int]: amount due in cents without fee or interest. ex: 23456 (= R$ 234.56)
+     * fineAmount [int]: fixed amount due in cents for fines. ex: 234 (= R$ 2.34)
+     * interestAmount [int]: amount due in cents for interest. ex: 456 (= R$ 4.56)
+     * due [string]: due date for payment. ex: "2021-05-17"
      * <p>
-     * ## Parameters (optional):
-     * - referenceNumber [string]: number assigned to the region of the tax. ex: "08.1.17.00-4"
-     * - scheduled [string, default today]: payment scheduled date. ex: "2021-05-10"
-     * - tags [list of strings]: list of strings for tagging
+     * Parameters (optional):
+     * referenceNumber [string]: number assigned to the region of the tax. ex: "08.1.17.00-4"
+     * scheduled [string, default today]: payment scheduled date. ex: "2021-05-10"
+     * tags [list of strings]: list of strings for tagging
      * <p>
-     * ## Attributes (return-only):
-     * - status [string, default null]: current payment status. ex: "success" or "failed"
-     * - amount [int, default null]: Total amount due calculated from other amounts. ex: 24146 (= R$ 241.46)
-     * - fee [integer, default null]: fee charged when the DarfPayment is processed. ex: 0 (= R$ 0.00)
-     * - updated [string, default null]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
-     * - created [string, default null]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
+     * Attributes (return-only):
+     * status [string]: current payment status. ex: "success" or "failed"
+     * amount [int]: Total amount due calculated from other amounts. ex: 24146 (= R$ 241.46)
+     * fee [integer]: fee charged when the DarfPayment is processed. ex: 0 (= R$ 0.00)
+     * transactionIds [list of strings]: ledger transaction ids linked to this DarfPayment. ex: ["19827356981273"]
+     * updated [string]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
+     * created [string]: creation datetime for the payment. ex: "2021-07-02T14:39:22.166351+00:00"
      * @throws Exception error in the request
      */
     public DarfPayment(Map<String, Object> data) throws Exception {
@@ -132,6 +162,7 @@ public final class DarfPayment extends Resource {
         this.status = null;
         this.amount = null;
         this.fee = null;
+        this.transactionIds = null;
         this.updated = null;
         this.created = null;
 
@@ -474,6 +505,21 @@ public final class DarfPayment extends Resource {
         public String[] errors;
         public DarfPayment payment;
 
+        /**
+         * DarfPayment Log object
+         * <p>
+         * Every time a DarfPayment entity is updated, a corresponding DarfPayment Log
+         * is generated for the entity. This log is never generated by the
+         * user, but it can be retrieved to check additional information
+         * on the DarfPayment.
+         * <p>
+         * Attributes (return-only):
+         * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
+         * @param payment [DarfPayment]: DarfPayment entity to which the log refers to.
+         * @param errors [list of strings]: list of errors linked to this DarfPayment event
+         * @param type [string]: type of the DarfPayment event which triggered the log creation. ex: "success"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
+         */
         public Log(String created, String type, String[] errors, DarfPayment payment, String id) {
             super(id);
             this.created = created;

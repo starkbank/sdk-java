@@ -18,20 +18,20 @@ public class DictKey extends Resource {
      * DictKey represents a Pix key registered in Bacen's DICT system.
      * <p>
      * Parameters:
-     * id [string, default null]: DICT key identifier. ex: "tony@starkbank.com", "012.345.678-90"
-     * type [string, default null]: DICT key type. ex: "email", "cpf", "cnpj", "phone" or "evp"
-     * name [string, default null]: key owner full name. ex: "Tony Stark"
-     * taxId [string, default null]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
-     * ownerType [string, default null]: DICT key owner type. ex "naturalPerson" or "legalPerson"
-     * bankName [string, default null]: bank name associated with the DICT key. ex: "Stark Bank"
-     * ispb [string, default null]: bank ISPB associated with the DICT key. ex: "20018183"
-     * branchCode [string, default null]: bank account branch code associated with the DICT key. ex: "9585"
-     * accountNumber [string, default null]: bank account number associated with the DICT key. ex: "9828282578010513"
-     * accountType [string, default null]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
-     * status [string, default null]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
-     * accountCreated [datetime.datetime, default null]: creation datetime of the bank account associated with the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
-     * owned [datetime.datetime, default null]: datetime since when the current owner holds this DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
-     * created [datetime.datetime, default null]: creation datetime for the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
+     * id [string]: DICT key identifier. ex: "tony@starkbank.com", "012.345.678-90"
+     * type [string]: DICT key type. ex: "email", "cpf", "cnpj", "phone" or "evp"
+     * name [string]: key owner full name. ex: "Tony Stark"
+     * taxId [string]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
+     * ownerType [string]: DICT key owner type. ex "naturalPerson" or "legalPerson"
+     * bankName [string]: bank name associated with the DICT key. ex: "Stark Bank"
+     * ispb [string]: bank ISPB associated with the DICT key. ex: "20018183"
+     * branchCode [string]: bank account branch code associated with the DICT key. ex: "9585"
+     * accountNumber [string]: bank account number associated with the DICT key. ex: "9828282578010513"
+     * accountType [string]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
+     * status [string]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
+     * accountCreated [string]: creation datetime of the bank account associated with the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
+     * owned [string]: datetime since when the current owner holds this DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
+     * created [string]: creation datetime for the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
      */
     static ClassData data = new ClassData(DictKey.class, "DictKey");
     
@@ -55,20 +55,20 @@ public class DictKey extends Resource {
      * DictKey represents a Pix key registered in Bacen's DICT system.
      * <p>
      * Parameters:
-     * @param id [string, default null]: DICT key identifier. ex: "tony@starkbank.com", "012.345.678-90"
-     * @param type [string, default null]: DICT key type. ex: "email", "cpf", "cnpj", "phone" or "evp"
-     * @param name [string, default null]: key owner full name. ex: "Tony Stark"
-     * @param taxId [string, default null]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
-     * @param ownerType [string, default null]: DICT key owner type. ex "naturalPerson" or "legalPerson"
-     * @param bankName [string, default null]: bank name associated with the DICT key. ex: "Stark Bank"
-     * @param ispb [string, default null]: bank ISPB associated with the DICT key. ex: "20018183"
-     * @param branchCode [string, default null]: bank account branch code associated with the DICT key. ex: "9585"
-     * @param accountNumber [string, default null]: bank account number associated with the DICT key. ex: "9828282578010513"
-     * @param accountType [string, default null]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
-     * @param status [string, default null]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
-     * @param accountCreated [datetime.datetime, default null]: creation datetime of the bank account associated with the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
-     * @param owned [datetime.datetime, default null]: datetime since when the current owner holds this DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
-     * @param created [datetime.datetime, default null]: creation datetime for the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
+     * @param id [string]: DICT key identifier. ex: "tony@starkbank.com", "012.345.678-90"
+     * @param type [string]: DICT key type. ex: "email", "cpf", "cnpj", "phone" or "evp"
+     * @param name [string]: key owner full name. ex: "Tony Stark"
+     * @param taxId [string]: key owner tax ID (CNPJ or masked CPF). ex: "***.345.678-**" or "20.018.183/0001-80"
+     * @param ownerType [string]: DICT key owner type. ex "naturalPerson" or "legalPerson"
+     * @param bankName [string]: bank name associated with the DICT key. ex: "Stark Bank"
+     * @param ispb [string]: bank ISPB associated with the DICT key. ex: "20018183"
+     * @param branchCode [string]: bank account branch code associated with the DICT key. ex: "9585"
+     * @param accountNumber [string]: bank account number associated with the DICT key. ex: "9828282578010513"
+     * @param accountType [string]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
+     * @param status [string]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
+     * @param accountCreated [string]: creation datetime of the bank account associated with the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
+     * @param owned [string]: datetime since when the current owner holds this DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
+     * @param created [string]: creation datetime for the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
      */
     public DictKey(String id, String type, String accountCreated, String accountType, String name, String taxId,
                    String ownerType, String bankName, String ispb, String branchCode, String accountNumber,

@@ -39,13 +39,15 @@ public final class Boleto extends Resource {
      * descriptions [list of Boleto.Description or HashMap, default null]: list of Boleto.Descriptions or HashMaps
      * discounts [list of Boleto.Discount or HashMap, default null]: list of Boleto.Discounts or HashMaps
      * tags [list of strings]: list of strings for tagging
-     * id [string, default null]: unique id returned when Boleto is created. ex: "5656565656565656"
-     * fee [integer, default null]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
-     * line [string, default null]: generated Boleto line for payment. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
-     * barCode [string, default null]: generated Boleto bar-code for payment. ex: "34195819600000000621090063571277307144464000"
-     * status [string, default null]: current Boleto status. ex: "registered" or "paid"
-     * created [string, default null]: creation datetime for the Boleto. ex: "2020-03-10 10:30:00.000000+00:00"
-     * ourNumber [string, default null]: Reference number registered at the settlement bank. ex:“10131474”
+     * id [string]: unique id returned when Boleto is created. ex: "5656565656565656"
+     * fee [integer]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
+     * line [string]: generated Boleto line for payment. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
+     * barCode [string]: generated Boleto bar-code for payment. ex: "34195819600000000621090063571277307144464000"
+     * status [string]: current Boleto status. ex: "registered" or "paid"
+     * transactionIds [list of strings]: ledger transaction ids linked to this boleto. ex: ["19827356981273"]
+     * workspaceId [string]: ID of the Workspace where this Boleto was generated. ex: "4545454545454545"
+     * created [string]: creation datetime for the Boleto. ex: "2020-03-10 10:30:00.000000+00:00"
+     * ourNumber [string]: Reference number registered at the settlement bank. ex:“10131474”
      */
     static ClassData data = new ClassData(Boleto.class, "Boleto");
 
@@ -72,6 +74,7 @@ public final class Boleto extends Resource {
     public String barCode;
     public String status;
     public String[] transactionIds;
+    public String workspaceId;
     public String ourNumber;
     public String created;
 
@@ -81,7 +84,7 @@ public final class Boleto extends Resource {
      * sent to the Stark Bank API. The "create" function sends the objects
      * to the Stark Bank API and returns the list of created objects.
      * All parameters are passed in a Map of String and Object object.
-
+     * <p>
      * Parameters:
      * @param amount [long]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
      * @param name [string]: payer full name. ex: "Anthony Edward Stark"
@@ -107,14 +110,16 @@ public final class Boleto extends Resource {
      * @param barCode [string]: numeric barcode of the boleto
      * @param status [string]: status of the boleto
      * @param transactionIds [list of strings]: ledger transaction ids linked to this boleto. ex: ["19827356981273"]
-     * @param created [string]: date the boleto was created
+     * @param workspaceId [string]: ID of the Workspace where this Boleto was generated. ex: "4545454545454545"
+     * @param created [string]: creation datetime for the Boleto. ex: "2021-07-02T14:39:22.166351+00:00"
      * @param ourNumber [string, default null]: Reference number registered at the settlement bank. ex:“10131474”
      */
     public Boleto(long amount, String name, String taxId, String streetLine1, String streetLine2,String district,
                   String city, String stateCode, String zipCode, String due, Number fine, Number interest,
                   Integer overdueLimit, String receiverName, String receiverTaxId, String[] tags,
                   List<Boleto.Description> descriptions,List<Boleto.Discount> discounts, String id, Integer fee,
-                  String line, String barCode, String status, String[] transactionIds, String created, String ourNumber) {
+                  String line, String barCode, String status, String[] transactionIds, String workspaceId, String created, 
+                  String ourNumber) {
         super(id);
         this.amount = amount;
         this.name = name;
@@ -139,6 +144,7 @@ public final class Boleto extends Resource {
         this.barCode = barCode;
         this.status = status;
         this.transactionIds = transactionIds;
+        this.workspaceId = workspaceId;
         this.created = created;
         this.ourNumber = ourNumber;
     }
@@ -152,7 +158,7 @@ public final class Boleto extends Resource {
      * All parameters are passed in a Map of String and Object object.
      * <p>
      * @param data map of parameters for the creation of the Boleto
-     * Parameters:
+     * Parameters (required):
      * amount [long]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
      * name [string]: payer full name. ex: "Anthony Edward Stark"
      * taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
@@ -162,18 +168,28 @@ public final class Boleto extends Resource {
      * city [string]: payer address city. ex: Rio de Janeiro
      * stateCode [string]: payer address state. ex: GO
      * zipCode [string]: payer address zip code. ex: 01311-200
-     * due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
      * <p>
      * Parameters (optional):
+     * due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
      * fine [number, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [number, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
-     * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
-     * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * descriptions [list of Boleto.Description or HashMap, default null]: list of Boleto.Descriptions or HashMaps with "text":string and "amount":int pairs
      * discounts [list of Boleto.Discount or Hashmap, default null]: list of Boleto.Discounts or HashMaps with "percentage": Number and "date": string pairs
      * tags [list of strings]: list of strings for tagging
+     * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
+     * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * <p>
+     * Attributes (return-only):
+     * id [string]: unique id returned when boleto is created. ex: "5656565656565656"
+     * fee [integer]: fee charged when boleto is created. ex: 200 (= R$ 2.00)
+     * line [string]: generated Boleto line for payment. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
+     * barCode [string]: generated Boleto bar code for payment. ex: "34195819600000000621090063571277307144464000"
+     * status [string]: current boleto status. ex: "registered" or "paid"
      * transactionIds [list of strings]: ledger transaction ids linked to this boleto. ex: ["19827356981273"]
+     * workspaceId [string]: ID of the Workspace where this Boleto was generated. ex: "4545454545454545"
+     * created [string]: creation datetime for the boleto. ex: "2020-03-10 10:30:00.000000+00:00"
+     * ourNumber [string]: Reference number registered at the settlement bank. ex:“10131474”
      * @throws Exception error in the request
      */
     @SuppressWarnings("unchecked")
@@ -194,17 +210,18 @@ public final class Boleto extends Resource {
         this.fine = (Number) dataCopy.remove("fine");
         this.interest = (Number) dataCopy.remove("interest");
         this.overdueLimit = (Integer) dataCopy.remove("overdueLimit");
-        this.receiverName = (String) dataCopy.remove("receiverName");
-        this.receiverTaxId = (String) dataCopy.remove("receiverTaxId");
-        this.tags = (String[]) dataCopy.remove("tags");
         this.descriptions = parseDescriptions((List<Object>) dataCopy.remove("descriptions"));
         this.discounts = parseDiscounts((List<Object>) dataCopy.remove("discounts"));
-        this.barCode = null;
-        this.created = null;
+        this.tags = (String[]) dataCopy.remove("tags");
+        this.receiverName = (String) dataCopy.remove("receiverName");
+        this.receiverTaxId = (String) dataCopy.remove("receiverTaxId");
         this.fee = null;
         this.line = null;
-        this.transactionIds = (String[]) dataCopy.remove("transactionIds");
+        this.barCode = null;
         this.status = null;
+        this.transactionIds = null;
+        this.workspaceId = null;
+        this.created = null;
         this.ourNumber = null;
 
         if (!dataCopy.isEmpty()) {
@@ -705,7 +722,7 @@ public final class Boleto extends Resource {
          * user, but it can be retrieved to check additional information
          * on the Boleto.
          * <p>
-         * Attributes:
+         * Attributes (return-only):
          * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * @param boleto [Boleto]: Boleto entity to which the log refers to.
          * @param errors [list of strings]: list of errors linked to this Boleto event

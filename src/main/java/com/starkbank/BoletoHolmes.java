@@ -11,7 +11,22 @@ import java.util.List;
 import java.util.Map;
 
 public final class BoletoHolmes extends Resource {
-    
+    /**
+     * BoletoHolmes object
+     * <p>
+     * When you initialize a BoletoHolmes, the entity will not be automatically
+     * created in the Stark Bank API. The 'create' function sends the objects
+     * to the Stark Bank API and returns the list of created objects.
+     * <p>
+     * Parameters:
+     * boletoId [string]: investigated boleto entity ID. ex: "5656565656565656"
+     * tags [list of strings]: list of strings for tagging
+     * id [string]: unique id returned when holmes is created. ex: "5656565656565656"
+     * status [string]: current holmes status. ex: "solving" or "solved"
+     * result [string]: result of boleto status investigation. ex: "paid" or "cancelled"
+     * created [string]: creation datetime for the holmes. ex: "2021-07-02T14:39:22.166351+00:00"
+     * updated [string]: latest update datetime for the holmes. ex: "2021-07-02T14:39:22.166351+00:00"
+     */
     static ClassData data = new ClassData(BoletoHolmes.class, "BoletoHolmes");
 
     public final String[] tags;
@@ -28,18 +43,14 @@ public final class BoletoHolmes extends Resource {
      * created in the Stark Bank API. The 'create' function sends the objects
      * to the Stark Bank API and returns the list of created objects.
      * <p>
-     * Parameters (required):
+     * Parameters:
      * @param boletoId [string]: investigated boleto entity ID. ex: "5656565656565656"
-     * <p>
-     * Parameters (optional):
      * @param tags [list of strings]: list of strings for tagging
-     * <p>
-     * Attributes (return-only):
-     * @param id [string, default null]: unique id returned when holmes is created. ex: "5656565656565656"
-     * @param status [string, default null]: current holmes status. ex: "solving" or "solved"
-     * @param result [string, default null]: result of boleto status investigation. ex: "paid" or "cancelled"
-     * @param created [string, default null]: creation datetime for the holmes. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
-     * @param updated [string, default null]: latest update datetime for the holmes. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+     * @param id [string]: unique id returned when holmes is created. ex: "5656565656565656"
+     * @param status [string]: current holmes status. ex: "solving" or "solved"
+     * @param result [string]: result of boleto status investigation. ex: "paid" or "cancelled"
+     * @param created [string]: creation datetime for the holmes. ex: "2021-07-02T14:39:22.166351+00:00"
+     * @param updated [string]: latest update datetime for the holmes. ex: "2021-07-02T14:39:22.166351+00:00"
      */
     public BoletoHolmes(String boletoId, String[] tags, String id, String status, String result, String created, String updated) {
         
@@ -72,8 +83,8 @@ public final class BoletoHolmes extends Resource {
      * id [string, default null]: unique id returned when holmes is created. ex: "5656565656565656"
      * status [string, default null]: current holmes status. ex: "solving" or "solved"
      * result [string, default null]: result of boleto status investigation. ex: "paid" or "cancelled"
-     * created [string, default null]: creation datetime for the holmes. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
-     * updated [string, default null]: latest update datetime for the holmes. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+     * created [string, default null]: creation datetime for the holmes. ex: "2021-07-02T14:39:22.166351+00:00"
+     * updated [string, default null]: latest update datetime for the holmes. ex: "2021-07-02T14:39:22.166351+00:00"
      * @throws Exception error in the request
      */
 
@@ -264,7 +275,7 @@ public final class BoletoHolmes extends Resource {
     }
 
     /**
-     * Retrieve paged BoletoHolmess
+     * Retrieve paged BoletoHolmes
      * <p>
      * Receive a list of up to 100 BoletoHolmes objects previously created in the Stark Bank API and the cursor to the next page.
      * Use this function instead of query if you want to manually page your requests.
@@ -291,7 +302,7 @@ public final class BoletoHolmes extends Resource {
     }
 
     /**
-     * Retrieve paged BoletoHolmess
+     * Retrieve paged BoletoHolmes
      * <p>
      * Receive a list of up to 100 BoletoHolmes objects previously created in the Stark Bank API and the cursor to the next page.
      * Use this function instead of query if you want to manually page your requests.
@@ -310,7 +321,7 @@ public final class BoletoHolmes extends Resource {
     }
 
     /**
-     * Retrieve paged BoletoHolmess
+     * Retrieve paged BoletoHolmes
      * <p>
      * Receive a list of up to 100 BoletoHolmes objects previously created in the Stark Bank API and the cursor to the next page.
      * Use this function instead of query if you want to manually page your requests.
@@ -326,7 +337,7 @@ public final class BoletoHolmes extends Resource {
     }
 
     /**
-     * Retrieve paged BoletoHolmess
+     * Retrieve paged BoletoHolmes
      * <p>
      * Receive a list of up to 100 BoletoHolmes objects previously created in the Stark Bank API and the cursor to the next page.
      * Use this function instead of query if you want to manually page your requests.
@@ -362,6 +373,7 @@ public final class BoletoHolmes extends Resource {
         static ClassData data = new ClassData(Log.class, "BoletoHolmesLog");
 
         public String created;
+        public String updated;
         public String type;
         public BoletoHolmes holmes;
 
@@ -373,15 +385,17 @@ public final class BoletoHolmes extends Resource {
          * user, but it can be retrieved to check additional information
          * on the BoletoHolmes.
          * <p>
-         * Attributes:
+         * Attributes (return-only):
          * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * @param holmes [BoletoHolmes]: BoletoHolmes entity to which the log refers to.
          * @param type [string]: type of the BoletoHolmes event which triggered the log creation. ex: "solving" or "solved"
-         * @param created [string]: creation datetime for the log. ex: datetime.datetime(2020, 3, 10, 10, 30, 0, 0)
+         * @param created [string]: creation datetime for the log. ex: "2021-07-02T14:39:22.166351+00:00"
+         * @param updated [string]: latest update datetime for the log. ex: "2021-07-02T14:39:22.166351+00:00"
          */
-        public Log(String created, String type, BoletoHolmes holmes, String id) {
+        public Log(String created, String type, BoletoHolmes holmes, String id, String updated) {
             super(id);
             this.created = created;
+            this.updated = updated;
             this.type = type;
             this.holmes = holmes;
         }

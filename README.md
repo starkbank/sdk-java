@@ -39,6 +39,7 @@ is as easy as sending a text message to your client!
     - [BoletoPayments](#pay-a-boleto): Pay Boletos
     - [UtilityPayments](#create-utility-payments): Pay Utility bills (water, light, etc.)
     - [TaxPayments](#create-tax-payment): Pay taxes
+    - [DarfPayments](#create-darf-payment): Pay DARFs
     - [PaymentPreviews](#preview-payment-information-before-executing-the-payment): Preview all sorts of payments
     - [Webhooks](#create-a-webhook-subscription): Configure your webhook endpoints and subscriptions
     - [WebhookEvents](#process-webhook-events): Manage webhook events
@@ -241,7 +242,7 @@ There are two ways to inform the user to the SDK:
 ```java
 import com.starkbank.*;
 
-Balance balance = Balance.get(project); # or organization
+Balance balance = Balance.get(project); // or organization
 ```
 
 4.2 Set it as a default user in the SDK:
@@ -249,7 +250,7 @@ Balance balance = Balance.get(project); # or organization
 ```java
 import com.starkbank.*;
 
-Settings.user = project; # or organization
+Settings.user = project; // or organization
 
 Balance balance = Balance.get();
 ```
@@ -423,7 +424,7 @@ import java.util.List;
 List<Transfer> transfers = new ArrayList<>();
 HashMap<String, Object> data1 = new HashMap<>();
 data1.put("amount", 100000000);
-data1.put("bankCode", "341"); # TED
+data1.put("bankCode", "341"); // TED
 data1.put("branchCode", "2201");
 data1.put("accountNumber", "76543-8");
 data1.put("taxId", "594.739.480-42");
@@ -443,7 +444,7 @@ rules.add(
 
 HashMap<String, Object> data2 = new HashMap<>();
 data2.put("amount", 100000000);
-data2.put("bankCode", "20018183"); # Pix
+data2.put("bankCode", "20018183"); // Pix
 data2.put("branchCode", "2201");
 data2.put("accountNumber", "76543-8");
 data2.put("accountType", "checking");
@@ -865,13 +866,14 @@ When a DynamicBrcode is paid, a Deposit is created with the tags parameter conta
 
 The differences between an Invoice and the DynamicBrcode are the following:
 
-|                   | Invoice | DynamicBrcode |
-|-------------------|:-------:|:-------------:|
-| Expiration        |    ✓    |       ✓       |
-| Due, fine and fee |    ✓    |       X       |
-| Discount          |    ✓    |       X       |
-| Description       |    ✓    |       X       |
-| Can be updated    |    ✓    |       X       |
+|                       | Invoice | DynamicBrcode |
+|-----------------------|:-------:|:-------------:|
+| Expiration            |    ✓    |       ✓       | 
+| Can only be paid once |    ✓    |       ✓       |
+| Due, fine and fee     |    ✓    |       X       | 
+| Discount              |    ✓    |       X       | 
+| Description           |    ✓    |       X       |
+| Can be updated        |    ✓    |       X       |
 
 **Note:** In order to check if a BR code has expired, you must first calculate its expiration date (add the expiration to the creation date).
 **Note:** To know if the BR code has been paid, you need to query your Deposits by the tag "dynamic-brcode/{uuid}" to check if it has been paid.
@@ -1754,6 +1756,137 @@ System.out.println(log);
 resource and routes, which are all analogous to the TaxPayment resource. The ones we currently support are:
 - DarfPayment, for DARFs
 
+## Create DARF payment
+
+If you want to manually pay DARFs without barCodes, you may create DarfPayments:
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+HashMap<String, Object> data = new HashMap<>();
+data.put("revenueCode", "1240");
+data.put("taxId", "012.345.678-90");
+data.put("competence", "2023-04-03");
+data.put("nominalAmount", "1234");
+data.put("fineAmount", 12);
+data.put("interestAmount", 34);
+data.put("due", LocalDate.from(LocalDate.now().plusDays(30)).toString());
+data.put("tags", new String[]{"DARF", "making money"});
+data.put("description", "take my money");
+
+List<DarfPayment> payments = new ArrayList<>();
+payments.add(new DarfPayment(data));
+
+payments = DarfPayment.create(payments);
+
+for (DarfPayment payment : payments) {
+    System.out.println(payment);
+}
+```
+
+**Note**: Instead of using DarfPayment objects, you can also pass each payment element in dictionary format
+
+## Query DARF payments
+
+To search for DARF payments using filters, run:
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("tags", new String[]{"darf", "july"});
+
+Generator<DarfPayment> payments = DarfPayment.query(params);
+
+for (DarfPayment payment : payments) {
+    System.out.println(payment)
+}
+```
+
+## Get DARF payment
+
+You can get a specific DARF payment by its id:
+
+```java
+import com.starkbank.*;
+
+DarfPayment payment = DarfPayment.get("5155165527080960");
+
+System.out.println(payment);
+```
+
+## Get DARF payment PDF
+
+After its creation, a DARF payment PDF may also be retrieved by its id. 
+
+```java
+import com.starkbank.*;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.StandardCopyOption;
+
+
+InputStream pdf = DarfPayment.pdf("5155165527080960");
+java.nio.file.Files.copy(
+    pdf,
+    new File("darf-payment.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
+## Delete DARF payment
+
+You can also cancel a DARF payment by its id.
+Note that this is not possible if it has been processed already.
+
+```java
+import com.starkbank.*;
+
+DarfPayment payment = DarfPayment.delete("5155165527080960");
+
+System.out.println(payment);
+```
+
+## Query DARF payment logs
+
+You can search for payment logs by specifying filters. Use this to understand each payment life cycle.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<DarfPayment.Log> logs = DarfPayment.Log.query(params);
+
+for (DarfPayment.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+## Get DARF payment log
+
+If you want to get a specific payment log by its id, just run:
+
+```java
+import com.starkbank.*;
+
+DarfPayment.Log log = DarfPayment.Log.get("1902837198237992");
+
+System.out.println(log);
+```
+
 ## Preview payment information before executing the payment
 
 You can preview multiple types of payment to confirm any information before actually paying.
@@ -2114,13 +2247,33 @@ You can update a specific Workspace by its id.
 
 ```java
 import com.starkbank.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+BufferedImage image = ImageIO.read(new File("path/to/picture.png"));
 
 Map<String, Object> patchData = new HashMap<>();
 patchData.put("name", "Updated workspace test");
 patchData.put("username", "new-username-test");
 patchData.put("allowedTaxIds", new String[]{"35953668082", "88889288043"});
+patchData.put("picture", image);
+patchData.put("pictureType", "image/png");
 
-Workspace workspace = Workspace.update(workspace.id, patchData);
+Workspace workspace = Workspace.update(workspace.id, patchData, Organization.replace(organization, workspace.id));
+System.out.println(workspace);
+```
+
+You can also block a specific Workspace by its id.
+
+```java
+import com.starkbank.*;
+
+Map<String, Object> patchData = new HashMap<>();
+patchData.put("name", "new-name");
+patchData.put("username", "new-username-test");
+patchData.put("status", "blocked");
+
+Workspace workspace = Workspace.update(workspace.id, patchData, Organization.replace(organization, workspace.id));
 System.out.println(workspace);
 ```
 
