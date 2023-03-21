@@ -37,7 +37,7 @@ public final class Transfer extends Resource {
      * fee [integer]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
      * status [string]: current transfer status. ex: "processing" or "success"
      * transactionIds [list of strings]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-     * metadata [Transfer.Metadata object]: object used to store additional information about the Transfer object.
+     * metadata [Hashmap object]: Hashmap object used to store additional information about the Transfer object.
      * created [string]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      * updated [string]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      */
@@ -58,7 +58,7 @@ public final class Transfer extends Resource {
     public Integer fee;
     public String status;
     public String[] transactionIds;
-    public Metadata metadata;
+    public HashMap<String, Object> metadata;
     public String created;
     public String updated;
 
@@ -86,13 +86,14 @@ public final class Transfer extends Resource {
      * @param fee [integer]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
      * @param status [string]: current transfer status. ex: "processing" or "success"
      * @param transactionIds [list of strings]: ledger transaction ids linked to this transfer (if there are two, second is the chargeback). ex: ["19827356981273"]
-     * @param metadata [Transfer.Metadata object]: object used to store additional information about the Transfer object.
+     * @param metadata [Hashmap object]: Hashmap object used to store additional information about the Transfer object.
      * @param created [string]: creation datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      * @param updated [string]: latest update datetime for the transfer. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Transfer(String id, long amount, String name, String taxId, String bankCode, String branchCode,
                     String accountNumber, String accountType, String externalId, String scheduled, String description,
-                    String[] tags, List<Rule> rules, Integer fee, String status, String[] transactionIds, Metadata metadata, String created, String updated) {
+                    String[] tags, List<Rule> rules, Integer fee, String status, String[] transactionIds,
+                    HashMap<String, Object> metadata, String created, String updated) {
         super(id);
         this.amount = amount;
         this.name = name;
@@ -818,50 +819,6 @@ public final class Transfer extends Resource {
 
             this.key = (String) dataCopy.remove("key");
             this.value = (Number) dataCopy.remove("value");
-
-            if (!dataCopy.isEmpty()) {
-                throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
-            }
-        }
-    }
-
-    /**
-     * Transfer.Metadata object
-     * <p>
-     * The Transfer.Metadata object contains additional information about the Transfer object.
-     * <p>
-     * Parameters:
-     * Authentication [string]: Central Bank's unique ID for Pix transactions (EndToEndID). ex: "E200181832023031715008Scr7tD63TS"
-     *
-     */
-    public final static class Metadata extends SubResource{
-        public String authentication;
-
-        /**
-         * Transfer.Metadata object
-         * <p>
-         * The Transfer.Metadata object contains additional information about the Transfer object.
-         * <p>
-         * Parameters:
-         * @param authentication [string]: Central Bank's unique ID for Pix transactions (EndToEndID). ex: "E200181832023031715008Scr7tD63TS"
-         */
-        public Metadata(String authentication){
-            this.authentication = authentication;
-        }
-
-        /**
-         * Transfer.Metadata object
-         * <p>
-         * The Transfer.Metadata object contains additional information about the Transfer object.
-         * <p>
-         * Parameters:
-         * @param data map of properties for the creation of the Transfer.Rule
-         * authentication [string]: Central Bank's unique ID for Pix transactions (EndToEndID). ex: "E200181832023031715008Scr7tD63TS"
-         */
-        public Metadata(Map<String, Object> data) throws Exception {
-            HashMap<String, Object> dataCopy = new HashMap<>(data);
-
-            this.authentication = (String) dataCopy.remove("authentication");
 
             if (!dataCopy.isEmpty()) {
                 throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
