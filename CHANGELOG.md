@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.12.0] - 2023-03-22
 ### Added
 - metadata attribute to Transfer resource
 - pictureUrl attribute to DynamicBrcode resource
@@ -26,7 +28,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - workspaceId attribute to Event resource 
 - transactionIds attribute to DarfPayment and TaxPayment resources
 ### Removed
-- Deprecated BrcodePreview resource
+- deprecated BrcodePreview resource
 
 ## [2.11.0] - 2023-01-16
 ### Added
