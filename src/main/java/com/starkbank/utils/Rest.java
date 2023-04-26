@@ -11,17 +11,25 @@ import java.util.*;
 public final class Rest {
 
     public static <T extends Resource> T getId(Resource.ClassData resource, String id, User user) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource, id), "GET", null, null, user).content();
+        return getId(resource, id, null, user);
+    }
+
+    public static <T extends Resource> T getId(Resource.ClassData resource, String id, Map<String, Object> query, User user) throws Exception {
+        String content = Response.fetch(Api.endpoint(resource, id), "GET", null, query, user).content();
         Gson gson = GsonEvent.getInstance();
         JsonObject contentJson = gson.fromJson(content, JsonObject.class);
         JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
         return gson.fromJson(jsonObject, (Type) resource.cls);
     }
 
-    public static <T extends Resource> List<T> post(Resource.ClassData resource, List<T> entities, User user) throws Exception {
+    public static <T extends SubResource> List<T> post(SubResource.ClassData resource, List<T> entities, User user) throws Exception {
+        return post(resource, entities, null, user);
+    }
+
+    public static <T extends SubResource> List<T> post(SubResource.ClassData resource, List<T> entities, Map<String, Object> data, User user) throws Exception {
         JsonObject payload = new JsonObject();
         payload.add(Api.getLastNamePlural(resource), new Gson().toJsonTree(entities).getAsJsonArray());
-        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content();
+        String content = Response.fetch(Api.endpoint(resource), "POST", payload, data, user).content();
         JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
         List<T> postEntities = new ArrayList<>();
         JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
@@ -30,6 +38,13 @@ public final class Rest {
             postEntities.add(GsonEvent.getInstance().fromJson(jsonObject, (Type) resource.cls));
         }
         return postEntities;
+    }
+
+    public static JsonObject postRaw(String path, JsonObject payload, User user, Map<String, Object> options) throws Exception {
+        String content = Response.fetch(path, "POST", payload, options, user).content();
+        Gson gson = GsonEvent.getInstance();
+        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
+        return contentJson;
     }
 
     public static <T extends Resource> T patch(Resource.ClassData resource, String id, Map<String, Object> data, User user) throws Exception {
@@ -77,7 +92,7 @@ public final class Rest {
                     Gson gson = GsonEvent.getInstance();
                     JsonObject contentJson = gson.fromJson(content, JsonObject.class);
                     JsonElement cursorJson = contentJson.get("cursor");
-                    cursor = cursorJson.isJsonNull() ? "" : cursorJson.getAsString();
+                    cursor = cursorJson != null ? (cursorJson.isJsonNull() ? "" : cursorJson.getAsString()) : null;
                     JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
                     for (JsonElement resourceElement : jsonArray) {
                         JsonObject jsonObject = resourceElement.getAsJsonObject();
@@ -86,7 +101,7 @@ public final class Rest {
                             break;
                         this.yield(element);
                     }
-                } while (!cursor.isEmpty() && (limit == null || limit > 0));
+                } while (cursor != null && !cursor.isEmpty() && (limit == null || limit > 0));
             }
         };
     }

@@ -31,14 +31,14 @@ public final class Boleto extends Resource {
      * stateCode [string]: payer address state. ex: GO
      * zipCode [string]: payer address zip code. ex: 01311-200
      * due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
-     * fine [number, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
-     * interest [number, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
+     * fine [number, default 2.0]: Boleto fine for overdue payment in %. ex: 2.5
+     * interest [number, default 1.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
      * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
      * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-     * descriptions [list of Boleto.Description or HashMap, default null]: list of Boleto.Descriptions or HashMaps
-     * discounts [list of Boleto.Discount or HashMap, default null]: list of Boleto.Discounts or HashMaps
-     * tags [list of strings]: list of strings for tagging
+     * descriptions [list of Boleto.Description or HashMap, default []]: list of Boleto.Descriptions or HashMaps
+     * discounts [list of Boleto.Discount or HashMap, default []]: list of Boleto.Discounts or HashMaps
+     * tags [list of strings, default []]: list of strings for tagging
      * id [string]: unique id returned when Boleto is created. ex: "5656565656565656"
      * fee [integer]: fee charged when Boleto is paid. ex: 200 (= R$ 2.00)
      * line [string]: generated Boleto line for payment. ex: "34191.09008 63571.277308 71444.640008 5 81960000000062"
@@ -96,14 +96,14 @@ public final class Boleto extends Resource {
      * @param stateCode [string]: payer address state. ex: GO
      * @param zipCode [string]: payer address zip code. ex: 01311-200
      * @param due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
-     * @param fine [number, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
-     * @param interest [number, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
+     * @param fine [number, default 2.0]: Boleto fine for overdue payment in %. ex: 2.5
+     * @param interest [number, default 1.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * @param overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
      * @param receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
      * @param receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
-     * @param descriptions [list of Boleto.Description or Hashmaps, default null]: list of Boleto.Descriptions or hashmaps with "text":string and (optional) "amount":int pairs
-     * @param discounts [list of Boleto.Discounts or Hashmaps, default null]: list of Boleto.Discounts or hashmaps with "percentage": Number and "date": string pairs
-     * @param tags [list of strings]: list of strings for tagging
+     * @param descriptions [list of Boleto.Description or Hashmaps, default []]: list of Boleto.Descriptions or hashmaps with "text":string and (optional) "amount":int pairs
+     * @param discounts [list of Boleto.Discounts or Hashmaps, default []]: list of Boleto.Discounts or hashmaps with "percentage": Number and "date": string pairs
+     * @param tags [list of strings, default []]: list of strings for tagging
      * @param id [string]: id of the object
      * @param fee [integer]: fee to be charged in the Boleto
      * @param line [string]: numeric line of the boleto
@@ -174,9 +174,9 @@ public final class Boleto extends Resource {
      * fine [number, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [number, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
-     * descriptions [list of Boleto.Description or HashMap, default null]: list of Boleto.Descriptions or HashMaps with "text":string and "amount":int pairs
-     * discounts [list of Boleto.Discount or Hashmap, default null]: list of Boleto.Discounts or HashMaps with "percentage": Number and "date": string pairs
-     * tags [list of strings]: list of strings for tagging
+     * descriptions [list of Boleto.Description or HashMap, default []]: list of Boleto.Descriptions or HashMaps with "text":string and "amount":int pairs
+     * discounts [list of Boleto.Discount or Hashmap, default []]: list of Boleto.Discounts or HashMaps with "percentage": Number and "date": string pairs
+     * tags [list of strings, default []]: list of strings for tagging
      * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
      * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * <p>

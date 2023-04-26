@@ -6,7 +6,7 @@ import com.starkbank.Event;
 import com.starkbank.PaymentRequest;
 
 
-class GsonEvent {
+public class GsonEvent {
      private static Gson instance;
 
      private GsonEvent() {}
