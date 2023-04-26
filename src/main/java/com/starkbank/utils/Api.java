@@ -1,8 +1,8 @@
 package com.starkbank.utils;
 
 
-final class Api {
-    static String endpoint(Resource.ClassData resource){
+public final class Api {
+    public static String endpoint(Resource.ClassData resource){
         return "/" + Case.camelToKebab(resource.name)
                          .replace("-log", "/log")
                          .replace("-attempt", "/attempt");
@@ -23,7 +23,7 @@ final class Api {
         return lastName + "s"; 
     }
 
-    static String getLastName(Resource.ClassData resource){
+    public static String getLastName(Resource.ClassData resource){
         String kebabCase = Case.camelToKebab(resource.name);
         String[] kebabChunks = kebabCase.split("-");
         return kebabChunks[kebabChunks.length - 1];

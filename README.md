@@ -41,6 +41,14 @@ is as easy as sending a text message to your client!
     - [TaxPayments](#create-tax-payment): Pay taxes
     - [DarfPayments](#create-darf-payment): Pay DARFs
     - [PaymentPreviews](#preview-payment-information-before-executing-the-payment): Preview all sorts of payments
+    - [PaymentRequest](#create-payment-requests-to-be-approved-by-authorized-people-in-a-cost-center): Request a payment approval to a cost center
+    - [CorporateHolders](#create-corporateholders): Manage cardholders
+    - [CorporateCards](#create-corporatecards): Create virtual and/or physical cards
+    - [CorporateInvoices](#create-corporateinvoices): Add money to your corporate balance
+    - [CorporateWithdrawals](#create-corporatewithdrawals): Send money back to your Workspace from your corporate balance
+    - [CorporateBalance](#get-your-corporatebalance): View your corporate balance
+    - [CorporateTransactions](#query-corporatetransactions): View the transactions that have affected your corporate balance
+    - [CorporateEnums](#corporate-enums): Query enums related to the corporate purchases, such as merchant categories, countries and card purchase methods
     - [Webhooks](#create-a-webhook-subscription): Configure your webhook endpoints and subscriptions
     - [WebhookEvents](#process-webhook-events): Manage webhook events
     - [WebhookEventAttempts](#query-failed-webhook-event-delivery-attempts-information): Query failed webhook event deliveries
@@ -1977,6 +1985,475 @@ Generator<PaymentRequest> requests = PaymentRequest.query(params);
 
 for (PaymentRequest request : requests){
     System.out.println(request);
+}
+```
+
+## Corporate
+
+## Create CorporateHolders
+
+You can create card holders to which your cards will be bound.
+They support spending rules that will apply to all underlying cards.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+List<CorporateHolder> holders = new ArrayList<>();
+HashMap<String, Object> data = new HashMap<>();
+data.put("name", "Iron Bank S.A.");
+data.put("tags", new String[]{"Traveler Employee"});
+
+HashMap<String, Object> rule = new HashMap<>();
+rule.put("name", "General USD");
+rule.put("interval", "day");
+rule.put("amount", 100000);
+rule.put("currencyCode", "USD");
+data.put("rules", new CorporateRule[]{new CorporateRule(rule)});
+holders.add(new CorporateHolder(data));
+
+holders = CorporateHolder.create(holders);
+
+for (CorporateHolder holder : holders) {
+    System.out.println(holder);
+}
+```
+
+**Note**: Instead of using CorporateHolder objects, you can also pass each element in dictionary format
+
+## Query CorporateHolders
+
+You can query multiple holders according to filters.
+
+```java
+import com.starkbank.*;
+import com.starkbank.utils.Generator;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+Generator<CorporateHolder> holders = CorporateHolder.query(params);
+
+for (PaymentRequest holder : holders){
+    System.out.println(holder);
+}
+```
+
+## Cancel a CorporateHolder
+
+To cancel a single Corporate Holder by its id, run:
+
+```java
+import com.starkbank.*;
+
+CorporateHolder holder = CorporateHolder.cancel("1902837198237992");
+
+System.out.println(holder);
+```
+
+## Get a CorporateHolder
+
+To get a single Corporate Holder by its id, run:
+
+```java
+import com.starkbank.*;
+
+CorporateHolder holder = CorporateHolder.get("1902837198237992");
+
+System.out.println(holder);
+```
+
+## Query CorporateHolder logs
+
+You can query holder logs to better understand holder life cycles.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<CorporateHolder.Log> logs = CorporateHolder.Log.query(params);
+
+for (CorporateHolder.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+## Get a CorporateHolder log
+
+You can also get a specific log by its id.
+
+```java
+import com.starkbank.*;
+
+CorporateHolder.Log log = CorporateHolder.Log.get("1902837198237992");
+
+System.out.println(log);
+```
+
+## Create CorporateCard
+
+You can issue cards with specific spending rules.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+HashMap<String, Object> data = new HashMap<>();
+data.put("holderId", "5155165527080960");
+
+CorporateCard card = CorporateCard.create(new CorporateCard(data));
+
+System.out.println(card);
+```
+
+## Query CorporateCards
+
+You can get a list of created cards given some filters.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<CorporateCard> cards = CorporateCard.query(params);
+
+for (CorporateCard card : cards) {
+    System.out.println(card);
+}
+```
+
+## Get a CorporateCard
+
+After its creation, information on a card may be retrieved by its id.
+
+```java
+import com.starkbank.*;
+
+CorporateCard card = CorporateCard.get("1902837198237992");
+
+System.out.println(card);
+```
+
+## Update a CorporateCard
+
+You can update a specific card by its id.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> patchData = new HashMap<>();
+patchData.put("status", "blocked");
+
+CorporateCard card = CorporateCard.update("5155165527080960", patchData);
+
+System.out.println(card);
+```
+
+## Cancel a CorporateCard
+
+You can also cancel a card by its id.
+
+```java
+import com.starkbank.*;
+
+CorporateCard card = CorporateCard.cancel("1902837198237992");
+
+System.out.println(card);
+```
+
+## Query CorporateCard logs
+
+Logs are pretty important to understand the life cycle of a card.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<CorporateCard.Log> logs = CorporateCard.Log.query(params);
+
+for (CorporateCard.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+## Get a CorporateCard log
+
+You can get a single log by its id.
+
+```java
+import com.starkbank.*;
+
+CorporateCard.Log log = CorporateCard.Log.get("1902837198237992");
+
+System.out.println(log);
+```
+
+## Query CorporatePurchases
+
+You can get a list of created purchases given some filters.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<CorporatePurchase> purchases = CorporatePurchase.query(params);
+
+for (CorporatePurchase purchase : purchases) {
+    System.out.println(purchase);
+}
+```
+
+## Get a CorporatePurchase
+
+After its creation, information on a purchase may be retrieved by its id.
+
+```java
+import com.starkbank.*;
+
+CorporatePurchase purchase = CorporatePurchase.get("1902837198237992");
+
+System.out.println(purchase);
+```
+
+## Query CorporatePurchase logs
+
+Logs are pretty important to understand the life cycle of a purchase.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<CorporatePurchase.Log> logs = CorporatePurchase.Log.query(params);
+
+for (CorporatePurchase.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+## Get a CorporatePurchase log
+
+You can get a single log by its id.
+
+```java
+import com.starkbank.*;
+
+CorporatePurchase.Log log = CorporatePurchase.Log.get("1902837198237992");
+
+System.out.println(log);
+```
+
+## Create CorporateInvoice
+
+You can create Pix invoices to transfer money from accounts you have in any bank to your Corporate balance,
+allowing you to run your corporate operation.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+HashMap<String, Object> data = new HashMap<>();
+data.put("amount", 1000);
+
+CorporateInvoice invoice = CorporateInvoice.create(new CorporateInvoice(data));
+
+System.out.println(invoice);
+```
+
+**Note**: Instead of using CorporateInvoice objects, you can also pass each element in dictionary format
+
+## Query CorporateInvoices
+
+You can get a list of created invoices given some filters.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<CorporateInvoice> invoices = CorporateInvoice.query(params);
+
+for (CorporateInvoice invoice : invoices) {
+    System.out.println(invoice);
+}
+```
+
+## Create CorporateWithdrawal
+
+You can create withdrawals to send cash back from your Corporate balance to your Banking balance
+by using the Withdrawal resource.
+
+```java
+import com.starkbank.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+HashMap<String, Object> data = new HashMap<>();
+data.put("amount", 1000);
+data.put("externalId", "123");
+data.put("description", "Sending back");
+
+CorporateWithdrawal withdrawal = CorporateWithdrawal.create(new CorporateWithdrawal(data));
+
+System.out.println(withdrawal);
+```
+
+**Note**: Instead of using CorporateWithdrawal objects, you can also pass each element in dictionary format
+
+## Get a CorporateWithdrawal
+
+After its creation, information on a withdrawal may be retrieved by its id.
+
+```java
+import com.starkbank.*;
+
+CorporateWithdrawal withdrawal = CorporateWithdrawal.get("1902837198237992");
+
+System.out.println(withdrawal);
+```
+
+## Query CorporateWithdrawals
+
+You can get a list of created withdrawals given some filters.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<CorporateWithdrawal> withdrawals = CorporateWithdrawal.query(params);
+
+for (CorporateWithdrawal withdrawal : withdrawals) {
+    System.out.println(withdrawal);
+}
+```
+
+## Get your CorporateBalance
+
+To know how much money you have available to run authorizations, run:
+
+```java
+import com.starkbank.*;
+
+CorporateBalance balance = CorporateBalance.get();
+
+System.out.println(balance);
+```
+
+## Query CorporateTransactions
+
+To understand your balance changes (corporate statement), you can query
+transactions. Note that our system creates transactions for you when
+you make purchases, withdrawals, receive corporate invoice payments, for example.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<CorporateTransaction> transactions = CorporateTransaction.query(params);
+
+for (CorporateTransaction transaction : transactions) {
+    System.out.println(transaction);
+}
+```
+
+## Get a CorporateTransaction
+
+You can get a specific transaction by its id:
+
+```java
+import com.starkbank.*;
+
+CorporateTransaction transaction = CorporateTransaction.get("5155165527080960");
+
+System.out.println(transaction);
+```
+
+## Corporate Enums
+
+### Query MerchantCategories
+
+You can query any merchant categories using this resource.
+You may also use MerchantCategories to define specific category filters in CorporateRules.
+Either codes (which represents specific MCCs) or types (code groups) will be accepted as filters.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("search", "food");
+
+Generator<MerchantCategory> categories = MerchantCategory.query(params);
+
+for (MerchantCategory category : categories) {
+    System.out.println(category);
+}
+```
+
+### Query MerchantCountries
+
+You can query any merchant countries using this resource.
+You may also use MerchantCountries to define specific country filters in CorporateRules.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("search", "brazil");
+
+Generator<MerchantCountry> countries = MerchantCountry.query(params);
+
+for (MerchantCountry country : countries) {
+    System.out.println(country);
+}
+```
+
+### Query CardMethods
+
+You can query available card methods using this resource.
+You may also use CardMethods to define specific purchase method filters in CorporateRules.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("search", "token");
+
+Generator<CardMethod> methods = CardMethod.query(params);
+
+for (CardMethod method : methods) {
+    System.out.println(method);
 }
 ```
 
