@@ -31,6 +31,10 @@ public class TestInvoice {
         data.put("fine", 2);
         data.put("interest", 1.3);
 
+        List<Invoice.Rule> rules = new ArrayList<>();
+        rules.add(new Invoice.Rule("allowedTaxIds", new String[] { "012.345.678-90" }));
+        data.put("rules", rules);
+
         List<HashMap<String, Object>> descriptions = new ArrayList<>();
         HashMap<String, Object> description = new HashMap<>();
         description.put("key", "Some supplies");

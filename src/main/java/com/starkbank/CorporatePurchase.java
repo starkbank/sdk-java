@@ -504,6 +504,7 @@ public final class CorporatePurchase extends Resource {
         static ClassData data = new ClassData(CorporatePurchase.Log.class, "CorporatePurchaseLog");
 
         public CorporatePurchase purchase;
+        public String description;
         public String corporateTransactionId;
         public List<ErrorElement> errors;
         public String type;
@@ -519,17 +520,20 @@ public final class CorporatePurchase extends Resource {
          * Attributes:
          * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * @param purchase [CorporatePurchase]: CorporatePurchase entity to which the log refers to.
+         * @param description [string]: purchase descriptions. ex: "my_description"
          * @param corporateTransactionId [string]: transaction ID related to the CorporateCard.
          * @param errors [list of strings]: list of errors linked to the CorporatePurchase event.
          * @param type [string]: type of the CorporatePurchase event which triggered the log creation. Options: "approved", "canceled", "confirmed", "denied", "reversed", "voided"
          * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
          */
-        public Log(String created, String type, List<ErrorElement> errors, CorporatePurchase purchase, String id, String corporateTransactionId) {
+        public Log(String created, String type, List<ErrorElement> errors, CorporatePurchase purchase, String description,
+                   String id, String corporateTransactionId) {
             super(id);
             this.created = created;
             this.type = type;
             this.errors = errors;
             this.purchase = purchase;
+            this.description = description;
             this.corporateTransactionId = corporateTransactionId;
         }
 

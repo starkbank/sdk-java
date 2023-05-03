@@ -29,6 +29,7 @@ public final class Invoice extends Resource {
      * fine [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
      * interest [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
      * discounts [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
+     * rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
      * tags [list of strings, default null]: list of strings for tagging
      * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
      * pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
@@ -57,6 +58,7 @@ public final class Invoice extends Resource {
     public Number interest;
     public List<Invoice.Description> descriptions;
     public List<Invoice.Discount> discounts;
+    public List<Invoice.Rule> rules;
     public String[] tags;
     public String pdf;
     public String link;
@@ -89,6 +91,7 @@ public final class Invoice extends Resource {
      * @param fine [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
      * @param interest [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
      * @param discounts [list of maps, default null]: list of maps with "percentage":number and "due":string or string pairs
+     * @param rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
      * @param tags [list of strings, default null]: list of strings for tagging
      * @param descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
      * @param pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
@@ -106,9 +109,9 @@ public final class Invoice extends Resource {
      * @param updated [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Invoice(Number amount, String due, String taxId, String name, Number expiration, Number fine,
-                    Number interest, List<Invoice.Description> descriptions, List<Invoice.Discount> discounts, String pdf,
-                    String link, String[] tags, Number nominalAmount, Number fineAmount, Number interestAmount,
-                    Number discountAmount, String id, String brcode, Integer fee, String[] transactionIds, String status,
+                   Number interest, List<Invoice.Description> descriptions, List<Invoice.Discount> discounts, List<Invoice.Rule> rules,
+                   String pdf, String link, String[] tags, Number nominalAmount, Number fineAmount, Number interestAmount,
+                   Number discountAmount, String id, String brcode, Integer fee, String[] transactionIds, String status,
                    String created, String updated
     ) {
         super(id);
@@ -120,6 +123,7 @@ public final class Invoice extends Resource {
         this.fine = fine;
         this.interest = interest;
         this.discounts = discounts;
+        this.rules = rules;
         this.tags = tags;
         this.descriptions = descriptions;
         this.pdf = pdf;
@@ -157,6 +161,7 @@ public final class Invoice extends Resource {
      * interest [number, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
      * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
      * discounts [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
+     * rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
      * tags [list of strings, default null]: list of strings for tagging
      * <p>
      * Attributes (return-only):
@@ -187,6 +192,7 @@ public final class Invoice extends Resource {
         this.interest = (Number) dataCopy.remove("interest");
         this.discounts = parseDiscounts((List<Object>) dataCopy.remove("discounts"));
         this.tags = (String[]) dataCopy.remove("tags");
+        this.rules = parseRules((List<Object>) dataCopy.remove("rules"));
         this.descriptions = parseDescriptions((List<Object>) dataCopy.remove("descriptions"));
         this.pdf = null;
         this.link = null;
@@ -1038,6 +1044,76 @@ public final class Invoice extends Resource {
          */
         public static InputStream pdf(String id, User user) throws Exception {
             return Rest.getContent(data, id, "pdf", user, new HashMap<>());
+        }
+    }
+
+    private List<Invoice.Rule> parseRules(List<Object> rules) throws Exception {
+        if (rules == null)
+            return null;
+
+        List<Invoice.Rule> parsed = new ArrayList<>();
+        if (rules.size() == 0 || rules.get(0) instanceof Invoice.Rule) {
+            for (Object rule : rules) {
+                parsed.add((Invoice.Rule) rule);
+            }
+            return parsed;
+        }
+
+        for (Object rule : rules) {
+            Invoice.Rule ruleObject = new Invoice.Rule((Map<String, Object>) rule);
+            parsed.add(ruleObject);
+        }
+        return parsed;
+    }
+
+    /**
+     * Invoice.Rule object
+     * <p>
+     * The Invoice.Rule object modifies the behavior of Invoice objects when passed as an argument upon their creation.
+     * <p>
+     * Parameters:
+     * key [string]: Rule to be customized, describes what Invoice behavior will be altered. ex: "allowedTaxIds"
+     * value [list of string]: Value of the rule. ex: ["012.345.678-90", "45.059.493/0001-73"]
+     *
+     */
+    public final static class Rule extends SubResource{
+        public String key;
+        public String[] value;
+
+
+        /**
+         * Invoice.Rule object
+         * <p>
+         * The Invoice.Rule object modifies the behavior of Invoice objects when passed as an argument upon their creation.
+         * <p>
+         * Parameters:
+         * @param key [string]: Rule to be customized, describes what Invoice behavior will be altered. ex: "allowedTaxIds"
+         * @param value [list of string]: Value of the rule. ex: ["012.345.678-90", "45.059.493/0001-73"]
+         */
+        public Rule(String key, String[] value){
+            this.key = key;
+            this.value = value;
+        }
+
+        /**
+         * Invoice.Rule object
+         * <p>
+         * The Invoice.Rule object modifies the behavior of Invoice objects when passed as an argument upon their creation.
+         * <p>
+         * Parameters:
+         * @param data map of properties for the creation of the Invoice.Rule
+         * key [string]: Rule to be customized, describes what Invoice behavior will be altered. ex: "allowedTaxIds"
+         * value [list of string]: Value of the rule. ex: ["012.345.678-90", "45.059.493/0001-73"]
+         */
+        public Rule(Map<String, Object> data) throws Exception {
+            HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+            this.key = (String) dataCopy.remove("key");
+            this.value = (String[]) dataCopy.remove("value");
+
+            if (!dataCopy.isEmpty()) {
+                throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+            }
         }
     }
 }
