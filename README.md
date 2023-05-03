@@ -645,6 +645,14 @@ HashMap<String, Object> description = new HashMap<String, Object>(){{
 }};
 descriptions.add(description);
 
+List<Invoice.Rule> rules = new ArrayList<>();
+rules.add(
+    new Invoice.Rule(
+        "allowedTaxIds",                        // Set TaxIds allowed to receive this Invoice
+        new String[] { "012.345.678-90" }
+    )
+);
+
 invoices.add(new Invoice(new HashMap<String, Object>(){{
     put("tags", new String[]{"immediate"});
     put("amount", 23571);
@@ -654,6 +662,7 @@ invoices.add(new Invoice(new HashMap<String, Object>(){{
     put("expiration", 123456789);
     put("fine", 5);
     put("interest", 2.5);
+    put("rules", rules);
     put("descriptions", descriptions);
 }}));
 
