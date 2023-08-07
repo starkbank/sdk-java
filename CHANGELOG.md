@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Fixed
+- double slash request on Rest.getSubResource
 
 ## [2.14.0] - 2023-05-03
 ### Added
