@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DictKey extends Resource {
-    
+
     /**
      * DictKey object
      * <p>
@@ -25,18 +25,14 @@ public class DictKey extends Resource {
      * ownerType [string]: DICT key owner type. ex "naturalPerson" or "legalPerson"
      * bankName [string]: bank name associated with the DICT key. ex: "Stark Bank"
      * ispb [string]: bank ISPB associated with the DICT key. ex: "20018183"
-     * branchCode [string]: bank account branch code associated with the DICT key. ex: "9585"
-     * accountNumber [string]: bank account number associated with the DICT key. ex: "9828282578010513"
+     * branchCode [string]: bank account branch code associated with the DICT key. ex: "ZW5jcnlwdGVkLWJyYW5jaC1jb2Rl"
+     * accountNumber [string]: bank account number associated with the DICT key. ex: "ZW5jcnlwdGVkLWFjY291bnQtbnVtYmVy"
      * accountType [string]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
      * status [string]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
-     * accountCreated [string]: creation datetime of the bank account associated with the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
-     * owned [string]: datetime since when the current owner holds this DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
-     * created [string]: creation datetime for the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
      */
     static ClassData data = new ClassData(DictKey.class, "DictKey");
-    
+
     public String type;
-    public String accountCreated;
     public String accountType;
     public String name;
     public String taxId;
@@ -46,9 +42,7 @@ public class DictKey extends Resource {
     public String branchCode;
     public String accountNumber;
     public String status;
-    public String owned;
-    public String created;
-    
+
     /**
      * DictKey object
      * <p>
@@ -62,20 +56,16 @@ public class DictKey extends Resource {
      * @param ownerType [string]: DICT key owner type. ex "naturalPerson" or "legalPerson"
      * @param bankName [string]: bank name associated with the DICT key. ex: "Stark Bank"
      * @param ispb [string]: bank ISPB associated with the DICT key. ex: "20018183"
-     * @param branchCode [string]: bank account branch code associated with the DICT key. ex: "9585"
-     * @param accountNumber [string]: bank account number associated with the DICT key. ex: "9828282578010513"
+     * @param branchCode [string]: bank account branch code associated with the DICT key. ex: "ZW5jcnlwdGVkLWJyYW5jaC1jb2Rl"
+     * @param accountNumber [string]: bank account number associated with the DICT key. ex: "ZW5jcnlwdGVkLWFjY291bnQtbnVtYmVy"
      * @param accountType [string]: bank account type associated with the DICT key. ex: "checking", "saving", "salary" or "payment"
      * @param status [string]: current DICT key status. ex: "created", "registered", "canceled" or "failed"
-     * @param accountCreated [string]: creation datetime of the bank account associated with the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
-     * @param owned [string]: datetime since when the current owner holds this DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
-     * @param created [string]: creation datetime for the DICT key. ex: "2020-11-05T14:55:08.812665+00:00"
      */
-    public DictKey(String id, String type, String accountCreated, String accountType, String name, String taxId,
-                   String ownerType, String bankName, String ispb, String branchCode, String accountNumber,
-                   String status, String owned, String created) {
+    public DictKey(String id, String type, String accountType, String name, String taxId,
+                   String ownerType, String bankName, String ispb, String branchCode,
+                   String accountNumber, String status) {
         super(id);
         this.type = type;
-        this.accountCreated = accountCreated;
         this.accountType = accountType;
         this.name = name;
         this.taxId = taxId;
@@ -85,10 +75,8 @@ public class DictKey extends Resource {
         this.branchCode = branchCode;
         this.accountNumber = accountNumber;
         this.status = status;
-        this.owned = owned;
-        this.created = created;        
     }
-    
+
     /**
      * Retrieve a specific DictKey
      * <p>
