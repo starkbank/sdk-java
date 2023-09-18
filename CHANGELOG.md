@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+
+## [2.15.0] - 2023-09-18
 ### Removed
 - accountCreated, created and owned attributes to DictKey resource 
 - accountNumber and branchCode to PaymentPreview resource

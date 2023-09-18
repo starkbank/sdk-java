@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.starkbank'
-version '2.14.1'
+version '2.15.0'
 
 sourceCompatibility = 1.8
 
@@ -40,7 +40,7 @@ publishing {
 
             groupId = 'com.starkbank'
             artifactId = 'sdk'
-            version = '2.14.1'
+            version = '2.15.0'
             from components.java
 
             pom {
