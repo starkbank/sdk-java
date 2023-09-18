@@ -19,7 +19,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Changed
 - accountNumber and branchCode docstring attributes to DictKey resource
 ### Fixed
-- accountType doctring attribute to DictKey resource
+- accountType docstring attribute to DictKey resource
 
 ## [2.14.1] - 2023-09-06
 ### Fixed
