@@ -980,6 +980,21 @@ Deposit deposit = Deposit.get("5730174175805440");
 System.out.println(deposit);
 ```
 
+## Update a deposit
+
+Update a deposit by passing its id to be partially or fully reversed.
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> patchData = new HashMap<>();
+patchData.put("amount", 0);
+Deposit deposit = Deposit.update("5155165527080960", patchData);
+
+System.out.println(deposit);
+```
+
 ## Query deposit logs
 
 Logs are pretty important to understand the life cycle of a deposit.

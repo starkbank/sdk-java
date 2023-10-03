@@ -307,6 +307,43 @@ public final class Deposit extends Resource {
         }
         return new Page(deposits, page.cursor);
     }
+
+    /**
+     * Update notification Deposit entity
+     * <p>
+     * Update the Deposit by passing its id to be partially or fully reversed.
+     * <p>
+     * Parameters:
+     * @param id        [string]: Deposit unique id. ex: "5656565656565656"
+     * @param patchData map of parameters to patch
+     *                  amount [string]: The new amount of the Deposit. If the amount = 0 the Deposit will be fully reversed
+     * <p>
+     * Return:
+     * @return Deposit object with updated attributes
+     * @throws Exception error in the request
+     */
+    public static Deposit update(String id, Map<String, Object> patchData) throws Exception {
+        return Deposit.update(id, patchData, null);
+    }
+
+    /**
+     * Update notification Deposit entity
+     * <p>
+     * Update the Deposit by passing its id to be partially or fully reversed.
+     * <p>
+     * Parameters:
+     * @param id        [string]: Deposit unique id. ex: "5656565656565656"
+     * @param patchData map of properties to patch
+     *                  amount [string]: The new amount of the Deposit. If the amount = 0 the Deposit will be fully reversed
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.Settings.user was set before function call
+     * <p>
+     * Return:
+     * @return Deposit object with updated attributes
+     * @throws Exception error in the request
+     */
+    public static Deposit update(String id, Map<String, Object> patchData, User user) throws Exception {
+        return Rest.patch(data, id, patchData, user);
+    }
     
     public final static class Log extends Resource {
         static ClassData data = new ClassData(Log.class, "DepositLog");
