@@ -14,6 +14,7 @@ public class TestDeposit {
     @Test
     public void testQueryAndGet() throws Exception{
         Settings.user = utils.User.defaultProject();
+
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
         params.put("after", "2019-04-01");
@@ -36,6 +37,7 @@ public class TestDeposit {
     @Test
     public void testLogQueryAndGet() throws Exception{
         Settings.user = utils.User.defaultProject();
+
         HashMap<String, Object> params = new HashMap<>();
         params.put("limit", 3);
         params.put("after", "2019-04-01");
@@ -51,6 +53,23 @@ public class TestDeposit {
             System.out.println(log);
         }
         Assert.assertTrue(i > 0);
+    }
+
+    @Test
+    public void testUpdateAmount() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("status", "created");
+        params.put("limit", 1);
+        Generator<Deposit> deposits = Deposit.query(params);
+        for (Deposit deposit : deposits) {
+            HashMap<String, Object> patchData = new HashMap<>();
+            patchData.put("amount", 0);
+            Deposit updatedDeposit = Deposit.update(deposit.id, patchData);
+            Assert.assertEquals(updatedDeposit.amount, 0);
+            System.out.println(updatedDeposit);
+        }
     }
 
     @Test
