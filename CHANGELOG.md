@@ -29,6 +29,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Fixed
 - double slash request on Rest.getSubResource
 
+### Fix
+- Invoice.payment request
+
 ## [2.14.0] - 2023-05-03
 ### Added
 - rules attribute to Invoice resource
