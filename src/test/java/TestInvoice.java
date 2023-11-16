@@ -1,19 +1,16 @@
-import com.starkbank.Invoice;
-import com.starkbank.Settings;
-import com.starkbank.utils.Generator;
-import org.junit.Assert;
-import org.junit.Test;
+import com.starkbank.*;
 import utils.User;
+import org.junit.Test;
+import org.junit.Assert;
+import com.starkbank.utils.Generator;
 
+import java.util.*;
 import java.io.File;
 import java.io.InputStream;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.nio.file.StandardCopyOption;
 
 
 public class TestInvoice {
@@ -22,53 +19,9 @@ public class TestInvoice {
     public void testCreateAndGet() throws Exception {
         Settings.user = utils.User.defaultProject();
         List<Invoice> invoices = new ArrayList<>();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("amount", 400000);
-        data.put("due", getDatetimeString(3));
-        data.put("taxId", "20.018.183/0001-80");
-        data.put("name", "Iron Bank S.A.");
-        data.put("expiration", 123456789);
-        data.put("fine", 2);
-        data.put("interest", 1.3);
-
-        List<Invoice.Rule> rules = new ArrayList<>();
-        rules.add(new Invoice.Rule("allowedTaxIds", new String[] { "012.345.678-90" }));
-        data.put("rules", rules);
-
-        List<HashMap<String, Object>> descriptions = new ArrayList<>();
-        HashMap<String, Object> description = new HashMap<>();
-        description.put("key", "Some supplies");
-        description.put("value", "100000");
-        descriptions.add(description);
-        data.put("descriptions", descriptions);
-
-        invoices.add(new Invoice(data));
-
-        HashMap<String, Object> simpleExample = new HashMap<>();
-        simpleExample.put("amount", 400000);
-        simpleExample.put("due", getDatetimeString(3));
-        simpleExample.put("taxId", "20.018.183/0001-80");
-        simpleExample.put("name", "Iron Bank S.A.");
-        simpleExample.put("expiration", 123456789);
-        simpleExample.put("fine", 2);
-        simpleExample.put("interest", 1.3);
-        invoices.add(new Invoice(simpleExample));
-
-        List<HashMap<String, Object>> discounts = new ArrayList<>();
-        HashMap<String, Object> discount = new HashMap<>();
-        discount.put("due", getDateString(2));
-        discount.put("percentage", 2.5);
-        discounts.add(discount);
-        invoices.add(new Invoice(new HashMap<String, Object>(){{
-            put("amount", 400000);
-            put("taxId", "012.345.678-90");
-            put("name", "Iron Bank S.A.");
-            put("expiration", 123456789);
-            put("fine", 2);
-            put("interest", 1.3);
-            put("discounts", discounts);
-            put("due", getDateString(2));
-        }}));
+        invoices.addAll(TestInvoice.example(1, true, false, true));
+        invoices.addAll(TestInvoice.example(1, false, false, false));
+        invoices.addAll(TestInvoice.example(1, false, true, false));
 
         invoices = Invoice.create(invoices);
 
@@ -314,7 +267,66 @@ public class TestInvoice {
         return dateFormat.format(datetime).concat("+00:00");
     }
 
-    public String getDateString(int delta) {
-        return LocalDate.now().plusDays(delta).toString();
+    static List<Invoice> example(int n, boolean rules, boolean deduction, boolean useSplit) throws Exception{
+        int receiversLength = 2;
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", receiversLength);
+
+        Generator<SplitReceiver> receiversGenerator = SplitReceiver.query(params);
+        List<SplitReceiver> receivers = new ArrayList<>();
+        for (SplitReceiver receiver : receiversGenerator) {
+            receivers.add(receiver);
+        }
+
+        Random random = new Random();
+        List<Invoice> invoices = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("amount", 400000);
+            data.put("due", LocalDate.from(LocalDate.now().plusDays(3)).toString());
+            data.put("taxId", "20.018.183/0001-80");
+            data.put("name", "Iron Bank S.A.");
+            data.put("expiration", 123456789);
+            data.put("fine", 2);
+            data.put("interest", 1.3);
+            if (rules) {
+                List<Invoice.Rule> rule = new ArrayList<>();
+                rule.add(new Invoice.Rule("allowedTaxIds", new String[]{"012.345.678-90"}));
+                data.put("rules", rule);
+
+                List<HashMap<String, Object>> descriptions = new ArrayList<>();
+                HashMap<String, Object> description = new HashMap<>();
+                description.put("key", "Some supplies");
+                description.put("value", "100000");
+                descriptions.add(description);
+                data.put("descriptions", descriptions);
+            }
+            if (deduction) {
+                List<HashMap<String, Object>> discounts = new ArrayList<>();
+                HashMap<String, Object> discount = new HashMap<>();
+                discount.put("due", LocalDate.from(LocalDate.now().plusDays(3)).toString());
+                discount.put("percentage", 2.5);
+                discounts.add(discount);
+                data.put("discounts", discounts);
+            }
+            if (useSplit) {
+                List<Integer> amountSteps = new ArrayList<>();
+                amountSteps.add(1);
+                List<Integer> receiverAmounts = new ArrayList<>();
+                for (i = 0; i < receiversLength; i++) {
+                    amountSteps.add(random.nextInt((int) data.get("amount")) - receiversLength);
+                }
+                for (i = 0; i < receiversLength; i++) {
+                    receiverAmounts.add(amountSteps.get(i + 1) - amountSteps.get(i) + 1);
+                    params = new HashMap<>();
+                    params.put("amount", (long)receiverAmounts.get(i));
+                    params.put("receiverId", receivers.get(i).id);
+                    data.put("splits", Arrays.asList(new Split(params)));
+                }
+            }
+            invoices.add(new Invoice(data));
+        }
+        return invoices;
     }
 }

@@ -1,12 +1,12 @@
 package com.starkbank;
 
-import com.starkbank.utils.Generator;
-import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
+import com.starkbank.utils.Resource;
+import com.starkbank.utils.Generator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 
 public final class Balance extends Resource {

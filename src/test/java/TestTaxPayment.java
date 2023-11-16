@@ -1,18 +1,18 @@
+import org.junit.Test;
+import org.junit.Assert;
 import com.starkbank.Settings;
 import com.starkbank.TaxPayment;
 import com.starkbank.utils.Generator;
-import org.junit.Assert;
-import org.junit.Test;
 
 import java.io.File;
-import java.io.InputStream;
-import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.HashMap;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.nio.file.StandardCopyOption;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TestTaxPayment {
