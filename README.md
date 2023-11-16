@@ -1,3 +1,4 @@
+
 # Stark Bank Java SDK
 
 Welcome to the Stark Bank Java SDK! This tool is made for Java 
@@ -49,6 +50,8 @@ is as easy as sending a text message to your client!
     - [CorporateBalance](#get-your-corporatebalance): View your corporate balance
     - [CorporateTransactions](#query-corporatetransactions): View the transactions that have affected your corporate balance
     - [CorporateEnums](#corporate-enums): Query enums related to the corporate purchases, such as merchant categories, countries and card purchase methods
+    - [Split](#query-splits): Split received Invoice payments between different receivers
+    - [SplitReceiver](#create-splitreceivers): Receiver of an Invoice split
     - [Webhooks](#create-a-webhook-subscription): Configure your webhook endpoints and subscriptions
     - [WebhookEvents](#process-webhook-events): Manage webhook events
     - [WebhookEventAttempts](#query-failed-webhook-event-delivery-attempts-information): Query failed webhook event deliveries
@@ -2481,15 +2484,168 @@ for (CardMethod method : methods) {
 }
 ```
 
+## Split
+
+Split an Invoice between different receivers.
+
+## Query Splits
+
+You can get a list of created Splits given some filters.
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.HashMap;
+
+Map<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<Split> splits = Split.query(params);
+
+for (Split split : splits) {
+    System.out.println(split);
+}
+```
+
+## Get a Split
+
+To get a single Split by its id, run:
+
+```java
+import com.starkbank.*;
+
+Split split = Split.get("5155165527080960");
+
+System.out.println(split);
+```
+
+## Query Split Logs
+
+You can query Split Logs to check additional information.
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.HashMap;
+
+Map<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<Split.Log> logs = Split.Log.query(params);
+
+for (Split.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+## Get a Split Log
+
+You can also get a Split Log by specifying its id.
+
+```java
+import com.starkbank.*;
+
+Split.Log log = Split.Log.get("5155165527080960");
+
+System.out.println(log);
+```
+
+## Create SplitReceivers
+
+You can create receivers to an Invoice Split by using the SplitReceiver resource.
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+Map<String, Object> data = new HashMap<>();
+data.put("name", "Daenerys Targaryen Stormborn");
+data.put("taxId", "594.739.480-42");
+data.put("bankCode", "341");
+data.put("branchCode", "2201");
+data.put("accountNumber", "76543-8");
+data.put("accountType", "salary");
+
+SplitReceiver receiver = SplitReceiver.create(new SplitReceiver(data));
+
+System.out.println(receiver);
+```
+
+## Query SplitReceivers
+
+You can get a list of created SplitReceivers given some filters.
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.HashMap;
+
+Map<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<SplitReceiver> receivers = SplitReceiver.query(params);
+
+for (SplitReceiver receiver : receivers) {
+    System.out.println(receiver);
+}
+```
+
+## Get a SplitReceiver
+
+To get a single SplitReceiver by its id, run:
+
+```java
+import com.starkbank.*;
+
+SplitReceiver receiver = SplitReceiver.get("5155165527080960");
+
+System.out.println(receiver);
+```
+
+## Query SplitReceiver Logs
+
+You can query SplitReceiver Logs to check additional information.
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.HashMap;
+
+Map<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<SplitReceiver.Log> logs = SplitReceiver.Log.query(params);
+
+for (Split.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+## Get a SplitReceiver Log
+
+You can also get a SplitReceiver Log by specifying its id.
+
+```java
+import com.starkbank.*;
+
+SplitReceiver.Log log = SplitReceiver.Log.get("5155165527080960");
+
+System.out.println(log);
+```
+
 ## Create a webhook subscription
 
 To create a webhook subscription and be notified whenever an event occurs, run:
 
 ```java
 import com.starkbank.*;
+import java.util.Map;
 import java.util.HashMap;
 
-HashMap<String, Object> data = new HashMap<>();
+Map<String, Object> data = new HashMap<>();
 data.put("url", "https://winterfell.westeros.gov/events-from-stark-bank");
 data.put("subscriptions", new String[]{"boleto", "boleto-payment", "transfer", "utility-payment", "tax-payment", "boleto-holmes", "brcode-payment", "deposit", "invoice"});
 Webhook webhook = Webhook.create(data);

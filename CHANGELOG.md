@@ -14,6 +14,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 ## [Unreleased]
 ### Added
+- Split resource
+- SplitReceiver resource
 - update function to Deposit resource
 
 ## [2.15.0] - 2023-09-18

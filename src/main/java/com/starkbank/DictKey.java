@@ -1,14 +1,14 @@
 package com.starkbank;
 
-import com.starkbank.utils.Generator;
-import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
+import com.starkbank.utils.Resource;
+import com.starkbank.utils.Generator;
 import com.starkbank.utils.SubResource;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class DictKey extends Resource {
 

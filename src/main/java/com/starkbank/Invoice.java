@@ -30,6 +30,7 @@ public final class Invoice extends Resource {
      * interest [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
      * discounts [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
      * rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
+     * splits [list of Splits, default []]: list of Splits objects to indicate payment receivers. ex: [Split(amount=141, receiverId="5706627130851328")]
      * tags [list of strings, default null]: list of strings for tagging
      * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
      * pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
@@ -59,6 +60,7 @@ public final class Invoice extends Resource {
     public List<Invoice.Description> descriptions;
     public List<Invoice.Discount> discounts;
     public List<Invoice.Rule> rules;
+    public List<Split> splits;
     public String[] tags;
     public String pdf;
     public String link;
@@ -92,6 +94,7 @@ public final class Invoice extends Resource {
      * @param interest [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
      * @param discounts [list of maps, default null]: list of maps with "percentage":number and "due":string or string pairs
      * @param rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
+     * @param splits [list of Splits, default []]: list of Splits objects to indicate payment receivers. ex: [Split(amount=141, receiverId="5706627130851328")]
      * @param tags [list of strings, default null]: list of strings for tagging
      * @param descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
      * @param pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
@@ -109,10 +112,10 @@ public final class Invoice extends Resource {
      * @param updated [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public Invoice(Number amount, String due, String taxId, String name, Number expiration, Number fine,
-                   Number interest, List<Invoice.Description> descriptions, List<Invoice.Discount> discounts, List<Invoice.Rule> rules,
-                   String pdf, String link, String[] tags, Number nominalAmount, Number fineAmount, Number interestAmount,
-                   Number discountAmount, String id, String brcode, Integer fee, String[] transactionIds, String status,
-                   String created, String updated
+                   Number interest, List<Invoice.Description> descriptions, List<Invoice.Discount> discounts,
+                   List<Invoice.Rule> rules, List<Split> splits, String pdf, String link, String[] tags,
+                   Number nominalAmount, Number fineAmount, Number interestAmount, Number discountAmount, String id,
+                   String brcode, Integer fee, String[] transactionIds, String status,  String created, String updated
     ) {
         super(id);
         this.amount = amount;
@@ -124,6 +127,7 @@ public final class Invoice extends Resource {
         this.interest = interest;
         this.discounts = discounts;
         this.rules = rules;
+        this.splits = splits;
         this.tags = tags;
         this.descriptions = descriptions;
         this.pdf = pdf;
@@ -162,6 +166,7 @@ public final class Invoice extends Resource {
      * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
      * discounts [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
      * rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
+     * splits [list of Splits, default []]: list of Splits objects to indicate payment receivers. ex: [Split(amount=141, receiverId="5706627130851328")]
      * tags [list of strings, default null]: list of strings for tagging
      * <p>
      * Attributes (return-only):
@@ -193,6 +198,7 @@ public final class Invoice extends Resource {
         this.discounts = parseDiscounts((List<Object>) dataCopy.remove("discounts"));
         this.tags = (String[]) dataCopy.remove("tags");
         this.rules = parseRules((List<Object>) dataCopy.remove("rules"));
+        this.splits = parseSplit((List<Object>) dataCopy.remove("splits"));
         this.descriptions = parseDescriptions((List<Object>) dataCopy.remove("descriptions"));
         this.pdf = null;
         this.link = null;
@@ -1062,6 +1068,25 @@ public final class Invoice extends Resource {
         for (Object rule : rules) {
             Invoice.Rule ruleObject = new Invoice.Rule((Map<String, Object>) rule);
             parsed.add(ruleObject);
+        }
+        return parsed;
+    }
+
+    private List<Split> parseSplit(List<Object> splits) throws Exception {
+        if (splits == null)
+            return null;
+
+        List<Split> parsed = new ArrayList<>();
+        if (splits.size() == 0 || splits.get(0) instanceof Split) {
+            for (Object split : splits) {
+                parsed.add((Split) split);
+            }
+            return parsed;
+        }
+
+        for (Object split : splits) {
+            Split splitObject = new Split((Map<String, Object>) split);
+            parsed.add(splitObject);
         }
         return parsed;
     }
