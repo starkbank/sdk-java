@@ -13,6 +13,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 
 ## [Unreleased]
+### Changed
+- Gradle build to Maven
 
 ## [2.16.0] - 2023-09-18
 ### Added
