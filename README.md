@@ -56,6 +56,7 @@ is as easy as sending a text message to your client!
     - [WebhookEvents](#process-webhook-events): Manage webhook events
     - [WebhookEventAttempts](#query-failed-webhook-event-delivery-attempts-information): Query failed webhook event deliveries
     - [Workspaces](#create-a-new-workspace): Manage your accounts
+    - [Request](#request):  Send a custom request to Stark Bank. This can be used to access features that haven't been mapped yet.
 - [Handling errors](#handling-errors)
 - [Help and Feedback](#help-and-feedback)
 
@@ -2932,6 +2933,125 @@ patchData.put("status", "blocked");
 
 Workspace workspace = Workspace.update(workspace.id, patchData, Organization.replace(organization, workspace.id));
 System.out.println(workspace);
+```
+
+# Request
+
+This resource allows you to send HTTP requests to StarkBank routes.
+
+## GET
+
+You can perform a GET request to any StarkBank route.
+
+It's possible to get a single resource using its id in the path.
+
+```java
+import com.starkbank.*;
+
+String path = "/invoice" + "/" + "5699165527090460";
+
+String request = Request.get(path).content();
+
+System.out.println(request);
+```
+
+You can also get the specific resource log,
+
+```java
+import com.starkbank.*;
+
+String path = "/invoice" + "/log/" + "5699165527090460";
+
+String request = Request.get(path).content();
+
+System.out.println(request);
+```
+
+This same method will be used to list all created items for the requested resource.
+
+```java
+import com.starkbank.*;
+
+String path = "/invoice";
+Map<String, Object> query = new HashMap<>();
+query.put("limit", 10);
+String request = Request.get(path, query).content();
+
+System.out.println(request);
+```
+
+To list logs, you will use the same logic as for getting a single log.
+
+```java
+import com.starkbank.*;
+
+String path = "/invoice/log";
+Map<String, Object> query = new HashMap<>();
+query.put("limit", 10);
+String request = Request.get(path, query).content();
+
+System.out.println(request);
+```
+
+## POST
+
+You can perform a POST request to any StarkBank route.
+
+This will create an object for each item sent in your request
+
+**Note**: It's not possible to create multiple resources simultaneously. You need to send separate requests if you want to create multiple resources, such as invoices and boletos.
+
+```java
+import com.starkbank.*;
+
+String path = "/invoice";
+Map<String, Object> payload = new HashMap<>();
+payload.put("name", "Jaime Lannister" + UUID.randomUUID().toString());
+payload.put("amout", 100);
+payload.put("taxId", "20.018.183/0001-80");
+
+List<Object> invoices = new ArrayList<Object>();
+invoices.add(payload);
+
+Map<String, Object> data = new HashMap<>();
+data.put("invoices", invoices);
+
+String request = Request.post(path, data).content();
+
+System.out.println(request);
+```
+
+## PATCH
+
+You can perform a PATCH request to any StarkBank route.
+
+It's possible to update a single item of a StarkBank resource.
+```java
+import com.starkbank.*;
+
+String path = "invoice" + "/" + "5155165527080960";
+
+HashMap<String, Object> data = new HashMap<>();;
+data.put("amount", 0);
+
+request = Request.patch(path, data).content();
+
+System.out.println(request);
+```
+
+## DELETE
+
+You can perform a DELETE request to any StarkBank route.
+
+It's possible to delete a single item of a StarkBank resource.
+```java
+import com.starkbank.*;
+
+String path = "/invoice" + "/" + "5155165527080960";
+
+request = Request.delete(path).content();
+
+System.out.println(request);
 ```
 
 # Handling errors

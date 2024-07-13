@@ -47,6 +47,9 @@ public final class Response {
     }
 
     public static Response fetch(String path, String method, JsonObject payload, Map<String, Object> query, User user) throws Exception {
+        return Response.fetch(path, method, payload, query, user, null, true);
+    }
+    public static Response fetch(String path, String method, JsonObject payload, Map<String, Object> query, User user, String prefix, Boolean raiseException) throws Exception {
         user = Check.user(user);
         String language = Check.language();
 
@@ -69,11 +72,16 @@ public final class Response {
         headers.put("Access-Id", user.accessId());
         headers.put("Access-Time", accessTime);
         headers.put("Access-Signature", Ecdsa.sign(message, user.privateKey()).toBase64());
-        headers.put("User-Agent", getUserAgent());
+        headers.put("User-Agent", getUserAgent(prefix));
         headers.put("Content-Type", "application/json");
         headers.put("Accept-Language", language);
 
         Response response = executeMethod(user, path, method, body, headers);
+
+        if (!raiseException) {
+            return response;
+        }
+
         if (response.status == 400) {
             throw new InputErrors(response.content());
         }
@@ -127,8 +135,8 @@ public final class Response {
 
         return new Response(status, contentStream);
     }
-
-    private static String getUserAgent() {
-        return (userAgentOverride == null) ? "Java-" + System.getProperty("java.version") + "-SDK-2.17.0" : userAgentOverride;
+    private static String getUserAgent(String prefix) {
+        prefix = prefix != null ? prefix += "-" : null;
+        return (userAgentOverride == null) ? prefix +  "Java-" + System.getProperty("java.version") + "-SDK-2.16.0" : userAgentOverride;
     }
 }
