@@ -168,4 +168,86 @@ public final class Rest {
         JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
         return gson.fromJson(jsonObject, (Type) resource.cls);
     }
+
+    public static Response getRaw(String path, User user ) throws Exception {
+        return Rest.getRaw(path, null, user);
+    }
+
+    public static Response getRaw(String path, Map<String, Object> query, User user ) throws Exception {
+        return Response.fetch(path, "GET", null, query, user);
+    }
+
+    public static Response getRaw(String path, User user, String prefix, Boolean raiseException) throws Exception {
+        return Rest.getRaw(path, null, user, prefix, raiseException);
+    }
+
+    public static Response getRaw(String path, Map<String, Object> query, User user, String prefix, Boolean raiseException) throws Exception {
+        return Response.fetch(path, "GET", null, query, user, prefix, raiseException);
+    }
+
+    public static Response postRaw(String path, Map<String, Object> payload, User user ) throws Exception {
+        return Rest.postRaw(path, payload, null, user);
+    }
+    public static Response postRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user ) throws Exception {
+        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
+        return Response.fetch(path, "POST", payload, query, user);
+    }
+
+    public static Response postRaw(String path, Map<String, Object> data, User user, String prefix, Boolean raiseException) throws Exception {
+        return Rest.postRaw(path, data, null, user, prefix, raiseException);
+    }
+
+    public static Response postRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user, String prefix, Boolean raiseException ) throws Exception {
+        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
+        return Response.fetch(path, "POST", payload, query, user, prefix, raiseException);
+    }
+
+    public static Response patchRaw(String path, Map<String, Object> data, User user ) throws Exception {
+        return Rest.patchRaw(path, data, null, user);
+    }
+
+    public static Response patchRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user ) throws Exception {
+        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
+        return Response.fetch(path, "PATCH", payload, query, user);
+    }
+
+    public static Response patchRaw(String path, Map<String, Object> data, User user, String prefix, Boolean raiseException ) throws Exception {
+        return Rest.patchRaw(path, data, null, user, prefix, raiseException);
+    }
+
+    public static Response patchRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user, String prefix, Boolean raiseException ) throws Exception {
+        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
+        return Response.fetch(path, "PATCH", payload, query, user, prefix, raiseException);
+    }
+
+    public static Response putRaw(String path, Map<String, Object> data, User user ) throws Exception {
+        return Rest.putRaw(path, data, null, user);
+    }
+    public static Response putRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user ) throws Exception {
+        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
+        return Response.fetch(path, "PUT", payload, query, user);
+    }
+
+    public static Response putRaw(String path, Map<String, Object> data, User user, String prefix, Boolean raiseException ) throws Exception {
+        return Rest.putRaw(path, data, null, user, prefix, raiseException);
+    }
+    public static Response putRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user, String prefix, Boolean raiseException ) throws Exception {
+        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
+        return Response.fetch(path, "PUT", payload, query, user, prefix, raiseException);
+    }
+
+    public static Response deleteRaw(String path, User user ) throws Exception {
+        return Rest.deleteRaw(path,null, user);
+    }
+    public static Response deleteRaw(String path, Map<String, Object> query, User user ) throws Exception {
+        return Response.fetch(path, "DELETE", null, query, user);
+    }
+
+    public static Response deleteRaw(String path, User user, String prefix, Boolean raiseException ) throws Exception {
+        return Rest.deleteRaw(path, null, user, prefix, raiseException);
+    }
+    public static Response deleteRaw(String path, Map<String, Object> query, User user, String prefix, Boolean raiseException ) throws Exception {
+        return Response.fetch(path, "DELETE", null, query, user, prefix, raiseException);
+    }
+
 }
