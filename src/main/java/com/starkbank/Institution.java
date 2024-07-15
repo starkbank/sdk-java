@@ -2,7 +2,7 @@ package com.starkbank;
 
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,7 +119,7 @@ public class Institution extends SubResource {
      * @throws Exception error in the request
      */
     public static List<Institution> query(Map<String, Object> params, User user) throws Exception {
-        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        com.starkcore.utils.Page page = Rest.getPage(data, params, user);
         List<Institution> institutions = new ArrayList<>();
         for (SubResource institution: page.entities) {
             institutions.add((Institution) institution);

@@ -1,12 +1,10 @@
 package com.starkbank.utils;
 
 
-public abstract class Resource extends SubResource {
+public abstract class Resource extends com.starkcore.utils.Resource {
 
     protected static Resource.ClassData data;
-
-    public String id;
     protected Resource(String id){
-        this.id = id;
+        super(id);
     }
 }

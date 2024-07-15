@@ -1,13 +1,11 @@
 package com.starkbank.utils;
+import com.starkcore.utils.SubResource;
 
 import java.util.List;
 
-public class Page {
-    public List<SubResource> entities;
-    public String cursor;
+public class Page extends com.starkcore.utils.Page {
 
     public Page(List<SubResource> entities, String cursor) {
-        this.entities = entities;
-        this.cursor = cursor;
+        super(entities, cursor);
     }
 }

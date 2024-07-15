@@ -1,6 +1,30 @@
 # Deploying to Maven Central Repository
-After you ticket has been approved, perform the following steps to deploy to Maven.
 
+## Maven Steps
+
+### Install maven :
+```sh
+brew install maven
+```
+
+### Create a Settings.xml file at `<your-user>/.m2`
+```sh
+cd <your-user>/.m2
+vi settings.xml
+```
+
+### Paste your credentials
+```sh
+<settings>
+  <servers>
+    <server>
+      <id>central</id>
+      <username><!-- your token username --></username>
+      <password><!-- your token password --></password>
+    </server>
+  </servers>
+</settings>
+```
 
 ## Register gpg keys
 
@@ -12,39 +36,42 @@ https://gnupg.org/download/
 gpg --gen-key
 ```
 
-### Export key:
-```sh
-gpg -export-secret-keys YOUR-KEY-ID > secret-keys.gpg
-```
-note: the KEY-ID is the last 8 digits of the 40 digit string displayed when the key was created.
-
 ### Register key to online server:
 ```sh
-gpg --keyserver hkp://keyserver.ubuntu.com --send-keys YOUR-KEY-ID
+gpg --keyserver keys.openpgp.org --send-keys YOUR-KEY-ID
+gpg --keyserver keyserver.ubuntu.com --send-keys YOUR-KEY-ID
 ```
 
 
-## Create a gradle.properties file
+## Modify the pom.xml file
 
-Add the following to the gradle.properties
+Add the following to `<executions></executions>` 
 ```sh
-// GPG key information
-signing.keyId=YOUR-KEY-ID
-signing.password=YOUR-GPG-PASSWORD
-signing.secretKeyRingFile=${HOME}/.gnupg/secring.gpg
-
-// Sonatype key information
-ossrhUsername=YOUR-OSSRH-USERNAME
-ossrhPassword=YOUR-OSSRH-PASSWORD
+<executions>
+    <execution>
+        <id>sign-artifacts</id>
+        <phase>verify</phase>
+        <goals>
+            <goal>sign</goal>
+        </goals>
+    </execution>
+    <configuration>
+        <keyname>YOUR-KEY-ID</keyname>
+        <gpgArguments>
+            <arg>--pinentry-mode</arg>
+            <arg>loopback</arg>
+        </gpgArguments>
+    </configuration>
+</executions>
 ```
 
 
 ## Deploy and release
 
-### Publish to gradle:
+### Publish to Maven Central:
 ```sh
-gradle publish
+mvn clean deploy
 ```
 
-### Login to Nexus Repository Manager and release:
-https://oss.sonatype.org/#stagingRepositories
+### Login to Maven Central Repository Manager and release:
+https://central.sonatype.com/artifact/com.starkinfra.core/starkcore

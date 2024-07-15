@@ -1,25 +1,46 @@
 package com.starkbank.utils;
 
+import com.starkcore.utils.SubResource;
+import com.starkbank.utils.Generator;
+import com.starkbank.utils.GeneratorRelay;
+import com.starkcore.utils.Page;
+import com.starkbank.utils.Response;
+
 import com.google.gson.*;
 import com.starkbank.User;
 
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.*;
 
 
 public final class Rest {
+
+    static String host = "bank";
+    static String sdkVersion = "0.11.4";
+    static String apiVersion = "v2";
+    static String language = "pt-BR";
+    static Integer timeout = 5;
 
     public static <T extends Resource> T getId(Resource.ClassData resource, String id, User user) throws Exception {
         return getId(resource, id, null, user);
     }
 
     public static <T extends Resource> T getId(Resource.ClassData resource, String id, Map<String, Object> query, User user) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource, id), "GET", null, query, user).content();
-        Gson gson = GsonEvent.getInstance();
-        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
-        JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
-        return gson.fromJson(jsonObject, (Type) resource.cls);
+        return com.starkcore.utils.Rest.getId(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                id,
+                language,
+                timeout,
+                query
+        );
     }
 
     public static <T extends SubResource> List<T> post(SubResource.ClassData resource, List<T> entities, User user) throws Exception {
@@ -27,146 +48,141 @@ public final class Rest {
     }
 
     public static <T extends SubResource> List<T> post(SubResource.ClassData resource, List<T> entities, Map<String, Object> data, User user) throws Exception {
-        JsonObject payload = new JsonObject();
-        payload.add(Api.getLastNamePlural(resource), new Gson().toJsonTree(entities).getAsJsonArray());
-        String content = Response.fetch(Api.endpoint(resource), "POST", payload, data, user).content();
-        JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
-        List<T> postEntities = new ArrayList<>();
-        JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
-        for (JsonElement resourceElement : jsonArray) {
-            JsonObject jsonObject = resourceElement.getAsJsonObject();
-            postEntities.add(GsonEvent.getInstance().fromJson(jsonObject, (Type) resource.cls));
-        }
-        return postEntities;
-    }
-
-    public static JsonObject postRaw(String path, JsonObject payload, User user, Map<String, Object> options) throws Exception {
-        String content = Response.fetch(path, "POST", payload, options, user).content();
-        Gson gson = GsonEvent.getInstance();
-        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
-        return contentJson;
+        return com.starkcore.utils.Rest.post(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                entities,
+                data,
+                language,
+                timeout
+        );
     }
 
     public static <T extends Resource> T patch(Resource.ClassData resource, String id, Map<String, Object> data, User user) throws Exception {
-        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
-        String content = Response.fetch(Api.endpoint(resource, id), "PATCH", payload, null, user).content();
-        Gson gson = GsonEvent.getInstance();
-        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
-        JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
-        return gson.fromJson(jsonObject, (Type) resource.cls);
+        return com.starkcore.utils.Rest.patch(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                id,
+                language,
+                timeout,
+                data
+        );
     }
 
     public static Page getPage(Resource.ClassData resource, Map<String, Object> params, User user) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource), "GET", null, params, user).content();
-        Gson gson = GsonEvent.getInstance();
-        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
-        JsonElement cursorJson = contentJson.get("cursor");
-        String cursor = cursorJson.isJsonNull() ? null : cursorJson.getAsString();
-
-        List<SubResource> entities = new ArrayList<>();
-        JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
-        for (JsonElement resourceElement : jsonArray) {
-            JsonObject jsonObject = resourceElement.getAsJsonObject();
-            entities.add(GsonEvent.getInstance().fromJson(jsonObject, (Type) resource.cls));
-        };
-
-        return new Page(entities, cursor);
+        return com.starkcore.utils.Rest.getPage(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                language,
+                timeout,
+                params
+        );
     }
 
     public static <T extends SubResource> Generator<T> getStream(Resource.ClassData resource, Map<String, Object> params, User user) {
-        return new Generator<T>() {
-            public void run() throws Exception {
-                Map<String, Object> paramsCopy = new HashMap<>();
-                for (Map.Entry<String, Object> entry: params.entrySet()) {
-                    paramsCopy.put(entry.getKey(), entry.getValue());
-                }
-                Integer limit = (Integer) paramsCopy.get("limit");
-                String cursor = null;
-                do {
-                    paramsCopy.put("cursor", cursor);
-                    if (limit != null) {
-                        paramsCopy.put("limit", limit > 100 ? "100" : limit.toString());
-                        limit -= 100;
-                    }
-                    String content = Response.fetch(Api.endpoint(resource), "GET", null, paramsCopy, user).content();
-                    Gson gson = GsonEvent.getInstance();
-                    JsonObject contentJson = gson.fromJson(content, JsonObject.class);
-                    JsonElement cursorJson = contentJson.get("cursor");
-                    cursor = cursorJson != null ? (cursorJson.isJsonNull() ? "" : cursorJson.getAsString()) : null;
-                    JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
-                    for (JsonElement resourceElement : jsonArray) {
-                        JsonObject jsonObject = resourceElement.getAsJsonObject();
-                        T element = gson.fromJson(jsonObject, (Type) resource.cls);
-                        if(element == null)
-                            break;
-                        this.yield(element);
-                    }
-                } while (cursor != null && !cursor.isEmpty() && (limit == null || limit > 0));
-            }
-        };
+        return new GeneratorRelay<>(com.starkcore.utils.Rest.getStream(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                language,
+                timeout,
+                params
+        ));
     }
 
     public static <T extends SubResource> Generator<T> getSimpleList(Resource.ClassData resource, Map<String, Object> params, User user) {
-        return new Generator<T>() {
-            public void run() throws Exception {
-                Map<String, Object> paramsCopy = new HashMap<>();
-                for (Map.Entry<String, Object> entry: params.entrySet()) {
-                    paramsCopy.put(entry.getKey(), entry.getValue());
-                }
-                String content = Response.fetch(Api.endpoint(resource), "GET", null, paramsCopy, user).content();
-                Gson gson = GsonEvent.getInstance();
-                JsonObject contentJson = gson.fromJson(content, JsonObject.class);
-                JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(resource)).getAsJsonArray();
-                for (JsonElement resourceElement : jsonArray) {
-                    JsonObject jsonObject = resourceElement.getAsJsonObject();
-                    T element = gson.fromJson(jsonObject, (Type) resource.cls);
-                    if(element == null)
-                        break;
-                    this.yield(element);
-                }
-            }
-        };
+        return new GeneratorRelay<>(com.starkcore.utils.Rest.getSimpleList(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                language,
+                timeout,
+                params
+        ));
     }
 
     public static InputStream getContent(Resource.ClassData resource, String id, String subResourceName ,User user, Map<String, Object> options) throws Exception {
-        return Response.fetch(Api.endpoint(resource, id) + "/" + subResourceName, "GET", null, options, user).stream;
+        return com.starkcore.utils.Rest.getContent(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                subResourceName,
+                id,
+                language,
+                timeout,
+                options
+        );
     }
 
     public static <T extends SubResource> T getSubResource(Resource.ClassData resource, String id, SubResource.ClassData subResource, User user, Map<String, Object> options) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource, id) + Api.endpoint(subResource), "GET", null, options, user).content();
-        JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
-        JsonObject jsonObject = contentJson.get(Api.getLastName(subResource)).getAsJsonObject();
-        Gson gson = GsonEvent.getInstance();
-        return gson.fromJson(jsonObject, (Type) subResource.cls);
+        return com.starkcore.utils.Rest.getSubResource(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                id,
+                subResource,
+                language,
+                timeout,
+                options
+        );
     }
 
     public static <T extends SubResource> List<T> getSubResources(Resource.ClassData resource, String id, SubResource.ClassData subResource, User user, Map<String, Object> options) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource, id) + Api.endpoint(subResource), "GET", null, options, user).content();
-        JsonObject contentJson = new Gson().fromJson(content, JsonObject.class);
-        JsonArray jsonArray = contentJson.get(Api.getLastNamePlural(subResource)).getAsJsonArray();
-        List<T> entities = new ArrayList<>();
-        for (JsonElement resourceElement : jsonArray) {
-            JsonObject jsonObject = resourceElement.getAsJsonObject();
-            entities.add(GsonEvent.getInstance().fromJson(jsonObject, (Type) subResource.cls));
-        }
-        return entities;
+        return com.starkcore.utils.Rest.getSubResources(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                id,
+                subResource,
+                language,
+                timeout,
+                options
+        );
     }
 
     public static <T extends Resource> T delete(Resource.ClassData resource, String id, User user) throws Exception {
-        String content = Response.fetch(Api.endpoint(resource, id), "DELETE", null, null, user).content();
-        Gson gson = GsonEvent.getInstance();
-        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
-        JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
-        return gson.fromJson(jsonObject, (Type) resource.cls);
+        return com.starkcore.utils.Rest.delete(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                id,
+                language,
+                timeout
+        );
     }
 
-    public static <T extends Resource> T postSingle(Resource.ClassData resource, Resource entity, User user) throws Exception {
-        JsonObject payload = (JsonObject) new Gson().toJsonTree((entity));
-        String content = Response.fetch(Api.endpoint(resource), "POST", payload, null, user).content();
-        Gson gson = GsonEvent.getInstance();
-        JsonObject contentJson = gson.fromJson(content, JsonObject.class);
-        JsonObject jsonObject = contentJson.get(Api.getLastName(resource)).getAsJsonObject();
-        return gson.fromJson(jsonObject, (Type) resource.cls);
+    public static <T extends SubResource> T postSingle(SubResource.ClassData resource, SubResource entity, User user) throws Exception {
+        return com.starkcore.utils.Rest.postSingle(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                entity,
+                language,
+                timeout
+        );
     }
 
     public static Response getRaw(String path, User user ) throws Exception {
@@ -174,7 +190,20 @@ public final class Rest {
     }
 
     public static Response getRaw(String path, Map<String, Object> query, User user ) throws Exception {
-        return Response.fetch(path, "GET", null, query, user);
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.getRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                null,
+                null,
+                true
+        );
+        return new Response(response.status, response.stream);
     }
 
     public static Response getRaw(String path, User user, String prefix, Boolean raiseException) throws Exception {
@@ -182,15 +211,40 @@ public final class Rest {
     }
 
     public static Response getRaw(String path, Map<String, Object> query, User user, String prefix, Boolean raiseException) throws Exception {
-        return Response.fetch(path, "GET", null, query, user, prefix, raiseException);
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.getRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                null,
+                prefix,
+                raiseException
+        );
+        return new Response(response.status, response.stream);
     }
 
     public static Response postRaw(String path, Map<String, Object> payload, User user ) throws Exception {
         return Rest.postRaw(path, payload, null, user);
     }
     public static Response postRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user ) throws Exception {
-        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
-        return Response.fetch(path, "POST", payload, query, user);
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.postRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                data,
+                null,
+                true
+        );
+        return new Response(response.status, response.stream);
     }
 
     public static Response postRaw(String path, Map<String, Object> data, User user, String prefix, Boolean raiseException) throws Exception {
@@ -198,8 +252,21 @@ public final class Rest {
     }
 
     public static Response postRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user, String prefix, Boolean raiseException ) throws Exception {
-        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
-        return Response.fetch(path, "POST", payload, query, user, prefix, raiseException);
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.postRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                data,
+                prefix,
+                raiseException
+        );
+
+        return new Response(response.status, response.stream);
     }
 
     public static Response patchRaw(String path, Map<String, Object> data, User user ) throws Exception {
@@ -207,8 +274,21 @@ public final class Rest {
     }
 
     public static Response patchRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user ) throws Exception {
-        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
-        return Response.fetch(path, "PATCH", payload, query, user);
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.patchRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                data,
+                null,
+                true
+        );
+
+        return new Response(response.status, response.stream);
     }
 
     public static Response patchRaw(String path, Map<String, Object> data, User user, String prefix, Boolean raiseException ) throws Exception {
@@ -216,16 +296,42 @@ public final class Rest {
     }
 
     public static Response patchRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user, String prefix, Boolean raiseException ) throws Exception {
-        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
-        return Response.fetch(path, "PATCH", payload, query, user, prefix, raiseException);
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.patchRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                data,
+                prefix,
+                raiseException
+        );
+
+        return new Response(response.status, response.stream);
     }
 
     public static Response putRaw(String path, Map<String, Object> data, User user ) throws Exception {
         return Rest.putRaw(path, data, null, user);
     }
     public static Response putRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user ) throws Exception {
-        JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
-        return Response.fetch(path, "PUT", payload, query, user);
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.putRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                data,
+                null,
+                true
+        );
+
+        return new Response(response.status, response.stream);
     }
 
     public static Response putRaw(String path, Map<String, Object> data, User user, String prefix, Boolean raiseException ) throws Exception {
@@ -233,21 +339,62 @@ public final class Rest {
     }
     public static Response putRaw(String path, Map<String, Object> data,  Map<String, Object> query, User user, String prefix, Boolean raiseException ) throws Exception {
         JsonObject payload = new Gson().fromJson(new Gson().toJson(data), JsonObject.class);
-        return Response.fetch(path, "PUT", payload, query, user, prefix, raiseException);
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.putRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                data,
+                prefix,
+                raiseException
+        );
+
+        return new Response(response.status, response.stream);
     }
 
     public static Response deleteRaw(String path, User user ) throws Exception {
         return Rest.deleteRaw(path,null, user);
     }
     public static Response deleteRaw(String path, Map<String, Object> query, User user ) throws Exception {
-        return Response.fetch(path, "DELETE", null, query, user);
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.deleteRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                null,
+                null,
+                true
+        );
+
+        return new Response(response.status, response.stream);
     }
 
     public static Response deleteRaw(String path, User user, String prefix, Boolean raiseException ) throws Exception {
         return Rest.deleteRaw(path, null, user, prefix, raiseException);
     }
     public static Response deleteRaw(String path, Map<String, Object> query, User user, String prefix, Boolean raiseException ) throws Exception {
-        return Response.fetch(path, "DELETE", null, query, user, prefix, raiseException);
-    }
+        com.starkcore.utils.Response response = com.starkcore.utils.Rest.deleteRaw(
+                sdkVersion,
+                host,
+                apiVersion,
+                path,
+                user,
+                language,
+                timeout,
+                query,
+                null,
+                prefix,
+                raiseException
+        );
 
+        return new Response(response.status, response.stream);
+    }
 }

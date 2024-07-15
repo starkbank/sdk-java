@@ -2,7 +2,7 @@ package com.starkbank;
 
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Rest;
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 
 import java.util.HashMap;
 import java.util.Map;

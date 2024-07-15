@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.starkbank.utils.Response;
 import com.starkbank.utils.Rest;
 import com.starkbank.utils.Resource;
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 
 import java.util.Map;
 import java.util.List;

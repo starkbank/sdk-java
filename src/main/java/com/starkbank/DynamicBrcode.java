@@ -3,7 +3,7 @@ package com.starkbank;
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -369,7 +369,7 @@ public final class DynamicBrcode extends Resource {
      * @throws Exception error in the request
      */
     public static Page page(Map<String, Object> params, User user) throws Exception {
-        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        com.starkcore.utils.Page page = Rest.getPage(data, params, user);
         List<DynamicBrcode> brcodes = new ArrayList<>();
         for (SubResource brcode: page.entities) {
             brcodes.add((DynamicBrcode) brcode);

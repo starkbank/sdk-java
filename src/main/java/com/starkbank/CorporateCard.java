@@ -3,6 +3,7 @@ package com.starkbank;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.starkbank.utils.*;
+import com.starkcore.utils.SubResource;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
+import com.google.gson.reflect.TypeToken;
 
 
 public final class CorporateCard extends Resource {
@@ -198,7 +200,12 @@ public final class CorporateCard extends Resource {
         Gson gson = GsonEvent.getInstance();
         String path = Api.endpoint(data) + "/token";
         JsonObject payload = (JsonObject) new Gson().toJsonTree(card);
-        JsonObject raw = Rest.postRaw(path, payload, user, params);
+
+        Type type = new TypeToken<HashMap<String, Object>>() {}.getType();
+        Map<String, Object> map = new Gson().fromJson(payload, type);
+
+        JsonObject raw = gson.fromJson(Rest.postRaw(path, map, params, user).content(), JsonObject.class);
+
         JsonObject jsonObject = raw.get(Api.getLastName(data)).getAsJsonObject();
         return gson.fromJson(jsonObject, (Type) data.cls);
     }
@@ -374,7 +381,7 @@ public final class CorporateCard extends Resource {
      * @throws Exception error in the request
      */
     public static Page page(Map<String , Object> params, User user) throws Exception {
-        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        com.starkcore.utils.Page page = Rest.getPage(data, params, user);
         List<CorporateCard> cards = new ArrayList<>();
         for (SubResource card: page.entities) {
             cards.add((CorporateCard) card);
@@ -825,7 +832,7 @@ public final class CorporateCard extends Resource {
          * @throws Exception error in the card
          */
         public static CorporateCard.Log.Page page(Map<String, Object> params, User user) throws Exception {
-            com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+            com.starkcore.utils.Page page = Rest.getPage(data, params, user);
             List<CorporateCard.Log> logs = new ArrayList<>();
             for (SubResource log: page.entities) {
                 logs.add((CorporateCard.Log) log);
