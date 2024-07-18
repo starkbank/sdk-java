@@ -49,7 +49,7 @@ public class Request {
      * <p>
      * Parameters:
      * path [String]: StarkBank resource's route. Example: "/invoice/"
-     * query [Map<String, Object>]: Query parameters. Example: new HashMap<String, Object>() {{ put("limit", 1); put("status", "paid"); }}
+     * @param query map of parameters for the query ex: {{ put("limit", 1); put("status", "paid"); }}
      */
 
     public static Response get(String path, Map<String, Object> query) throws Exception {
@@ -63,7 +63,7 @@ public class Request {
      * <p>
      * Parameters:
      * path [String]: StarkBank resource's route. Example: "/invoice/"
-     * query [Map<String, Object>]: Query parameters. Example: new HashMap<String, Object>() {{ put("limit", 1); put("status", "paid"); }}
+     * @param query map of parameters for the query ex: {{ put("limit", 1); put("status", "paid"); }}
      * user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank.Settings.User was set before function call.
      */
 
@@ -78,19 +78,18 @@ public class Request {
      * <p>
      * Parameters:
      * path [String]: StarkBank resource's route. Example: "/invoice/"
-     * body [Map<String, Object>]: Request parameters. Example:
+     * @param payload map of parameters for the payload ex:
      *   <pre>
-     *   new HashMap<String, Object>() {{
-     *       put("invoices", new ArrayList<Map<String, Object>>() {{
-     *           add(new HashMap<String, Object>() {{
-     *               put("amount", 100);
-     *               put("name", "Iron Bank S.A.");
-     *               put("taxId", "20.018.183/0001-80");
-     *           }});
-     *       }});
-     *   }});
+     *       put("invoices", {
+     *           add(
+     *               {
+     *                   put("amount", 100);
+     *                   put("name", "Iron Bank S.A.");
+     *                   put("taxId", "20.018.183/0001-80");
+     *               }
+     *           );
+     *       });
      *   </pre>
-     * query [Map<String, Object>]: Query parameters. Example: new HashMap<String, Object>() {{ put("limit", 1); put("status", "paid"); }}
      */
 
     public static Response post(String path, Map<String, Object> payload) throws Exception {
@@ -104,19 +103,18 @@ public class Request {
      * <p>
      * Parameters:
      * path [String]: StarkBank resource's route. Example: "/invoice/"
-     * body [Map<String, Object>]: Request parameters. Example:
+     * @param payload map of parameters for the payload ex:
      *   <pre>
-     *   new HashMap<String, Object>() {{
-     *       put("invoices", new ArrayList<Map<String, Object>>() {{
-     *           add(new HashMap<String, Object>() {{
-     *               put("amount", 100);
-     *               put("name", "Iron Bank S.A.");
-     *               put("taxId", "20.018.183/0001-80");
-     *           }});
-     *       }});
-     *   }});
+     *       put("invoices", {
+     *           add(
+     *               {
+     *                   put("amount", 100);
+     *                   put("name", "Iron Bank S.A.");
+     *                   put("taxId", "20.018.183/0001-80");
+     *               }
+     *           );
+     *       });
      *   </pre>
-     * query [Map<String, Object>]: Query parameters. Example: new HashMap<String, Object>() {{ put("limit", 1); put("status", "paid"); }}
      * user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank.Settings.User was set before function call.
      */
 
@@ -130,15 +128,13 @@ public class Request {
      * Send a JSON with parameters of a single StarkBank resource object and update it.
      * <p>
      * Parameters:
-     * path [String]: StarkBank resource's route. Example: "/invoice/"
+     * path [String]: StarkBank resource's route. Example: "/invoice/:id"
      * <br>
-     * - body [Map<String, Object>]: Request parameters. Example:
+     * @param payload map of parameters for the payload ex:
      *   <pre>
-     *   new HashMap<String, Object>() {{
-     *       put("invoices", new HashMap<String, Object>() {{
-     *           put("amount", 100);
-     *       }});
-     *   }});
+     *   {
+     *       put("amount", 100);
+     *   }
      *   </pre>
      */
 
@@ -152,17 +148,13 @@ public class Request {
      * Send a JSON with parameters of a single StarkBank resource object and update it.
      * <p>
      * Parameters:
-     * path [String]: StarkBank resource's route. Example: "/invoice/"
+     * path [String]: StarkBank resource's route. Example: "/invoice/:id"
      * <br>
-     * - body [Map<String, Object>]: Request parameters. Example:
+     * @param payload map of parameters for the payload ex:
      *   <pre>
-     *   new HashMap<String, Object>() {{
-     *       put("invoices", new HashMap<String, Object>() {{
-     *           put("amount", 100);
-     *           put("name", "Iron Bank S.A.");
-     *           put("taxId", "20.018.183/0001-80");
-     *       }});
-     *   }});
+     *   {
+     *       put("amount", 100);
+     *   }
      *   </pre>
      * user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank.Settings.User was set before function call.
      */
@@ -179,14 +171,16 @@ public class Request {
      * <p>
      * Parameters:
      * path [String]: StarkBank resource's route. Example: "/split-profie/"
-     * body [Map<String, Object>]: Request parameters. Example:
+     * @param payload map of parameters for the payload ex:
      *   <pre>
-     *   new HashMap<String, Object>() {{
-     *       put("profiles", new HashMap<String, Object>() {{
-     *           put("interval", "day");
-     *           put("delay", 0);
-     *       }});
-     *   }});
+     *       put("profiles", {
+     *           add(
+     *               {
+     *                   put("interval", "day");
+     *                   put("delay", 0);;
+     *               }
+     *           );
+     *       });
      *   </pre>
      * user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank.Settings.User was set before function call.
      */
@@ -203,14 +197,16 @@ public class Request {
      * <p>
      * Parameters:
      * path [String]: StarkBank resource's route. Example: "/split-profie/"
-     * body [Map<String, Object>]: Request parameters. Example:
+     * @param payload map of parameters for the payload ex:
      *   <pre>
-     *   new HashMap<String, Object>() {{
-     *       put("profiles", new HashMap<String, Object>() {{
-     *           put("interval", "day");
-     *           put("delay", 0);
-     *       }});
-     *   }});
+     *       put("profiles", {
+     *           add(
+     *               {
+     *                   put("interval", "day");
+     *                   put("delay", 0);;
+     *               }
+     *           );
+     *       });
      *   </pre>
      * user [Organization/Project object]: Organization or Project object. Not necessary if StarkBank.Settings.User was set before function call.
      */
@@ -225,17 +221,7 @@ public class Request {
      * Send a JSON with parameters of a single StarkBank resource object and delete it.
      * <p>
      * Parameters:
-     * path [String]: StarkBank resource's route. Example: "/invoice/"
-     * body [Map<String, Object>]: Request parameters. Example:
-     *   <pre>
-     *   new HashMap<String, Object>() {{
-     *       put("invoices", new HashMap<String, Object>() {{
-     *           put("amount", 100);
-     *           put("name", "Iron Bank S.A.");
-     *           put("taxId", "20.018.183/0001-80");
-     *       }});
-     *   }});
-     *   </pre>
+     * path [String]: StarkBank resource's route. Example: "/transfer/"
      */
 
     public static Response delete(String path) throws Exception {
