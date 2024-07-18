@@ -1,6 +1,6 @@
 import com.starkbank.Institution;
 import com.starkbank.Settings;
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 import org.junit.Assert;
 import org.junit.Test;
 import utils.User;

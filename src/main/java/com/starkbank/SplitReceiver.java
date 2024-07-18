@@ -3,7 +3,7 @@ package com.starkbank;
 import com.starkbank.utils.Rest;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Generator;
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 import com.starkbank.error.ErrorElement;
 
 import java.util.Map;
@@ -323,7 +323,7 @@ public class SplitReceiver extends Resource {
      * @throws Exception error in the request
      */
     public static Page page(Map<String , Object> params, User user) throws Exception {
-        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        com.starkcore.utils.Page page = Rest.getPage(data, params, user);
         List<SplitReceiver> SplitReceivers = new ArrayList<>();
         for (SubResource SplitReceiver: page.entities) {
             SplitReceivers.add((SplitReceiver) SplitReceiver);
@@ -626,7 +626,7 @@ public class SplitReceiver extends Resource {
          * @throws Exception error in the card
          */
         public static SplitReceiver.Log.Page page(Map<String, Object> params, User user) throws Exception {
-            com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+            com.starkcore.utils.Page page = Rest.getPage(data, params, user);
             List<SplitReceiver.Log> logs = new ArrayList<>();
             for (SubResource log: page.entities) {
                 logs.add((SplitReceiver.Log) log);

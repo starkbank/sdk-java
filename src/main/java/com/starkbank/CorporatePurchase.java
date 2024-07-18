@@ -6,7 +6,7 @@ import com.starkbank.utils.Rest;
 import com.starkbank.utils.Parse;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Generator;
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 import com.starkbank.error.ErrorElement;
 
 import java.util.Map;
@@ -431,7 +431,7 @@ public final class CorporatePurchase extends Resource {
      * @throws Exception error in the request
      */
     public static CorporatePurchase.Page page(Map<String , Object> params, User user) throws Exception {
-        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        com.starkcore.utils.Page page = Rest.getPage(data, params, user);
         List<CorporatePurchase> corporatePurchases = new ArrayList<>();
         for (SubResource corporatePurchase: page.entities) {
             corporatePurchases.add((CorporatePurchase) corporatePurchase);
@@ -743,7 +743,7 @@ public final class CorporatePurchase extends Resource {
          * @throws Exception error in the purchase
          */
         public static CorporatePurchase.Log.Page page(Map<String, Object> params, User user) throws Exception {
-            com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+            com.starkcore.utils.Page page = Rest.getPage(data, params, user);
             List<CorporatePurchase.Log> logs = new ArrayList<>();
             for (SubResource log: page.entities) {
                 logs.add((CorporatePurchase.Log) log);

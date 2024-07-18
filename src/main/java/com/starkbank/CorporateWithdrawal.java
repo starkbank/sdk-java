@@ -3,7 +3,7 @@ package com.starkbank;
 import com.starkbank.utils.Rest;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Generator;
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 
 import java.util.Map;
 import java.util.List;
@@ -334,7 +334,7 @@ public final class CorporateWithdrawal extends Resource {
      * @throws Exception error in the request
      */
     public static CorporateWithdrawal.Page page(Map<String , Object> params, User user) throws Exception {
-        com.starkbank.utils.Page page = Rest.getPage(data, params, user);
+        com.starkcore.utils.Page page = Rest.getPage(data, params, user);
         List<CorporateWithdrawal> CorporateWithdrawals = new ArrayList<>();
         for (SubResource CorporateWithdrawal: page.entities) {
             CorporateWithdrawals.add((CorporateWithdrawal) CorporateWithdrawal);

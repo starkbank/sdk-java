@@ -1,6 +1,6 @@
 package com.starkbank;
 
-import com.starkbank.utils.SubResource;
+import com.starkcore.utils.SubResource;
 
 
 public final class UtilityPreview extends SubResource {
