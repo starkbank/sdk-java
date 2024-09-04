@@ -500,7 +500,14 @@ public class Event extends Resource {
      * @throws Exception error in the request
      */
     public static Event parse(String content, String signature) throws Exception {
-        return Parse.parseAndVerify(data, content, signature, null);
+        content = Parse.verify(content, signature, Settings.user);
+
+        Gson gson = GsonEvent.getInstance();
+
+        return gson.fromJson(
+                new Gson().fromJson(content, JsonObject.class).get("event").getAsJsonObject(),
+                Event.class
+        );
     }
 
     /**
