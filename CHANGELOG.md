@@ -14,6 +14,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 ## [Unreleased]
 ### Fixed
+- event parse method
+
+### Fixed
 - request docString
 
 ## [2.18.0] - 2024-07-18

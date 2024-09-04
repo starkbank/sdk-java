@@ -7,9 +7,9 @@ import com.starkbank.PaymentRequest;
 
 
 public class GsonEvent {
-     private static Gson instance;
+     public static Gson instance;
 
-     private GsonEvent() {}
+     public GsonEvent() {}
 
      public static synchronized Gson getInstance()
      {
