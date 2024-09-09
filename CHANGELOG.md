@@ -11,12 +11,11 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - MINOR version when **breaking changes** are introduced OR **new functionalities** are added in a backwards compatible manner;
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
-
 ## [Unreleased]
+
+## [2.18.1] - 2024-09-09
 ### Fixed
 - event parse method
-
-### Fixed
 - request docString
 
 ## [2.18.0] - 2024-07-18
