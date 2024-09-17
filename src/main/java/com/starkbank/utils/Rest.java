@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 public final class Rest {
 
     static String host = "bank";
-    static String sdkVersion = "2.18.1";
+    static String sdkVersion = "2.19.0";
     static String apiVersion = "v2";
     static String language = "pt-BR";
     static Integer timeout = 5;
