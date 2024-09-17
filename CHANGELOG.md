@@ -12,6 +12,11 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+### Added
+- Marketplace app as user type
+
+### Changed
+- core version
 
 ## [2.18.1] - 2024-09-09
 ### Fixed
