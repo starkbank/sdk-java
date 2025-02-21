@@ -61,6 +61,22 @@ public final class Rest {
         );
     }
 
+
+    public static <T extends SubResource> T postSubResource(Resource.ClassData resource, String id, SubResource.ClassData subResource, User user, SubResource entity) throws Exception {
+        return com.starkcore.utils.Rest.postSubResource(
+                sdkVersion,
+                host,
+                apiVersion,
+                user,
+                resource,
+                id,
+                subResource,
+                language,
+                timeout,
+                entity
+        );
+    }
+
     public static <T extends Resource> T patch(Resource.ClassData resource, String id, Map<String, Object> data, User user) throws Exception {
         return com.starkcore.utils.Rest.patch(
                 sdkVersion,

@@ -52,6 +52,8 @@ is as easy as sending a text message to your client!
     - [CorporateEnums](#corporate-enums): Query enums related to the corporate purchases, such as merchant categories, countries and card purchase methods
     - [Split](#query-splits): Split received Invoice payments between different receivers
     - [SplitReceiver](#create-splitreceivers): Receiver of an Invoice split
+    - [MerchantSession](#merchant-session): The Merchant Session allows you to create a session prior to a purchase. Sessions are essential for defining the parameters of a purchase, including funding type, expiration, 3DS, and more.
+    - [MerchantPurchase](#merchant-purchase): The Merchant Purchase section allows users to retrieve detailed information of the purchases.
     - [Webhooks](#create-a-webhook-subscription): Configure your webhook endpoints and subscriptions
     - [WebhookEvents](#process-webhook-events): Manage webhook events
     - [WebhookEventAttempts](#query-failed-webhook-event-delivery-attempts-information): Query failed webhook event deliveries
@@ -2635,6 +2637,133 @@ import com.starkbank.*;
 SplitReceiver.Log log = SplitReceiver.Log.get("5155165527080960");
 
 System.out.println(log);
+```
+
+## Merchant Session
+
+The Merchant Session allows you to create a session prior to a purchase.
+Sessions are essential for defining the parameters of a purchase, including funding type, expiration, 3DS, and more.
+
+## Create a MerchantSession
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+Map<String, Object> data = new HashMap<>();
+List<String> allowedFundingTypes = new ArrayList<>();
+allowedFundingTypes.add("debit");
+allowedFundingTypes.add("credit");
+data.put("allowedFundingTypes", allowedFundingTypes);
+
+List<Map<String, Object>> allowedInstallments = new ArrayList<>();
+Map<String, Object> installment1 = new HashMap<>();
+installment1.put("totalAmount", 0);
+installment1.put("count", 1);
+allowedInstallments.add(installment1);
+
+Map<String, Object> installment2 = new HashMap<>();
+installment2.put("totalAmount", 120);
+installment2.put("count", 2);
+allowedInstallments.add(installment2);
+
+Map<String, Object> installment3 = new HashMap<>();
+installment3.put("totalAmount", 180);
+installment3.put("count", 12);
+allowedInstallments.add(installment3);
+
+data.put("allowedInstallments", allowedInstallments);
+data.put("expiration", 3600);
+data.put("challengeMode", "disabled");
+
+data.put("tags", new String[]{"Stark", "Suit"});
+
+MerchantSession.create(new MerchantSession(data));
+
+System.out.println(log);
+```
+
+You can create a MerchantPurchase through a MerchantSession by passing its UUID.
+**Note**: This method must be implemented in your front-end to ensure that sensitive card data does not pass through the back-end of the integration.
+
+### Create a MerchantSession Purchase
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.HashMap;
+
+Map<String, Object> purchaseData = new HashMap<>();
+purchaseData.put("amount", 1000L);
+purchaseData.put("cardExpiration", "2035-01");
+purchaseData.put("cardNumber", "36490101441625");
+purchaseData.put("cardSecurityCode", "123");
+purchaseData.put("holderName", "Margaery Tyrell");
+purchaseData.put("fundingType", "credit");
+
+MerchantSession.Purchase purchase= MerchantSession.purchase(
+        merchantSession.uuid, new com.starkbank.MerchantSession.Purchase(purchaseData););
+
+System.out.println(purchase);
+```
+
+### Query MerchantSessions
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+        
+Generator<MerchantSession> sessions = MerchantSession.query(params);
+
+for (MerchantSession session : sessions) {
+    System.out.println(session);
+}
+```
+
+### Get a MerchantSession
+
+```java
+import com.starkbank.*;
+
+MerchantSession retrievedSession = MerchantSession.get("5441927222657024");
+System.out.println(retrievedSession);
+```
+
+## Merchant Purchase
+
+The Merchant Purchase section allows users to retrieve detailed information of the purchases.
+
+### Query MerchantPurchases
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.HashMap;
+
+HashMap<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+Generator<MerchantPurchase> merchantPurchases = MerchantPurchase.query(params);
+
+for (MerchantPurchase purchase : merchantPurchases) {
+    System.out.println(purchase);
+}
+```
+
+### Get a MerchantPurchase
+
+```java
+import com.starkbank.*;
+
+MerchantPurchase retrievedPurchase = MerchantPurchase.get("5441927222657024");
+
+System.out.println(retrievedPurchase);
 ```
 
 ## Create a webhook subscription
