@@ -15,6 +15,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Changed
 - updated starkbank-ecdsa to v2.0.0
 - updated starkcore to v0.5.0
+### Added
+- merchantSession, merchantCard, merchantInstallment and merchantPurchase resources
 
 ## [2.25.2] - 2026-03-30
 ### Fixed
