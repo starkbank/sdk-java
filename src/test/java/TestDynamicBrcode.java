@@ -16,10 +16,15 @@ public class TestDynamicBrcode {
 
         List<DynamicBrcode> brcodes = new ArrayList<>();
 
+        List<DynamicBrcode.Rule> rule = new ArrayList<>();
+        rule.add(new DynamicBrcode.Rule("allowedTaxIds", new String[]{"012.345.678-90"}));
+        
         HashMap<String, Object> data = new HashMap<>();
         data.put("amount", 400000);
         data.put("expiration", 5000);
+        data.put("displayDescription", "Description");
         data.put("tags", new String[] {"tags1", "tags2"});
+        data.put("rules", rule);
         brcodes.add(new DynamicBrcode(data));
         
         brcodes = DynamicBrcode.create(brcodes);
