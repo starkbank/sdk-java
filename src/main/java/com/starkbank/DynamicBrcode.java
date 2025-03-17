@@ -29,6 +29,8 @@ public final class DynamicBrcode extends Resource {
      * tags [list of strings, default []]: list of strings for tagging, these will be passed to the respective Deposit resource when paid
      * id [string]: id returned on creation, this is the BR code. ex: "00020126360014br.gov.bcb.pix0114+552840092118152040000530398654040.095802BR5915Jamie Lannister6009Sao Paulo620705038566304FC6C"
      * uuid [string]: unique uuid returned when the DynamicBrcode is created. ex: "4e2eab725ddd495f9c98ffd97440702d"
+     * rules [list of DynamicBrcode.Rules, default []]: list of DynamicBrcode.Rule objects for modifying DynamicBrcode behavior. ex: [DynamicBrcode.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
+     * displayDescription [string]: purchase descriptions. ex: "Payment for service #1234"
      * pictureUrl [string]: public QR Code (png image) URL. "https://sandbox.api.starkbank.com/v2/dynamic-brcode/d3ebb1bd92024df1ab6e5a353ee799a4.png"
      * updated [string]: creation datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000000+00:00"
      * created [string]: creation datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000000+00:00"
@@ -40,6 +42,8 @@ public final class DynamicBrcode extends Resource {
     public Number expiration;
     public String[] tags;
     public String uuid;
+    public String displayDescription;
+    public List<DynamicBrcode.Rule> rules;
     public String pictureUrl;
     public String updated;
     public String created;
@@ -61,19 +65,23 @@ public final class DynamicBrcode extends Resource {
      * @param tags [list of strings, default []]: list of strings for tagging, these will be passed to the respective Deposit resource when paid
      * @param id [string]: id returned on creation, this is the BR code. ex: "00020126360014br.gov.bcb.pix0114+552840092118152040000530398654040.095802BR5915Jamie Lannister6009Sao Paulo620705038566304FC6C"
      * @param uuid [string]: unique uuid returned when the DynamicBrcode is created. ex: "4e2eab725ddd495f9c98ffd97440702d"
+     * @param rules [list of DynamicBrcode.Rules, default []]: list of DynamicBrcode.Rule objects for modifying DynamicBrcode behavior. ex: [DynamicBrcode.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
+     * @param displayDescription [string]: purchase descriptions. ex: "Payment for service #1234"
      * @param pictureUrl [string]: public QR Code (png image) URL. "https://sandbox.api.starkbank.com/v2/dynamic-brcode/d3ebb1bd92024df1ab6e5a353ee799a4.png"
      * @param updated [string]: creation datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000000+00:00"
      * @param created [string]: creation datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000000+00:00"
      */
     public DynamicBrcode( 
         Number amount, Number expiration, String[] tags, String id, String uuid, String pictureUrl,
-        String updated, String created
+        String displayDescription, List<DynamicBrcode.Rule> rules, String updated, String created
     ) {
         super(id);
         this.amount = amount;
         this.expiration = expiration;
         this.tags = tags;
         this.uuid = uuid;
+        this.displayDescription = displayDescription;
+        this.rules = rules;
         this.pictureUrl = pictureUrl;
         this.updated = updated;
         this.created = created;
@@ -101,6 +109,8 @@ public final class DynamicBrcode extends Resource {
      * Attributes (return-only):
      * id [string]: id returned on creation, this is the BR code. ex: "00020126360014br.gov.bcb.pix0114+552840092118152040000530398654040.095802BR5915Jamie Lannister6009Sao Paulo620705038566304FC6C"
      * uuid [string]: unique uuid returned when the DynamicBrcode is created. ex: "4e2eab725ddd495f9c98ffd97440702d"
+     * rules [list of DynamicBrcode.Rules, default []]: list of DynamicBrcode.Rule objects for modifying DynamicBrcode behavior. ex: [DynamicBrcode.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
+     * displayDescription [string]: purchase descriptions. ex: "Payment for service #1234"
      * pictureUrl [string]: public QR Code (png image) URL. "https://sandbox.api.starkbank.com/v2/dynamic-brcode/d3ebb1bd92024df1ab6e5a353ee799a4.png"
      * updated [string]: latest updated datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000000+00:00"
      * created [string]: creation datetime for the DynamicBrcode. ex: "2020-03-10 10:30:00.000000+00:00"
@@ -116,6 +126,8 @@ public final class DynamicBrcode extends Resource {
         this.tags = (String[]) dataCopy.remove("tags");
         this.uuid = null;
         this.pictureUrl = null;
+        this.displayDescription = (String) dataCopy.remove("displayDescription");
+        this.rules = parseRules((List<Object>) dataCopy.remove("rules"));
         this.created = null;
         this.updated = null;
 
@@ -375,5 +387,75 @@ public final class DynamicBrcode extends Resource {
             brcodes.add((DynamicBrcode) brcode);
         }
         return new Page(brcodes, page.cursor);
+    }
+
+    private List<DynamicBrcode.Rule> parseRules(List<Object> rules) throws Exception {
+        if (rules == null)
+            return null;
+
+        List<DynamicBrcode.Rule> parsed = new ArrayList<>();
+        if (rules.size() == 0 || rules.get(0) instanceof DynamicBrcode.Rule) {
+            for (Object rule : rules) {
+                parsed.add((DynamicBrcode.Rule) rule);
+            }
+            return parsed;
+        }
+
+        for (Object rule : rules) {
+            DynamicBrcode.Rule ruleObject = new DynamicBrcode.Rule((Map<String, Object>) rule);
+            parsed.add(ruleObject);
+        }
+        return parsed;
+    }
+
+    /**
+     * DynamicBrcode.Rule object
+     * <p>
+     * The DynamicBrcode.Rule object modifies the behavior of DynamicBrcode objects when passed as an argument upon their creation.
+     * <p>
+     * Parameters:
+     * key [string]: Rule to be customized, describes what DynamicBrcode behavior will be altered. ex: "allowedTaxIds"
+     * value [list of string]: Value of the rule. ex: ["012.345.678-90", "45.059.493/0001-73"]
+     *
+     */
+    public final static class Rule extends SubResource{
+        public String key;
+        public String[] value;
+
+
+        /**
+         * DynamicBrcode.Rule object
+         * <p>
+         * The DynamicBrcode.Rule object modifies the behavior of DynamicBrcode objects when passed as an argument upon their creation.
+         * <p>
+         * Parameters:
+         * @param key [string]: Rule to be customized, describes what DynamicBrcode behavior will be altered. ex: "allowedTaxIds"
+         * @param value [list of string]: Value of the rule. ex: ["012.345.678-90", "45.059.493/0001-73"]
+         */
+        public Rule(String key, String[] value){
+            this.key = key;
+            this.value = value;
+        }
+
+        /**
+         * DynamicBrcode.Rule object
+         * <p>
+         * The DynamicBrcode.Rule object modifies the behavior of DynamicBrcode objects when passed as an argument upon their creation.
+         * <p>
+         * Parameters:
+         * @param data map of properties for the creation of the DynamicBrcode.Rule
+         * key [string]: Rule to be customized, describes what DynamicBrcode behavior will be altered. ex: "allowedTaxIds"
+         * value [list of string]: Value of the rule. ex: ["012.345.678-90", "45.059.493/0001-73"]
+         */
+        public Rule(Map<String, Object> data) throws Exception {
+            HashMap<String, Object> dataCopy = new HashMap<>(data);
+
+            this.key = (String) dataCopy.remove("key");
+            this.value = (String[]) dataCopy.remove("value");
+
+            if (!dataCopy.isEmpty()) {
+                throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
+            }
+        }
     }
 }
