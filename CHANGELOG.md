@@ -12,6 +12,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+
+## [2.20.0] - 2025-03-17
 ### Added
 - rules parameter on DynamicBrcode resource
 - displayDescription parameter on DynamicBrcode resource
