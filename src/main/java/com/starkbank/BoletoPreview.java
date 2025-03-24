@@ -84,4 +84,7 @@ public final class BoletoPreview extends SubResource {
         this.line = line;
         this.barCode = barCode;
     }
+
+    public BoletoPreview(){
+    }
 }

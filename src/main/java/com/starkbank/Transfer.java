@@ -177,6 +177,10 @@ public final class Transfer extends Resource {
         }
     }
 
+    public Transfer(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific Transfer
      * <p>
@@ -823,6 +827,9 @@ public final class Transfer extends Resource {
             if (!dataCopy.isEmpty()) {
                 throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
             }
+        }
+
+        public Rule(){
         }
     }
 }

@@ -73,6 +73,9 @@ public final class MerchantCountry extends SubResource {
         }
     }
 
+    public MerchantCountry(){
+    }
+
     /**
      * Retrieve MerchantCountries
      * <p>

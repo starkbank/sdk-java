@@ -127,6 +127,9 @@ public final class BrcodePreview extends SubResource {
         }
     }
 
+    public BrcodePreview(){
+    }
+
     /**
      * Retrieve BrcodePreviews
      * <p>

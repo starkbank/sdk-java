@@ -133,6 +133,10 @@ public final class CorporateRule extends Resource {
         }
     }
 
+    public CorporateRule(){
+        super(null);
+    }
+
     @SuppressWarnings("unchecked")
     static List<CorporateRule> parseRules(List<Object> rules) throws Exception {
         if (rules == null)

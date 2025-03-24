@@ -142,6 +142,10 @@ public final class TaxPayment extends Resource {
         }
     }
 
+    public TaxPayment(){
+        super(null);
+    }
+
     /**
      * Create TaxPayments
      * <p>

@@ -82,6 +82,9 @@ public final class MerchantCategory extends SubResource {
         }
     }
 
+    public MerchantCategory(){
+    }
+
     /**
      * Retrieve MerchantCategories
      * <p>

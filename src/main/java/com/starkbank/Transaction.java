@@ -143,6 +143,10 @@ public final class Transaction extends Resource {
         }
     }
 
+    public Transaction(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific Transaction
      * <p>

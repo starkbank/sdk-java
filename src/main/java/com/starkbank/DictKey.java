@@ -77,6 +77,10 @@ public class DictKey extends Resource {
         this.status = status;
     }
 
+    public DictKey(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific DictKey
      * <p>

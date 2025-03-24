@@ -29,12 +29,12 @@ public final class BoletoHolmes extends Resource {
      */
     static ClassData data = new ClassData(BoletoHolmes.class, "BoletoHolmes");
 
-    public final String[] tags;
-    public final String boletoId;
-    public final String status;
-    public final String result;
-    public final String created;
-    public final String updated;
+    public String[] tags;
+    public String boletoId;
+    public String status;
+    public String result;
+    public String created;
+    public String updated;
     
     /**
      * BoletoHolmes object
@@ -102,6 +102,10 @@ public final class BoletoHolmes extends Resource {
         if (!dataCopy.isEmpty()){
             throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
         }
+    }
+
+    public BoletoHolmes(){
+        super(null);
     }
 
     /**
@@ -398,6 +402,10 @@ public final class BoletoHolmes extends Resource {
             this.updated = updated;
             this.type = type;
             this.holmes = holmes;
+        }
+
+        public Log(){
+            super(null);
         }
 
         /**

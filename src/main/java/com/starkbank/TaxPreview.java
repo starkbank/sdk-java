@@ -43,4 +43,7 @@ public final class TaxPreview extends SubResource {
         this.line = line;
         this.barCode = barCode;
     }
+
+    public TaxPreview(){
+    }
 }

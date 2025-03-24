@@ -109,6 +109,10 @@ public final class CorporateWithdrawal extends Resource {
         }
     }
 
+    public CorporateWithdrawal(){
+        super(null);
+    }
+
     /**
      * Create a CorporateWithdrawal
      * <p>

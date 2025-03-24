@@ -129,6 +129,10 @@ public class SplitReceiver extends Resource {
         }
     }
 
+    public SplitReceiver(){
+        super(null);
+    }
+
     /**
      * Create SplitReceivers
      * <p>

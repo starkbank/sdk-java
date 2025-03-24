@@ -100,6 +100,10 @@ public final class Workspace extends Resource {
         this.created = (String) data.get("created");
     }
 
+    public Workspace(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific Workspace
      * <p>

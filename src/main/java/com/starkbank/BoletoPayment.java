@@ -137,6 +137,10 @@ public final class BoletoPayment extends Resource {
         }
     }
 
+    public BoletoPayment(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific BoletoPayment
      * <p>
@@ -494,6 +498,10 @@ public final class BoletoPayment extends Resource {
             this.type = type;
             this.errors = errors;
             this.payment = payment;
+        }
+
+        public Log(){
+            super(null);
         }
 
         /**

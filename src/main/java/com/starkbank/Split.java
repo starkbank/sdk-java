@@ -118,6 +118,10 @@ public class Split extends Resource {
         }
     }
 
+    public Split(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific Split
      * <p>

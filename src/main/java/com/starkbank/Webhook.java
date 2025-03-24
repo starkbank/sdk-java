@@ -68,6 +68,10 @@ public final class Webhook extends Resource {
         this.subscriptions = (String[]) data.get("subscriptions");
     }
 
+    public Webhook(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific Webhook subscription
      * <p>
