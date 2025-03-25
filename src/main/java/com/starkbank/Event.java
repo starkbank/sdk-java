@@ -60,6 +60,10 @@ public class Event extends Resource {
         this.workspaceId = workspaceId;
     }
 
+    public Event(){
+        super(null);
+    }
+
     public static class Deserializer implements JsonDeserializer<Event> {
         @Override
         public Event deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
@@ -561,6 +565,10 @@ public class Event extends Resource {
             this.eventId = eventId;
             this.webhookId = webhookId;
             this.created = created;
+        }
+
+        public Attempt(){
+            super(null);
         }
 
         /**

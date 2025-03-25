@@ -60,6 +60,10 @@ public final class CorporateBalance extends Resource {
         this.updated = updated;
     }
 
+    public CorporateBalance(){
+        super(null);
+    }
+
     /**
      * Retrieve the CorporateBalance object
      * <p>

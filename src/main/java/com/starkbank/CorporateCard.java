@@ -180,6 +180,10 @@ public final class CorporateCard extends Resource {
         }
     }
 
+    public CorporateCard() {
+        super(null);
+    }
+
     /**
      * Create CorporateCard
      * <p>
@@ -624,6 +628,10 @@ public final class CorporateCard extends Resource {
             this.card = card;
             this.type = type;
             this.created = created;
+        }
+
+        public Log(){
+            super(null);
         }
 
         /**

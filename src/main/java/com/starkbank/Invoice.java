@@ -216,6 +216,10 @@ public final class Invoice extends Resource {
         }
     }
 
+    public Invoice(){
+        super(null);
+    }
+
     @SuppressWarnings("unchecked")
     private List<Invoice.Description> parseDescriptions(List<Object> descriptions) {
         if (descriptions == null)
@@ -689,6 +693,9 @@ public final class Invoice extends Resource {
             this.percentage = percentage;
             this.due = due;
         }
+
+        public Discount(){
+        }
     }
 
     /**
@@ -715,6 +722,9 @@ public final class Invoice extends Resource {
         public Description(String key, String value){
             this.key = key;
             this.value = value;
+        }
+
+        public Description(){
         }
     }
 
@@ -776,6 +786,9 @@ public final class Invoice extends Resource {
             this.endToEndId = endToEndId;
             this.method = method;
         }
+
+        public Payment(){
+        }
     }
 
     public final static class Log extends Resource {
@@ -807,6 +820,10 @@ public final class Invoice extends Resource {
             this.type = type;
             this.errors = errors;
             this.invoice = invoice;
+        }
+
+        public Log(){
+            super(null);
         }
 
         /**

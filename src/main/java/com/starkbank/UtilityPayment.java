@@ -143,6 +143,10 @@ public final class UtilityPayment extends Resource {
         }
     }
 
+    public UtilityPayment(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific UtilityPayment
      * <p>

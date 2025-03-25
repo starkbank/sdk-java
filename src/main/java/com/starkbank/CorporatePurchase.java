@@ -229,6 +229,10 @@ public final class CorporatePurchase extends Resource {
         }
     }
 
+    public CorporatePurchase(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific CorporatePurchase
      * <p>
@@ -535,6 +539,10 @@ public final class CorporatePurchase extends Resource {
             this.purchase = purchase;
             this.description = description;
             this.corporateTransactionId = corporateTransactionId;
+        }
+
+        public Log(){
+            super(null);
         }
 
         /**

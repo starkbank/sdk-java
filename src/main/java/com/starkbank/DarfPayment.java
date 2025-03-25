@@ -171,6 +171,10 @@ public final class DarfPayment extends Resource {
         }
     }
 
+    public DarfPayment(){
+        super(null);
+    }
+
     /**
      * Create DarfPayments
      * <p>
@@ -526,6 +530,10 @@ public final class DarfPayment extends Resource {
             this.type = type;
             this.errors = errors;
             this.payment = payment;
+        }
+
+        public Log(){
+            super(null);
         }
 
         /**

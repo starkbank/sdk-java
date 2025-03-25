@@ -43,4 +43,7 @@ public final class UtilityPreview extends SubResource {
         this.line = line;
         this.barCode = barCode;
     }
+
+    public UtilityPreview(){
+    }
 }

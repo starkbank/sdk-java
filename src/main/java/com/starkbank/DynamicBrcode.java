@@ -136,6 +136,10 @@ public final class DynamicBrcode extends Resource {
         }
     }
 
+    public DynamicBrcode(){
+        super(null);
+    }
+
     /**
      * Create DynamicBrcodes
      * <p>
@@ -456,6 +460,9 @@ public final class DynamicBrcode extends Resource {
             if (!dataCopy.isEmpty()) {
                 throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
             }
+        }
+
+        public Rule(){
         }
     }
 }

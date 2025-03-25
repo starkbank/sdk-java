@@ -52,6 +52,9 @@ public class Institution extends SubResource {
         this.strCode = strCode;
     }
 
+    public Institution(){
+    }
+
     /**
      * Retrieve Bacen Institutions
      * <p>

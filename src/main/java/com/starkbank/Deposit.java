@@ -91,6 +91,10 @@ public final class Deposit extends Resource {
         this.created = created;
         this.updated = updated;
     }
+
+    public Deposit(){
+        super(null);
+    }
     
     /**
      * Retrieve a specific Deposit
@@ -374,6 +378,10 @@ public final class Deposit extends Resource {
             this.type = type;
             this.errors = errors;
             this.deposit = deposit;
+        }
+
+        public Log(){
+            super(null);
         }
 
         /**

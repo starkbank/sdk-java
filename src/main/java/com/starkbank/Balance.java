@@ -51,6 +51,10 @@ public final class Balance extends Resource {
         this.updated = updated;
     }
 
+    public Balance(){
+        super(null);
+    }
+
     /**
      * Retrieve the Balance object
      * <p>

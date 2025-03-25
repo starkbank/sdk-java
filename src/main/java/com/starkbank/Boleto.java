@@ -229,6 +229,10 @@ public final class Boleto extends Resource {
         }
     }
 
+    public Boleto(){
+        super(null);
+    }
+
     @SuppressWarnings("unchecked")
     private List<Boleto.Description> parseDescriptions(List<Object> descriptions){
         if (descriptions == null)
@@ -665,6 +669,9 @@ public final class Boleto extends Resource {
             this.date = date;
             this.percentage = percentage;
         }
+
+        public Discount(){
+        }
     }
 
     /**
@@ -704,6 +711,9 @@ public final class Boleto extends Resource {
             this.text = text;
             this.amount = amount;
         }
+
+        public Description(){
+        }
     }
 
     public final static class Log extends Resource {
@@ -735,6 +745,10 @@ public final class Boleto extends Resource {
             this.type = type;
             this.errors = errors;
             this.boleto = boleto;
+        }
+
+        public Log(){
+            super(null);
         }
 
         /**

@@ -67,6 +67,9 @@ public final class CardMethod extends SubResource {
         }
     }
 
+    public CardMethod(){
+    }
+
     /**
      * Retrieve CardMethods
      * <p>

@@ -85,6 +85,10 @@ public class PaymentPreview extends Resource {
         }
     }
 
+    public PaymentPreview(){
+        super(null);
+    }
+
     /**
      * Create Boletos
      * <p>

@@ -157,6 +157,10 @@ public final class PaymentRequest extends Resource {
         }
     }
 
+    public PaymentRequest(){
+        super(null);
+    }
+
     @SuppressWarnings("unchecked")
     public static class Deserializer implements JsonDeserializer<PaymentRequest> {
         @Override
@@ -503,6 +507,9 @@ public final class PaymentRequest extends Resource {
             this.action = action;
             this.type = type;
             this.id = id;
+        }
+
+        public Action(){
         }
     }
 }

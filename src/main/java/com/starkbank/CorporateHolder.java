@@ -115,6 +115,10 @@ public final class CorporateHolder extends Resource {
         }
     }
 
+    public CorporateHolder(){
+        super(null);
+    }
+
     /**
      * Create CorporateHolders
      * <p>
@@ -561,6 +565,10 @@ public final class CorporateHolder extends Resource {
             this.created = created;
             this.type = type;
             this.holder = holder;
+        }
+
+        public Log(){
+            super(null);
         }
 
         /**

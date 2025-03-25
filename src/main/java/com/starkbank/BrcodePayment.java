@@ -150,6 +150,10 @@ public final class BrcodePayment extends Resource {
             throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
         }
     }
+
+    public BrcodePayment(){
+        super(null);
+    }
     
     /**
      * Retrieve a specific BrcodePayment
@@ -510,6 +514,10 @@ public final class BrcodePayment extends Resource {
             this.payment = payment;
         }
 
+        public Log(){
+            super(null);
+        }
+
         /**
          * Retrieve a specific BrcodePayment Log
          * <p>
@@ -767,6 +775,9 @@ public final class BrcodePayment extends Resource {
         public Rule(String key, Number value){
             this.key = key;
             this.value = value;
+        }
+
+        public Rule(){
         }
 
         /**

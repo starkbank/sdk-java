@@ -93,6 +93,10 @@ public final class CorporateTransaction extends Resource {
         }
     }
 
+    public CorporateTransaction(){
+        super(null);
+    }
+
     /**
      * Retrieve a specific CorporateTransaction
      * <p>

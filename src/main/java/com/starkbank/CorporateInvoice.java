@@ -141,6 +141,10 @@ public final class CorporateInvoice extends Resource {
         }
     }
 
+    public CorporateInvoice(){
+        super(null);
+    }
+
     /**
      * Create a CorporateInvoice
      * <p>
