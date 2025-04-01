@@ -12,6 +12,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+### Added
+- merchantSession, merchantCard, merchantInstallment and merchantPurchase resources
 
 ## [2.21.0] - 2025-03-25
 ### Added
