@@ -93,6 +93,20 @@ public class TestInvoicePullSubscription {
     }
 
     @Test
+    public void testCreateAndCancel() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        List<InvoicePullSubscription> subscriptions = InvoicePullSubscription.create(Arrays.asList(Example("push")));
+
+        for (InvoicePullSubscription subscription : subscriptions) {
+            subscription = InvoicePullSubscription.cancel(subscription.id);
+            Assert.assertNotNull(subscription.id);
+        }
+    }
+
+
+
+    @Test
     public void testLogQueryAndGet() throws Exception{
         Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();
@@ -130,142 +144,44 @@ public class TestInvoicePullSubscription {
             params.put("cursor", page.cursor);
         }
     }
-    static InvoicePullSubscription Example(String typeValue) throws Exception
+    static InvoicePullSubscription Example(String type) throws Exception
     {
-        InvoicePullSubscription example = null;
+        HashMap<String, Object> classData = new HashMap<>();
+
+        classData.put("start", LocalDate.now().plusDays(5).toString());
+        classData.put("interval", "month");
+        classData.put("pullMode", "manual");
+        classData.put("pullRetryLimit", 3L);
+        classData.put("type", type);
+        classData.put("amount", 0L);
+        classData.put("amountMinLimit", 5000L);
+        classData.put("displayDescription", "Dragon Travel Fare");
+        classData.put("externalId", UUID.randomUUID().toString());
+        classData.put("referenceCode", "contract-12345");
+        classData.put("end", LocalDate.now().plusDays(35).toString());
+        classData.put("name", "John Snow");
+        classData.put("taxId", "012.345.678-90");
+        classData.put("tags", new String[]{});
+
         HashMap<String, Object> data = new HashMap<>();
 
-        String[] tags = new String[]{};
-        String start = LocalDate.now().plusDays(5).toString();
-        String end = LocalDate.now().plusDays(35).toString();
-        String interval = "month";
-        String pullMode = "manual";
-        Long pullRetryLimit = 3L;
-        Long amount = 0L;
-        Long amountMinLimit = 5000L;
-        String displayDescription = "Dragon Travel Fare";
-        String externalId = UUID.randomUUID().toString();
-        String referenceCode = "contract-12345";
-        String name = "John Snow";
-        String taxId = "012.345.678-90";
-        String type = typeValue;
         if (type.equals("push")) {
             data.put("accountNumber", "9123900000");
             data.put("bankCode", "05097757");
             data.put("branchCode", "1126");
             data.put("taxId", "20.018.183/0001-80");
-            example = new InvoicePullSubscription(
-                start,
-                interval,
-                pullMode,
-                pullRetryLimit,
-                type,
-                amount,
-                amountMinLimit,
-                displayDescription,
-                null,
-                externalId,
-                referenceCode,
-                end,
-                data,
-                name,
-                taxId,
-                tags,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            );
-        }
-        if (type.equals("qrcode")) {
-            example = new InvoicePullSubscription(
-                start,
-                interval,
-                pullMode,
-                pullRetryLimit,
-                type,
-                amount,
-                amountMinLimit,
-                displayDescription,
-                null,
-                externalId,
-                referenceCode,
-                end,
-                null,
-                name,
-                taxId,
-                tags,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            );
-        }
+        } 
         if (type.equals("qrcodeAndPayment")) {
             data.put("amount", 400000L);
-            example = new InvoicePullSubscription(
-                start,
-                interval,
-                pullMode,
-                pullRetryLimit,
-                typeValue,
-                amount,
-                amountMinLimit,
-                displayDescription,
-                null,
-                externalId,
-                referenceCode,
-                end,
-                data,
-                name,
-                taxId,
-                tags,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            );
         }
         if (type.equals("paymentAndOrQrcode")) {
             data.put("amount", 400000L);
             data.put("due", "2026-06-26T17:59:26.000000+00:00");
             data.put("fine", 2.5);
             data.put("interest", 1.3);
-            example = new InvoicePullSubscription(
-                start,
-                interval,
-                pullMode,
-                pullRetryLimit,
-                type,
-                amount,
-                amountMinLimit,
-                displayDescription,
-                null,
-                externalId,
-                referenceCode,
-                end,
-                data,
-                name,
-                taxId,
-                tags,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-            );
         }
-        return example;
+        classData.put("data", data);
+
+        return new InvoicePullSubscription(classData);
     }
 }

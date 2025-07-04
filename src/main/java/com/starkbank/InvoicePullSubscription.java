@@ -140,32 +140,33 @@ public final class InvoicePullSubscription extends Resource {
      * Parameters (optional): displayDescription, due, externalId, referenceCode, end, data, name, taxId, tags
      * Parameters (return-only): id, status, bacenId, installmentId, created, updated
      */
+    @SuppressWarnings("unchecked")
     public InvoicePullSubscription(Map<String, Object> classData) throws Exception {
         super(null);
         HashMap<String, Object> dataCopy = new HashMap<>(classData);
 
-        this.start = (String) classData.get("start");
-        this.interval = (String) classData.get("interval");
-        this.pullMode = (String) classData.get("pullMode");
-        this.pullRetryLimit = (Long) classData.get("pullRetryLimit");
-        this.type = (String) classData.get("type");
-        this.amount = (Long) classData.get("amount");
-        this.amountMinLimit = (Long) classData.get("amountMinLimit");
-        this.displayDescription = (String) classData.get("displayDescription");
-        this.due = (String) classData.get("due");
-        this.externalId = (String) classData.get("externalId");
-        this.referenceCode = (String) classData.get("referenceCode");
-        this.end = (String) classData.get("end");
-        this.data = (Map<String, Object>) classData.get("data");
-        this.name = (String) classData.get("name");
-        this.taxId = (String) classData.get("taxId");
-        this.tags = (String[]) classData.get("tags");
-        this.status = (String) classData.get("status");
-        this.bacenId = (String) classData.get("bacenId");
-        this.installmentId = (String) classData.get("installmentId");
-        this.brcode = (String) classData.get("brcode");
-        this.created = (String) classData.get("created");
-        this.updated = (String) classData.get("updated");
+        this.start = (String) dataCopy.remove("start");
+        this.interval = (String) dataCopy.remove("interval");
+        this.pullMode = (String) dataCopy.remove("pullMode");
+        this.pullRetryLimit = (Long) dataCopy.remove("pullRetryLimit");
+        this.type = (String) dataCopy.remove("type");
+        this.amount = (Long) dataCopy.remove("amount");
+        this.amountMinLimit = (Long) dataCopy.remove("amountMinLimit");
+        this.displayDescription = (String) dataCopy.remove("displayDescription");
+        this.due = (String) dataCopy.remove("due");
+        this.externalId = (String) dataCopy.remove("externalId");
+        this.referenceCode = (String) dataCopy.remove("referenceCode");
+        this.end = (String) dataCopy.remove("end");
+        this.data = (Map<String, Object>) dataCopy.remove("data");
+        this.name = (String) dataCopy.remove("name");
+        this.taxId = (String) dataCopy.remove("taxId");
+        this.tags = (String[]) dataCopy.remove("tags");
+        this.status = (String) dataCopy.remove("status");
+        this.bacenId = (String) dataCopy.remove("bacenId");
+        this.installmentId = (String) dataCopy.remove("installmentId");
+        this.brcode = (String) dataCopy.remove("brcode");
+        this.created = (String) dataCopy.remove("created");
+        this.updated = (String) dataCopy.remove("updated");
 
         if (!dataCopy.isEmpty()) {
             throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
@@ -432,6 +433,14 @@ public final class InvoicePullSubscription extends Resource {
             throw new Exception("Unknown type \"" + subscription.getClass() + "\", use InvoicePullSubscription or HashMap");
         }
         return Rest.post(classData, subscriptionList, user);
+    }
+
+    public static InvoicePullSubscription cancel(String id) throws Exception {
+        return InvoicePullSubscription.cancel(id, null);
+    }
+
+    public static InvoicePullSubscription cancel(String id, User user) throws Exception {
+        return Rest.delete(classData, id, user);
     }
 
     public final static class Log extends Resource {

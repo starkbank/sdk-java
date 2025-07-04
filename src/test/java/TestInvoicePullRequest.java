@@ -16,6 +16,17 @@ import java.nio.file.StandardCopyOption;
 public class TestInvoicePullRequest {
 
     @Test
+    public void testCreate() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        List<InvoicePullRequest> requests = InvoicePullRequest.create(Arrays.asList(Example("1234567890123456", "1234567890123456")));
+        
+        for (InvoicePullRequest request : requests) {
+            Assert.assertNotNull(request.id);
+        }
+    }
+
+    @Test
     public void testQueryAndGet() throws Exception {
         Settings.user = utils.User.defaultProject();
 
@@ -49,6 +60,18 @@ public class TestInvoicePullRequest {
                 break;
             }
             params.put("cursor", page.cursor);
+        }
+    }
+
+    @Test
+    public void testCreateAndCancel() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        List<InvoicePullRequest> requests = InvoicePullRequest.create(Arrays.asList(Example("1234567890123456", "1234567890123456")));
+        
+        for (InvoicePullRequest request : requests) {
+            request = InvoicePullRequest.get(request.id);
+            Assert.assertNotNull(request.id);
         }
     }
 
@@ -89,5 +112,17 @@ public class TestInvoicePullRequest {
             }
             params.put("cursor", page.cursor);
         }
+    }
+
+    static InvoicePullRequest Example(String invoiceId, String subscriptionId) throws Exception{
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("attemptType", "default");
+        data.put("due", LocalDate.now().plusDays(4).toString());
+        data.put("invoiceId", invoiceId);
+        data.put("subscriptionId", subscriptionId);
+        data.put("tags", new String[]{});
+
+        return new InvoicePullRequest(data);
     }
 }

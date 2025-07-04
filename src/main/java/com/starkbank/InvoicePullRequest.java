@@ -45,21 +45,22 @@ public final class InvoicePullRequest extends Resource {
         this.updated = updated;
     }
 
+    @SuppressWarnings("unchecked")
     public InvoicePullRequest(Map<String, Object> data) throws Exception {
         super(null);
         HashMap<String, Object> dataCopy = new HashMap<>(data);
 
-        this.subscriptionId = (String) data.get("subscriptionId");
-        this.invoiceId = (String) data.get("invoiceId");
-        this.due = (String) data.get("due");
-        this.attemptType = (String) data.get("attemptType");
-        this.externalId = (String) data.get("externalId");
-        this.displayDescription = (String) data.get("displayDescription");
-        this.tags = (String[]) data.get("tags");
-        this.status = (String) data.get("status");
-        this.installmentId = (String) data.get("installmentId");
-        this.created = (String) data.get("created");
-        this.updated = (String) data.get("updated");
+        this.subscriptionId = (String) dataCopy.remove("subscriptionId");
+        this.invoiceId = (String) dataCopy.remove("invoiceId");
+        this.due = (String) dataCopy.remove("due");
+        this.attemptType = (String) dataCopy.remove("attemptType");
+        this.externalId = (String) dataCopy.remove("externalId");
+        this.displayDescription = (String) dataCopy.remove("displayDescription");
+        this.tags = (String[]) dataCopy.remove("tags");
+        this.status = (String) dataCopy.remove("status");
+        this.installmentId = (String) dataCopy.remove("installmentId");
+        this.created = (String) dataCopy.remove("created");
+        this.updated = (String) dataCopy.remove("updated");
 
         if (!dataCopy.isEmpty()) {
             throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
@@ -240,6 +241,14 @@ public final class InvoicePullRequest extends Resource {
             throw new Exception("Unknown type \"" + request.getClass() + "\", use InvoicePullRequest or HashMap");
         }
         return Rest.post(data, requestList, user);
+    }
+
+    public static InvoicePullRequest cancel(String id) throws Exception {
+        return InvoicePullRequest.cancel(id, null);
+    }
+
+    public static InvoicePullRequest cancel(String id, User user) throws Exception {
+        return Rest.delete(data, id, user);
     }
 
     public final static class Log extends Resource {
