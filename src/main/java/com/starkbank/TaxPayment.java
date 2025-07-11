@@ -488,6 +488,10 @@ public final class TaxPayment extends Resource {
             this.payment = payment;
         }
 
+        public Log() {
+            super(null);
+        }
+
         /**
          * Retrieve a specific TaxPayment Log
          * <p>
