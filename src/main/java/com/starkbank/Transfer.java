@@ -548,6 +548,10 @@ public final class Transfer extends Resource {
             this.transfer = transfer;
         }
 
+        public Log() {
+            super(null);
+        }
+
         /**
          * Retrieve a specific Transfer Log
          * <p>
