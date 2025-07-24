@@ -118,6 +118,10 @@ public class Event extends Resource {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
+
+        public TransferEvent() {
+            super();
+        }
     }
 
     public final static class BoletoEvent extends Event {
@@ -126,6 +130,10 @@ public class Event extends Resource {
         public BoletoEvent(Boleto.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
+        }
+
+        public BoletoEvent() {
+            super();
         }
     }
 
@@ -136,6 +144,10 @@ public class Event extends Resource {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
+
+        public BoletoPaymentEvent() {
+            super();
+        }
     }
 
     public final static class UtilityPaymentEvent extends Event {
@@ -144,6 +156,10 @@ public class Event extends Resource {
         public UtilityPaymentEvent(UtilityPayment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
+        }
+
+        public UtilityPaymentEvent() {
+            super();
         }
     }
 
@@ -154,6 +170,10 @@ public class Event extends Resource {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
+
+        public TaxPaymentEvent() {
+            super();
+        }
     }
 
     public final static class DarfPaymentEvent extends Event {
@@ -162,6 +182,10 @@ public class Event extends Resource {
         public DarfPaymentEvent(DarfPayment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
+        }
+
+        public DarfPaymentEvent() {
+            super();
         }
     }
 
@@ -172,6 +196,10 @@ public class Event extends Resource {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
+
+        public BoletoHolmesEvent() {
+            super();
+        }
     }
 
     public final static class InvoiceEvent extends Event {
@@ -180,6 +208,10 @@ public class Event extends Resource {
         public InvoiceEvent(Invoice.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
+        }
+
+        public InvoiceEvent() {
+            super();
         }
     }
 
@@ -190,6 +222,10 @@ public class Event extends Resource {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
+
+        public DepositEvent() {
+            super();
+        }
     }
 
     public final static class BrcodePaymentEvent extends Event {
@@ -199,6 +235,10 @@ public class Event extends Resource {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
         }
+
+        public BrcodePaymentEvent() {
+            super();
+        }
     }
 
     public final static class UnknownEvent extends Event {
@@ -207,6 +247,10 @@ public class Event extends Resource {
         public UnknownEvent(JsonObject log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
             super(created, isDelivered, subscription, id, workspaceId);
             this.log = log;
+        }
+
+        public UnknownEvent() {
+            super();
         }
     }
 

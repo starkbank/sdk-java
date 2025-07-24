@@ -504,6 +504,10 @@ public final class UtilityPayment extends Resource {
             this.payment = payment;
         }
 
+        public Log() {
+            super(null);
+        }
+
         /**
          * Retrieve a specific UtilityPayment Log
          * <p>
