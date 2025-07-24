@@ -33,6 +33,24 @@ public class TestRequest {
     }
 
     @Test
+    public void testInvalidTimeout() throws Exception {
+        Settings.user = utils.User.defaultProject();
+        Settings.timeout = 0;
+
+        try {
+            String path = "/pix-request";
+            Map<String, Object> query = new HashMap<>();
+            query.put("limit", 10);
+            Request.get(path, query).content();
+            Assert.fail("Expected an exception due to invalid timeout");
+        } catch (Exception e) {
+            Assert.assertTrue(e.getMessage().contains("Timeout"));
+        } finally {
+            Settings.timeout = null;
+        }
+    }
+
+    @Test
     public void testRequestPost() throws Exception {
         Settings.user = utils.User.defaultProject();
 
