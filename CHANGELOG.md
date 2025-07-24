@@ -14,6 +14,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Added
 - resources empty class
+- option to change timeout settings
 ### Changed
 - core version
 
