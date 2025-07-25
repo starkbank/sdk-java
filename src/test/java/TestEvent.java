@@ -170,6 +170,16 @@ public class TestEvent {
                 System.out.println(log.invoice);
                 break;
             }
+            case "invoice-pull-subscription": {
+                InvoicePullSubscription.Log log = ((Event.InvoicePullSubscriptionEvent) event).log;
+                System.out.println(log.subscription);
+                break;
+            }
+            case "invoice-pull-request": {
+                InvoicePullRequest.Log log = ((Event.InvoicePullRequestEvent) event).log;
+                System.out.println(log.request);
+                break;
+            }
         }
     }
 
