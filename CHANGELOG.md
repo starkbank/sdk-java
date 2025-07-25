@@ -1,4 +1,4 @@
-# Changelog
+``# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -12,6 +12,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+### Added
+- InvoicePullSubscription and InvoicePullRequest resources
 
 ## [2.22.0] - 2025-07-24
 ### Added
