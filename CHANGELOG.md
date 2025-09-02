@@ -12,6 +12,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+### Changed
+- create method from Transaction resource. This method is now deprecated
 
 ## [2.22.0] - 2025-07-24
 ### Added
