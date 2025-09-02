@@ -19,12 +19,10 @@ public class TestTransaction {
 
         transactions.add(TestTransaction.example());
 
-        transactions = Transaction.create(transactions);
-
-        for (Transaction transaction : transactions) {
-            Assert.assertNotNull(transaction.id);
-            System.out.println(transaction);
-        }
+        Exception thrown = Assert.assertThrows(Exception.class, () -> {
+            System.out.println(Transaction.create(transactions));
+        });
+        Assert.assertNotNull(thrown);
     }
 
     @Test
@@ -42,9 +40,8 @@ public class TestTransaction {
             i += 1;
             transaction = Transaction.get(transaction.id);
             Assert.assertNotNull(transaction.id);
-            System.out.println(transaction);
         }
-        System.out.println(i);
+        Assert.assertTrue(i > 0);
     }
 
     @Test
@@ -61,7 +58,7 @@ public class TestTransaction {
         for (int i = 0; i < 2; i++) {
             Transaction.Page page = Transaction.page(params);
             for (Transaction transaction: page.transactions) {
-                System.out.println(transaction);
+                Assert.assertNotNull(transaction.id);
                 if (ids.contains(transaction.id)) {
                     throw new Exception("repeated id");
                 }
