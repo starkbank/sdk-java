@@ -12,6 +12,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+
+## [2.23.0] - 2025-09-25
 ### Added
 - InvoicePullSubscription and InvoicePullRequest resources
 - VerifiedAccount resource
