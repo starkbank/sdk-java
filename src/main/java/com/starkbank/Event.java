@@ -102,6 +102,12 @@ public class Event extends Resource {
                     case "darf-payment":
                         return context.deserialize(jsonObject,
                                 DarfPaymentEvent.class);
+                    case "invoice-pull-subscription":
+                        return context.deserialize(jsonObject,
+                                InvoicePullSubscriptionEvent.class);
+                    case "invoice-pull-request":
+                        return context.deserialize(jsonObject,
+                                InvoicePullRequestEvent.class);
                     case "verified-account":
                         return context.deserialize(jsonObject,
                                 VerifiedAccountEvent.class);
@@ -240,6 +246,32 @@ public class Event extends Resource {
         }
 
         public BrcodePaymentEvent() {
+            super();
+        }
+    }
+
+    public final static class InvoicePullSubscriptionEvent extends Event {
+        public InvoicePullSubscription.Log log;
+
+        public InvoicePullSubscriptionEvent(InvoicePullSubscription.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
+            this.log = log;
+        }
+
+        public InvoicePullSubscriptionEvent() {
+            super();
+        }
+    }
+
+    public final static class InvoicePullRequestEvent extends Event {
+        public InvoicePullRequest.Log log;
+
+        public InvoicePullRequestEvent(InvoicePullRequest.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
+            this.log = log;
+        }
+
+        public InvoicePullRequestEvent() {
             super();
         }
     }
