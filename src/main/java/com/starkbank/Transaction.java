@@ -360,6 +360,8 @@ public final class Transaction extends Resource {
     }
 
     /**
+     * @deprecated Function deprecated since v2.24.0
+     * <p>
      * Create Transactions
      * <p>
      * Send a list of Transaction objects for creation in the Stark Bank API
@@ -371,11 +373,14 @@ public final class Transaction extends Resource {
      * @return list of Transaction objects with updated attributes
      * @throws Exception error in the request
      */
+    @Deprecated
     public static List<Transaction> create(List<?> transactions) throws Exception {
         return Transaction.create(transactions, null);
     }
 
     /**
+     * @deprecated Function deprecated since v2.24.0
+     * <p>
      * Create Transactions
      * <p>
      * Send a list of Transaction objects for creation in the Stark Bank API
@@ -388,20 +393,9 @@ public final class Transaction extends Resource {
      * @return list of Transaction objects with updated attributes
      * @throws Exception error in the request
      */
+    @Deprecated
     @SuppressWarnings("unchecked")
     public static List<Transaction> create(List<?> transactions, User user) throws Exception {
-        List<Transaction> transactionList = new ArrayList<>();
-        for (Object transaction : transactions){
-            if (transaction instanceof Map){
-                transactionList.add(new Transaction((Map<String, Object>) transaction));
-                continue;
-            }
-            if (transaction instanceof Transaction){
-                transactionList.add((Transaction) transaction);
-                continue;
-            }
-            throw new Exception("Unknown type \"" + transaction.getClass() + "\", use Transaction or HashMap");
-        }
-        return Rest.post(data, transactionList, user);
+       throw new Exception("Function deprecated since v2.24.0");
     }
 }
