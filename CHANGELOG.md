@@ -12,6 +12,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+### Added
+- log on Event resource
 
 ## [2.24.0] - 2025-09-29
 ### Changed
