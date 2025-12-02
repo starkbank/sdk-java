@@ -6,6 +6,7 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 import com.starkcore.utils.SubResource;
+import com.starkcore.utils.GsonEvent;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -16,6 +17,11 @@ import java.util.Map;
 
 public final class PaymentRequest extends Resource {
     static ClassData data = new ClassData(PaymentRequest.class, "PaymentRequest");
+    
+    static {
+        GsonEvent.registerTypeAdapter(PaymentRequest.class, new PaymentRequest.Deserializer());
+    }
+    
     /**
      * PaymentRequest object
      *  <p>

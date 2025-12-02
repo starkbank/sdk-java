@@ -37,7 +37,6 @@ public class TestPaymentRequest {
 
         for(PaymentRequest request : requests) {
             Assert.assertNotNull(request.id);
-            System.out.println(request);
         }
     }
 
@@ -55,10 +54,8 @@ public class TestPaymentRequest {
         int i = 0;
         for (PaymentRequest request : requests) {
             i += 1;
-            System.out.println(request);
             Assert.assertNotNull(request.id);
         }
-        System.out.println(i);
     }
 
     @Test
@@ -76,7 +73,6 @@ public class TestPaymentRequest {
         for (int i = 0; i < 2; i++) {
             PaymentRequest.Page page = PaymentRequest.page(params);
             for (PaymentRequest request: page.requests) {
-                System.out.println(request);
                 if (ids.contains(request.id)) {
                     throw new Exception("repeated id");
                 }
