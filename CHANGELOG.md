@@ -13,7 +13,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 
 ## [Unreleased]
 ### Fixed
-- PaymentRequest deserialization
+- PaymentRequest and Event deserialization
 
 ## [2.24.0] - 2025-09-29
 ### Changed

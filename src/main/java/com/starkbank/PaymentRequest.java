@@ -21,7 +21,7 @@ public final class PaymentRequest extends Resource {
     static {
         GsonEvent.registerTypeAdapter(PaymentRequest.class, new PaymentRequest.Deserializer());
     }
-    
+
     /**
      * PaymentRequest object
      *  <p>
@@ -480,6 +480,69 @@ public final class PaymentRequest extends Resource {
                 "a UtilityPayment, a TaxPayment or a DarfPayment.");
     }
 
+    public final static class Log extends Resource {
+        static ClassData data = new ClassData(Log.class, "PaymentRequestLog");
+
+        public String created;
+        public String updated;
+        public String type;
+        public String[] errors;
+        public PaymentRequest request;
+        public PaymentRequest.Log.User user;
+
+        /**
+         * PaymentRequest Log object
+         * <p>
+         * Every time an PaymentRequest entity is updated, a corresponding PaymentRequest Log
+         * is generated for the entity.
+         * <p>
+         * Attributes (return-only):
+         * @param id [string]: unique id returned when the log is created. ex: "5656565656565656"
+         * @param request [PaymentRequest]: PaymentRequest entity to which the log refers to.
+         * @param user [JsonObject]: User entity that triggered the log creation.
+         * @param errors [list of strings]: list of errors linked to this PaymentRequest event
+         * @param type [string]: type of the PaymentRequest event which triggered the log creation. ex: "created"
+         * @param created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
+         * @param updated [string]: update datetime for the log. ex: "2020-03-10 10:30:00.000000+00:00"
+         * @param user [PaymentRequest.Log.User]: User entity that triggered the log creation.
+         */
+        public Log(String created, String updated, String type, String[] errors, PaymentRequest request, PaymentRequest.Log.User user, String id) {
+            super(id);
+            this.created = created;
+            this.updated = updated;
+            this.type = type;
+            this.errors = errors;
+            this.request = request;
+            this.user = user;
+        }
+
+        public Log(){
+            super(null);
+        }
+
+        public final static class User extends SubResource {
+            public String email;
+            public String id;
+            public String name;
+            public String pictureUrl;
+            public String status;
+            public String type;
+
+            public User(String email, String id, String name, String pictureUrl, String status, String type) {
+                this.email = email;
+                this.id = id;
+                this.name = name;
+                this.pictureUrl = pictureUrl;
+                this.status = status;
+                this.type = type;
+            }
+
+            public User() {
+            }
+        }
+    }
+
+
     /**
      * PaymentRequest.Action object
      * <p>
@@ -491,7 +554,7 @@ public final class PaymentRequest extends Resource {
      * type [string]: type of the user that took the action. ex: "project", "member"
      * id [string]: ID of the user that took the action. ex: "5129086980587520"
      */
-    public final static class Action extends SubResource{
+    public final static class Action extends SubResource {
         public String name;
         public String action;
         public String type;
