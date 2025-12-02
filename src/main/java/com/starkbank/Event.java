@@ -8,6 +8,7 @@ import com.starkbank.ellipticcurve.utils.ByteString;
 import com.starkbank.error.InvalidSignatureError;
 import com.starkbank.utils.*;
 import com.starkcore.utils.SubResource;
+import com.starkcore.utils.GsonEvent;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -32,6 +33,10 @@ public class Event extends Resource {
      * workspaceId [string]: ID of the Workspace that generated this event. Mostly used when multiple Workspaces have Webhooks registered to the same endpoint. ex: "4545454545454545"
      */
     static ClassData data = new ClassData(Event.class, "Event");
+
+    static {
+        GsonEvent.registerTypeAdapter(Event.class, new Event.Deserializer());
+    }
 
     public String created;
     public Boolean isDelivered;
