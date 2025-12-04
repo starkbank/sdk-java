@@ -12,6 +12,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+
+## [2.24.1] - 2025-12-04
 ### Fixed
 - PaymentRequest and Event deserialization
 - CorporateCard to use core GsonEvent class
