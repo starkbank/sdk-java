@@ -24,7 +24,6 @@ public class TestCorporateCard {
         card = CorporateCard.get(card.id);
         String id = card.id;
         Assert.assertEquals(id, card.id);
-        System.out.println(card);
     }
 
     @Test
@@ -39,7 +38,6 @@ public class TestCorporateCard {
         for (int i = 0; i < 2; i++) {
             CorporateCard.Page page = CorporateCard.page(params);
             for (CorporateCard card: page.cards) {
-                System.out.println(card);
                 if (ids.contains(card.id)) {
                     throw new Exception("repeated id");
                 }
@@ -70,7 +68,6 @@ public class TestCorporateCard {
         for (CorporateCard card : cards) {
             CorporateCard expectedCard = CorporateCard.get(card.id, expand);
             Assert.assertNotNull(card.id, expectedCard.id);
-            System.out.println(expectedCard);
         }
     }
 
@@ -103,7 +100,6 @@ public class TestCorporateCard {
         for (CorporateCard card : cards) {
             CorporateCard canceledCorporateCard = CorporateCard.cancel(card.id);
             Assert.assertEquals("canceled", canceledCorporateCard.status);
-            System.out.println(canceledCorporateCard);
         }
     }
 
@@ -119,7 +115,6 @@ public class TestCorporateCard {
         for (int i = 0; i < 2; i++) {
             CorporateCard.Log.Page page = CorporateCard.Log.page(params);
             for (CorporateCard.Log log: page.logs) {
-                System.out.println(log);
                 if (ids.contains(log.id)) {
                     throw new Exception("repeated id");
                 }
