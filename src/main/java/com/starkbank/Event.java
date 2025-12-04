@@ -8,6 +8,7 @@ import com.starkbank.ellipticcurve.utils.ByteString;
 import com.starkbank.error.InvalidSignatureError;
 import com.starkbank.utils.*;
 import com.starkcore.utils.SubResource;
+import com.starkcore.utils.GsonEvent;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -32,6 +33,11 @@ public class Event extends Resource {
      * workspaceId [string]: ID of the Workspace that generated this event. Mostly used when multiple Workspaces have Webhooks registered to the same endpoint. ex: "4545454545454545"
      */
     static ClassData data = new ClassData(Event.class, "Event");
+
+    static {
+        GsonEvent.registerTypeAdapter(Event.class, new Event.Deserializer());
+        GsonEvent.registerTypeAdapter(PaymentRequest.class, new PaymentRequest.Deserializer());
+    }
 
     public String created;
     public Boolean isDelivered;
@@ -111,6 +117,8 @@ public class Event extends Resource {
                     case "verified-account":
                         return context.deserialize(jsonObject,
                                 VerifiedAccountEvent.class);
+                    case "payment-request":
+                        return GsonEvent.getInstance().fromJson(jsonObject, PaymentRequestEvent.class);
                     default:
                         return context.deserialize(jsonObject,
                                 UnknownEvent.class);
@@ -285,6 +293,19 @@ public class Event extends Resource {
         }
 
         public VerifiedAccountEvent() {
+            super();
+        }
+    }
+
+    public final static class PaymentRequestEvent extends Event {
+        public PaymentRequest.Log log;
+
+        public PaymentRequestEvent(PaymentRequest.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
+            this.log = log;
+        }
+
+        public PaymentRequestEvent() {
             super();
         }
     }
