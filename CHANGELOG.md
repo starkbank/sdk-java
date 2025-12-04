@@ -14,6 +14,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ## [Unreleased]
 ### Fixed
 - PaymentRequest and Event deserialization
+- CorporateCard to use core GsonEvent class
 
 ## [2.24.0] - 2025-09-29
 ### Changed

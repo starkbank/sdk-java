@@ -3,6 +3,7 @@ package com.starkbank;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.starkbank.utils.*;
+import com.starkcore.utils.GsonEvent;
 import com.starkcore.utils.SubResource;
 
 import java.io.InputStream;
