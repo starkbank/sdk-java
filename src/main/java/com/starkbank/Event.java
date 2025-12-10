@@ -43,6 +43,7 @@ public class Event extends Resource {
     public Boolean isDelivered;
     public String subscription;
     public String workspaceId;
+    public JsonObject log;
 
     /**
      * Webhook Event object
