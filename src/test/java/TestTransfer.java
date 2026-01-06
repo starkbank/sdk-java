@@ -30,7 +30,6 @@ public class TestTransfer {
 
         for (Transfer transfer : transfers) {
             Assert.assertNotNull(transfer.id);
-            System.out.println(transfer);
             for (Transfer.Rule rule : transfer.rules) {
                 Assert.assertNotNull(rule.value);
             }
@@ -50,8 +49,6 @@ public class TestTransfer {
 
         Assert.assertEquals("canceled", deletedTransfer.status);
         Assert.assertEquals(createdTransfer.id, deletedTransfer.id);
-
-        System.out.println(deletedTransfer);
     }
 
     @Test
@@ -69,7 +66,6 @@ public class TestTransfer {
         for (Transfer transfer : transfers) {
             i += 1;
             transfer = Transfer.get(transfer.id);
-            System.out.println(transfer);
             InputStream pdf = Transfer.pdf(transfer.id);
             Assert.assertNotNull(pdf);
             java.nio.file.Files.copy(
@@ -78,7 +74,6 @@ public class TestTransfer {
                 StandardCopyOption.REPLACE_EXISTING
             );
         }
-        System.out.println(i);
     }
 
     @Test
@@ -96,7 +91,6 @@ public class TestTransfer {
             log = Transfer.Log.get(log.id);
             Assert.assertNotNull(log.id);
             Assert.assertNotNull(log.transfer.id);
-            System.out.println(log);
         }
         Assert.assertTrue(i > 0);
     }
@@ -143,7 +137,6 @@ public class TestTransfer {
         for (int i = 0; i < 2; i++) {
             Transfer.Page page = Transfer.page(params);
             for (Transfer transfer: page.transfers) {
-                System.out.println(transfer);
                 if (ids.contains(transfer.id)) {
                     throw new Exception("repeated id");
                 }
@@ -174,7 +167,6 @@ public class TestTransfer {
         for (int i = 0; i < 2; i++) {
             Transfer.Log.Page page = Transfer.Log.page(params);
             for (Transfer.Log log: page.logs) {
-                System.out.println(log);
                 if (ids.contains(log.id)) {
                     throw new Exception("repeated id");
                 }
@@ -194,7 +186,11 @@ public class TestTransfer {
     static Transfer example(boolean scheduled) throws Exception{
 
         List<Transfer.Rule> rules = new ArrayList<>();
-        rules.add(new Transfer.Rule("resendingLimit", 5));
+
+        Integer resendingLimitValue = 1;
+
+        rules.add(new Transfer.Rule("isReversalAllowed", false));
+        rules.add(new Transfer.Rule("resendingLimit", resendingLimitValue));
 
         HashMap<String, Object> data = new HashMap<>();
         data.put("amount", 100000000);
