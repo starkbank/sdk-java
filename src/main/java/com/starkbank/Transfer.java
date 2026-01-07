@@ -4,8 +4,16 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 import com.starkcore.utils.SubResource;
+import com.starkcore.utils.GsonEvent;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +21,11 @@ import java.util.Map;
 
 
 public final class Transfer extends Resource {
+
+    static {
+        GsonEvent.registerTypeAdapter(Rule.class, new Rule.Deserializer());
+    }
+
     /**
      * Transfer object
      * <p>
@@ -790,12 +803,16 @@ public final class Transfer extends Resource {
      * <p>
      * Parameters:
      * key [string]: Rule to be customized, describes what Transfer behavior will be altered. ex: "resendingLimit"
-     * value [integer]: Value of the rule. ex: 5
+     * value [integer or boolean]: Value of the rule. ex: 5
      *
      */
     public final static class Rule extends SubResource{
+        static {
+            GsonEvent.registerTypeAdapter(Rule.class, new Rule.Deserializer());
+        }
+
         public String key;
-        public Number value;
+        public Object value;
 
 
         /**
@@ -805,9 +822,9 @@ public final class Transfer extends Resource {
          * <p>
          * Parameters:
          * @param key [string]: Rule to be customized, describes what Transfer behavior will be altered. ex: "resendingLimit"
-         * @param value [integer]: Value of the rule. ex: 5
+         * @param value [integer or boolean]: Value of the rule. ex: 5
          */
-        public Rule(String key, Number value){
+        public Rule(String key, Object value){
             this.key = key;
             this.value = value;
         }
@@ -820,13 +837,13 @@ public final class Transfer extends Resource {
          * Parameters:
          * @param data map of properties for the creation of the Transfer.Rule
          * key [string]: Rule to be customized, describes what Transfer behavior will be altered. ex: "resendingLimit"
-         * value [integer]: Value of the rule. ex: 5
+         * value [integer or boolean]: Value of the rule. ex: 5
          */
         public Rule(Map<String, Object> data) throws Exception {
             HashMap<String, Object> dataCopy = new HashMap<>(data);
 
             this.key = (String) dataCopy.remove("key");
-            this.value = (Number) dataCopy.remove("value");
+            this.value = dataCopy.remove("value");
 
             if (!dataCopy.isEmpty()) {
                 throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
@@ -834,6 +851,34 @@ public final class Transfer extends Resource {
         }
 
         public Rule(){
+        }
+
+        public static class Deserializer implements JsonDeserializer<Rule> {
+            @Override
+            public Rule deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                JsonObject jsonObject = json.getAsJsonObject();
+                Rule rule = new Rule();
+                rule.key = jsonObject.has("key") ? jsonObject.get("key").getAsString() : null;
+                
+                if (jsonObject.has("value")) {
+                    JsonElement valueElement = jsonObject.get("value");
+                    Object value = null;
+                    
+                    if (valueElement.isJsonPrimitive()) {
+                        if (valueElement.getAsJsonPrimitive().isBoolean()) {
+                            value = valueElement.getAsBoolean();
+                        } else if (valueElement.getAsJsonPrimitive().isNumber()) {
+                            value = valueElement.getAsNumber();
+                        }
+                    }
+                    
+                    rule.value = value;
+                } else {
+                    rule.value = null;
+                }
+                
+                return rule;
+            }
         }
     }
 }
