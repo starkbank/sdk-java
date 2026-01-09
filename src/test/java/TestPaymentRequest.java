@@ -1,3 +1,5 @@
+import static org.junit.Assert.*;
+
 import com.starkbank.PaymentRequest;
 import com.starkbank.Settings;
 import com.starkbank.Transaction;
@@ -10,6 +12,7 @@ import com.starkbank.BoletoPayment;
 import org.junit.Assert;
 import org.junit.AssumptionViolatedException;
 import org.junit.Test;
+import com.google.gson.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -39,8 +42,81 @@ public class TestPaymentRequest {
         }
 
         for(PaymentRequest request : requests) {
-            Assert.assertNotNull(request.id);
+            assertNotNull(request.id);
         }
+    }
+
+    @Test
+    public void testDeserializeCreateResponsePayload() {
+        String payload = "{\n" +
+            " \"message\" : \"Requisição(ões) de pagamento(s) criada(s) com sucesso\",\n" +
+            " \"requests\" : [ {\n" +
+            "   \"actions\" : [ {\n" +
+            "     \"action\" : \"requested\",\n" +
+            "     \"email\" : \"\",\n" +
+            "     \"id\" : \"12345454444\",\n" +
+            "     \"name\" : \"Proj\",\n" +
+            "     \"pictureUrl\" : \"\",\n" +
+            "     \"status\" : \"active\",\n" +
+            "     \"type\" : \"project\"\n" +
+            "   }, {\n" +
+            "     \"action\" : \"required\",\n" +
+            "     \"email\" : \"fgomes@helpnei.com\",\n" +
+            "     \"id\" : \"12345454444\",\n" +
+            "     \"name\" : \"Fernando Gomes\",\n" +
+            "     \"pictureUrl\" : \"\",\n" +
+            "     \"status\" : \"active\",\n" +
+            "     \"type\" : \"member\"\n" +
+            "   }, {\n" +
+            "     \"action\" : \"required\",\n" +
+            "     \"email\" : \"vpaz@helpnei.com\",\n" +
+            "     \"id\" : \"12345454444\",\n" +
+            "     \"name\" : \"Vinicius Paz\",\n" +
+            "     \"pictureUrl\" : \"\",\n" +
+            "     \"status\" : \"active\",\n" +
+            "     \"type\" : \"member\"\n" +
+            "   } ],\n" +
+            "   \"amount\" : 12334,\n" +
+            "   \"attachments\" : [ ],\n" +
+            "   \"centerId\" : \"12345671234567\",\n" +
+            "   \"created\" : \"2025-11-23T12:32:36.965218+00:00\",\n" +
+            "   \"description\" : \"fERNANDO teste manual (011.222.333-40)\",\n" +
+            "   \"due\" : \"2025-11-23T12:32:36.952898+00:00\",\n" +
+            "   \"id\" : \"12345454444\",\n" +
+            "   \"payment\" : {\n" +
+            "     \"accountNumber\" : \"*IEQ1ATFCgZwH8JFsfAdeurjYW9AR3JpFIwm4v7iTVnpYkY140znoQZt/1u6SyhCtQ7FlmKwgyVsAsVzR7EhEwdtLhSq4NDPLsj3NxQTFakw=\",\n" +
+            "     \"accountType\" : \"payment\",\n" +
+            "     \"amount\" : 12334,\n" +
+            "     \"bankCode\" : \"123456\",\n" +
+            "     \"bankName\" : \"NU PAGAMENTOS - IP\",\n" +
+            "     \"branchCode\" : \"*7at/HwNgLRQDwejLYsmwPHRe4qlN/WToRlf/3aNi22Q=\",\n" +
+            "     \"description\" : \"Cash-out request ID: e53a40d3-76f2-4da2-a217-b2829faa1c05\",\n" +
+            "     \"externalId\" : \"e53a40d3-76f2-4da2-a217-b2829faa1c05\",\n" +
+            "     \"name\" : \"fERNANDO teste manual\",\n" +
+            "     \"tags\" : [ \"requestId:e53a40d3-76f2-4da2-a217-b2829faa1c05\" ],\n" +
+            "     \"taxId\" : \"011.222.333-40\"\n" +
+            "   },\n" +
+            "   \"status\" : \"pending\",\n" +
+            "   \"tags\" : [ \"requestid:e53a40d3-76f2-4da2-a217-b2829faa1c05\" ],\n" +
+            "   \"type\" : \"transfer\",\n" +
+            "   \"updated\" : \"2025-11-23T12:32:36.965225+00:00\"\n" +
+            " } ]\n" +
+            "}";
+
+        JsonObject obj = JsonParser.parseString(payload).getAsJsonObject();
+        JsonArray arr = obj.getAsJsonArray("requests");
+        JsonElement first = arr.get(0);
+
+        // This must not throw (previously it would fail trying to instantiate abstract Resource)
+        PaymentRequest request = new Gson().fromJson(first, PaymentRequest.class);
+
+        assertNotNull(request);
+        assertEquals("transfer", request.type);
+        assertNotNull(request.payment);
+        assertTrue(request.payment instanceof com.starkbank.Transfer);
+        assertEquals("pending", request.status);
+        assertNotNull(request.actions);
+        assertEquals(3, request.actions.size());
     }
 
     @Test
@@ -57,7 +133,7 @@ public class TestPaymentRequest {
         int i = 0;
         for (PaymentRequest request : requests) {
             i += 1;
-            Assert.assertNotNull(request.id);
+            assertNotNull(request.id);
         }
     }
 
@@ -104,13 +180,13 @@ public class TestPaymentRequest {
         try {
             event = (Event.PaymentRequestEvent) Event.parse(content, valid_signature);
         } catch (InvalidSignatureError e) {
-            Assert.fail(e.getMessage());
+            fail(e.getMessage());
         }
 
-        Assert.assertEquals(event.getClass(), Event.PaymentRequestEvent.class);
-        Assert.assertEquals(event.log.getClass(), PaymentRequest.Log.class);
-        Assert.assertEquals(event.log.request.getClass(), PaymentRequest.class);
-        Assert.assertEquals(event.log.request.payment.getClass(), BoletoPayment.class);
+        assertEquals(event.getClass(), Event.PaymentRequestEvent.class);
+        assertEquals(event.log.getClass(), PaymentRequest.Log.class);
+        assertEquals(event.log.request.getClass(), PaymentRequest.class);
+        assertEquals(event.log.request.payment.getClass(), BoletoPayment.class);
     }
 
     static PaymentRequest example() throws Exception{
