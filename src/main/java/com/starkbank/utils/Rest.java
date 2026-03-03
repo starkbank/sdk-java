@@ -5,6 +5,8 @@ import com.starkbank.utils.Generator;
 import com.starkbank.utils.GeneratorRelay;
 import com.starkcore.utils.Page;
 import com.starkbank.utils.Response;
+import com.starkcore.utils.GsonEvent;
+import com.starkbank.error.ErrorElement;
 
 import com.google.gson.*;
 import com.starkbank.User;
@@ -18,6 +20,10 @@ import java.lang.reflect.Type;
 
 
 public final class Rest {
+
+    static {
+        GsonEvent.registerTypeAdapter(ErrorElement.class, new ErrorElement.Deserializer());
+    }
 
     static String host = "bank";
     static String sdkVersion = "2.25.0";
