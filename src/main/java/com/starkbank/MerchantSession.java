@@ -24,6 +24,8 @@ public class MerchantSession extends Resource {
     public List<AllowedInstallment> allowedInstallments;
     public List<String> allowedIps;
     public String challengeMode;
+    public String holderId;
+    public String softDescriptor;
     public String created;
     public Number expiration;
     public String status;
@@ -31,12 +33,14 @@ public class MerchantSession extends Resource {
     public String updated;
     public String uuid;
 
-    public MerchantSession(String id, List<String> allowedFundingTypes, List<AllowedInstallment> allowedInstallments, List<String> allowedIps, String challengeMode, String created, Number expiration, String status, String[] tags, String updated, String uuid)  {
+    public MerchantSession(String id, List<String> allowedFundingTypes, List<AllowedInstallment> allowedInstallments, List<String> allowedIps, String challengeMode, String holderId, String softDescriptor, String created, Number expiration, String status, String[] tags, String updated, String uuid)  {
         super(id);
         this.allowedFundingTypes = allowedFundingTypes;
         this.allowedInstallments = allowedInstallments;
         this.allowedIps = allowedIps;
         this.challengeMode = challengeMode;
+        this.holderId = holderId;
+        this.softDescriptor = softDescriptor;
         this.created = created;
         this.expiration = expiration;
         this.status = status;
@@ -53,6 +57,8 @@ public class MerchantSession extends Resource {
         this.allowedFundingTypes = (List<String>) dataCopy.remove("allowedFundingTypes");
         this.allowedInstallments = parseAllowedInstallments((List<Object>) dataCopy.remove("allowedInstallments"));
         this.challengeMode = (String) dataCopy.remove("challengeMode");
+        this.holderId = (String) dataCopy.remove("holderId");
+        this.softDescriptor = (String) dataCopy.remove("softDescriptor");
         this.expiration = (Number) dataCopy.remove("expiration");
         this.tags = (String[]) dataCopy.remove("tags");
         this.uuid = null;
@@ -186,6 +192,8 @@ public class MerchantSession extends Resource {
         public String holderName;
         public String holderEmail;
         public String holderPhone;
+        public String holderId;
+        public String softDescriptor;
         public String fundingType;
         public String billingCountryCode;
         public String billingCity;
@@ -201,7 +209,7 @@ public class MerchantSession extends Resource {
         public String[] tags;
         public String update;
 
-        public Purchase(String id, Long amount, Integer installmentCount, String cardId, String cardExpiration, String cardNumber, String cardSecurityCode, String holderName, String holderEmail, String holderPhone, String fundingType, String billingCountryCode, String billingCity, String billingStateCode, String billingStreetLine1, String billingStreetLine2, String billingZipCode, String challengeMode, Map<String, Object> metadata) {
+        public Purchase(String id, Long amount, Integer installmentCount, String cardId, String cardExpiration, String cardNumber, String cardSecurityCode, String holderName, String holderEmail, String holderPhone, String holderId, String softDescriptor, String fundingType, String billingCountryCode, String billingCity, String billingStateCode, String billingStreetLine1, String billingStreetLine2, String billingZipCode, String challengeMode, Map<String, Object> metadata) {
             super(id);
             this.amount = amount;
             this.installmentCount = installmentCount;
@@ -212,6 +220,8 @@ public class MerchantSession extends Resource {
             this.holderName = holderName;
             this.holderEmail = holderEmail;
             this.holderPhone = holderPhone;
+            this.holderId = holderId;
+            this.softDescriptor = softDescriptor;
             this.fundingType = fundingType;
             this.billingCountryCode = billingCountryCode;
             this.billingCity = billingCity;
@@ -246,6 +256,8 @@ public class MerchantSession extends Resource {
             this.billingZipCode = (String) dataCopy.remove("billingZipCode");
             this.metadata =  (Map<String, Object>) dataCopy.remove("metadata");
             this.tags = (String[]) dataCopy.remove("tags");
+            this.holderId = (String) dataCopy.remove("holderId");
+            this.softDescriptor = (String) dataCopy.remove("softDescriptor");
             this.challengeMode = null;
             this.network = null;
             this.source = null;
