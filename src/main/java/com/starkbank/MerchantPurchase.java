@@ -24,6 +24,8 @@ public class MerchantPurchase extends Resource {
     public String holderName;
     public String holderEmail;
     public String holderPhone;
+    public String holderId;
+    public String softDescriptor;
     public String fundingType;
     public String challengeMode;
     public String billingCountryCode;
@@ -45,13 +47,15 @@ public class MerchantPurchase extends Resource {
     public String[] tags;
     public String updated;
 
-    public MerchantPurchase(String id, long amount, int installmentCount, String holderName, String holderEmail, String holderPhone, String fundingType, String billingCountryCode, String billingCity, String billingStateCode, String billingStreetLine1, String billingStreetLine2, String billingZipCode, Map<String, Object> metadata, String cardEnding, String cardId, String challengeMode, String challengeUrl, String created, String currencyCode, String endToEndId, int fee, String network, String source, String status, String[] tags, String updated) {
+    public MerchantPurchase(String id, long amount, int installmentCount, String holderName, String holderEmail, String holderPhone, String holderId, String softDescriptor, String fundingType, String billingCountryCode, String billingCity, String billingStateCode, String billingStreetLine1, String billingStreetLine2, String billingZipCode, Map<String, Object> metadata, String cardEnding, String cardId, String challengeMode, String challengeUrl, String created, String currencyCode, String endToEndId, int fee, String network, String source, String status, String[] tags, String updated) {
         super(id);
         this.amount = amount;
         this.installmentCount = installmentCount;
         this.holderName = holderName;
         this.holderEmail = holderEmail;
         this.holderPhone = holderPhone;
+        this.holderId = holderId;
+        this.softDescriptor = softDescriptor;
         this.fundingType = fundingType;
         this.billingCountryCode = billingCountryCode;
         this.billingCity = billingCity;
@@ -85,6 +89,8 @@ public class MerchantPurchase extends Resource {
         this.holderName = (String) dataCopy.remove("holderName");
         this.holderEmail = (String) dataCopy.remove("holderEmail");
         this.holderPhone = (String) dataCopy.remove("holderPhone");
+        this.holderId = (String) dataCopy.remove("holderId");
+        this.softDescriptor = (String) dataCopy.remove("softDescriptor");
         this.fundingType = (String) dataCopy.remove("fundingType");
         this.billingCountryCode = (String) dataCopy.remove("billingCountryCode");
         this.billingCity = (String) dataCopy.remove("billingCity");

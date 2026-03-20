@@ -125,6 +125,7 @@ public class TestMerchantSession {
     @Test
     public void testMerchantSessionPurchaseChallengeModeDisabled() throws Exception {
         Settings.user = utils.User.defaultProject();
+        Settings.timeout = 20;
 
         MerchantSession merchantSession = MerchantSession.create(exampleMerchantSession("disabled"));
 

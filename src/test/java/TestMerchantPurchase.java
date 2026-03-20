@@ -16,10 +16,11 @@ public class TestMerchantPurchase {
     @Test
     public void testCreate() throws Exception {
         Settings.user = utils.User.defaultProject();
+        Settings.timeout = 20;
+
         MerchantSession merchantSession = MerchantSession.create(exampleMerchantSession("disabled"));
         MerchantSession.Purchase purchase = MerchantSession.purchase(merchantSession.uuid, examplePurchaseChallengeModeDisable());
 
-        System.out.println(exampleMerchantPurchase(purchase.cardId));
         MerchantPurchase merchantPurchase = MerchantPurchase.create(exampleMerchantPurchase(purchase.cardId));
         System.out.println(merchantPurchase);
         Assert.assertNotNull(merchantPurchase.id);
