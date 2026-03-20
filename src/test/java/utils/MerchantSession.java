@@ -26,6 +26,8 @@ public class MerchantSession {
         data.put("allowedInstallments", allowedInstallments);
         data.put("expiration", 3600);
         data.put("challengeMode", challengeMode);
+        data.put("holderId", "5656565656565656");
+        data.put("softDescriptor", "Stark Bank");
 
         data.put("tags", new String[]{"Stark", "Suit"});
 
@@ -42,6 +44,9 @@ public class MerchantSession {
         purchaseData.put("holderName", "Margaery Tyrell");
         purchaseData.put("holderEmail", "margaery.tyrell@starkbank.com");
         purchaseData.put("holderPhone", "11998663456");
+        purchaseData.put("holderId", "5656565656565656");
+        purchaseData.put("softDescriptor", "Stark Bank");
+
         purchaseData.put("fundingType", "credit");
         purchaseData.put("billingCountryCode", "BRA");
         purchaseData.put("billingCity", "Sao Paulo");
