@@ -7,6 +7,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 import com.starkcore.utils.SubResource;
 import com.starkcore.utils.GsonEvent;
+import com.google.gson.annotations.JsonAdapter;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -15,9 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 
+@JsonAdapter(PaymentRequest.Deserializer.class)
 public final class PaymentRequest extends Resource {
     static ClassData data = new ClassData(PaymentRequest.class, "PaymentRequest");
-    
+
     static {
         GsonEvent.registerTypeAdapter(PaymentRequest.class, new PaymentRequest.Deserializer());
     }
@@ -171,31 +173,54 @@ public final class PaymentRequest extends Resource {
     public static class Deserializer implements JsonDeserializer<PaymentRequest> {
         @Override
         public PaymentRequest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext ctw) throws JsonParseException {
-            JsonElement resourceElement = json.getAsJsonObject().get("payment");
-            json.getAsJsonObject().remove("payment");
-            PaymentRequest request = new Gson().fromJson(json, PaymentRequest.class);
+            Gson gson = GsonEvent.getInstance();
+            JsonObject obj = json.getAsJsonObject();
+
+            // Build the base request manually to avoid recursive deserialization
+            PaymentRequest request = new PaymentRequest();
+            request.id = obj.has("id") && !obj.get("id").isJsonNull() ? obj.get("id").getAsString() : null;
+            request.centerId = obj.has("centerId") && !obj.get("centerId").isJsonNull() ? obj.get("centerId").getAsString() : null;
+            request.type = obj.has("type") && !obj.get("type").isJsonNull() ? obj.get("type").getAsString() : null;
+            request.due = obj.has("due") && !obj.get("due").isJsonNull() ? obj.get("due").getAsString() : null;
+            request.amount = obj.has("amount") && !obj.get("amount").isJsonNull() ? obj.get("amount").getAsLong() : null;
+            request.description = obj.has("description") && !obj.get("description").isJsonNull() ? obj.get("description").getAsString() : null;
+            request.status = obj.has("status") && !obj.get("status").isJsonNull() ? obj.get("status").getAsString() : null;
+            request.updated = obj.has("updated") && !obj.get("updated").isJsonNull() ? obj.get("updated").getAsString() : null;
+            request.created = obj.has("created") && !obj.get("created").isJsonNull() ? obj.get("created").getAsString() : null;
+
+            if (obj.has("tags") && obj.get("tags").isJsonArray()) {
+                JsonArray tagsArray = obj.getAsJsonArray("tags");
+                String[] tags = new String[tagsArray.size()];
+                for (int i = 0; i < tagsArray.size(); i++) {
+                    tags[i] = tagsArray.get(i).isJsonNull() ? null : tagsArray.get(i).getAsString();
+                }
+                request.tags = tags;
+            }
+
+            // Deserialize payment according to type
+            JsonElement resourceElement = obj.get("payment");
             Resource resource = null;
             switch (request.type) {
                 case "transfer":
-                    resource = new Gson().fromJson(resourceElement, Transfer.class);
+                    resource = gson.fromJson(resourceElement, Transfer.class);
                     break;
                 case "transaction":
-                    resource = new Gson().fromJson(resourceElement, Transaction.class);
+                    resource = gson.fromJson(resourceElement, Transaction.class);
                     break;
                 case "boleto-payment":
-                    resource = new Gson().fromJson(resourceElement, BoletoPayment.class);
+                    resource = gson.fromJson(resourceElement, BoletoPayment.class);
                     break;
                 case "utility-payment":
-                    resource = new Gson().fromJson(resourceElement, UtilityPayment.class);
+                    resource = gson.fromJson(resourceElement, UtilityPayment.class);
                     break;
                 case "tax-payment":
-                    resource = new Gson().fromJson(resourceElement, TaxPayment.class);
+                    resource = gson.fromJson(resourceElement, TaxPayment.class);
                     break;
                 case "darf-payment":
-                    resource = new Gson().fromJson(resourceElement, DarfPayment.class);
+                    resource = gson.fromJson(resourceElement, DarfPayment.class);
                     break;
                 case "brcode-payment":
-                    resource = new Gson().fromJson(resourceElement, BrcodePayment.class);
+                    resource = gson.fromJson(resourceElement, BrcodePayment.class);
                     break;
                 default:
                     break;
@@ -203,15 +228,20 @@ public final class PaymentRequest extends Resource {
 
             request.payment = resource;
 
-            resourceElement = json.getAsJsonObject().get("actions");
-            for (LinkedTreeMap<Object, Object> action : (List<LinkedTreeMap<Object, Object>>) new Gson().fromJson(resourceElement, List.class)){
-                request.actions.add(new PaymentRequest.Action(
-                    (String) action.get("name"),
-                    (String) action.get("action"),
-                    (String) action.get("type"),
-                    (String) action.get("id")
-                ));
+            // Parse actions with safe initialization
+            List<PaymentRequest.Action> parsedActions = new ArrayList<>();
+            JsonElement actionsElement = obj.get("actions");
+            if (actionsElement != null && !actionsElement.isJsonNull()) {
+                for (LinkedTreeMap<Object, Object> action : (List<LinkedTreeMap<Object, Object>>) gson.fromJson(actionsElement, List.class)) {
+                    parsedActions.add(new PaymentRequest.Action(
+                        (String) action.get("name"),
+                        (String) action.get("action"),
+                        (String) action.get("type"),
+                        (String) action.get("id")
+                    ));
+                }
             }
+            request.actions = parsedActions;
 
             return request;
         }
@@ -477,7 +507,7 @@ public final class PaymentRequest extends Resource {
             return "brcode-payment";
 
         throw new Exception("Payment must either be a Transfer, a Transaction, a BoletoPayment, a BrcodePayment, " +
-                "a UtilityPayment, a TaxPayment or a DarfPayment.");
+            "a UtilityPayment, a TaxPayment or a DarfPayment.");
     }
 
     public final static class Log extends Resource {
@@ -562,9 +592,9 @@ public final class PaymentRequest extends Resource {
 
         /**
          * PaymentRequest.Action object
-         * 
+         *
          * Used to define a action in the payment request
-         * 
+         *
          * Parameters:
          * @param name [string]: name of the user that took the action. ex: "Stark Project"
          * @param action [string]: action type. ex "requested", "approved"
