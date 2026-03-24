@@ -104,10 +104,10 @@ public class MerchantInstallment extends Resource {
 
         public String created;
         public String type;
-        public List<ErrorElement>  errors;
+        public List<ErrorElement> errors;
         public MerchantInstallment installment;
 
-        public Log(String created, String type, List<ErrorElement>  errors, MerchantInstallment merchantInstallment, String id) {
+        public Log(String created, String type, List<ErrorElement> errors, MerchantInstallment merchantInstallment, String id) {
             super(id);
             this.created = created;
             this.type = type;
