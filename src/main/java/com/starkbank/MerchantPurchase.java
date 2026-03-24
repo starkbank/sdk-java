@@ -1,5 +1,6 @@
 package com.starkbank;
 
+import com.starkbank.error.ErrorElement;
 import com.starkbank.utils.Generator;
 import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
@@ -191,10 +192,10 @@ public class MerchantPurchase extends Resource {
 
         public String created;
         public String type;
-        public String[] errors;
+        public List<ErrorElement> errors;
         public MerchantPurchase purchase;
 
-        public Log(String created, String type, String[] errors, MerchantPurchase purchase, String id) {
+        public Log(String created, String type, List<ErrorElement> errors, MerchantPurchase purchase, String id) {
             super(id);
             this.created = created;
             this.type = type;

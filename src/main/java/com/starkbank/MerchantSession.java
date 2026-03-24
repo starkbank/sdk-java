@@ -287,7 +287,6 @@ public class MerchantSession extends Resource {
             this.session = session;
         }
 
-
         public static MerchantSession.Log get(String id) throws Exception {
             return MerchantSession.Log.get(id, null);
         }
