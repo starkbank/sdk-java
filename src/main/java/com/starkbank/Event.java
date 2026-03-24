@@ -114,6 +114,18 @@ public class Event extends Resource {
                                 VerifiedAccountEvent.class);
                     case "payment-request":
                         return GsonEvent.getInstance().fromJson(jsonObject, PaymentRequestEvent.class);
+                    case "merchant-purchase":
+                        return context.deserialize(jsonObject,
+                                MerchantPurchaseEvent.class);
+                    case "merchant-session":
+                        return context.deserialize(jsonObject,
+                                MerchantSessionEvent.class);
+                    case "merchant-installment":
+                        return context.deserialize(jsonObject,
+                                MerchantInstallmentEvent.class);
+                    case "merchant-card":
+                        return context.deserialize(jsonObject,
+                                MerchantCardEvent.class);
                     default:
                         return context.deserialize(jsonObject,
                                 UnknownEvent.class);
@@ -301,6 +313,58 @@ public class Event extends Resource {
         }
 
         public PaymentRequestEvent() {
+            super();
+        }
+    }
+
+    public final static class MerchantPurchaseEvent extends Event {
+        public MerchantPurchase.Log log;
+
+        public MerchantPurchaseEvent(MerchantPurchase.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
+            this.log = log;
+        }
+
+        public MerchantPurchaseEvent() {
+            super();
+        }
+    }
+
+    public final static class MerchantSessionEvent extends Event {
+        public MerchantSession.Log log;
+
+        public MerchantSessionEvent(MerchantSession.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
+            this.log = log;
+        }
+
+        public MerchantSessionEvent() {
+            super();
+        }
+    }
+
+    public final static class MerchantInstallmentEvent extends Event {
+        public MerchantInstallment.Log log;
+
+        public MerchantInstallmentEvent(MerchantInstallment.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
+            this.log = log;
+        }
+
+        public MerchantInstallmentEvent() {
+            super();
+        }
+    }
+
+    public final static class MerchantCardEvent extends Event {
+        public MerchantCard.Log log;
+
+        public MerchantCardEvent(MerchantCard.Log log, String created, Boolean isDelivered, String subscription, String id, String workspaceId) {
+            super(created, isDelivered, subscription, id, workspaceId);
+            this.log = log;
+        }
+
+        public MerchantCardEvent() {
             super();
         }
     }

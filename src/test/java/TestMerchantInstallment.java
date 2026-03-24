@@ -1,5 +1,4 @@
-import com.starkbank.MerchantInstallment;
-import com.starkbank.Settings;
+import com.starkbank.*;
 import com.starkbank.utils.Generator;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +19,6 @@ public class TestMerchantInstallment {
         for (MerchantInstallment installment : installments) {
             MerchantInstallment retrievedInstallment = MerchantInstallment.get(installment.id);
             Assert.assertNotNull(retrievedInstallment.id);
-            System.out.println(retrievedInstallment);
         }
     }
 
@@ -33,7 +31,6 @@ public class TestMerchantInstallment {
 
         for (MerchantInstallment installment : installments) {
             Assert.assertNotNull(installment.id);
-            System.out.println(installment);
         }
     }
 
@@ -75,9 +72,20 @@ public class TestMerchantInstallment {
             i += 1;
             log = MerchantInstallment.Log.get(log.id);
             Assert.assertNotNull(log.id);
-            System.out.println(log);
         }
         Assert.assertTrue(i > 0);
     }
 
+    @Test
+    public void testMerchantInstallmentEventParse() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        String content = "{\"event\": {\"created\": \"2025-10-14T20:45:55.357314+00:00\", \"id\": \"6007986671583232\", \"log\": {\"created\": \"2025-10-14T20:45:53.697574+00:00\", \"description\": \"Installment created with a nominal amount of R$ 10,00.\", \"errors\": [], \"id\": \"6655369694674944\", \"installment\": {\"amount\": 1000, \"created\": \"2025-10-14T20:45:53.610204+00:00\", \"due\": \"2025-11-17T03:00:00+00:00\", \"fee\": 24, \"fundingType\": \"credit\", \"id\": \"5529469787832320\", \"isProtected\": false, \"network\": \"diners\", \"nominalDue\": \"2025-11-17T03:00:00+00:00\", \"purchaseId\": \"5022074565296128\", \"status\": \"created\", \"tags\": [\"yourtags\"], \"transactionIds\": [], \"updated\": \"2025-10-14T20:45:53.697608+00:00\"}, \"type\": \"created\"}, \"subscription\": \"merchant-installment\", \"workspaceId\": \"6341320293482496\"}}";
+        String validSignature = "MEUCIQD8azmNmlsG+baoqAh4xmX9G538cGrDhTT0VvU85rz8bwIgBEdIr6SSW/7vfxOv4ZET+LsHU0TpNpTrGmBxjs8Y5o0=";
+        Event parsedEvent = Event.parse(content, validSignature);
+
+        Assert.assertEquals("merchant-installment", parsedEvent.subscription);
+        Assert.assertEquals(Event.MerchantInstallmentEvent.class, parsedEvent.getClass());
+        Assert.assertEquals(MerchantInstallment.Log.class, ((Event.MerchantInstallmentEvent) parsedEvent).log.getClass());
+    }
 }
