@@ -17,10 +17,6 @@ import java.util.Map;
 
 public final class PaymentRequest extends Resource {
     static ClassData data = new ClassData(PaymentRequest.class, "PaymentRequest");
-    
-    static {
-        GsonEvent.registerTypeAdapter(PaymentRequest.class, new PaymentRequest.Deserializer());
-    }
 
     /**
      * PaymentRequest object

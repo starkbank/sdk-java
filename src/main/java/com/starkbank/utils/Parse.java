@@ -25,6 +25,10 @@ public final class Parse {
     static String language = "pt-BR";
     static Integer timeout = 5;
 
+    static {
+        com.starkbank.utils.GsonAdapters.setup();
+    }
+
     /**
      * Create single notification Event from a content string
      * <p>
