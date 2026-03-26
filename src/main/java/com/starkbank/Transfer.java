@@ -21,11 +21,6 @@ import java.util.Map;
 
 
 public final class Transfer extends Resource {
-
-    static {
-        GsonEvent.registerTypeAdapter(Rule.class, new Rule.Deserializer());
-    }
-
     /**
      * Transfer object
      * <p>
@@ -807,10 +802,6 @@ public final class Transfer extends Resource {
      *
      */
     public final static class Rule extends SubResource{
-        static {
-            GsonEvent.registerTypeAdapter(Rule.class, new Rule.Deserializer());
-        }
-
         public String key;
         public Object value;
 
