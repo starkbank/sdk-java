@@ -34,11 +34,6 @@ public class Event extends Resource {
      */
     static ClassData data = new ClassData(Event.class, "Event");
 
-    static {
-        GsonEvent.registerTypeAdapter(Event.class, new Event.Deserializer());
-        GsonEvent.registerTypeAdapter(PaymentRequest.class, new PaymentRequest.Deserializer());
-    }
-
     public String created;
     public Boolean isDelivered;
     public String subscription;
