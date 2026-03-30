@@ -15,7 +15,6 @@ public class TestMerchantSession {
         Settings.user = utils.User.defaultProject();
 
         MerchantSession merchantSession = MerchantSession.create(exampleMerchantSession("disabled"));
-        System.out.println(merchantSession);
         Assert.assertNotNull(merchantSession.id);
     }
 
@@ -28,7 +27,6 @@ public class TestMerchantSession {
 
         for (MerchantSession session : sessions) {
             Assert.assertNotNull(session.id);
-            System.out.println(session);
         }
     }
 
@@ -42,7 +40,6 @@ public class TestMerchantSession {
         for (MerchantSession session : sessions) {
             MerchantSession retrievedSession = MerchantSession.get(session.id);
             Assert.assertNotNull(retrievedSession.id);
-            System.out.println(retrievedSession);
         }
     }
 
@@ -78,7 +75,6 @@ public class TestMerchantSession {
 
         MerchantSession.Page page = MerchantSession.page();
         for (MerchantSession session : page.merchantSessions) {
-            System.out.println(session);
             Assert.assertNotNull(session.id);
             ids.add(session.id);
         }
@@ -100,7 +96,6 @@ public class TestMerchantSession {
             i += 1;
             log = MerchantSession.Log.get(log.id);
             Assert.assertNotNull(log.id);
-            System.out.println(log);
         }
         Assert.assertTrue(i > 0);
     }
@@ -113,7 +108,6 @@ public class TestMerchantSession {
 
         MerchantSession.Log.Page page = MerchantSession.Log.page();
         for (MerchantSession.Log session : page.logs) {
-            System.out.println(session);
             Assert.assertNotNull(session.id);
             ids.add(session.id);
         }
@@ -131,7 +125,6 @@ public class TestMerchantSession {
 
         MerchantSession.Purchase purchaseResponse = MerchantSession.purchase(
                 merchantSession.uuid, examplePurchaseChallengeModeDisable());
-        System.out.println(purchaseResponse);
         Assert.assertNotNull(purchaseResponse.id);
     }
 

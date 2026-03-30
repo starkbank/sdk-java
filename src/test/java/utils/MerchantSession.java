@@ -44,8 +44,6 @@ public class MerchantSession {
         purchaseData.put("holderName", "Margaery Tyrell");
         purchaseData.put("holderEmail", "margaery.tyrell@starkbank.com");
         purchaseData.put("holderPhone", "11998663456");
-        purchaseData.put("holderId", "5656565656565656");
-        purchaseData.put("softDescriptor", "Stark Bank");
 
         purchaseData.put("fundingType", "credit");
         purchaseData.put("billingCountryCode", "BRA");
