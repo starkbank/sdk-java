@@ -22,7 +22,7 @@ import java.lang.reflect.Type;
 public final class Rest {
 
     static {
-        GsonEvent.registerTypeAdapter(ErrorElement.class, new ErrorElement.Deserializer());
+        GsonAdapters.setup();
     }
 
     static String host = "bank";
