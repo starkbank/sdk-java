@@ -17,10 +17,10 @@ public class MerchantSession {
         List<com.starkbank.MerchantSession.AllowedInstallment> allowedInstallments = new ArrayList<>();
 
         com.starkbank.MerchantSession.AllowedInstallment allowedInstallment1 = new com.starkbank.MerchantSession.AllowedInstallment(5000L, 1);
-        com.starkbank.MerchantSession.AllowedInstallment allowedInstallments2 = new com.starkbank.MerchantSession.AllowedInstallment(5500L, 2);
+        com.starkbank.MerchantSession.AllowedInstallment allowedInstallment2 = new com.starkbank.MerchantSession.AllowedInstallment(5500L, 2);
 
         allowedInstallments.add(allowedInstallment1);
-        allowedInstallments.add(allowedInstallments2);
+        allowedInstallments.add(allowedInstallment2);
 
 
         data.put("allowedInstallments", allowedInstallments);

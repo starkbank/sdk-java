@@ -167,5 +167,4 @@ public class MerchantCard extends Resource {
         }
 
     }
-    
 }

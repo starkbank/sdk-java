@@ -207,7 +207,8 @@ public class MerchantSession extends Resource {
         public String source;
         public String status;
         public String[] tags;
-        public String update;
+        public String created;
+        public String updated;
 
         public Purchase(String id, Long amount, Integer installmentCount, String cardId, String cardExpiration, String cardNumber, String cardSecurityCode, String holderName, String holderEmail, String holderPhone, String holderId, String softDescriptor, String fundingType, String billingCountryCode, String billingCity, String billingStateCode, String billingStreetLine1, String billingStreetLine2, String billingZipCode, String challengeMode, Map<String, Object> metadata) {
             super(id);
@@ -262,7 +263,8 @@ public class MerchantSession extends Resource {
             this.network = null;
             this.source = null;
             this.status = null;
-            this.update = null;
+            this.created = null;
+            this.updated = null;
 
             if (!dataCopy.isEmpty()) {
                 throw new Exception("Unknown parameters used in constructor: [" + String.join(", ", dataCopy.keySet()) + "]");
