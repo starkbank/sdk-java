@@ -47,6 +47,23 @@ public class TestMerchantPurchase {
     }
 
     @Test
+    public void testDelete() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 1);
+        params.put("status", "approved");
+
+        Generator<MerchantPurchase> purchases = MerchantPurchase.query(params);
+
+        for (MerchantPurchase merchantPurchase : purchases) {
+            MerchantPurchase deleted = MerchantPurchase.delete(merchantPurchase.id);
+            Assert.assertNotNull(deleted.id);
+        }
+
+    }
+
+    @Test
     public void testQuery() throws Exception {
         Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();

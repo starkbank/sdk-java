@@ -29,6 +29,7 @@ public class MerchantPurchase extends Resource {
     public String softDescriptor;
     public String fundingType;
     public String challengeMode;
+    public String confirmationMode;
     public String billingCountryCode;
     public String billingCity;
     public String billingStateCode;
@@ -48,7 +49,7 @@ public class MerchantPurchase extends Resource {
     public String[] tags;
     public String updated;
 
-    public MerchantPurchase(String id, long amount, int installmentCount, String holderName, String holderEmail, String holderPhone, String holderId, String softDescriptor, String fundingType, String billingCountryCode, String billingCity, String billingStateCode, String billingStreetLine1, String billingStreetLine2, String billingZipCode, Map<String, Object> metadata, String cardEnding, String cardId, String challengeMode, String challengeUrl, String created, String currencyCode, String endToEndId, int fee, String network, String source, String status, String[] tags, String updated) {
+    public MerchantPurchase(String id, long amount, int installmentCount, String holderName, String holderEmail, String holderPhone, String holderId, String softDescriptor, String fundingType, String billingCountryCode, String billingCity, String billingStateCode, String billingStreetLine1, String billingStreetLine2, String billingZipCode, Map<String, Object> metadata, String cardEnding, String cardId, String challengeMode, String confirmationMode, String challengeUrl, String created, String currencyCode, String endToEndId, int fee, String network, String source, String status, String[] tags, String updated) {
         super(id);
         this.amount = amount;
         this.installmentCount = installmentCount;
@@ -68,6 +69,7 @@ public class MerchantPurchase extends Resource {
         this.cardEnding = cardEnding;
         this.cardId = cardId;
         this.challengeMode = challengeMode;
+        this.confirmationMode = confirmationMode;
         this.challengeUrl = challengeUrl;
         this.created = created;
         this.currencyCode = currencyCode;
@@ -101,6 +103,7 @@ public class MerchantPurchase extends Resource {
         this.billingZipCode = (String) dataCopy.remove("billingZipCode");
         this.metadata = (Map<String, Object>) dataCopy.remove("metadata");
         this.challengeMode = (String) dataCopy.remove("challengeMode");
+        this.confirmationMode = (String) dataCopy.remove("confirmationMode");
         this.tags = (String[]) dataCopy.remove("tags");
         this.cardEnding = null;
         this.challengeUrl = null;
@@ -133,6 +136,14 @@ public class MerchantPurchase extends Resource {
 
     public static MerchantPurchase update(String id, Map<String, Object> patchData, User user) throws Exception {
         return Rest.patch(data, id, patchData, user);
+    }
+
+    public static MerchantPurchase delete(String id) throws Exception {
+        return MerchantPurchase.delete(id, null);
+    }
+
+    public static MerchantPurchase delete(String id, User user) throws Exception {
+        return Rest.delete(data, id, user);
     }
 
     public static MerchantPurchase get(String id, User user) throws Exception {

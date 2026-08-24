@@ -24,6 +24,7 @@ public class MerchantSession extends Resource {
     public List<AllowedInstallment> allowedInstallments;
     public List<String> allowedIps;
     public String challengeMode;
+    public String confirmationMode;
     public String holderId;
     public String softDescriptor;
     public String created;
@@ -33,12 +34,13 @@ public class MerchantSession extends Resource {
     public String updated;
     public String uuid;
 
-    public MerchantSession(String id, List<String> allowedFundingTypes, List<AllowedInstallment> allowedInstallments, List<String> allowedIps, String challengeMode, String holderId, String softDescriptor, String created, Number expiration, String status, String[] tags, String updated, String uuid)  {
+    public MerchantSession(String id, List<String> allowedFundingTypes, List<AllowedInstallment> allowedInstallments, List<String> allowedIps, String challengeMode, String confirmationMode, String holderId, String softDescriptor, String created, Number expiration, String status, String[] tags, String updated, String uuid)  {
         super(id);
         this.allowedFundingTypes = allowedFundingTypes;
         this.allowedInstallments = allowedInstallments;
         this.allowedIps = allowedIps;
         this.challengeMode = challengeMode;
+        this.confirmationMode = confirmationMode;
         this.holderId = holderId;
         this.softDescriptor = softDescriptor;
         this.created = created;
@@ -57,6 +59,7 @@ public class MerchantSession extends Resource {
         this.allowedFundingTypes = (List<String>) dataCopy.remove("allowedFundingTypes");
         this.allowedInstallments = parseAllowedInstallments((List<Object>) dataCopy.remove("allowedInstallments"));
         this.challengeMode = (String) dataCopy.remove("challengeMode");
+        this.confirmationMode = (String) dataCopy.remove("confirmationMode");
         this.holderId = (String) dataCopy.remove("holderId");
         this.softDescriptor = (String) dataCopy.remove("softDescriptor");
         this.expiration = (Number) dataCopy.remove("expiration");
@@ -202,6 +205,7 @@ public class MerchantSession extends Resource {
         public String billingStreetLine2;
         public String billingZipCode;
         public String challengeMode;
+        public String confirmationMode;
         public Map<String, Object> metadata;
         public String network;
         public String source;
@@ -210,7 +214,7 @@ public class MerchantSession extends Resource {
         public String created;
         public String updated;
 
-        public Purchase(String id, Long amount, Integer installmentCount, String cardId, String cardExpiration, String cardNumber, String cardSecurityCode, String holderName, String holderEmail, String holderPhone, String holderId, String softDescriptor, String fundingType, String billingCountryCode, String billingCity, String billingStateCode, String billingStreetLine1, String billingStreetLine2, String billingZipCode, String challengeMode, Map<String, Object> metadata) {
+        public Purchase(String id, Long amount, Integer installmentCount, String cardId, String cardExpiration, String cardNumber, String cardSecurityCode, String holderName, String holderEmail, String holderPhone, String holderId, String softDescriptor, String fundingType, String billingCountryCode, String billingCity, String billingStateCode, String billingStreetLine1, String billingStreetLine2, String billingZipCode, String challengeMode, String confirmationMode, Map<String, Object> metadata) {
             super(id);
             this.amount = amount;
             this.installmentCount = installmentCount;
@@ -231,6 +235,7 @@ public class MerchantSession extends Resource {
             this.billingStreetLine2 = billingStreetLine2;
             this.billingZipCode = billingZipCode;
             this.challengeMode = challengeMode;
+            this.confirmationMode = confirmationMode;
             this.metadata = metadata;
         }
 
@@ -260,6 +265,7 @@ public class MerchantSession extends Resource {
             this.holderId = (String) dataCopy.remove("holderId");
             this.softDescriptor = (String) dataCopy.remove("softDescriptor");
             this.challengeMode = null;
+            this.confirmationMode = null;
             this.network = null;
             this.source = null;
             this.status = null;

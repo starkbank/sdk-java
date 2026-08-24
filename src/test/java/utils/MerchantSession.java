@@ -34,6 +34,27 @@ public class MerchantSession {
         return new com.starkbank.MerchantSession(data);
     }
 
+    public static com.starkbank.MerchantSession exampleManualConfirmationMerchantSession() throws Exception {
+        Map<String, Object> data = new HashMap<>();
+        List<String> allowedFundingTypes = new ArrayList<>();
+        allowedFundingTypes.add("credit");
+        data.put("allowedFundingTypes", allowedFundingTypes);
+
+        List<com.starkbank.MerchantSession.AllowedInstallment> allowedInstallments = new ArrayList<>();
+        allowedInstallments.add(new com.starkbank.MerchantSession.AllowedInstallment(5000L, 1));
+        allowedInstallments.add(new com.starkbank.MerchantSession.AllowedInstallment(5500L, 2));
+        data.put("allowedInstallments", allowedInstallments);
+
+        data.put("expiration", 3600);
+        data.put("challengeMode", "disabled");
+        data.put("confirmationMode", "manual");
+        data.put("holderId", "5656565656565656");
+        data.put("softDescriptor", "Stark Bank");
+        data.put("tags", new String[]{"Stark", "Suit"});
+
+        return new com.starkbank.MerchantSession(data);
+    }
+
     public static com.starkbank.MerchantSession.Purchase examplePurchaseChallengeModeEnable() throws Exception {
         Map<String, Object> purchaseData = new HashMap<>();
         purchaseData.put("amount", 5000L);

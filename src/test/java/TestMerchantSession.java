@@ -19,6 +19,15 @@ public class TestMerchantSession {
     }
 
     @Test
+    public void testCreateManualConfirmation() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        MerchantSession merchantSession = MerchantSession.create(exampleManualConfirmationMerchantSession());
+        Assert.assertNotNull(merchantSession.id);
+        Assert.assertEquals("manual", merchantSession.confirmationMode);
+    }
+
+    @Test
     public void testQuery() throws Exception {
         Settings.user = utils.User.defaultProject();
         HashMap<String, Object> params = new HashMap<>();

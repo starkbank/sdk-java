@@ -2680,6 +2680,7 @@ allowedInstallments.add(installment3);
 data.put("allowedInstallments", allowedInstallments);
 data.put("expiration", 3600);
 data.put("challengeMode", "disabled");
+data.put("confirmationMode", "automatic");
 
 data.put("tags", new String[]{"Stark", "Suit"});
 
@@ -2687,6 +2688,8 @@ MerchantSession merchantSession = MerchantSession.create(new MerchantSession(dat
 
 System.out.println(merchantSession);
 ```
+
+Set `confirmationMode` to `"manual"` to create a pre-authorization session: the resulting purchase is approved but only captured once you explicitly confirm it (see [Confirm a MerchantPurchase](#confirm-a-merchantpurchase)). Manual confirmation is available only for credit funding types.
 
 You can create a MerchantPurchase through a MerchantSession by passing its UUID.
 **Note**: This method must be implemented in your front-end to ensure that sensitive card data does not pass through the back-end of the integration.
@@ -2766,6 +2769,37 @@ import com.starkbank.*;
 MerchantPurchase retrievedPurchase = MerchantPurchase.get("5441927222657024");
 
 System.out.println(retrievedPurchase);
+```
+
+### Confirm a MerchantPurchase
+
+When a purchase is created in `manual` confirmation mode (pre-authorization), it stays approved but uncaptured until you confirm it. Confirm it by updating its status to `confirmed`:
+
+```java
+import com.starkbank.*;
+import java.util.HashMap;
+
+HashMap<String, Object> patchData = new HashMap<>();
+patchData.put("status", "confirmed");
+patchData.put("amount", 10000);
+
+MerchantPurchase merchantPurchase = MerchantPurchase.update("5950134772826112", patchData);
+
+System.out.println(merchantPurchase);
+```
+
+You can also use `update` to reverse a confirmed purchase (`status` = `"reversed"`) or cancel an approved one (`status` = `"canceled"`).
+
+### Cancel a MerchantPurchase
+
+Cancel an approved purchase or fully reverse a confirmed one. The operation is inferred from the purchase's current status:
+
+```java
+import com.starkbank.*;
+
+MerchantPurchase merchantPurchase = MerchantPurchase.delete("5950134772826112");
+
+System.out.println(merchantPurchase);
 ```
 
 ### Query MerchantPurchase logs
