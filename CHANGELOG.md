@@ -12,6 +12,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+
+## [2.26.0] - 2026-08-26
 ### Changed
 - updated starkbank-ecdsa to v2.0.0
 - updated starkcore to v0.5.0
