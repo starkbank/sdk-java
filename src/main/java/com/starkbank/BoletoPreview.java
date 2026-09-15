@@ -44,9 +44,9 @@ public final class BoletoPreview extends SubResource {
     public String barCode;
 
     /**
-     * BrcodePreview object
+     * BoletoPreview object
      * <p>
-     * A BrcodePreview is used to get information from a BR Code you received to check the informations before paying it.
+     * A BoletoPreview is used to get information from a boleto you received to check the information before paying it.
      * <p>
      * Parameters:
      * @param status [string]: current boleto status. ex: "active", "expired" or "inactive"
