@@ -17,10 +17,11 @@ public final class BoletoHolmes extends Resource {
      * When you initialize a BoletoHolmes, the entity will not be automatically
      * created in the Stark Bank API. The 'create' function sends the objects
      * to the Stark Bank API and returns the list of created objects.
+     * Investigates the updated status of a Boleto according to CIP, typically resolving in under an hour. Because results are asynchronous, register a webhook for the boleto-holmes.update event instead of polling.
      * <p>
      * Parameters:
      * boletoId [string]: investigated boleto entity ID. ex: "5656565656565656"
-     * tags [list of strings]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * id [string]: unique id returned when holmes is created. ex: "5656565656565656"
      * status [string]: current holmes status. ex: "solving" or "solved"
      * result [string]: result of boleto status investigation. ex: "paid" or "cancelled"
@@ -45,7 +46,7 @@ public final class BoletoHolmes extends Resource {
      * <p>
      * Parameters:
      * @param boletoId [string]: investigated boleto entity ID. ex: "5656565656565656"
-     * @param tags [list of strings]: list of strings for tagging
+     * @param tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * @param id [string]: unique id returned when holmes is created. ex: "5656565656565656"
      * @param status [string]: current holmes status. ex: "solving" or "solved"
      * @param result [string]: result of boleto status investigation. ex: "paid" or "cancelled"
@@ -77,7 +78,7 @@ public final class BoletoHolmes extends Resource {
      * boletoId [string]: investigated boleto entity ID. ex: "5656565656565656"
      * <p>
      * Parameters (optional):
-     * tags [list of strings]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * <p>
      * Attributes (return-only):
      * id [string, default null]: unique id returned when holmes is created. ex: "5656565656565656"

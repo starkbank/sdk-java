@@ -10,6 +10,7 @@ public final class BrcodePreview extends SubResource {
     * BrcodePreview object
     * <p>
     * A BrcodePreview is used to get information from a BR Code you received to check the informations before paying it.
+    * BrcodePreview is an actively supported, evolving resource, not deprecated. The backend response also includes endToEndId, payerId, senderFinalName, senderFinalTaxId, amountType, cashierType, cashierBankCode, cashAmount, due, expired, keyId, data, jws and, for Pix Automatico recurring authorizations, a subscription object; those fields are not yet modeled by this class alongside the fields already present.
     * <p>
     * Parameters:
     * status [string]: Payment status. ex: "active", "paid", "canceled" or "unknown"

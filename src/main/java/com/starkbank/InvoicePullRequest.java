@@ -347,10 +347,35 @@ public final class InvoicePullRequest extends Resource {
         return Rest.post(data, requestList, user);
     }
 
+    /**
+     * Cancel an InvoicePullRequest entity
+     * <p>
+     * Cancel a single Invoice Pull Request.
+     * <p>
+     * Parameters:
+     * @param id [string]: InvoicePullRequest unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * @return canceled InvoicePullRequest object
+     * @throws Exception error in the request
+     */
     public static InvoicePullRequest cancel(String id) throws Exception {
         return InvoicePullRequest.cancel(id, null);
     }
 
+    /**
+     * Cancel an InvoicePullRequest entity
+     * <p>
+     * Cancel a single Invoice Pull Request.
+     * <p>
+     * Parameters:
+     * @param id [string]: InvoicePullRequest unique id. ex: "5656565656565656"
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return canceled InvoicePullRequest object
+     * @throws Exception error in the request
+     */
     public static InvoicePullRequest cancel(String id, User user) throws Exception {
         return Rest.delete(data, id, user);
     }

@@ -31,7 +31,7 @@ public final class DarfPayment extends Resource {
      * due [string]: due date for payment. ex: "2021-05-17"
      * referenceNumber [string, default null]: number assigned to the region of the tax. ex: "08.1.17.00-4"
      * scheduled [string, default today]: payment scheduled date. ex: "2021-05-10"
-     * tags [list of strings, default null]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * id [string]: unique id returned when payment is created. ex: "5656565656565656"
      * status [string]: current payment status. ex: "success" or "failed"
      * amount [int]: Total amount due calculated from other amounts. ex: 24146 (= R$ 241.46)
@@ -79,7 +79,7 @@ public final class DarfPayment extends Resource {
      * @param due [string]: due date for payment. ex: "2021-05-17"
      * @param referenceNumber [string, default null]: number assigned to the region of the tax. ex: "08.1.17.00-4"
      * @param scheduled [string, default today]: payment scheduled date. ex: "2021-05-10"
-     * @param tags [list of strings, default null]: list of strings for tagging
+     * @param tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * @param id [string]: unique id returned when payment is created. ex: "5656565656565656"
      * @param status [string]: current payment status. ex: "success" or "failed"
      * @param amount [int]: Total amount due calculated from other amounts. ex: 24146 (= R$ 241.46)
@@ -255,7 +255,7 @@ public final class DarfPayment extends Resource {
      * Retrieve a specific DarfPayment pdf file
      * <p>
      * Receive a single DarfPayment pdf file generated in the Stark Bank API by passing its id.
-     * Only valid for tax payments with "success" status.
+     * Only valid for Darf payments with "success", "processing" or "created" status.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -272,7 +272,7 @@ public final class DarfPayment extends Resource {
      * Retrieve a specific DarfPayment pdf file
      * <p>
      * Receive a single DarfPayment pdf file generated in the Stark Bank API by passing its id.
-     * Only valid for tax payments with "success" status.
+     * Only valid for Darf payments with "success", "processing" or "created" status.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -471,7 +471,7 @@ public final class DarfPayment extends Resource {
     /**
      * Delete a DarfPayment entity
      * <p>
-     * Delete a DarfPayment entity previously created in the Stark Bank API
+     * Cancel a DarfPayment entity. Only payments that have not started processing can be cancelled this way; payments already processed can still be deleted from your list, but the underlying payment itself is not reversed.
      * <p>
      * Parameters:
      * @param id [string]: DarfPayment unique id. ex: "5656565656565656"
@@ -487,7 +487,7 @@ public final class DarfPayment extends Resource {
     /**
      * Delete a DarfPayment entity
      * <p>
-     * Delete a DarfPayment entity previously created in the Stark Bank API
+     * Cancel a DarfPayment entity. Only payments that have not started processing can be cancelled this way; payments already processed can still be deleted from your list, but the underlying payment itself is not reversed.
      * <p>
      * Parameters:
      * @param id [string]: DarfPayment unique id. ex: "5656565656565656"

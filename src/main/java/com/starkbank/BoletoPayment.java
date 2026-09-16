@@ -27,7 +27,7 @@ public final class BoletoPayment extends Resource {
      * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * amount [Long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
      * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * tags [list of strings, default null]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * id [string]: unique id returned when payment is created. ex: "5656565656565656"
      * status [string]: current payment status. ex: "processing" or "success"
      * fee [integer]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
@@ -62,7 +62,7 @@ public final class BoletoPayment extends Resource {
      * @param description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * @param amount [Long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
      * @param scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * @param tags [list of strings, default null]: list of strings for tagging
+     * @param tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * @param id [string]: unique id returned when payment is created. ex: "5656565656565656"
      * @param status [string]: current payment status. ex: "processing" or "success"
      * @param fee [integer]: fee charged when the boleto payment is created. ex: 200 (= R$ 2.00)
@@ -105,7 +105,7 @@ public final class BoletoPayment extends Resource {
      * <p>
      * Parameters (optional):
      * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * tags [list of strings, default null]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * amount [Long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
      * <p>
      * Attributes (return-only):
@@ -405,7 +405,7 @@ public final class BoletoPayment extends Resource {
      * Retrieve a specific BoletoPayment pdf file
      * <p>
      * Receive a single BoletoPayment pdf file generated in the Stark Bank API by passing its id.
-     * Only valid for boleto payments with "success" status.
+     * Only valid for boleto payments with "success", "processing" or "created" status.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -422,7 +422,7 @@ public final class BoletoPayment extends Resource {
      * Retrieve a specific BoletoPayment pdf file
      * <p>
      * Receive a single BoletoPayment pdf file generated in the Stark Bank API by passing its id.
-     * Only valid for boleto payments with "success" status.
+     * Only valid for boleto payments with "success", "processing" or "created" status.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -439,7 +439,7 @@ public final class BoletoPayment extends Resource {
     /**
      * Delete a BoletoPayment entity
      * <p>
-     * Delete a BoletoPayment entity previously created in the Stark Bank API
+     * Cancel a BoletoPayment entity. Only payments that have not yet started processing can be cancelled this way; payments already processed can still be deleted from your list, but the underlying payment itself is not reversed.
      * <p>
      * Parameters:
      * @param id [string]: BoletoPayment unique id. ex: "5656565656565656"
@@ -455,7 +455,7 @@ public final class BoletoPayment extends Resource {
     /**
      * Delete a BoletoPayment entity
      * <p>
-     * Delete a BoletoPayment entity previously created in the Stark Bank API
+     * Cancel a BoletoPayment entity. Only payments that have not yet started processing can be cancelled this way; payments already processed can still be deleted from your list, but the underlying payment itself is not reversed.
      * <p>
      * Parameters:
      * @param id [string]: BoletoPayment unique id. ex: "5656565656565656"

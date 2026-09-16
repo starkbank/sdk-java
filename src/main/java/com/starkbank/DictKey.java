@@ -84,7 +84,7 @@ public class DictKey extends Resource {
     /**
      * Retrieve a specific DictKey
      * <p>
-     * Receive a single DictKey object by passing its id
+     * Receive a single DictKey object by passing its id. Avoid looking up keys without sending a transfer afterwards: Bacen blocks users who make too many standalone (or invalid) key searches in a short timespan. The encrypted branchCode/accountNumber returned can be used directly to create a Transfer without decrypting them.
      * <p>
      * Parameters:
      * @param id [string]: DictKey object unique id and Pix key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"
@@ -99,7 +99,7 @@ public class DictKey extends Resource {
     /**
      * Retrieve a specific DictKey
      * <p>
-     * Receive a single DictKey object by passing its id
+     * Receive a single DictKey object by passing its id. Avoid looking up keys without sending a transfer afterwards: Bacen blocks users who make too many standalone (or invalid) key searches in a short timespan. The encrypted branchCode/accountNumber returned can be used directly to create a Transfer without decrypting them.
      * <p>
      * Parameters:
      * @param id [string]: DictKey object unique id and Pix key itself. ex: "tony@starkbank.com", "722.461.430-04", "20.018.183/0001-80", "+5511988887777", "b6295ee1-f054-47d1-9e90-ee57b74f60d9"

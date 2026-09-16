@@ -25,7 +25,7 @@ public final class TaxPayment extends Resource {
      * barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * tags [list of strings]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * id [string]: unique id returned when payment is created. ex: "5656565656565656"
      * type [string]: tax type. ex: "das"
      * status [string]: current payment status. ex: "processing" or "success"
@@ -63,7 +63,7 @@ public final class TaxPayment extends Resource {
      * @param barCode [string, default null]: Bar code number that describes the payment. Either "line" or "barCode" parameters are required. If both are sent, they must match. ex: "34195819600000000621090063571277307144464000"
      * @param description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
      * @param scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * @param tags [list of strings]: list of strings for tagging
+     * @param tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * @param id [string]: unique id returned when payment is created. ex: "5656565656565656"
      * @param type [string]: tax type. ex: "das"
      * @param status [string]: current payment status. ex: "processing" or "success"
@@ -108,7 +108,7 @@ public final class TaxPayment extends Resource {
      * <p>
      * Parameters (optional):
      * scheduled [string, default today]: payment scheduled date. ex: "2020-03-10"
-     * tags [list of strings]: list of strings for tagging
+     * tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
      * <p>
      * Attributes (return-only):
      * id [string]: unique id returned when payment is created. ex: "5656565656565656"
@@ -226,7 +226,7 @@ public final class TaxPayment extends Resource {
      * Retrieve a specific TaxPayment pdf file
      * <p>
      * Receive a single TaxPayment pdf file generated in the Stark Bank API by passing its id.
-     * Only valid for tax payments with "success" status.
+     * Only valid for tax payments with "success", "processing" or "created" status.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -243,7 +243,7 @@ public final class TaxPayment extends Resource {
      * Retrieve a specific TaxPayment pdf file
      * <p>
      * Receive a single TaxPayment pdf file generated in the Stark Bank API by passing its id.
-     * Only valid for tax payments with "success" status.
+     * Only valid for tax payments with "success", "processing" or "created" status.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -442,7 +442,7 @@ public final class TaxPayment extends Resource {
     /**
      * Delete a TaxPayment entity
      * <p>
-     * Delete a TaxPayment entity previously created in the Stark Bank API
+     * Cancel a TaxPayment entity. Only payments that have not started processing can be cancelled this way; payments already processed can still be deleted from your list, but the underlying payment itself is not reversed.
      * <p>
      * Parameters:
      * @param id [string]: TaxPayment unique id. ex: "5656565656565656"
@@ -458,7 +458,7 @@ public final class TaxPayment extends Resource {
     /**
      * Delete a TaxPayment entity
      * <p>
-     * Delete a TaxPayment entity previously created in the Stark Bank API
+     * Cancel a TaxPayment entity. Only payments that have not started processing can be cancelled this way; payments already processed can still be deleted from your list, but the underlying payment itself is not reversed.
      * <p>
      * Parameters:
      * @param id [string]: TaxPayment unique id. ex: "5656565656565656"

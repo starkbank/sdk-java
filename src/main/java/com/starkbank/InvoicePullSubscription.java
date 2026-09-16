@@ -21,13 +21,13 @@ public final class InvoicePullSubscription extends Resource {
      * Parameters:
      * start [string]: subscription start date. ex: "2022-04-01"
      * interval [string]: subscription installment interval. Options: "week", "month", "quarter", "semester", "year"
-     * pullMode [string]: subscription pull mode. Options: "manual", "automatic". Automatic mode will create the Invoice Pull Requests automatically
-     * pullRetryLimit [integer]: subscription pull retry limit. Options: 0,
-     * type [string]: subscription type. Options: "push", "qrcode", "qrcodeAndPayment", "paymentAndOrQrcode"
+     * pullMode [string]: subscription pull mode. Defines if pull requests are automatic or manual. Options: "manual", "automatic". Automatic mode will create the Invoice Pull Requests automatically
+     * pullRetryLimit [integer]: number of retries the receiver may attempt per cycle. Options: 0, 3.
+     * type [string]: subscription journey type. Options: "push", "qrcode", "qrcodeAndPayment", "paymentAndOrQrCode"
      * amount [integer, default 0]: subscription amount in cents. Required if an amountMinLimit is not informed. Minimum = 1 (R$ 0.01). ex: 100 (= R$ 1.00)
      * amountMinLimit [integer, 0 None]: subscription minimum amount in cents. Required if an amount is not informed. Minimum = 1 (R$ 0.01). ex: 100 (= R$ 1.00)
      * displayDescription [string, default None]: Invoice description to be shown to the payer. ex: "Subscription payment"
-     * due [integer, default None]: subscription invoice due offset. Available only for type "push". ex: timedelta(days=7)
+     * due [string or datetime, default 2 days after creation]: date by which the payer must approve or deny the subscription, after which it auto-expires if unanswered. Applies to all subscription types (not push-only). ex: "2022-04-08"
      * externalId [string, default None]: string that must be unique among all your subscriptions. Duplicated externalIds will cause failures. ex: "my-external-id"
      * referenceCode [string, default None]: reference code for reconciliation. ex: "REF123456"
      * end [string, default None]: subscription end date. ex: "2023-04-01"
@@ -437,10 +437,35 @@ public final class InvoicePullSubscription extends Resource {
         return Rest.post(classData, subscriptionList, user);
     }
 
+    /**
+     * Cancel an InvoicePullSubscription entity
+     * <p>
+     * Cancel an existing InvoicePullSubscription. The subscription must currently have "active" status to be canceled.
+     * <p>
+     * Parameters:
+     * @param id [string]: InvoicePullSubscription unique id. ex: "5656565656565656"
+     * <p>
+     * Return:
+     * @return canceled InvoicePullSubscription object
+     * @throws Exception error in the request
+     */
     public static InvoicePullSubscription cancel(String id) throws Exception {
         return InvoicePullSubscription.cancel(id, null);
     }
 
+    /**
+     * Cancel an InvoicePullSubscription entity
+     * <p>
+     * Cancel an existing InvoicePullSubscription. The subscription must currently have "active" status to be canceled.
+     * <p>
+     * Parameters:
+     * @param id [string]: InvoicePullSubscription unique id. ex: "5656565656565656"
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return canceled InvoicePullSubscription object
+     * @throws Exception error in the request
+     */
     public static InvoicePullSubscription cancel(String id, User user) throws Exception {
         return Rest.delete(classData, id, user);
     }

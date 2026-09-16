@@ -16,9 +16,7 @@ public class Split extends Resource {
     /**
      * Split object
      * <p>
-     * When you initialize a Split, the entity will not be automatically
-     * created in the Stark Bank API. The "create" function sends the objects
-     * to the Stark Bank API and returns the list of created objects.
+     * Splits are created implicitly by Stark Bank when an Invoice or Boleto with a receivers list is created, so there is no create() function for this resource — Split objects are only queried, retrieved by id, or listed via their log.
      * <p>
      * Parameters:
      * amount [int]: value to send to receivers. ex: 1000 (= R$ 10.00)
@@ -47,9 +45,7 @@ public class Split extends Resource {
     /**
      * Split object
      * <p>
-     * When you initialize a Split, the entity will not be automatically
-     * created in the Stark Bank API. The "create" function sends the objects
-     * to the Stark Bank API and returns the list of created objects.
+     * Splits are created implicitly by Stark Bank when an Invoice or Boleto with a receivers list is created, so there is no create() function for this resource — Split objects are only queried, retrieved by id, or listed via their log.
      * <p>
      * Parameters:
      * @param amount [integer]: value to send to receivers. ex: 1000 (= R$ 10.00)
@@ -81,9 +77,7 @@ public class Split extends Resource {
     /**
      * Split object
      * <p>
-     * When you initialize a Split, the entity will not be automatically
-     * created in the Stark Bank API. The "create" function sends the objects
-     * to the Stark Bank API and returns the list of created objects.
+     * Splits are created implicitly by Stark Bank when an Invoice or Boleto with a receivers list is created, so there is no create() function for this resource — Split objects are only queried, retrieved by id, or listed via their log.
      * <p>
      * @param data map of properties for the creation of the Split
      * Parameters:

@@ -15,9 +15,8 @@ public final class Webhook extends Resource {
     /**
      * Webhook object
      * <p>
-     * A Webhook is used to subscribe to notification events on a user-selected endpoint.
-     * Currently available services for subscription are transfer, boleto, boleto-payment,
-     * utility-payment, invoice, deposit, e brcode-payment.
+     * A Webhook is used to subscribe to notification events on a user-selected endpoint. If the endpoint does not answer with status 200, delivery is retried at most 3 times (after 5, 30 and 120 minutes) before we give up. Webhooks only receive events for the API version they were created for. We recommend a daily task that fetches undelivered events and marks them delivered, as a safety net.
+     * Currently available services for subscription are boleto, boleto-holmes, boleto-payment, brcode-payment, darf-payment, deposit, invoice, payment-request, tax-payment, transfer and utility-payment.
      * <p>
      * Parameters:
      * url [string]: Url that will be notified when an event occurs.
@@ -32,9 +31,8 @@ public final class Webhook extends Resource {
     /**
      * Webhook object
      * <p>
-     * A Webhook is used to subscribe to notification events on a user-selected endpoint.
-     * Currently available services for subscription are transfer, boleto, boleto-payment,
-     * utility-payment, invoice, deposit, e brcode-payment.
+     * A Webhook is used to subscribe to notification events on a user-selected endpoint. If the endpoint does not answer with status 200, delivery is retried at most 3 times (after 5, 30 and 120 minutes) before we give up. Webhooks only receive events for the API version they were created for. We recommend a daily task that fetches undelivered events and marks them delivered, as a safety net.
+     * Currently available services for subscription are boleto, boleto-holmes, boleto-payment, brcode-payment, darf-payment, deposit, invoice, payment-request, tax-payment, transfer and utility-payment.
      * <p>
      * Parameters:
      * @param url [string]: Url that will be notified when an event occurs.
@@ -50,9 +48,8 @@ public final class Webhook extends Resource {
     /**
      * Webhook  object
      * <p>
-     * A Webhook is used to subscribe to notification events on a user-selected endpoint.
-     * Currently available services for subscription are transfer, boleto, boleto-payment,
-     * utility-payment, invoice, deposit, e brcode-payment.
+     * A Webhook is used to subscribe to notification events on a user-selected endpoint. If the endpoint does not answer with status 200, delivery is retried at most 3 times (after 5, 30 and 120 minutes) before we give up. Webhooks only receive events for the API version they were created for. We recommend a daily task that fetches undelivered events and marks them delivered, as a safety net.
+     * Currently available services for subscription are boleto, boleto-holmes, boleto-payment, brcode-payment, darf-payment, deposit, invoice, payment-request, tax-payment, transfer and utility-payment.
      * <p>
      * Parameters:
      * @param data map of properties for the creation of the WebHook

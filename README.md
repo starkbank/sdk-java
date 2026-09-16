@@ -2030,6 +2030,7 @@ They support spending rules that will apply to all underlying cards.
 ```java
 import com.starkbank.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -2043,7 +2044,7 @@ rule.put("name", "General USD");
 rule.put("interval", "day");
 rule.put("amount", 100000);
 rule.put("currencyCode", "USD");
-data.put("rules", new CorporateRule[]{new CorporateRule(rule)});
+data.put("rules", Arrays.asList(new CorporateRule(rule)));
 holders.add(new CorporateHolder(data));
 
 holders = CorporateHolder.create(holders);
@@ -2344,9 +2345,8 @@ import java.util.HashMap;
 import java.util.List;
 
 HashMap<String, Object> data = new HashMap<>();
-data.put("amount", 1000);
+data.put("amount", 10000);
 data.put("externalId", "123");
-data.put("description", "Sending back");
 
 CorporateWithdrawal withdrawal = CorporateWithdrawal.create(new CorporateWithdrawal(data));
 
@@ -2458,6 +2458,7 @@ You may also use MerchantCountries to define specific country filters in Corpora
 
 ```java
 import com.starkbank.*;
+import com.starkbank.utils.Generator;
 import java.util.HashMap;
 
 HashMap<String, Object> params = new HashMap<>();
