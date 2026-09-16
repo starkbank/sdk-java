@@ -25,9 +25,9 @@ public final class Invoice extends Resource {
      * taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * name [string]: payer name. ex: "Iron Bank S.A."
      * due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
-     * expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
-     * fine [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
-     * interest [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
+     * expiration [number, default 5097600 (59 days)]: time interval in seconds between due date and expiration date. ex 123456789
+     * fine [number, default 2.0]: Invoice fine for overdue payment in %. ex: 2.5
+     * interest [number, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
      * discounts [list of maps, default null]: list of maps with "percentage":number and "due":string pairs
      * rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
      * splits [list of Splits, default []]: list of Splits objects to indicate payment receivers. ex: [Split(amount=141, receiverId="5706627130851328")]
@@ -35,13 +35,13 @@ public final class Invoice extends Resource {
      * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
      * pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
      * link [string]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
-     * nominalAmount [number]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
+     * nominalAmount [number]: Invoice amount in cents without fine or interest (will change if invoice is updated, but not if it's paid). ex: 400000
      * fineAmount [number]: Invoice fine value calculated over nominalAmount. ex: 20000
      * interestAmount [number]: Invoice interest value calculated over nominalAmount. ex: 10000
      * discountAmount [number]: Invoice discount value calculated over nominalAmount. ex: 3000
      * id [string]: unique id returned when Invoice is created. ex: "5656565656565656"
      * brcode [string]: BR Code for the Invoice payment. ex: "00020101021226800014br.gov.bcb.pix2558invoice.starkbank.com/f5333103-3279-4db2-8389-5efe335ba93d5204000053039865802BR5913Arya Stark6009Sao Paulo6220051656565656565656566304A9A0"
-     * status [string]: current Invoice status. ex: "created", "paid", "canceled" or "overdue"
+     * status [string]: current Invoice status. ex: "created", "paid", "canceled", "overdue" or "expired"
      * fee [integer]: fee charged buy this Invoice. ex: 65 (= R$ 0.65)
      * transactionIds [list of strings]: ledger transaction ids linked to this Invoice (if there are more than one, all but the first are reversals or failed reversal chargebacks). ex: ["19827356981273"]
      * created [string]: creation datetime for the Invoice. ex: "2020-03-10 10:30:00.000000+00:00"
@@ -85,18 +85,18 @@ public final class Invoice extends Resource {
      * All parameters are passed in a Map of String and Object object.
      * <p>
      * Parameters:
-     * @param amount [number]: Invoice value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
+     * @param amount [number]: Invoice value in cents. Minimum = 0 (any value will be accepted; an Invoice created with amount 0 will accept any amount paid by the customer). ex: 1234 (= R$ 12.34)
      * @param taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * @param name [string]: payer name. ex: "Iron Bank S.A."
      * @param due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
-     * @param expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
-     * @param fine [number, default 0.0]: Invoice fine for overdue payment in %. ex: 2.5
-     * @param interest [number, default 0.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
-     * @param discounts [list of maps, default null]: list of maps with "percentage":number and "due":string or string pairs
+     * @param expiration [number, default 5097600 (59 days)]: time interval in seconds between due date and expiration date. ex 123456789
+     * @param fine [number, default 2.0]: Invoice fine for overdue payment in %. ex: 2.5
+     * @param interest [number, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
+     * @param discounts [list of maps, default null, max 5 items]: list of up to 5 maps with "percentage":number and "due":string pairs.
      * @param rules [list of Invoice.Rules, default []]: list of Invoice.Rule objects for modifying invoice behavior. ex: [Invoice.Rule(key="allowedTaxIds", value=[ "012.345.678-90", "45.059.493/0001-73" ])]
      * @param splits [list of Splits, default []]: list of Splits objects to indicate payment receivers. ex: [Split(amount=141, receiverId="5706627130851328")]
-     * @param tags [list of strings, default null]: list of strings for tagging
-     * @param descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
+     * @param tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
+     * @param descriptions [list of maps, default null, max 15 items]: list of up to 15 maps with "key":string and (optional) "value":string pairs, shown to the customer to explain the charge.
      * @param pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
      * @param link [string]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
      * @param nominalAmount [number]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
@@ -154,13 +154,13 @@ public final class Invoice extends Resource {
      * <p>
      * @param data map of parameters for the creation of the Invoice
      * Parameters:
-     * amount [number]: Invoice value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
+     * amount [number]: Invoice value in cents. Minimum = 0 (any value will be accepted; an Invoice created with amount 0 will accept any amount paid by the customer). ex: 1234 (= R$ 12.34)
      * taxId [string]: payer tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * name [string]: payer name. ex: "Iron Bank S.A."
      * <p>
      * Parameters (optional):
      * due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
-     * expiration [number, default 59 days]: time interval in seconds between due date and expiration date. ex 123456789
+     * expiration [number, default 5097600 (59 days)]: time interval in seconds between due date and expiration date. ex 123456789
      * fine [number, default 2.0]: Invoice fine for overdue payment in %. ex: 2.5
      * interest [number, default 1.0]: Invoice monthly interest for overdue payment in %. ex: 5.2
      * descriptions [list of maps, default null]: list of maps with "key":string and (optional) "value":string pairs
@@ -483,7 +483,7 @@ public final class Invoice extends Resource {
     /**
      * Create Invoices
      * <p>
-     * Send a list of Invoice objects for creation in the Stark Bank API
+     * Send a list of up to 100 Invoice objects for creation in the Stark Bank API at a time.
      * <p>
      * Parameters:
      * @param invoices  [list of Invoice objects or Maps]: list of Invoice objects to be created in the API
@@ -513,7 +513,7 @@ public final class Invoice extends Resource {
     /**
      * Create Invoices
      * <p>
-     * Send a list of Invoice objects for creation in the Stark Bank API
+     * Send a list of up to 100 Invoice objects for creation in the Stark Bank API at a time.
      * <p>
      * Parameters:
      * @param invoices [list of Invoice objects or Maps]: list of Invoice objects to be created in the API
@@ -535,7 +535,7 @@ public final class Invoice extends Resource {
      * @param id        [string]: Invoice unique ids. ex: "5656565656565656"
      * @param patchData map of parameters to patch
      *                  status [string]: If the Invoice hasn't been paid yet, you may cancel it by passing "canceled" in the status
-     *                  amount [string]: If the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer
+     *                  amount [string]: if the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer; if it has already been paid, you may only decrease the amount, which will result in a payment reversal
      *                  due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
      *                  expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
      * <p>
@@ -556,7 +556,7 @@ public final class Invoice extends Resource {
      * @param id        [string]: Invoice unique ids. ex: "5656565656565656"
      * @param patchData map of properties to patch
      *                  status [string]: If the Invoice hasn't been paid yet, you may cancel it by passing "canceled" in the status
-     *                  amount [string]: If the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer
+     *                  amount [string]: if the Invoice hasn't been paid yet, you may update its amount by passing the desired amount integer; if it has already been paid, you may only decrease the amount, which will result in a payment reversal
      *                  due [string, default today + 2 days]: Invoice due date in UTC ISO format. ex: "2020-11-25T17:59:26.249976+00:00"
      *                  expiration [number, default null]: time interval in seconds between due date and expiration date. ex 123456789
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
@@ -606,6 +606,7 @@ public final class Invoice extends Resource {
      * Retrieve a specific Invoice QR Code file
      * <p>
      * Receive a single Invoice QR Code png file generated in the Stark Bank API by passing its id.
+     * Note: the pixel size of each QR code "box" (min 1, max 50, API default 7) cannot currently be customized through this SDK method; the API's default sizing is always used.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -622,6 +623,7 @@ public final class Invoice extends Resource {
      * Retrieve a specific Invoice QR Code file
      * <p>
      * Receive a single Invoice QR Code png file generated in the Stark Bank API by passing its id.
+     * Note: the pixel size of each QR code "box" (min 1, max 50, API default 7) cannot currently be customized through this SDK method; the API's default sizing is always used.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -1040,6 +1042,7 @@ public final class Invoice extends Resource {
          * Retrieve a specific Invoice.Log pdf file
          * <p>
          * Receive a single Invoice.Log pdf file generated in the Stark Bank API by passing its id.
+         * A PDF is only generated for logs of type "reversed" (created whenever an Invoice is successfully reversed); requesting it for other log types will fail.
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"
@@ -1056,6 +1059,7 @@ public final class Invoice extends Resource {
          * Retrieve a specific Invoice.Log pdf file
          * <p>
          * Receive a single Invoice.Log pdf file generated in the Stark Bank API by passing its id.
+         * A PDF is only generated for logs of type "reversed" (created whenever an Invoice is successfully reversed); requesting it for other log types will fail.
          * <p>
          * Parameters:
          * @param id [string]: object unique id. ex: "5656565656565656"

@@ -364,11 +364,13 @@ public final class Workspace extends Resource {
      * </p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param patchData [map of parameters to patch]: Allowed parameters: "name", "username and "allowedTaxIds"
+     * @param patchData [map of parameters to patch]: Allowed parameters: "name", "username", "allowedTaxIds", "status", "picture" and "pictureType"
      * username [string, default null]: query by the simplified name that defines the workspace URL. This name is always unique across all Stark Bank Workspaces. ex: 'starkbankworkspace'
      * name [string, default null]: Full name that identifies the Workspace. This name will appear when people access the Workspace on our platform, for example. ex: 'Stark Bank Workspace'
      * allowedTaxIds [list of strings, default null]: list of tax IDs that will be allowed to send Deposits to this Workspace. If empty, all are allowed. ex: ['012.345.678-90', '20.018.183/0001-80']
+     * status [string, default null]: pass "active" or "blocked" to activate or block the Workspace.
      * picture [BufferedImage, default null]: BufferedImage of the picture. ex: ImageIO.read("/path/to/file.png")
+     * pictureType [string, conditionally required]: mime type of the picture, e.g. "image/png" or "image/jpeg" -- required whenever picture is informed.
      * @return target Workspace with updated attributes
      * @throws Exception error in the request
      */
@@ -383,11 +385,13 @@ public final class Workspace extends Resource {
      * </p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
-     * @param patchData [map of parameters to patch]: 
+     * @param patchData [map of parameters to patch]: Allowed parameters: "name", "username", "allowedTaxIds", "status", "picture" and "pictureType"
      * username [string, default null]: query by the simplified name that defines the workspace URL. This name is always unique across all Stark Bank Workspaces. ex: 'starkbankworkspace'
      * name [string, default null]: Full name that identifies the Workspace. This name will appear when people access the Workspace on our platform, for example. ex: 'Stark Bank Workspace'
      * allowedTaxIds [list of strings, default null]: list of tax IDs that will be allowed to send Deposits to this Workspace. If empty, all are allowed. ex: ['012.345.678-90', '20.018.183/0001-80']
-     * picture [byte[], default null]: BufferedImage of the picture. ex: ImageIO.read("/path/to/file.png")
+     * status [string, default null]: pass "active" or "blocked" to activate or block the Workspace.
+     * picture [byte[], default null]: image to set as the Workspace picture.
+     * pictureType [string, conditionally required]: mime type of the picture, e.g. "image/png" or "image/jpeg" -- required whenever picture is informed.
      * @param user [Organization/Project object]: Organization or Project object. Not necessary if User was set before function call
      * @return target Workspace with updated attributes
      * @throws Exception error in the request

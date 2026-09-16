@@ -35,11 +35,11 @@ public final class Transfer extends Resource {
      * bankCode [string]: code of the receiver bank institution in Brazil. If an ISPB (8 digits) is informed, a Pix transfer will be created, else a TED will be issued. ex: "20018183" or "341"
      * branchCode [string]: receiver bank account branch. Use "-" in case there is a verifier digit. ex: "1357-9"
      * accountNumber [string]: Receiver bank account number. Use "-" before the verifier digit. ex: "876543-2"
-     * accountType [string]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
+     * accountType [string, default "checking"]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
      * externalId [string]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
-     * scheduled [string]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
+     * scheduled [string, default today]: date or datetime when the transfer will be processed. Ted transfers scheduled for today are only accepted until 16:00 (BRT) and are otherwise pushed to the next business day; Pix transfers can be scheduled for any date/time, 24/7. ex: "2020-03-11 08:00:00.000"
      * description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
-     * tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+     * tags [list of strings]: list of strings for reference when searching for transfers. All tags will be converted to lowercase. ex: ["employees", "monthly"]
      * rules [list of Transfer.Rules]: list of Transfer.Rule objects for modifying transfer behavior. ex: [Transfer.Rule(key="resendingLimit", value=5)]
      * id [string]: unique id returned when transfer is created. ex: "5656565656565656"
      * fee [integer]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
@@ -84,11 +84,11 @@ public final class Transfer extends Resource {
      * @param bankCode [string]: code of the receiver bank institution in Brazil. If an ISPB (8 digits) is informed, a Pix transfer will be created, else a TED will be issued. ex: "20018183" or "341"
      * @param branchCode [string]: receiver bank account branch. Use "-" in case there is a verifier digit. ex: "1357-9"
      * @param accountNumber [string]: Receiver bank account number. Use "-" before the verifier digit. ex: "876543-2"
-     * @param accountType [string]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
+     * @param accountType [string, default "checking"]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
      * @param externalId [string]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
-     * @param scheduled [string]: date or datetime when the transfer will be processed. May be pushed to next business day if necessary. ex: "2020-03-11 08:00:00.000"
+     * @param scheduled [string, default today]: date or datetime when the transfer will be processed. Ted transfers scheduled for today are only accepted until 16:00 (BRT) and are otherwise pushed to the next business day; Pix transfers can be scheduled for any date/time, 24/7. ex: "2020-03-11 08:00:00.000"
      * @param description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
-     * @param tags [list of strings]: list of strings for reference when searching for transfers. ex: ["employees", "monthly"]
+     * @param tags [list of strings]: list of strings for reference when searching for transfers. All tags will be converted to lowercase. ex: ["employees", "monthly"]
      * @param rules [list of Transfer.Rules]: list of Transfer.Rule objects for modifying transfer behavior. ex: [Transfer.Rule(key="resendingLimit", value=5)]
      * @param id [string]: unique id returned when transfer is created. ex: "5656565656565656"
      * @param fee [integer]: fee charged when the transfer is created. ex: 200 (= R$ 2.00)
@@ -225,7 +225,7 @@ public final class Transfer extends Resource {
     /**
      * Delete a Transfer entity
      * <p>
-     * Delete a Transfer entity previously created in the Stark Bank API
+     * Cancel a scheduled Transfer entity. Only transfers that have not started processing can be cancelled; canceled transfers will still appear in your queries (with status "canceled").
      * <p>
      * Parameters:
      * @param id [string]: Transfer unique id. ex: "5656565656565656"
@@ -241,7 +241,7 @@ public final class Transfer extends Resource {
     /**
      * Delete a Transfer entity
      * <p>
-     * Delete a Transfer entity previously created in the Stark Bank API
+     * Cancel a scheduled Transfer entity. Only transfers that have not started processing can be cancelled; canceled transfers will still appear in your queries (with status "canceled").
      * <p>
      * Parameters:
      * @param id [string]: Transfer unique id. ex: "5656565656565656"
@@ -448,7 +448,7 @@ public final class Transfer extends Resource {
     /**
      * Create Transfers
      * <p>
-     * Send a list of Transfer objects for creation in the Stark Bank API
+     * Send a list of up to 100 Transfer objects for creation in the Stark Bank API at a time.
      * <p>
      * Parameters:
      * @param transfers [list of Transfer objects or HashMaps]: list of Transfer objects to be created in the API
@@ -464,7 +464,7 @@ public final class Transfer extends Resource {
     /**
      * Create Transfers
      * <p>
-     * Send a list of Transfer objects for creation in the Stark Bank API
+     * Send a list of up to 100 Transfer objects for creation in the Stark Bank API at a time.
      * <p>
      * Parameters:
      * @param transfers [list of Transfer objects or HashMaps]: list of Transfer objects to be created in the API

@@ -29,10 +29,10 @@ public final class PaymentRequest extends Resource {
      * <p>
      * Parameters:
      * centerId [string]: target cost center ID. ex: "5656565656565656"
-     * payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
+     * payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity to be approved and executed. Do not set "scheduled" on it -- the PaymentRequest's own "due" field serves that purpose.
      * type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * due [string]: Payment target date in ISO format. ex: 2020-12-31
-     * tags [list of strings]: list of strings for tagging
+     * tags [list of strings]: list of strings for tagging. All tags will be converted to lowercase.
      * id [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
      * amount [long]: PaymentRequest amount. ex: 100000 = R$1.000,00
      * description [string]: payment request description. ex: "Tony Stark's Suit"
@@ -64,14 +64,14 @@ public final class PaymentRequest extends Resource {
      * <p>
      * Parameters (required):
      * @param centerId [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"
-     * @param payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
+     * @param payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity to be approved and executed. Do not set "scheduled" on it -- the PaymentRequest's own "due" field serves that purpose.
      * <p>
      * Parameters (conditionally required):
      * @param type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * <p>
      * Parameters (optional):
      * @param due [string]: Payment target date in ISO format.
-     * @param tags [list of strings]: list of strings for tagging
+     * @param tags [list of strings]: list of strings for tagging. All tags will be converted to lowercase.
      * <p>
      * Attributes (return-only):
      * @param id [string]: id of the object
@@ -114,14 +114,14 @@ public final class PaymentRequest extends Resource {
      * @param data map of parameters for the creation of the PaymentRequest
      * Parameters (required):
      * centerId [string]: target cost center ID. ex: "5656565656565656"
-     * payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity that should be approved and executed.
+     * payment [Transfer, BoletoPayment, BrcodePayment, UtilityPayment, Transaction or map]: payment entity to be approved and executed. Do not set "scheduled" on it -- the PaymentRequest's own "due" field serves that purpose.
      * <p>
      * Parameters (conditionally required):
      * type [string]: payment type, inferred from the payment parameter if it is not a map. ex: "transfer", "boleto-payment"
      * <p>
      * Parameters (optional):
      * due [string]: Payment target date in ISO format. ex: 2020-12-31
-     * tags [list of strings]: list of strings for tagging
+     * tags [list of strings]: list of strings for tagging. All tags will be converted to lowercase.
      * <p>
      * Attributes (return-only):
      * id [string]: unique id returned when PaymentRequest is created. ex: "5656565656565656"

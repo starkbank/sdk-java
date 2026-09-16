@@ -19,6 +19,7 @@ public final class Boleto extends Resource {
      * When you initialize a Boleto, the entity will not be automatically
      * sent to the Stark Bank API. The "create" function sends the objects
      * to the Stark Bank API and returns the list of created objects.
+     * Note: if the Boleto is paid after its due date and a fine or interest applies (or if it is paid with a discount), the "amount" attribute will be updated to reflect the amount actually paid.
      * <p>
      * Parameters:
      * amount [long]: Boleto value in cents. Minimum = 200 (R$2,00). ex: 1234 (= R$ 12.34)
@@ -99,8 +100,8 @@ public final class Boleto extends Resource {
      * @param fine [number, default 2.0]: Boleto fine for overdue payment in %. ex: 2.5
      * @param interest [number, default 1.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * @param overdueLimit [integer, default 59]: limit in days for automatic Boleto cancellation after due date. ex: 7 (max: 59)
-     * @param receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
-     * @param receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * @param receiverName [string, default workspace owner name]: receiver (Sacador Avalista) full name. If informed, receiverTaxId must also be informed.
+     * @param receiverTaxId [string, default workspace owner tax ID]: receiver (Sacador Avalista) tax ID (CPF or CNPJ). If informed, receiverName must also be informed.
      * @param descriptions [list of Boleto.Description or Hashmaps, default []]: list of Boleto.Descriptions or hashmaps with "text":string and (optional) "amount":int pairs
      * @param discounts [list of Boleto.Discounts or Hashmaps, default []]: list of Boleto.Discounts or hashmaps with "percentage": Number and "date": string pairs
      * @param tags [list of strings, default []]: list of strings for tagging
@@ -171,11 +172,11 @@ public final class Boleto extends Resource {
      * <p>
      * Parameters (optional):
      * due [string, default today + 2 days]: Boleto due date in ISO format. ex: 2020-04-30
-     * fine [number, default 0.0]: Boleto fine for overdue payment in %. ex: 2.5
-     * interest [number, default 0.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
+     * fine [number, default 2.0]: Boleto fine for overdue payment in %. ex: 2.5
+     * interest [number, default 1.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
-     * descriptions [list of Boleto.Description or HashMap, default []]: list of Boleto.Descriptions or HashMaps with "text":string and "amount":int pairs
-     * discounts [list of Boleto.Discount or Hashmap, default []]: list of Boleto.Discounts or HashMaps with "percentage": Number and "date": string pairs
+     * descriptions [list of Boleto.Description or HashMap, default [], max 15 items]: list of up to 15 maps with "text":string and (optional) "amount":int pairs. When the "booklet" pdf layout is used, only the first description's text fills the installment cell.
+     * discounts [list of Boleto.Discount or Hashmap, default [], max 2 items]: list of up to 2 discounts with "percentage":number and "date":string pairs.
      * tags [list of strings, default []]: list of strings for tagging
      * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
      * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
@@ -496,7 +497,7 @@ public final class Boleto extends Resource {
     /**
      * Create Boletos
      * <p>
-     * Send a list of Boleto objects for creation in the Stark Bank API
+     * Send a list of up to 100 Boleto objects for creation in the Stark Bank API at a time.
      * <p>
      * Parameters:
      * @param boletos [list of Boleto objects or HashMaps]: list of Boleto objects to be created in the API
@@ -526,7 +527,7 @@ public final class Boleto extends Resource {
     /**
      * Create Boletos
      * <p>
-     * Send a list of Boleto objects for creation in the Stark Bank API
+     * Send a list of up to 100 Boleto objects for creation in the Stark Bank API at a time.
      * <p>
      * Parameters:
      * @param boletos [list of Boleto objects or HashMaps]: list of Boleto objects to be created in the API
@@ -542,7 +543,7 @@ public final class Boleto extends Resource {
     /**
      * Retrieve a specific Boleto pdf file
      * <p>
-     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
+     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id. This route is public and needs no authentication headers, but repeatedly requesting an invalid Boleto id from the same IP will get that IP blocked for this route.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -558,7 +559,7 @@ public final class Boleto extends Resource {
     /**
      * Retrieve a specific Boleto pdf file
      * <p>
-     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
+     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id. This route is public and needs no authentication headers, but repeatedly requesting an invalid Boleto id from the same IP will get that IP blocked for this route.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -577,7 +578,7 @@ public final class Boleto extends Resource {
     /**
      * Retrieve a specific Boleto pdf file
      * <p>
-     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
+     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id. This route is public and needs no authentication headers, but repeatedly requesting an invalid Boleto id from the same IP will get that IP blocked for this route.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -594,7 +595,7 @@ public final class Boleto extends Resource {
     /**
      * Retrieve a specific Boleto pdf file
      * <p>
-     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id.
+     * Receive a single Boleto pdf file generated in the Stark Bank API by passing its id. This route is public and needs no authentication headers, but repeatedly requesting an invalid Boleto id from the same IP will get that IP blocked for this route.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -614,7 +615,7 @@ public final class Boleto extends Resource {
     /**
      * Delete a Boleto entity
      * <p>
-     * Delete a Boleto entity previously created in the Stark Bank API
+     * Delete a Boleto entity. A request is sent to CIP to cancel the boleto registration; once canceled, it can no longer be paid. This action cannot be undone.
      * <p>
      * Parameters:
      * @param id [string]: Boleto unique id. ex: "5656565656565656"
@@ -630,7 +631,7 @@ public final class Boleto extends Resource {
     /**
      * Delete a Boleto entity
      * <p>
-     * Delete a Boleto entity previously created in the Stark Bank API
+     * Delete a Boleto entity. A request is sent to CIP to cancel the boleto registration; once canceled, it can no longer be paid. This action cannot be undone.
      * <p>
      * Parameters:
      * @param id [string]: Boleto unique id. ex: "5656565656565656"

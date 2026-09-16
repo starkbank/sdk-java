@@ -591,7 +591,7 @@ public class Event extends Resource {
     /**
      * Delete notification Events
      * <p>
-     * Delete a list of notification Event entities previously created in the Stark Bank API
+     * Delete a notification Event entity from the event list. This action cannot be undone.
      * <p>
      * Parameters:
      * @param id [string]: Event unique id. ex: "5656565656565656"
@@ -607,7 +607,7 @@ public class Event extends Resource {
     /**
      * Delete notification Events
      * <p>
-     * Delete a list of notification Event entities previously created in the Stark Bank API
+     * Delete a notification Event entity from the event list. This action cannot be undone.
      * <p>
      * Parameters:
      * @param id [string]: Event unique id. ex: "5656565656565656"

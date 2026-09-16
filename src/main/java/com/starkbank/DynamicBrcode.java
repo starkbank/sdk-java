@@ -143,7 +143,7 @@ public final class DynamicBrcode extends Resource {
     /**
      * Create DynamicBrcodes
      * <p>
-     * Send a list of DynamicBrcode objects for creation in the Stark Bank API
+     * Send a list of up to 100 DynamicBrcode objects for creation in the Stark Bank API at a time.
      * <p>
      * Parameters:
      * @param brcodes [list of DynamicBrcode objects or Maps]: list of DynamicBrcode objects to be created in the API
@@ -173,7 +173,7 @@ public final class DynamicBrcode extends Resource {
     /**
      * Create DynamicBrcodes
      * <p>
-     * Send a list of DynamicBrcode objects for creation in the Stark Bank API
+     * Send a list of up to 100 DynamicBrcode objects for creation in the Stark Bank API at a time.
      * <p>
      * Parameters:
      * @param brcodes [list of DynamicBrcode objects or Maps]: list of DynamicBrcode objects to be created in the API

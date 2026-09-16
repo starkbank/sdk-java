@@ -18,14 +18,15 @@ public final class BrcodePayment extends Resource {
     * When you initialize a BrcodePayment, the entity will not be automatically
     * created in the Stark Bank API. The 'create' function sends the objects
     * to the Stark Bank API and returns the list of created objects.
+    * Note: right after creation the "amount" attribute will be zero, because the brcode payment is processed asynchronously; poll or use a webhook to get the final amount.
     * <p>
     * Parameters:
     * brcode [string]: String loaded directly from the QRCode or copied from the invoice. ex: "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"
     * taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
-    * amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
+    * amount [integer, default null]: amount to pay, in cents. Required only if the brcode itself carries no fixed amount (the payment fails if left unset in that case); otherwise defaults to the brcode's own amount. ex: 23456 (= R$ 234.56)
     * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
-    * tags [list of strings, default null]: list of strings for tagging
+    * tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
     * rules [list of BrcodePayment.Rules]: list of BrcodePayment.Rule objects for modifying payment behavior. ex: [BrcodePayment.Rule(key="resendingLimit", value=5)]
     * id [string]: unique id returned when payment is created. ex: "5656565656565656"
     * name [string]: receiver name. ex: "Jon Snow"
@@ -59,14 +60,15 @@ public final class BrcodePayment extends Resource {
     * When you initialize a BrcodePayment, the entity will not be automatically
     * created in the Stark Bank API. The 'create' function sends the objects
     * to the Stark Bank API and returns the list of created objects.
+    * Note: right after creation the "amount" attribute will be zero, because the brcode payment is processed asynchronously; poll or use a webhook to get the final amount.
     * <p>
     * Parameters:
     * @param brcode [string]: String loaded directly from the QRCode or copied from the invoice. ex: "00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"
     * @param taxId [string]: receiver tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
     * @param description [string]: Text to be displayed in your statement (min. 10 characters). ex: "payment ABC"
-    * @param amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
+    * @param amount [integer, default null]: amount to pay, in cents. Required only if the brcode itself carries no fixed amount (the payment fails if left unset in that case); otherwise defaults to the brcode's own amount. ex: 23456 (= R$ 234.56)
     * @param scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
-    * @param tags [list of strings, default null]: list of strings for tagging
+    * @param tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase.
     * @param rules [list of BrcodePayment.Rules]: list of BrcodePayment.Rule objects for modifying payment behavior. ex: [BrcodePayment.Rule(key="resendingLimit", value=5)]
     * @param id [string]: unique id returned when payment is created. ex: "5656565656565656"
     * @param name [string]: receiver name. ex: "Jon Snow"
@@ -111,9 +113,9 @@ public final class BrcodePayment extends Resource {
     * description [string]: Text to be displayed in your statement (min. 10 characters). ex: "Tony Stark's Suit"
     * <p>
     * Parameters (optional):
-    * amount [long, default null]: amount automatically calculated from line or barCode. ex: 23456 (= R$ 234.56)
+    * amount [integer, default null]: amount to pay, in cents. Required only if the brcode itself carries no fixed amount (the payment fails if left unset in that case); otherwise defaults to the brcode's own amount. ex: 23456 (= R$ 234.56)
     * scheduled [string, default now]: payment scheduled date or datetime. ex: "2020-03-10 10:30:00.000000+00:00"
-    * tags [list of strings, default null]: list of strings for tagging. ex: ["Stark", "Suit"]
+    * tags [list of strings, default null]: list of strings for tagging. All tags will be converted to lowercase. ex: ["Stark", "Suit"]
     * rules [list of BrcodePayment.Rules]: list of BrcodePayment.Rule objects for modifying payment behavior. ex: [BrcodePayment.Rule(key="resendingLimit", value=5)]
     * <p>
     * Attributes (return-only):
@@ -228,7 +230,7 @@ public final class BrcodePayment extends Resource {
     /**
      * Retrieve a specific BrcodePayment pdf file
      * <p>
-     * Receive a single BrcodePayment pdf receipt file generated in the Stark Bank API by passing its id.
+     * Receive a single BrcodePayment pdf file generated in the Stark Bank API by passing its id. Only valid for brcode payments with "success", "processing" or "created" status.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
@@ -244,7 +246,7 @@ public final class BrcodePayment extends Resource {
     /**
      * Retrieve a specific BrcodePayment pdf file
      * <p>
-     * Receive a single BrcodePayment pdf receipt file generated in the Stark Bank API by passing its id.
+     * Receive a single BrcodePayment pdf file generated in the Stark Bank API by passing its id. Only valid for brcode payments with "success", "processing" or "created" status.
      * <p>
      * Parameters:
      * @param id [string]: object unique id. ex: "5656565656565656"
