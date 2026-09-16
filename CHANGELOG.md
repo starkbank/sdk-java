@@ -12,6 +12,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+### Removed
+- deprecated BrcodePreview.query methods
 
 ## [2.26.0] - 2026-08-26
 ### Changed

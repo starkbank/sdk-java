@@ -1,7 +1,5 @@
 package com.starkbank;
 
-import com.starkbank.utils.Generator;
-import com.starkbank.utils.Rest;
 import com.starkcore.utils.SubResource;
 
 import java.util.HashMap;
@@ -128,42 +126,5 @@ public final class BrcodePreview extends SubResource {
     }
 
     public BrcodePreview(){
-    }
-
-    /**
-     * Retrieve BrcodePreviews
-     * <p>
-     * Process BR Codes before creating BrcodePayments
-     * <p>
-     * Parameters:
-     * @param params map of parameters
-     * brcodes [list of strings]: List of BR Codes to preview. ex: ["00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"]
-     * @param user [Project object, default null]: Project object. Not necessary if StarkBank.Settings.user was set before function call
-     * <p>
-     * Return:
-     * @return generator of BrcodePreview objects with updated attributes
-     * @throws Exception error in the request 
-     */
-    @Deprecated
-    public static Generator<BrcodePreview> query(Map<String, Object> params, User user) throws Exception {
-        return Rest.getSimpleList(data, params, user);
-    }
-
-    /**
-     * Retrieve BrcodePreviews
-     * <p>
-     * Process BR Codes before creating BrcodePayments
-     * <p>
-     * Parameters:
-     * @param params map of parameters
-     * brcodes [list of strings]: List of BR Codes to preview. ex: ["00020126580014br.gov.bcb.pix0136a629532e-7693-4846-852d-1bbff817b5a8520400005303986540510.005802BR5908T'Challa6009Sao Paulo62090505123456304B14A"]
-     * <p>
-     * Return:
-     * @return generator of BrcodePreview objects with updated attributes
-     * @throws Exception error in the request 
-     */
-    @Deprecated
-    public static Generator<BrcodePreview> query(Map<String, Object> params) throws Exception {
-        return Rest.getSimpleList(data, params, null);
     }
 }
