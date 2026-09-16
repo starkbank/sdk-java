@@ -12,6 +12,10 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - PATCH version when backwards compatible bug **fixes** are implemented.
 
 ## [Unreleased]
+### Added
+- SplitProfile resource (put, get, query, page) and SplitProfile.Log (get, query, page)
+- VerifiedTransfer resource (create)
+
 ### Removed
 - deprecated BrcodePreview.query methods
 

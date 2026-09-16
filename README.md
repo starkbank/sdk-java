@@ -1927,6 +1927,32 @@ DarfPayment.Log log = DarfPayment.Log.get("1902837198237992");
 System.out.println(log);
 ```
 
+## Create VerifiedTransfers
+
+You can send a transfer to a previously verified account by creating a VerifiedTransfer:
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+Map<String, Object> data = new HashMap<>();
+data.put("amount", 1000);
+data.put("accountId", "5155165527080960");
+data.put("tags", new String[]{"iron", "suit"});
+
+List<VerifiedTransfer> transfers = new ArrayList<>();
+transfers.add(new VerifiedTransfer(data));
+
+transfers = VerifiedTransfer.create(transfers);
+
+for (VerifiedTransfer transfer : transfers) {
+    System.out.println(transfer);
+}
+```
+
 ## Preview payment information before executing the payment
 
 You can preview multiple types of payment to confirm any information before actually paying.
@@ -2637,6 +2663,95 @@ You can also get a SplitReceiver Log by specifying its id.
 import com.starkbank.*;
 
 SplitReceiver.Log log = SplitReceiver.Log.get("5155165527080960");
+
+System.out.println(log);
+```
+
+## Create or update your SplitProfile
+
+When you create a Split, the entity SplitProfile will be automatically created.
+If you haven't created a Split yet, you can use the "put" function to create your SplitProfile.
+If a SplitProfile already exists for the workspace, this updates its rules instead of creating a new one.
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+Map<String, Object> data = new HashMap<>();
+data.put("interval", "week");
+data.put("delay", 604800);
+
+List<SplitProfile> profiles = new ArrayList<>();
+profiles.add(new SplitProfile(data));
+
+profiles = SplitProfile.put(profiles);
+
+for (SplitProfile profile : profiles) {
+    System.out.println(profile);
+}
+```
+
+## Query SplitProfiles
+
+You can get a list of created SplitProfiles given some filters.
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.HashMap;
+
+Map<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<SplitProfile> profiles = SplitProfile.query(params);
+
+for (SplitProfile profile : profiles) {
+    System.out.println(profile);
+}
+```
+
+## Get a SplitProfile
+
+To get a single SplitProfile by its id, run:
+
+```java
+import com.starkbank.*;
+
+SplitProfile profile = SplitProfile.get("5155165527080960");
+
+System.out.println(profile);
+```
+
+## Query SplitProfile Logs
+
+You can query SplitProfile Logs to check additional information.
+
+```java
+import com.starkbank.*;
+import java.util.Map;
+import java.util.HashMap;
+
+Map<String, Object> params = new HashMap<>();
+params.put("limit", 10);
+
+Generator<SplitProfile.Log> logs = SplitProfile.Log.query(params);
+
+for (SplitProfile.Log log : logs) {
+    System.out.println(log);
+}
+```
+
+## Get a SplitProfile Log
+
+You can also get a SplitProfile Log by specifying its id.
+
+```java
+import com.starkbank.*;
+
+SplitProfile.Log log = SplitProfile.Log.get("5155165527080960");
 
 System.out.println(log);
 ```
