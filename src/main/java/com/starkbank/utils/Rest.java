@@ -68,6 +68,22 @@ public final class Rest {
     }
 
 
+    public static <T extends SubResource> List<T> put(SubResource.ClassData resource, List<T> entities, User user) throws Exception {
+        Gson gson = GsonEvent.getInstance();
+        String pluralName = Api.getLastNamePlural(resource);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put(pluralName, entities);
+
+        JsonObject raw = gson.fromJson(Rest.putRaw(Api.endpoint(resource), payload, user).content(), JsonObject.class);
+
+        List<T> parsed = new ArrayList<>();
+        for (JsonElement element : raw.get(pluralName).getAsJsonArray()) {
+            parsed.add(gson.fromJson(element, (Type) resource.cls));
+        }
+        return parsed;
+    }
+
     public static <T extends SubResource> T postSubResource(Resource.ClassData resource, String id, SubResource.ClassData subResource, User user, SubResource entity) throws Exception {
         return com.starkcore.utils.Rest.postSubResource(
                 sdkVersion,
