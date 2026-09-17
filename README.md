@@ -1034,6 +1034,26 @@ Deposit.Log log = Deposit.Log.get("6532638269505536");
 System.out.println(log);
 ```
 
+## Get a DepositLog pdf
+
+Whenever a Deposit is successfully reversed, a reversed log will be created.
+To retrieve a specific reversal receipt, you can request the corresponding log PDF:
+
+```java
+import com.starkbank.*;
+
+InputStream pdf = Deposit.Log.pdf("6532638269505536");
+java.nio.file.Files.copy(
+    pdf,
+    new File("deposit.pdf").toPath(),
+    StandardCopyOption.REPLACE_EXISTING
+);
+```
+
+Be careful not to accidentally enforce any encoding on the raw pdf content,
+as it may yield abnormal results in the final file, such as missing images
+and strange characters.
+
 
 ## Create boletos
 

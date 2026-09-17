@@ -4,6 +4,7 @@ import com.starkbank.utils.Generator;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -131,6 +132,21 @@ public class TestDeposit {
 
         if (ids.size() != 4) {
             throw new Exception("ids.size() != 4");
+        }
+    }
+
+    @Test
+    public void testDepositLogPdfGet() throws Exception {
+        Settings.user = utils.User.defaultProject();
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("types", "reversed");
+        params.put("limit", 1);
+        Generator<Deposit.Log> logs = Deposit.Log.query(params);
+        for (Deposit.Log log : logs) {
+            InputStream pdf = Deposit.Log.pdf(log.id);
+            Assert.assertNotNull(pdf);
+            System.out.println(log);
         }
     }
 }

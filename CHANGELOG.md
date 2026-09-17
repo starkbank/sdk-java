@@ -15,7 +15,7 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Added
 - SplitProfile resource (put, get, query, page) and SplitProfile.Log (get, query, page)
 - VerifiedTransfer resource (create)
-
+- Deposit.Log.pdf method
 ### Removed
 - deprecated BrcodePreview.query methods
 ### Fixed
