@@ -5,6 +5,7 @@ import com.starkbank.utils.Resource;
 import com.starkbank.utils.Rest;
 import com.starkcore.utils.SubResource;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -593,5 +594,40 @@ public final class Deposit extends Resource {
             }
             return new Log.Page(logs, page.cursor);
         }
-    }    
+
+        /**
+         * Retrieve a specific Deposit.Log pdf file
+         * <p>
+         * Receive a single Deposit.Log pdf file generated in the Stark Bank API by passing its id.
+         * A PDF is only generated for logs of type "reversed" (created whenever a Deposit is successfully reversed); requesting it for other log types will fail.
+         * <p>
+         * Parameters:
+         * @param id [string]: object unique id. ex: "5656565656565656"
+         * <p>
+         * Return:
+         * @return Deposit.Log pdf file
+         * @throws Exception error in the request
+         */
+        public static InputStream pdf(String id) throws Exception {
+            return Deposit.Log.pdf(id, null);
+        }
+
+        /**
+         * Retrieve a specific Deposit.Log pdf file
+         * <p>
+         * Receive a single Deposit.Log pdf file generated in the Stark Bank API by passing its id.
+         * A PDF is only generated for logs of type "reversed" (created whenever a Deposit is successfully reversed); requesting it for other log types will fail.
+         * <p>
+         * Parameters:
+         * @param id [string]: object unique id. ex: "5656565656565656"
+         * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return Deposit.Log pdf file
+         * @throws Exception error in the request
+         */
+        public static InputStream pdf(String id, User user) throws Exception {
+            return Rest.getContent(data, id, "pdf", user, new HashMap<>());
+        }
+    }
 }
