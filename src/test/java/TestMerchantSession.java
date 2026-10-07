@@ -126,27 +126,14 @@ public class TestMerchantSession {
 
 
     @Test
-    public void testMerchantSessionPurchaseChallengeModeDisabled() throws Exception {
+    public void testMerchantSessionPurchase() throws Exception {
         Settings.user = utils.User.defaultProject();
-        Settings.timeout = 20;
+        MerchantSession.Purchase purchase = examplePurchaseChallengeModeDisable();
 
-        MerchantSession merchantSession = MerchantSession.create(exampleMerchantSession("disabled"));
-
-        MerchantSession.Purchase purchaseResponse = MerchantSession.purchase(
-                merchantSession.uuid, examplePurchaseChallengeModeDisable());
-        Assert.assertNotNull(purchaseResponse.id);
-    }
-
-    @Test
-    public void testMerchantSessionPurchaseChallengeModeEnabled() throws Exception {
-        Settings.user = utils.User.defaultProject();
-
-        MerchantSession merchantSession = MerchantSession.create(exampleMerchantSession("enabled"));
-
-        MerchantSession.Purchase purchaseResponse = MerchantSession.purchase(
-                merchantSession.uuid, examplePurchaseChallengeModeEnable());
-
-        Assert.assertNotNull(purchaseResponse.id);
+        Exception thrown = Assert.assertThrows(Exception.class, () -> {
+            MerchantSession.purchase("0bb894a2697d41d99fe02cad2c00c9bc", purchase);
+        });
+        Assert.assertEquals("Function deprecated since v2.27.0", thrown.getMessage());
     }
 
 }
