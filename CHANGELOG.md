@@ -16,6 +16,8 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - SplitProfile resource (put, get, query, page) and SplitProfile.Log (get, query, page)
 - VerifiedTransfer resource (create)
 - Deposit.Log.pdf method
+### Deprecated
+- MerchantSession.purchase function, since card data must be sent directly from the front-end to the Stark Bank API
 ### Removed
 - deprecated BrcodePreview.query methods
 ### Fixed
