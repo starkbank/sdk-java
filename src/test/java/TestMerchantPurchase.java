@@ -16,13 +16,17 @@ public class TestMerchantPurchase {
     @Test
     public void testCreate() throws Exception {
         Settings.user = utils.User.defaultProject();
-        Settings.timeout = 20;
 
-        MerchantSession merchantSession = MerchantSession.create(exampleMerchantSession("disabled"));
-        MerchantSession.Purchase purchase = MerchantSession.purchase(merchantSession.uuid, examplePurchaseChallengeModeDisable());
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("limit", 1);
+        params.put("status", "confirmed");
 
-        MerchantPurchase merchantPurchase = MerchantPurchase.create(exampleMerchantPurchase(purchase.cardId));
-        Assert.assertNotNull(merchantPurchase.id);
+        Generator<MerchantPurchase> purchases = MerchantPurchase.query(params);
+
+        for (MerchantPurchase confirmedPurchase : purchases) {
+            MerchantPurchase merchantPurchase = MerchantPurchase.create(exampleMerchantPurchase(confirmedPurchase.cardId));
+            Assert.assertNotNull(merchantPurchase.id);
+        }
     }
 
     @Test
