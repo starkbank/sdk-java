@@ -98,7 +98,7 @@ and add it to your project.
 
 ```sh
 dependencies {
-  implementation 'com.starkbank:sdk:2.26.0'
+  implementation 'com.starkbank:sdk:2.27.0'
 }
 ```
 
@@ -108,7 +108,7 @@ dependencies {
 <dependency>
   <groupId>com.starkbank</groupId>
   <artifactId>sdk</artifactId>
-  <version>2.26.0</version>
+  <version>2.27.0</version>
 </dependency>
 ```
 
@@ -2827,29 +2827,9 @@ System.out.println(merchantSession);
 
 Set `confirmationMode` to `"manual"` to create a pre-authorization session: the resulting purchase is approved but only captured once you explicitly confirm it (see [Confirm a MerchantPurchase](#confirm-a-merchantpurchase)). Manual confirmation is available only for credit funding types.
 
-You can create a MerchantPurchase through a MerchantSession by passing its UUID.
-**Note**: This method must be implemented in your front-end to ensure that sensitive card data does not pass through the back-end of the integration.
+With the MerchantSession's UUID, your front-end must send the card data directly to the Stark Bank API through the `POST /v2/merchant-session/:uuid/purchase` route, so that sensitive card data never passes through the back-end of your integration.
 
-### Create a MerchantSession Purchase
-
-```java
-import com.starkbank.*;
-import java.util.Map;
-import java.util.HashMap;
-
-Map<String, Object> purchaseData = new HashMap<>();
-purchaseData.put("amount", 1000L);
-purchaseData.put("cardExpiration", "2035-01");
-purchaseData.put("cardNumber", "36490101441625");
-purchaseData.put("cardSecurityCode", "123");
-purchaseData.put("holderName", "Margaery Tyrell");
-purchaseData.put("fundingType", "credit");
-
-MerchantSession.Purchase purchase = MerchantSession.purchase(
-        merchantSession.uuid, new com.starkbank.MerchantSession.Purchase(purchaseData));
-
-System.out.println(purchase);
-```
+**Note**: `MerchantSession.purchase` is deprecated since v2.27.0 and throws an error when called.
 
 ### Query MerchantSessions
 

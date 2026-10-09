@@ -22,6 +22,10 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 - docstrings that drifted from the API reference (business rules, contradicted defaults and stale text) across Invoice, InvoicePullSubscription, InvoicePullRequest, Transfer, Boleto, BoletoPayment, BoletoHolmes, BrcodePayment, BrcodePreview, DynamicBrcode, Webhook, Workspace, Event, Split, DarfPayment, TaxPayment, UtilityPayment, PaymentRequest and DictKey
 - README samples for CorporateWithdrawal (invalid "description" param and inconsistent amount) and MerchantCountry query (missing Generator import), and a CorporateHolder rules array that throws at runtime
 
+## [2.27.0] - 2026-10-09
+### Deprecated
+- MerchantSession.purchase function, since card data must be sent directly from the front-end to the Stark Bank API
+
 ## [2.26.0] - 2026-08-26
 ### Changed
 - updated starkbank-ecdsa to v2.0.0
