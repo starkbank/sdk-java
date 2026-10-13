@@ -109,14 +109,46 @@ public class MerchantSession extends Resource {
         return Rest.postSingle(data, merchantSession, user);
     }
 
+    /**
+     * @deprecated Function deprecated since v2.27.0
+     * <p>
+     * Create a MerchantSession Purchase
+     * <p>
+     * Send the card data of a Purchase to the Stark Bank API through a MerchantSession
+     * <p>
+     * Parameters:
+     * @param uuid [string]: unique identifier of the MerchantSession
+     * @param purchase [Purchase object]: Purchase object to be created in the API
+     * <p>
+     * Return:
+     * @return Purchase object with updated attributes
+     * @throws Exception error in the request
+     */
+    @Deprecated
     public static Purchase purchase(String uuid, Purchase purchase) throws Exception {
-        return Rest.postSubResource(data, uuid, Purchase.data, null, purchase);
+        return MerchantSession.purchase(uuid, purchase, null);
     }
 
+    /**
+     * @deprecated Function deprecated since v2.27.0
+     * <p>
+     * Create a MerchantSession Purchase
+     * <p>
+     * Send the card data of a Purchase to the Stark Bank API through a MerchantSession
+     * <p>
+     * Parameters:
+     * @param uuid [string]: unique identifier of the MerchantSession
+     * @param purchase [Purchase object]: Purchase object to be created in the API
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return Purchase object with updated attributes
+     * @throws Exception error in the request
+     */
+    @Deprecated
     public static Purchase purchase(String uuid, Purchase purchase, User user) throws Exception {
-        return Rest.postSubResource(data, uuid, Purchase.data, user, purchase);
+        throw new Exception("Function deprecated since v2.27.0");
     }
-
 
     public static MerchantSession get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
