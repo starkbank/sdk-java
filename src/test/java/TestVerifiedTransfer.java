@@ -36,7 +36,6 @@ public class TestVerifiedTransfer {
             Map<String, Object> params = new HashMap<>();
             params.put("amount", 1);
             params.put("accountId", account.id);
-            params.put("accountType", "checking");
             params.put("externalId", UUID.randomUUID().toString());
             params.put("tags", new String[]{"employees", "monthly"});
             List<Transfer.Rule> rules = new ArrayList<>();

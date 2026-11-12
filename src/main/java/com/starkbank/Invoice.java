@@ -99,7 +99,7 @@ public final class Invoice extends Resource {
      * @param descriptions [list of maps, default null, max 15 items]: list of up to 15 maps with "key":string and (optional) "value":string pairs, shown to the customer to explain the charge.
      * @param pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
      * @param link [string]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
-     * @param nominalAmount [number]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
+     * @param nominalAmount [number]: Invoice amount in cents without fine or interest (will change if invoice is updated, but not if it's paid). ex: 400000
      * @param fineAmount [number]: Invoice fine value calculated over nominalAmount. ex: 20000
      * @param interestAmount [number]: Invoice interest value calculated over nominalAmount. ex: 10000
      * @param discountAmount [number]: Invoice discount value calculated over nominalAmount. ex: 3000
@@ -172,7 +172,7 @@ public final class Invoice extends Resource {
      * Attributes (return-only):
      * pdf [string]: public Invoice PDF URL. ex: "https://invoice.starkbank.com/pdf/d454fa4e524441c1b0c1a729457ed9d8"
      * link [string]: public Invoice page URL. ex: "https://my-workspace.sandbox.starkbank.com/invoicelink/d454fa4e524441c1b0c1a729457ed9d8"
-     * nominalAmount [number]: Invoice emission value in cents (will change if invoice is updated, but not if it's paid). ex: 400000
+     * nominalAmount [number]: Invoice amount in cents without fine or interest (will change if invoice is updated, but not if it's paid). ex: 400000
      * fineAmount [number]: Invoice fine value calculated over nominalAmount. ex: 20000
      * interestAmount [number]: Invoice interest value calculated over nominalAmount. ex: 10000
      * discountAmount [number]: Invoice discount value calculated over nominalAmount. ex: 3000

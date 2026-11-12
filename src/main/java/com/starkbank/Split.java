@@ -16,7 +16,7 @@ public class Split extends Resource {
     /**
      * Split object
      * <p>
-     * Splits are created implicitly by Stark Bank when an Invoice or Boleto with a receivers list is created, so there is no create() function for this resource — Split objects are only queried, retrieved by id, or listed via their log.
+     * Splits are created implicitly by Stark Bank when an Invoice or Boleto with a splits list is created, so there is no create() function for this resource — Split objects are only queried, retrieved by id, or listed via their log.
      * <p>
      * Parameters:
      * amount [int]: value to send to receivers. ex: 1000 (= R$ 10.00)
@@ -45,7 +45,7 @@ public class Split extends Resource {
     /**
      * Split object
      * <p>
-     * Splits are created implicitly by Stark Bank when an Invoice or Boleto with a receivers list is created, so there is no create() function for this resource — Split objects are only queried, retrieved by id, or listed via their log.
+     * Splits are created implicitly by Stark Bank when an Invoice or Boleto with a splits list is created, so there is no create() function for this resource — Split objects are only queried, retrieved by id, or listed via their log.
      * <p>
      * Parameters:
      * @param amount [integer]: value to send to receivers. ex: 1000 (= R$ 10.00)
@@ -77,7 +77,7 @@ public class Split extends Resource {
     /**
      * Split object
      * <p>
-     * Splits are created implicitly by Stark Bank when an Invoice or Boleto with a receivers list is created, so there is no create() function for this resource — Split objects are only queried, retrieved by id, or listed via their log.
+     * Splits are created implicitly by Stark Bank when an Invoice or Boleto with a splits list is created, so there is no create() function for this resource — Split objects are only queried, retrieved by id, or listed via their log.
      * <p>
      * @param data map of properties for the creation of the Split
      * Parameters:

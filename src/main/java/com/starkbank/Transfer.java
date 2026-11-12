@@ -37,7 +37,7 @@ public final class Transfer extends Resource {
      * accountNumber [string]: Receiver bank account number. Use "-" before the verifier digit. ex: "876543-2"
      * accountType [string, default "checking"]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
      * externalId [string]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
-     * scheduled [string, default today]: date or datetime when the transfer will be processed. Ted transfers scheduled for today are only accepted until 16:00 (BRT) and are otherwise pushed to the next business day; Pix transfers can be scheduled for any date/time, 24/7. ex: "2020-03-11 08:00:00.000"
+     * scheduled [string, default now]: date or datetime when the transfer will be processed. Ted transfers scheduled for today are only accepted until 16:00 (BRT) and are otherwise pushed to the next business day; Pix transfers can be scheduled for any date/time, 24/7. ex: "2020-03-11 08:00:00.000"
      * description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
      * tags [list of strings]: list of strings for reference when searching for transfers. All tags will be converted to lowercase. ex: ["employees", "monthly"]
      * rules [list of Transfer.Rules]: list of Transfer.Rule objects for modifying transfer behavior. ex: [Transfer.Rule(key="resendingLimit", value=5)]
@@ -86,7 +86,7 @@ public final class Transfer extends Resource {
      * @param accountNumber [string]: Receiver bank account number. Use "-" before the verifier digit. ex: "876543-2"
      * @param accountType [string, default "checking"]: Receiver bank account type. This parameter only has effect on Pix Transfers. ex: "checking", "savings", "salary" or "payment"
      * @param externalId [string]: url safe string that must be unique among all your transfers. Duplicated external_ids will cause failures. By default, this parameter will block any transfer that repeats amount and receiver information on the same date. ex: "my-internal-id-123456"
-     * @param scheduled [string, default today]: date or datetime when the transfer will be processed. Ted transfers scheduled for today are only accepted until 16:00 (BRT) and are otherwise pushed to the next business day; Pix transfers can be scheduled for any date/time, 24/7. ex: "2020-03-11 08:00:00.000"
+     * @param scheduled [string, default now]: date or datetime when the transfer will be processed. Ted transfers scheduled for today are only accepted until 16:00 (BRT) and are otherwise pushed to the next business day; Pix transfers can be scheduled for any date/time, 24/7. ex: "2020-03-11 08:00:00.000"
      * @param description [string]: optional description to override default description to be shown in the bank statement. ex: "Payment for service #1234"
      * @param tags [list of strings]: list of strings for reference when searching for transfers. All tags will be converted to lowercase. ex: ["employees", "monthly"]
      * @param rules [list of Transfer.Rules]: list of Transfer.Rule objects for modifying transfer behavior. ex: [Transfer.Rule(key="resendingLimit", value=5)]
