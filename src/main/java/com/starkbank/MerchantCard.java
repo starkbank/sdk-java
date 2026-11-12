@@ -272,7 +272,7 @@ public class MerchantCard extends Resource {
          * id [string]: unique id returned when the log is created. ex: "5656565656565656"
          * card [MerchantCard]: MerchantCard entity to which the log refers to.
          * errors [list of strings]: list of errors linked to this MerchantCard event
-         * type [string]: type of the MerchantCard event which triggered the log creation. ex: "created" or "blocked"
+         * type [string]: type of the MerchantCard event which triggered the log creation. ex: "active" or "blocked"
          * created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
          */
         public Log(String created, String type, String[] errors, MerchantCard card, String id) {
@@ -328,7 +328,7 @@ public class MerchantCard extends Resource {
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
-         * types [list of strings, default null]: filter for log event types. ex: "created" or "blocked"
+         * types [list of strings, default null]: filter for log event types. ex: "active" or "blocked"
          * cardIds [list of strings, default null]: list of MerchantCard ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
          * <p>
          * Return:
@@ -381,7 +381,7 @@ public class MerchantCard extends Resource {
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
-         * types [list of strings, default null]: filter for log event types. ex: "created" or "blocked"
+         * types [list of strings, default null]: filter for log event types. ex: "active" or "blocked"
          * cardIds [list of strings, default null]: list of MerchantCard ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
          * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>
@@ -415,7 +415,7 @@ public class MerchantCard extends Resource {
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
-         * types [list of strings, default null]: filter for log event types. ex: "created" or "blocked"
+         * types [list of strings, default null]: filter for log event types. ex: "active" or "blocked"
          * cardIds [list of strings, default null]: list of MerchantCard ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
          * <p>
          * Return:
@@ -475,7 +475,7 @@ public class MerchantCard extends Resource {
          * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
          * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
          * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
-         * types [list of strings, default null]: filter for log event types. ex: "created" or "blocked"
+         * types [list of strings, default null]: filter for log event types. ex: "active" or "blocked"
          * cardIds [list of strings, default null]: list of MerchantCard ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
          * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
          * <p>

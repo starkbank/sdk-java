@@ -307,7 +307,7 @@ public class MerchantPurchase extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "created", "approved", "denied", "confirmed", "paid", "pending", "canceled", "voided", "failed"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "pending", "processing", "approved", "denied", "confirmed", "paid", "canceled", "voided", "failed"
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
      * holderId [string, default null]: filter for purchases made with a specific MerchantCard's holder id.
@@ -332,7 +332,7 @@ public class MerchantPurchase extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "created", "approved", "denied", "confirmed", "paid", "pending", "canceled", "voided", "failed"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "pending", "processing", "approved", "denied", "confirmed", "paid", "canceled", "voided", "failed"
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
      * holderId [string, default null]: filter for purchases made with a specific MerchantCard's holder id.
@@ -371,7 +371,7 @@ public class MerchantPurchase extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "created", "approved", "denied", "confirmed", "paid", "pending", "canceled", "voided", "failed"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "pending", "processing", "approved", "denied", "confirmed", "paid", "canceled", "voided", "failed"
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
      * holderId [string, default null]: filter for purchases made with a specific MerchantCard's holder id.
@@ -434,7 +434,7 @@ public class MerchantPurchase extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "created", "approved", "denied", "confirmed", "paid", "pending", "canceled", "voided", "failed"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "pending", "processing", "approved", "denied", "confirmed", "paid", "canceled", "voided", "failed"
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
      * holderId [string, default null]: filter for purchases made with a specific MerchantCard's holder id.

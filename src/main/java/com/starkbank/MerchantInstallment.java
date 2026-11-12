@@ -24,7 +24,7 @@ public class MerchantInstallment extends Resource {
      * fundingType [string]: Options: "credit", "debit"
      * network [string]: card network.
      * purchaseId [string]: id of the MerchantPurchase linked to the installment.
-     * status [string]: Options: "created", "paid", "canceled", "voided"
+     * status [string]: Options: "created", "paid", "voided"
      * transactionIds [list of strings]: ledger transaction ids linked to this installment.
      * tags [list of strings]
      * due [string]: expected settlement date.
@@ -72,7 +72,7 @@ public class MerchantInstallment extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "created", "paid", "canceled", "voided"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "paid", "voided"
      * purchaseIds [list of strings, default null]: list of MerchantPurchase ids to filter installments.
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
@@ -97,7 +97,7 @@ public class MerchantInstallment extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "created", "paid", "canceled", "voided"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "paid", "voided"
      * purchaseIds [list of strings, default null]: list of MerchantPurchase ids to filter installments.
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
@@ -169,7 +169,7 @@ public class MerchantInstallment extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "created", "paid", "canceled", "voided"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "paid", "voided"
      * purchaseIds [list of strings, default null]: list of MerchantPurchase ids to filter installments.
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
@@ -232,7 +232,7 @@ public class MerchantInstallment extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "created", "paid", "canceled", "voided"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "paid", "voided"
      * purchaseIds [list of strings, default null]: list of MerchantPurchase ids to filter installments.
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.

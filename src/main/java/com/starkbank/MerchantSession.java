@@ -194,7 +194,7 @@ public class MerchantSession extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "active", "expired", "success"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "expired", "success", "voided"
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
      * holderId [string, default null]: filter for sessions linked to a specific MerchantCard's holder id.
@@ -219,7 +219,7 @@ public class MerchantSession extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "active", "expired", "success"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "expired", "success", "voided"
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
      * holderId [string, default null]: filter for sessions linked to a specific MerchantCard's holder id.
@@ -258,7 +258,7 @@ public class MerchantSession extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "active", "expired", "success"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "expired", "success", "voided"
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
      * holderId [string, default null]: filter for sessions linked to a specific MerchantCard's holder id.
@@ -320,7 +320,7 @@ public class MerchantSession extends Resource {
      * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
      * after [string, default null]: date filter for objects created only after specified date.
      * before [string, default null]: date filter for objects created only before specified date.
-     * status [string, default null]: filter for status of retrieved objects. Options: "active", "expired", "success"
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "expired", "success", "voided"
      * tags [list of strings, default null]: tags to filter retrieved objects.
      * ids [list of strings, default null]: list of ids to filter retrieved objects.
      * holderId [string, default null]: filter for sessions linked to a specific MerchantCard's holder id.
