@@ -150,38 +150,188 @@ public class MerchantSession extends Resource {
         throw new Exception("Function deprecated since v2.27.0");
     }
 
+    /**
+     * Retrieve a specific MerchantSession
+     * <p>
+     * Receive a single MerchantSession object previously created in the Stark Bank API by passing its id
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id.
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return MerchantSession object with updated attributes
+     * @throws Exception error in the request
+     */
     public static MerchantSession get(String id, User user) throws Exception {
         return Rest.getId(data, id, user);
     }
 
+    /**
+     * Retrieve a specific MerchantSession
+     * <p>
+     * Receive a single MerchantSession object previously created in the Stark Bank API by passing its id
+     * <p>
+     * Parameters:
+     * @param id [string]: object unique id.
+     * <p>
+     * Return:
+     * @return MerchantSession object with updated attributes
+     * @throws Exception error in the request
+     */
     public static MerchantSession get(String id) throws Exception {
         return MerchantSession.get(id, null);
     }
 
+    /**
+     * Retrieve MerchantSessions
+     * <p>
+     * Receive a generator of MerchantSession objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
+     * <p>
+     * Parameters:
+     * @param params map of parameters
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
+     * after [string, default null]: date filter for objects created only after specified date.
+     * before [string, default null]: date filter for objects created only before specified date.
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "expired", "success", "voided"
+     * tags [list of strings, default null]: tags to filter retrieved objects.
+     * ids [list of strings, default null]: list of ids to filter retrieved objects.
+     * holderId [string, default null]: filter for sessions linked to a specific MerchantCard's holder id.
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return generator of MerchantSession objects with updated attributes
+     * @throws Exception error in the request
+     */
     public static Generator<MerchantSession> query(Map<String, Object> params, User user) throws Exception {
         return Rest.getStream(data, params, user);
     }
 
+    /**
+     * Retrieve MerchantSessions
+     * <p>
+     * Receive a generator of MerchantSession objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
+     * <p>
+     * Parameters:
+     * @param params map of parameters
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
+     * after [string, default null]: date filter for objects created only after specified date.
+     * before [string, default null]: date filter for objects created only before specified date.
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "expired", "success", "voided"
+     * tags [list of strings, default null]: tags to filter retrieved objects.
+     * ids [list of strings, default null]: list of ids to filter retrieved objects.
+     * holderId [string, default null]: filter for sessions linked to a specific MerchantCard's holder id.
+     * <p>
+     * Return:
+     * @return generator of MerchantSession objects with updated attributes
+     * @throws Exception error in the request
+     */
     public static Generator<MerchantSession> query(Map<String, Object> params) throws Exception {
         return MerchantSession.query(params, null);
     }
 
+    /**
+     * Retrieve MerchantSessions
+     * <p>
+     * Receive a generator of MerchantSession objects previously created in the Stark Bank API.
+     * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
+     * <p>
+     * Return:
+     * @return generator of MerchantSession objects with updated attributes
+     * @throws Exception error in the request
+     */
     public static Generator<MerchantSession> query() throws Exception {
         return Rest.getStream(data, new HashMap<>(), null);
     }
 
+    /**
+     * Retrieve paged MerchantSessions
+     * <p>
+     * Receive a list of up to 100 MerchantSession objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
+     * after [string, default null]: date filter for objects created only after specified date.
+     * before [string, default null]: date filter for objects created only before specified date.
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "expired", "success", "voided"
+     * tags [list of strings, default null]: tags to filter retrieved objects.
+     * ids [list of strings, default null]: list of ids to filter retrieved objects.
+     * holderId [string, default null]: filter for sessions linked to a specific MerchantCard's holder id.
+     * <p>
+     * Return:
+     * @return MerchantSession.Page object:
+     * MerchantSession.Page.merchantSessions: list of MerchantSession objects with updated attributes
+     * MerchantSession.Page.cursor: cursor to retrieve the next page of MerchantSession objects
+     * @throws Exception error in the request
+     */
     public static MerchantSession.Page page(Map<String, Object> params) throws Exception {
         return page(params, null);
     }
 
+    /**
+     * Retrieve paged MerchantSessions
+     * <p>
+     * Receive a list of up to 100 MerchantSession objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return MerchantSession.Page object:
+     * MerchantSession.Page.merchantSessions: list of MerchantSession objects with updated attributes
+     * MerchantSession.Page.cursor: cursor to retrieve the next page of MerchantSession objects
+     * @throws Exception error in the request
+     */
     public static MerchantSession.Page page(User user) throws Exception {
         return page(new HashMap<>(), user);
     }
 
+    /**
+     * Retrieve paged MerchantSessions
+     * <p>
+     * Receive a list of up to 100 MerchantSession objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Return:
+     * @return MerchantSession.Page object:
+     * MerchantSession.Page.merchantSessions: list of MerchantSession objects with updated attributes
+     * MerchantSession.Page.cursor: cursor to retrieve the next page of MerchantSession objects
+     * @throws Exception error in the request
+     */
     public static MerchantSession.Page page() throws Exception {
         return page(new HashMap<>(), null);
     }
 
+    /**
+     * Retrieve paged MerchantSessions
+     * <p>
+     * Receive a list of up to 100 MerchantSession objects previously created in the Stark Bank API and the cursor to the next page.
+     * Use this function instead of query if you want to manually page your requests.
+     * <p>
+     * Parameters:
+     * @param params parameters of the query
+     * cursor [string, default null]: cursor returned on the previous page function call
+     * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null.
+     * after [string, default null]: date filter for objects created only after specified date.
+     * before [string, default null]: date filter for objects created only before specified date.
+     * status [string, default null]: filter for status of retrieved objects. Options: "created", "expired", "success", "voided"
+     * tags [list of strings, default null]: tags to filter retrieved objects.
+     * ids [list of strings, default null]: list of ids to filter retrieved objects.
+     * holderId [string, default null]: filter for sessions linked to a specific MerchantCard's holder id.
+     * @param user [Organization/Project object]: Organization or Project object. Not necessary if starkbank.User.defaultUser was set before function call
+     * <p>
+     * Return:
+     * @return MerchantSession.Page object:
+     * MerchantSession.Page.merchantSessions: list of MerchantSession objects with updated attributes
+     * MerchantSession.Page.cursor: cursor to retrieve the next page of MerchantSession objects
+     * @throws Exception error in the request
+     */
     public static MerchantSession.Page page(Map<String, Object> params, User user) throws Exception {
         com.starkcore.utils.Page page = Rest.getPage(data, params, user);
         List<MerchantSession> merchantSessions = new ArrayList<>();
@@ -319,6 +469,21 @@ public class MerchantSession extends Resource {
         public String[] errors;
         public MerchantSession session;
 
+        /**
+         * MerchantSession Log object
+         * <p>
+         * Every time a MerchantSession entity is updated, a corresponding MerchantSession Log
+         * is generated for the entity. This log is never generated by the
+         * user, but it can be retrieved to check additional information
+         * on the MerchantSession.
+         * <p>
+         * Attributes:
+         * id [string]: unique id returned when the log is created. ex: "5656565656565656"
+         * session [MerchantSession]: MerchantSession entity to which the log refers to.
+         * errors [list of strings]: list of errors linked to this MerchantSession event
+         * type [string]: type of the MerchantSession event which triggered the log creation. ex: "expired" or "success"
+         * created [string]: creation datetime for the log. ex: "2020-03-10 10:30:00.000"
+         */
         public Log(String created, String type, String[] errors, MerchantSession session, String id) {
             super(id);
             this.created = created;
@@ -327,26 +492,111 @@ public class MerchantSession extends Resource {
             this.session = session;
         }
 
+        /**
+         * Retrieve a specific MerchantSession Log
+         * <p>
+         * Receive a single MerchantSession Log object previously created by the Stark Bank API by passing its id
+         * <p>
+         * Parameters:
+         * @param id [string]: object unique id. ex: "5656565656565656"
+         * <p>
+         * Return:
+         * @return MerchantSession Log object with updated attributes
+         * @throws Exception error in the request
+         */
         public static MerchantSession.Log get(String id) throws Exception {
             return MerchantSession.Log.get(id, null);
         }
 
+        /**
+         * Retrieve a specific MerchantSession Log
+         * <p>
+         * Receive a single MerchantSession Log object previously created by the Stark Bank API by passing its id
+         * <p>
+         * Parameters:
+         * @param id [string]: object unique id. ex: "5656565656565656"
+         * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return MerchantSession Log object with updated attributes
+         * @throws Exception error in the request
+         */
         public static MerchantSession.Log get(String id, User user) throws Exception {
             return Rest.getId(data, id, user);
         }
 
+        /**
+         * Retrieve MerchantSession Logs
+         * <p>
+         * Receive a generator of MerchantSession Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
+         * <p>
+         * Parameters:
+         * @param params map of parameters
+         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter for log event types. ex: "expired" or "success"
+         * sessionIds [list of strings, default null]: list of MerchantSession ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+         * <p>
+         * Return:
+         * @return generator of MerchantSession Log objects with updated attributes
+         * @throws Exception error in the request
+         */
         public static Generator<MerchantSession.Log> query(Map<String, Object> params) throws Exception {
             return MerchantSession.Log.query(params, null);
         }
 
+        /**
+         * Retrieve MerchantSession Logs
+         * <p>
+         * Receive a generator of MerchantSession Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
+         * <p>
+         * Parameters:
+         * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return generator of MerchantSession Log objects with updated attributes
+         * @throws Exception error in the request
+         */
         public static Generator<MerchantSession.Log> query(User user) throws Exception {
             return MerchantSession.Log.query(new HashMap<>(), user);
         }
 
+        /**
+         * Retrieve MerchantSession Logs
+         * <p>
+         * Receive a generator of MerchantSession Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
+         * <p>
+         * Return:
+         * @return generator of MerchantSession Log objects with updated attributes
+         * @throws Exception error in the request
+         */
         public static Generator<MerchantSession.Log> query() throws Exception {
             return MerchantSession.Log.query(new HashMap<>(), null);
         }
 
+        /**
+         * Retrieve MerchantSession Logs
+         * <p>
+         * Receive a generator of MerchantSession Log objects previously created in the Stark Bank API.
+         * Use this function instead of page if you want to stream the objects without worrying about cursors and pagination.
+         * <p>
+         * Parameters:
+         * @param params map of parameters
+         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter for log event types. ex: "expired" or "success"
+         * sessionIds [list of strings, default null]: list of MerchantSession ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+         * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return generator of MerchantSession Log objects with updated attributes
+         * @throws Exception error in the request
+         */
         public static Generator<MerchantSession.Log> query(Map<String, Object> params, User user) throws Exception {
             return Rest.getStream(data, params, user);
         }
@@ -361,18 +611,88 @@ public class MerchantSession extends Resource {
             }
         }
 
+        /**
+         * Retrieve paged MerchantSession Logs
+         * <p>
+         * Receive a list of up to 100 MerchantSession Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * cursor [string, default null]: cursor returned on the previous page function call
+         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter for log event types. ex: "expired" or "success"
+         * sessionIds [list of strings, default null]: list of MerchantSession ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+         * <p>
+         * Return:
+         * @return MerchantSession.Log.Page object:
+         * MerchantSession.Log.Page.logs: list of MerchantSession Log objects with updated attributes
+         * MerchantSession.Log.Page.cursor: cursor to retrieve the next page of MerchantSession Log objects
+         * @throws Exception error in the request
+         */
         public static MerchantSession.Log.Page page(Map<String, Object> params) throws Exception {
             return MerchantSession.Log.page(params, null);
         }
 
+        /**
+         * Retrieve paged MerchantSession Logs
+         * <p>
+         * Receive a list of up to 100 MerchantSession Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return MerchantSession.Log.Page object:
+         * MerchantSession.Log.Page.logs: list of MerchantSession Log objects with updated attributes
+         * MerchantSession.Log.Page.cursor: cursor to retrieve the next page of MerchantSession Log objects
+         * @throws Exception error in the request
+         */
         public static MerchantSession.Log.Page page(User user) throws Exception {
             return MerchantSession.Log.page(new HashMap<>(), user);
         }
 
+        /**
+         * Retrieve paged MerchantSession Logs
+         * <p>
+         * Receive a list of up to 100 MerchantSession Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Return:
+         * @return MerchantSession.Log.Page object:
+         * MerchantSession.Log.Page.logs: list of MerchantSession Log objects with updated attributes
+         * MerchantSession.Log.Page.cursor: cursor to retrieve the next page of MerchantSession Log objects
+         * @throws Exception error in the request
+         */
         public static MerchantSession.Log.Page page() throws Exception {
             return MerchantSession.Log.page(new HashMap<>(), null);
         }
 
+        /**
+         * Retrieve paged MerchantSession Logs
+         * <p>
+         * Receive a list of up to 100 MerchantSession Log objects previously created in the Stark Bank API and the cursor to the next page.
+         * Use this function instead of query if you want to manually page your requests.
+         * <p>
+         * Parameters:
+         * @param params parameters of the query
+         * cursor [string, default null]: cursor returned on the previous page function call
+         * limit [integer, default null]: maximum number of objects to be retrieved. Unlimited if null. ex: 35
+         * after [string, default null] date filter for objects created only after specified date. ex: "2020-03-10"
+         * before [string, default null] date filter for objects created only before specified date. ex: "2020-03-10"
+         * types [list of strings, default null]: filter for log event types. ex: "expired" or "success"
+         * sessionIds [list of strings, default null]: list of MerchantSession ids to filter logs. ex: ["5656565656565656", "4545454545454545"]
+         * @param user [Project object]: Project object. Not necessary if starkbank.User.defaultUser was set before function call
+         * <p>
+         * Return:
+         * @return MerchantSession.Log.Page object:
+         * MerchantSession.Log.Page.logs: list of MerchantSession Log objects with updated attributes
+         * MerchantSession.Log.Page.cursor: cursor to retrieve the next page of MerchantSession Log objects
+         * @throws Exception error in the request
+         */
         public static MerchantSession.Log.Page page(Map<String, Object> params, User user) throws Exception {
             com.starkcore.utils.Page page = Rest.getPage(data, params, user);
             List<MerchantSession.Log> logs = new ArrayList<>();

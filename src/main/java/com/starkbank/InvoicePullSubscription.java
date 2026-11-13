@@ -31,7 +31,7 @@ public final class InvoicePullSubscription extends Resource {
      * externalId [string, default None]: string that must be unique among all your subscriptions. Duplicated externalIds will cause failures. ex: "my-external-id"
      * referenceCode [string, default None]: reference code for reconciliation. ex: "REF123456"
      * end [string, default None]: subscription end date. ex: "2023-04-01"
-     * data [dictionary, default None]: additional data for the subscription based on type
+     * data [Map of String: Object, default null]: additional data required by type: payer account details for "push", immediate-payment parameters for "qrcodeAndPayment"/"paymentAndOrQrcode"; not required for "qrcode"
      * name [string, default None]: subscription debtor name. ex: "Iron Bank S.A."
      * taxId [string, default None]: subscription debtor tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
      * tags [list of strings, default []]: list of strings for tagging
@@ -90,7 +90,7 @@ public final class InvoicePullSubscription extends Resource {
      * @param externalId [string, default null]: unique string among all your subscriptions. ex: "my-external-id"
      * @param referenceCode [string, default null]: reference code for reconciliation. ex: "REF123456"
      * @param end [string, default null]: subscription end date. ex: "2023-04-01"
-     * @param data [Map of String: Object, default null]: additional data for the subscription based on type
+     * @param data [Map of String: Object, default null]: additional data required by type: payer account details for "push", immediate-payment parameters for "qrcodeAndPayment"/"paymentAndOrQrcode"; not required for "qrcode"
      * @param name [string, default null]: subscription debtor name. ex: "Iron Bank S.A."
      * @param taxId [string, default null]: subscription debtor tax ID. ex: "01234567890"
      * @param tags [list of strings, default null]: list of strings for tagging

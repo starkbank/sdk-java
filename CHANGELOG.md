@@ -21,6 +21,9 @@ Given a version number MAJOR.MINOR.PATCH, increment:
 ### Fixed
 - docstrings that drifted from the API reference (business rules, contradicted defaults and stale text) across Invoice, InvoicePullSubscription, InvoicePullRequest, Transfer, Boleto, BoletoPayment, BoletoHolmes, BrcodePayment, BrcodePreview, DynamicBrcode, Webhook, Workspace, Event, Split, DarfPayment, TaxPayment, UtilityPayment, PaymentRequest and DictKey
 - README samples for CorporateWithdrawal (invalid "description" param and inconsistent amount) and MerchantCountry query (missing Generator import), and a CorporateHolder rules array that throws at runtime
+- docstrings of Transfer (scheduled default), Boleto (receiverName and receiverTaxId), Invoice (nominalAmount), Split and InvoicePullSubscription (data by type) aligned with the API reference
+- missing docstrings on MerchantCard, MerchantInstallment, MerchantPurchase and MerchantSession (and their Log resources), and the receiverIds filter of SplitReceiver
+- TestVerifiedTransfer no longer sends accountType, which the API rejects
 
 ## [2.27.0] - 2026-10-13
 ### Deprecated

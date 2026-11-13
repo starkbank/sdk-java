@@ -225,6 +225,7 @@ public class SplitReceiver extends Resource {
      * transactionIds [list of strings, default null]: list of transaction IDs linked to the desired splitReceivers. ex: ["5656565656565656", "4545454545454545"]
      * status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
      * taxId [string, default null]: filter for splitReceivers sent to the specified tax ID. ex: "012.345.678-90"
+     * receiverIds [list of strings, default null]: filter by receiver ids.
      * sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]
@@ -251,6 +252,7 @@ public class SplitReceiver extends Resource {
      * transactionIds [list of strings, default null]: list of transaction IDs linked to the desired splitReceivers. ex: ["5656565656565656", "4545454545454545"]
      * status [string, default null]: filter for status of retrieved objects. ex: "success" or "failed"
      * taxId [string, default null]: filter for splitReceivers sent to the specified tax ID. ex: "012.345.678-90"
+     * receiverIds [list of strings, default null]: filter by receiver ids.
      * sort [string, default "-created"]: sort order considered in response. Valid options are "created", "-created", "updated" or "-updated".
      * tags [list of strings, default null]: tags to filter retrieved objects. ex: ["tony", "stark"]
      * ids [list of strings, default null]: list of ids to filter retrieved objects. ex: ["5656565656565656", "4545454545454545"]

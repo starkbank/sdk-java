@@ -35,8 +35,8 @@ public final class Boleto extends Resource {
      * fine [number, default 2.0]: Boleto fine for overdue payment in %. ex: 2.5
      * interest [number, default 1.0]: Boleto monthly interest for overdue payment in %. ex: 5.2
      * overdueLimit [integer, default 59]: limit in days for payment after due date. ex: 7 (max: 59)
-     * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
-     * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * receiverName [string, default workspace owner name]: receiver (Sacador Avalista) full name. If informed, receiverTaxId must also be informed. ex: "Anthony Edward Stark"
+     * receiverTaxId [string, default workspace owner tax ID]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. If informed, receiverName must also be informed. ex: "01234567890" or "20.018.183/0001-80"
      * descriptions [list of Boleto.Description or HashMap, default []]: list of Boleto.Descriptions or HashMaps
      * discounts [list of Boleto.Discount or HashMap, default []]: list of Boleto.Discounts or HashMaps
      * tags [list of strings, default []]: list of strings for tagging
@@ -178,8 +178,8 @@ public final class Boleto extends Resource {
      * descriptions [list of Boleto.Description or HashMap, default [], max 15 items]: list of up to 15 maps with "text":string and (optional) "amount":int pairs. When the "booklet" pdf layout is used, only the first description's text fills the installment cell.
      * discounts [list of Boleto.Discount or Hashmap, default [], max 2 items]: list of up to 2 discounts with "percentage":number and "date":string pairs.
      * tags [list of strings, default []]: list of strings for tagging
-     * receiverName [string]: receiver (Sacador Avalista) full name. ex: "Anthony Edward Stark"
-     * receiverTaxId [string]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. ex: "01234567890" or "20.018.183/0001-80"
+     * receiverName [string, default workspace owner name]: receiver (Sacador Avalista) full name. If informed, receiverTaxId must also be informed. ex: "Anthony Edward Stark"
+     * receiverTaxId [string, default workspace owner tax ID]: receiver (Sacador Avalista) tax ID (CPF or CNPJ) with or without formatting. If informed, receiverName must also be informed. ex: "01234567890" or "20.018.183/0001-80"
      * <p>
      * Attributes (return-only):
      * id [string]: unique id returned when boleto is created. ex: "5656565656565656"
